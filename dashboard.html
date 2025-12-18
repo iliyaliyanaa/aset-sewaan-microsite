@@ -851,7 +851,7 @@
             localStorage.setItem('application_prefill_data', JSON.stringify(applicationData));
             
             // Open microsite in new tab
-            window.open('microsite-user.html', '_blank');
+            window.open('index.html', '_blank');
             
             // Show confirmation
             alert('Microsite dibuka dengan maklumat anda telah diisi automatik.');
@@ -1022,7 +1022,7 @@ Masa Log Masuk: ${formatTime(currentUser.loginTime)}
                 `Sesi aktif: ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             
             // Auto logout after 2 hours (for demo)
-            if (hours >= 2) {
+            if (minutes >= 30) {
                 alert('Sesi anda telah tamat. Sila log masuk semula.');
                 logoutUser();
             }
