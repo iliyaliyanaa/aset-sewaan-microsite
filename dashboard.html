@@ -538,7 +538,7 @@
                 <h3 class="section-title">Tindakan Pantas</h3>
                 
                 <div class="action-list">
-                    <a href="index.html" class="action-item" target="_blank">
+                    <a href="microsite-user.html" class="action-item" target="_blank">
                         <div class="action-icon">
                             <i class="fas fa-search"></i>
                         </div>
@@ -738,7 +738,7 @@
             
             // Update welcome banner
             const welcomeTitle = tempUserData.fromRegistration ? 
-                `Selamat Datang, ${currentUser.name}! 🎉`; 
+                `Selamat Datang, ${currentUser.name}! 🎉` : 
                 `Selamat Kembali, ${currentUser.name}!`;
             
             const welcomeMessage = tempUserData.welcomeMessage || 
@@ -851,7 +851,7 @@
             localStorage.setItem('application_prefill_data', JSON.stringify(applicationData));
             
             // Open microsite in new tab
-            window.open('index.html', '_blank');
+            window.open('microsite-user.html', '_blank');
             
             // Show confirmation
             alert('Microsite dibuka dengan maklumat anda telah diisi automatik.');
