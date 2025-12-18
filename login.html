@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Login & Register - Portal Sewaan Aset</title>
+    <title>Login & Register - Portal Sewaan Aset</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -731,47 +731,54 @@
     </div>
 
     <script>
-        // Data storage for users (in production, this would be a database)
-        let users = JSON.parse(localStorage.getItem('assetRentalUsers')) || [
-            // Default admin user for testing
+        // User Database (LocalStorage)
+        const USERS_KEY = 'asset_rental_users';
+        const CURRENT_USER_KEY = 'current_user';
+        const TEMP_USER_DATA_KEY = 'temp_user_data'; // Untuk bawa data ke dashboard
+        
+        // Initialize users database
+        let users = JSON.parse(localStorage.getItem(USERS_KEY)) || [
             {
                 id: 1,
-                name: "Admin User",
+                name: "Admin Sistem",
                 ic: "800101011234",
                 email: "admin@email.com",
                 phone: "0123456789",
-                password: "admin123", // In production, passwords should be hashed
+                password: "admin123",
                 userType: "admin",
-                createdAt: "2023-10-01"
+                department: "Pentadbiran",
+                createdAt: "2023-10-01",
+                status: "active"
             },
-            // Default staff user for testing
             {
                 id: 2,
-                name: "Azman Abdullah",
+                name: "Ahmad bin Ali",
                 ic: "850505011234",
-                email: "azman@email.com",
+                email: "ahmad@email.com",
                 phone: "0123456789",
                 password: "password123",
                 userType: "staff",
-                createdAt: "2023-10-15"
+                department: "Jabatan Kerja Raya",
+                createdAt: "2023-10-15",
+                status: "active"
             }
         ];
-
-        // Current user session
-        let currentUser = JSON.parse(sessionStorage.getItem('currentUser')) || null;
-
+        
         // Initialize the page
         document.addEventListener('DOMContentLoaded', function() {
+            // Save initial users to localStorage
+            localStorage.setItem(USERS_KEY, JSON.stringify(users));
+            
             setupEventListeners();
             
-            // Check if user is already logged in
-            if (currentUser) {
-                // Redirect to main page (in production)
-                alert(`Anda sudah log masuk sebagai ${currentUser.name}. Redirect ke halaman utama...`);
-                // window.location.href = "dashboard.html"; // Uncomment in production
+            // Check URL parameters for auto redirect
+            const urlParams = new URLSearchParams(window.location.search);
+            const tab = urlParams.get('tab');
+            if (tab === 'register') {
+                switchTab('register');
             }
         });
-
+        
         // Setup all event listeners
         function setupEventListeners() {
             // Tab switching
@@ -789,12 +796,12 @@
                 e.preventDefault();
                 switchTab('login');
             });
-
+            
             // Password toggles
             document.getElementById('toggleLoginPassword').addEventListener('click', togglePasswordVisibility.bind(null, 'loginPassword'));
             document.getElementById('toggleRegisterPassword').addEventListener('click', togglePasswordVisibility.bind(null, 'registerPassword'));
             document.getElementById('toggleConfirmPassword').addEventListener('click', togglePasswordVisibility.bind(null, 'registerConfirmPassword'));
-
+            
             // User type selection
             document.querySelectorAll('.user-type-option').forEach(option => {
                 option.addEventListener('click', function() {
@@ -805,26 +812,26 @@
                     document.getElementById('userType').value = this.dataset.type;
                 });
             });
-
+            
             // Form submissions
             document.getElementById('loginForm').addEventListener('submit', handleLogin);
             document.getElementById('registerForm').addEventListener('submit', handleRegister);
-
+            
             // Forgot password link
             document.getElementById('forgotPasswordLink').addEventListener('click', function(e) {
                 e.preventDefault();
-                alert('Fungsi reset kata laluan akan dihantar ke email anda. Untuk demo, sila gunakan:\nEmail: admin@email.com\nPassword: admin123');
+                showForgotPasswordModal();
             });
-
+            
             // Google login (demo)
             document.getElementById('googleLogin').addEventListener('click', function() {
-                alert('Google Login - Untuk demo, sila gunakan log masuk biasa. Fungsi Google OAuth dalam pembangunan.');
+                demoGoogleLogin();
             });
-
+            
             // Real-time validation
             setupRealTimeValidation();
         }
-
+        
         // Switch between login and register tabs
         function switchTab(tabName) {
             // Update tabs
@@ -843,7 +850,7 @@
                 document.getElementById('successMessage').classList.remove('active');
             }
         }
-
+        
         // Toggle password visibility
         function togglePasswordVisibility(fieldId) {
             const field = document.getElementById(fieldId);
@@ -857,207 +864,19 @@
                 toggleBtn.innerHTML = '<i class="fas fa-eye"></i>';
             }
         }
-
-        // Setup real-time form validation
-        function setupRealTimeValidation() {
-            // Login form validation
-            document.getElementById('loginEmail').addEventListener('input', validateLoginEmail);
-            document.getElementById('loginPassword').addEventListener('input', validateLoginPassword);
-            
-            // Register form validation
-            document.getElementById('registerName').addEventListener('input', validateRegisterName);
-            document.getElementById('registerIC').addEventListener('input', validateRegisterIC);
-            document.getElementById('registerEmail').addEventListener('input', validateRegisterEmail);
-            document.getElementById('registerPhone').addEventListener('input', validateRegisterPhone);
-            document.getElementById('registerPassword').addEventListener('input', validateRegisterPassword);
-            document.getElementById('registerConfirmPassword').addEventListener('input', validateConfirmPassword);
-        }
-
-        // Validation functions
-        function validateLoginEmail() {
-            const email = document.getElementById('loginEmail').value;
-            const errorElement = document.getElementById('loginEmailError');
-            
-            if (!email) {
-                showError(errorElement, 'Sila masukkan email atau No. KP');
-                return false;
-            }
-            
-            // Check if it's email or IC format
-            const isEmail = email.includes('@');
-            const isIC = /^\d{12}$/.test(email.replace(/-/g, ''));
-            
-            if (!isEmail && !isIC) {
-                showError(errorElement, 'Format tidak sah. Gunakan email atau 12 digit No. KP');
-                return false;
-            }
-            
-            clearError(errorElement);
-            return true;
-        }
-
-        function validateLoginPassword() {
-            const password = document.getElementById('loginPassword').value;
-            const errorElement = document.getElementById('loginPasswordError');
-            
-            if (!password) {
-                showError(errorElement, 'Sila masukkan kata laluan');
-                return false;
-            }
-            
-            clearError(errorElement);
-            return true;
-        }
-
-        function validateRegisterName() {
-            const name = document.getElementById('registerName').value;
-            const errorElement = document.getElementById('registerNameError');
-            
-            if (!name) {
-                showError(errorElement, 'Sila masukkan nama penuh');
-                return false;
-            }
-            
-            if (name.length < 3) {
-                showError(errorElement, 'Nama mesti sekurang-kurangnya 3 aksara');
-                return false;
-            }
-            
-            clearError(errorElement);
-            return true;
-        }
-
-        function validateRegisterIC() {
-            const ic = document.getElementById('registerIC').value;
-            const errorElement = document.getElementById('registerICError');
-            
-            if (!ic) {
-                showError(errorElement, 'Sila masukkan No. Kad Pengenalan');
-                return false;
-            }
-            
-            // Remove dashes and spaces
-            const cleanIC = ic.replace(/[-\s]/g, '');
-            
-            if (!/^\d{12}$/.test(cleanIC)) {
-                showError(errorElement, 'No. KP mesti 12 digit tanpa huruf');
-                return false;
-            }
-            
-            // Check if IC already registered
-            const existingUser = users.find(user => user.ic === cleanIC);
-            if (existingUser) {
-                showError(errorElement, 'No. KP ini sudah didaftarkan');
-                return false;
-            }
-            
-            clearError(errorElement);
-            return true;
-        }
-
-        function validateRegisterEmail() {
-            const email = document.getElementById('registerEmail').value;
-            const errorElement = document.getElementById('registerEmailError');
-            
-            if (!email) {
-                showError(errorElement, 'Sila masukkan alamat email');
-                return false;
-            }
-            
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                showError(errorElement, 'Format email tidak sah');
-                return false;
-            }
-            
-            // Check if email already registered
-            const existingUser = users.find(user => user.email === email);
-            if (existingUser) {
-                showError(errorElement, 'Email ini sudah didaftarkan');
-                return false;
-            }
-            
-            clearError(errorElement);
-            return true;
-        }
-
-        function validateRegisterPhone() {
-            const phone = document.getElementById('registerPhone').value;
-            const errorElement = document.getElementById('registerPhoneError');
-            
-            if (!phone) {
-                showError(errorElement, 'Sila masukkan nombor telefon');
-                return false;
-            }
-            
-            const phoneRegex = /^[0-9]{10,11}$/;
-            const cleanPhone = phone.replace(/[-\s]/g, '');
-            
-            if (!phoneRegex.test(cleanPhone)) {
-                showError(errorElement, 'Nombor telefon mesti 10-11 digit');
-                return false;
-            }
-            
-            clearError(errorElement);
-            return true;
-        }
-
-        function validateRegisterPassword() {
-            const password = document.getElementById('registerPassword').value;
-            const errorElement = document.getElementById('registerPasswordError');
-            
-            if (!password) {
-                showError(errorElement, 'Sila masukkan kata laluan');
-                return false;
-            }
-            
-            if (password.length < 8) {
-                showError(errorElement, 'Kata laluan mesti sekurang-kurangnya 8 aksara');
-                return false;
-            }
-            
-            if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
-                showError(errorElement, 'Mesti mengandungi huruf besar, kecil dan nombor');
-                return false;
-            }
-            
-            clearError(errorElement);
-            return true;
-        }
-
-        function validateConfirmPassword() {
-            const password = document.getElementById('registerPassword').value;
-            const confirmPassword = document.getElementById('registerConfirmPassword').value;
-            const errorElement = document.getElementById('registerConfirmPasswordError');
-            
-            if (!confirmPassword) {
-                showError(errorElement, 'Sila sahkan kata laluan');
-                return false;
-            }
-            
-            if (password !== confirmPassword) {
-                showError(errorElement, 'Kata laluan tidak sepadan');
-                return false;
-            }
-            
-            clearError(errorElement);
-            return true;
-        }
-
+        
         // Handle login submission
         function handleLogin(e) {
             e.preventDefault();
             
-            // Validate form
-            const isEmailValid = validateLoginEmail();
-            const isPasswordValid = validateLoginPassword();
+            const identifier = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
             
-            if (!isEmailValid || !isPasswordValid) {
+            // Validate
+            if (!validateLoginForm()) {
                 return;
             }
-            
-            const identifier = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
             
             // Find user by email or IC
             const user = users.find(u => 
@@ -1065,142 +884,402 @@
             );
             
             if (!user) {
-                showError(document.getElementById('loginEmailError'), 'Akaun tidak ditemui');
+                showError('loginEmailError', 'Akaun tidak ditemui');
                 return;
             }
             
             if (user.password !== password) {
-                showError(document.getElementById('loginPasswordError'), 'Kata laluan tidak betul');
+                showError('loginPasswordError', 'Kata laluan tidak betul');
                 return;
             }
             
-            // Login successful
-            currentUser = {
+            // Login successful - Save user data
+            const userSession = {
                 id: user.id,
                 name: user.name,
                 email: user.email,
                 ic: user.ic,
+                phone: user.phone,
                 userType: user.userType,
-                phone: user.phone
+                department: user.department || '',
+                loginTime: new Date().toISOString(),
+                rememberMe: rememberMe
             };
             
-            // Save to session storage
-            sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+            // Save to localStorage and sessionStorage
+            sessionStorage.setItem(CURRENT_USER_KEY, JSON.stringify(userSession));
             
-            // Save to localStorage if "remember me" is checked
-            const rememberMe = document.getElementById('rememberMe').checked;
             if (rememberMe) {
-                localStorage.setItem('rememberedUser', JSON.stringify({
-                    email: user.email,
-                    name: user.name
-                }));
+                localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(userSession));
             }
             
-            // Show success message and redirect
-            alert(`Selamat datang, ${user.name}!`);
+            // Save user data to temp storage for dashboard
+            localStorage.setItem(TEMP_USER_DATA_KEY, JSON.stringify({
+                ...userSession,
+                fromLogin: true,
+                welcomeMessage: `Selamat datang kembali, ${user.name}!`
+            }));
             
-            // Redirect to main page (in production, you would redirect to actual dashboard)
-            // window.location.href = "dashboard.html";
-            
-            // For demo purposes, show a success message
-            document.getElementById('loginForm').reset();
-            document.querySelector('.form-title h2').textContent = 'Log Masuk Berjaya!';
-            document.querySelector('.form-title p').textContent = `Selamat datang, ${user.name}`;
-            
-            // Create a demo redirect button
-            const loginBtn = document.querySelector('#loginForm .btn-primary');
-            loginBtn.innerHTML = '<i class="fas fa-arrow-right"></i> Terus ke Dashboard';
-            loginBtn.onclick = function() {
-                window.open('index.html', '_blank'); // Open the user microsite in new tab
-            };
+            // Redirect to dashboard
+            redirectToDashboard(userSession);
         }
-
+        
         // Handle registration submission
         function handleRegister(e) {
             e.preventDefault();
             
-            // Validate all fields
-            const validations = [
-                validateRegisterName(),
-                validateRegisterIC(),
-                validateRegisterEmail(),
-                validateRegisterPhone(),
-                validateRegisterPassword(),
-                validateConfirmPassword()
-            ];
+            // Validate form
+            if (!validateRegisterForm()) {
+                return;
+            }
             
             // Check terms agreement
             const agreeTerms = document.getElementById('agreeTerms').checked;
-            const termsError = document.getElementById('termsError');
-            
             if (!agreeTerms) {
-                showError(termsError, 'Anda mesti bersetuju dengan terma dan syarat');
-                return;
-            } else {
-                clearError(termsError);
-            }
-            
-            if (validations.includes(false)) {
+                showError('termsError', 'Anda mesti bersetuju dengan terma dan syarat');
                 return;
             }
             
             // Get form values
             const userData = {
-                id: users.length + 1,
-                name: document.getElementById('registerName').value,
+                id: generateUserId(),
+                name: document.getElementById('registerName').value.trim(),
                 ic: document.getElementById('registerIC').value.replace(/[-\s]/g, ''),
-                email: document.getElementById('registerEmail').value,
+                email: document.getElementById('registerEmail').value.trim(),
                 phone: document.getElementById('registerPhone').value.replace(/[-\s]/g, ''),
                 password: document.getElementById('registerPassword').value,
                 userType: document.getElementById('userType').value,
-                createdAt: new Date().toISOString().split('T')[0],
-                status: 'active'
+                department: getUserDepartment(),
+                createdAt: new Date().toISOString(),
+                status: 'active',
+                profileComplete: false // Flag untuk profile completion
             };
             
-            // Save user to database (localStorage for demo)
+            // Add user to database
             users.push(userData);
-            localStorage.setItem('assetRentalUsers', JSON.stringify(users));
+            localStorage.setItem(USERS_KEY, JSON.stringify(users));
             
-            // Show success message
+            // Create user session
+            const userSession = {
+                id: userData.id,
+                name: userData.name,
+                email: userData.email,
+                ic: userData.ic,
+                phone: userData.phone,
+                userType: userData.userType,
+                department: userData.department,
+                loginTime: new Date().toISOString(),
+                isNewUser: true
+            };
+            
+            // Save session
+            sessionStorage.setItem(CURRENT_USER_KEY, JSON.stringify(userSession));
+            
+            // Save EXTENSIVE user data to temp storage for dashboard
+            localStorage.setItem(TEMP_USER_DATA_KEY, JSON.stringify({
+                ...userSession,
+                fromRegistration: true,
+                registrationDate: userData.createdAt,
+                fullRegistrationData: userData,
+                welcomeMessage: `Selamat datang ke Portal Sewaan Aset, ${userData.name}!`,
+                showTutorial: true,
+                userPreferences: {
+                    notifications: true,
+                    emailUpdates: true,
+                    defaultAssetType: userData.userType === 'staff' ? 'kuarters' : 'pejabat'
+                }
+            }));
+            
+            // Show success message with auto redirect
+            showRegistrationSuccess(userData.name);
+        }
+        
+        // Redirect to dashboard with user data
+        function redirectToDashboard(userSession) {
+            // Prepare welcome message
+            let welcomeMessage = `Selamat datang, ${userSession.name}!`;
+            
+            // Update temp data with login-specific info
+            const tempData = JSON.parse(localStorage.getItem(TEMP_USER_DATA_KEY) || '{}');
+            tempData.lastLogin = new Date().toISOString();
+            tempData.loginCount = (tempData.loginCount || 0) + 1;
+            localStorage.setItem(TEMP_USER_DATA_KEY, JSON.stringify(tempData));
+            
+            // Show loading message
+            const loginBtn = document.querySelector('#loginForm .btn-primary');
+            const originalText = loginBtn.innerHTML;
+            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Membuka dashboard...';
+            loginBtn.disabled = true;
+            
+            // Redirect after delay
+            setTimeout(() => {
+                // In production, redirect to actual dashboard
+                // window.location.href = "dashboard.html";
+                
+                // For demo, show success and open microsite
+                document.getElementById('loginForm').classList.remove('active');
+                document.getElementById('successMessage').classList.add('active');
+                document.getElementById('successMessage').querySelector('h2').textContent = 'Log Masuk Berjaya!';
+                document.getElementById('successMessage').querySelector('p').textContent = welcomeMessage;
+                
+                // Update success button
+                const successBtn = document.getElementById('goToLoginFromSuccess');
+                successBtn.innerHTML = '<i class="fas fa-arrow-right"></i> Terus ke Dashboard';
+                successBtn.onclick = function() {
+                    openDashboard(userSession);
+                };
+                
+                // Reset login button
+                loginBtn.innerHTML = originalText;
+                loginBtn.disabled = false;
+            }, 1500);
+        }
+        
+        // Open dashboard/microsite
+        function openDashboard(userSession) {
+            // Open the microsite in new tab with user data
+            const userDataString = encodeURIComponent(JSON.stringify(userSession));
+            
+            // Create a form to pass data (alternative method)
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'dashboard.html';
+            form.target = '_blank';
+            
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'userData';
+            input.value = JSON.stringify(userSession);
+            form.appendChild(input);
+            
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+            
+            // Alternative: Open with URL parameters (limited by URL length)
+            // window.open(`dashboard.html?user=${userDataString}`, '_blank');
+            
+            // For this demo, we'll open the microsite-user.html
+            // In production, you would pass the user data properly
+            window.open('index.html', '_blank');
+        }
+        
+        // Show registration success
+        function showRegistrationSuccess(userName) {
             document.getElementById('registerForm').classList.remove('active');
             document.getElementById('successMessage').classList.add('active');
             
-            // Reset form
-            document.getElementById('registerForm').reset();
-            document.querySelectorAll('.user-type-option').forEach((opt, index) => {
-                if (index === 0) {
-                    opt.classList.add('selected');
-                } else {
-                    opt.classList.remove('selected');
+            // Update success message
+            document.getElementById('successMessage').querySelector('h2').textContent = 'Pendaftaran Berjaya!';
+            document.getElementById('successMessage').querySelector('p').innerHTML = `
+                Tahniah <strong>${userName}</strong>!<br>
+                Akaun anda telah berjaya didaftarkan.
+            `;
+            
+            // Update button
+            const successBtn = document.getElementById('goToLoginFromSuccess');
+            successBtn.innerHTML = '<i class="fas fa-arrow-right"></i> Terus ke Dashboard';
+            successBtn.onclick = function() {
+                // Get the newly registered user
+                const newUser = users[users.length - 1];
+                const userSession = {
+                    id: newUser.id,
+                    name: newUser.name,
+                    email: newUser.email,
+                    ic: newUser.ic,
+                    phone: newUser.phone,
+                    userType: newUser.userType,
+                    department: newUser.department,
+                    loginTime: new Date().toISOString(),
+                    isNewUser: true
+                };
+                
+                openDashboard(userSession);
+            };
+        }
+        
+        // Validation functions
+        function validateLoginForm() {
+            let isValid = true;
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email) {
+                showError('loginEmailError', 'Sila masukkan email atau No. KP');
+                isValid = false;
+            } else {
+                clearError('loginEmailError');
+            }
+            
+            if (!password) {
+                showError('loginPasswordError', 'Sila masukkan kata laluan');
+                isValid = false;
+            } else {
+                clearError('loginPasswordError');
+            }
+            
+            return isValid;
+        }
+        
+        function validateRegisterForm() {
+            let isValid = true;
+            
+            // Validate each field
+            const validations = [
+                validateField('registerName', validateName, 'Sila masukkan nama penuh'),
+                validateField('registerIC', validateIC, 'No. KP tidak sah'),
+                validateField('registerEmail', validateEmail, 'Email tidak sah'),
+                validateField('registerPhone', validatePhone, 'No. telefon tidak sah'),
+                validateField('registerPassword', validatePassword, 'Kata laluan tidak sah'),
+                validateField('registerConfirmPassword', validateConfirmPassword, 'Kata laluan tidak sepadan')
+            ];
+            
+            return validations.every(v => v === true);
+        }
+        
+        function validateField(fieldId, validationFn, errorMessage) {
+            const field = document.getElementById(fieldId);
+            const value = field.value.trim();
+            const errorId = `${fieldId}Error`;
+            
+            if (!value) {
+                showError(errorId, 'Field ini diperlukan');
+                return false;
+            }
+            
+            if (!validationFn(value)) {
+                showError(errorId, errorMessage);
+                return false;
+            }
+            
+            clearError(errorId);
+            return true;
+        }
+        
+        function validateName(name) {
+            return name.length >= 3 && name.length <= 100;
+        }
+        
+        function validateIC(ic) {
+            const cleanIC = ic.replace(/[-\s]/g, '');
+            return /^\d{12}$/.test(cleanIC);
+        }
+        
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+        
+        function validatePhone(phone) {
+            const cleanPhone = phone.replace(/[-\s]/g, '');
+            return /^[0-9]{10,11}$/.test(cleanPhone);
+        }
+        
+        function validatePassword(password) {
+            return password.length >= 8 && /[A-Z]/.test(password) && /[a-z]/.test(password) && /\d/.test(password);
+        }
+        
+        function validateConfirmPassword(confirmPassword) {
+            const password = document.getElementById('registerPassword').value;
+            return confirmPassword === password;
+        }
+        
+        function setupRealTimeValidation() {
+            // Login form
+            document.getElementById('loginEmail').addEventListener('input', () => clearError('loginEmailError'));
+            document.getElementById('loginPassword').addEventListener('input', () => clearError('loginPasswordError'));
+            
+            // Register form
+            document.getElementById('registerName').addEventListener('input', () => clearError('registerNameError'));
+            document.getElementById('registerIC').addEventListener('input', () => clearError('registerICError'));
+            document.getElementById('registerEmail').addEventListener('input', () => clearError('registerEmailError'));
+            document.getElementById('registerPhone').addEventListener('input', () => clearError('registerPhoneError'));
+            document.getElementById('registerPassword').addEventListener('input', () => {
+                clearError('registerPasswordError');
+                // Also validate confirm password if it has value
+                const confirmPassword = document.getElementById('registerConfirmPassword').value;
+                if (confirmPassword) {
+                    validateConfirmPassword(confirmPassword) ? 
+                        clearError('registerConfirmPasswordError') : 
+                        showError('registerConfirmPasswordError', 'Kata laluan tidak sepadan');
                 }
             });
-            document.getElementById('userType').value = 'staff';
+            document.getElementById('registerConfirmPassword').addEventListener('input', () => clearError('registerConfirmPasswordError'));
         }
-
-        // Helper functions for validation messages
-        function showError(element, message) {
+        
+        // Helper functions
+        function showError(elementId, message) {
+            const element = document.getElementById(elementId);
             element.textContent = message;
             element.className = 'validation-message error';
         }
         
-        function clearError(element) {
+        function clearError(elementId) {
+            const element = document.getElementById(elementId);
             element.textContent = '';
             element.className = 'validation-message';
         }
-
-        // Demo function to show registered users (for testing)
-        function showRegisteredUsers() {
-            console.log('Registered Users:', users);
-            alert(`Total users: ${users.length}\n\nLatest user: ${users[users.length - 1]?.name || 'None'}`);
+        
+        function generateUserId() {
+            return 'USER_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
         }
         
-        // Add a secret admin function (Ctrl+Shift+U)
-        document.addEventListener('keydown', function(e) {
-            if (e.ctrlKey && e.shiftKey && e.key === 'U') {
-                showRegisteredUsers();
+        function getUserDepartment() {
+            const userType = document.getElementById('userType').value;
+            if (userType === 'staff') {
+                return document.getElementById('registerName').value.includes('JKR') ? 'Jabatan Kerja Raya' : 'Pentadbiran';
             }
-        });
+            return 'Orang Awam';
+        }
+        
+        function showForgotPasswordModal() {
+            const email = prompt('Masukkan email anda untuk reset kata laluan:');
+            if (email) {
+                const user = users.find(u => u.email === email);
+                if (user) {
+                    alert(`Arahan reset kata laluan telah dihantar ke ${email}\n\nUntuk demo, kata laluan anda: ${user.password}`);
+                } else {
+                    alert('Email tidak ditemui dalam sistem.');
+                }
+            }
+        }
+        
+        function demoGoogleLogin() {
+            const demoUser = {
+                id: 'GOOGLE_USER',
+                name: 'Google User Demo',
+                email: 'google.user@example.com',
+                userType: 'public',
+                loginTime: new Date().toISOString(),
+                isGoogleUser: true
+            };
+            
+            sessionStorage.setItem(CURRENT_USER_KEY, JSON.stringify(demoUser));
+            localStorage.setItem(TEMP_USER_DATA_KEY, JSON.stringify({
+                ...demoUser,
+                fromGoogle: true,
+                welcomeMessage: 'Log masuk dengan Google berjaya!'
+            }));
+            
+            alert('Log masuk dengan Google berjaya! (Demo)');
+            redirectToDashboard(demoUser);
+        }
+        
+        // Export function to check login status (for other pages)
+        window.checkLoginStatus = function() {
+            const user = JSON.parse(sessionStorage.getItem(CURRENT_USER_KEY) || 
+                                   localStorage.getItem(CURRENT_USER_KEY) || 'null');
+            return user;
+        };
+        
+        // Export function to logout
+        window.logoutUser = function() {
+            sessionStorage.removeItem(CURRENT_USER_KEY);
+            localStorage.removeItem(CURRENT_USER_KEY);
+            localStorage.removeItem(TEMP_USER_DATA_KEY);
+            window.location.href = 'login.html';
+        };
     </script>
 </body>
-
 </html>
