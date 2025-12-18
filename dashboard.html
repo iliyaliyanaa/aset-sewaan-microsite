@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Portal Sewaan Aset</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a5f7a;
+            --secondary: #57c5b6;
+            --accent: #159895;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo i {
+            font-size: 2rem;
+        }
+        
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .logo-text p {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .user-profile:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .user-details h3 {
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+        
+        .user-details p {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+        
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Welcome Banner */
+        .welcome-banner {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .welcome-content h2 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .welcome-content p {
+            color: var(--gray);
+            margin-bottom: 15px;
+        }
+        
+        .user-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .welcome-icon {
+            font-size: 4rem;
+            color: var(--secondary);
+            opacity: 0.7;
+        }
+        
+        /* Dashboard Content */
+        .dashboard-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        /* User Profile Card */
+        .profile-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .profile-info h2 {
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .profile-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .profile-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .detail-item {
+            background: var(--light);
+            padding: 1rem;
+            border-radius: 10px;
+        }
+        
+        .detail-label {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        .detail-value {
+            font-weight: 500;
+            font-size: 1rem;
+        }
+        
+        /* Quick Actions */
+        .quick-actions {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-gray);
+        }
+        
+        .action-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .action-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: var(--light);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+            text-decoration: none;
+            color: var(--dark);
+        }
+        
+        .action-item:hover {
+            transform: translateX(5px);
+            background: rgba(26, 95, 122, 0.05);
+        }
+        
+        .action-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+        }
+        
+        .action-text h4 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+        
+        .action-text p {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .icon-kuarters { background: #9b59b6; }
+        .icon-applications { background: #3498db; }
+        .icon-available { background: #2ecc71; }
+        .icon-pending { background: #f39c12; }
+        
+        .stat-info h3 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .stat-info p {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        /* Footer */
+        .dashboard-footer {
+            background: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-body {
+            padding: 2rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .dashboard-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .welcome-banner {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .profile-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-building"></i>
+                <div class="logo-text">
+                    <h1>Portal Sewaan Aset</h1>
+                    <p>Dashboard Pengguna</p>
+                </div>
+            </div>
+            
+            <div class="user-info">
+                <div class="user-profile" id="userProfileBtn">
+                    <div class="user-avatar" id="userAvatar">A</div>
+                    <div class="user-details">
+                        <h3 id="userName">Loading...</h3>
+                        <p id="userType">Memuatkan...</p>
+                    </div>
+                </div>
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Log Keluar
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Welcome Banner -->
+        <div class="welcome-banner" id="welcomeBanner">
+            <div class="welcome-content">
+                <h2 id="welcomeTitle">Selamat Datang!</h2>
+                <p id="welcomeMessage">Memuatkan maklumat pengguna...</p>
+                <span class="user-badge" id="userBadge">Pengguna Baru</span>
+            </div>
+            <div class="welcome-icon">
+                <i class="fas fa-hand-wave"></i>
+            </div>
+        </div>
+        
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+            <!-- Left Column - User Profile -->
+            <div class="profile-card">
+                <div class="profile-header">
+                    <div class="profile-avatar" id="profileAvatar">A</div>
+                    <div class="profile-info">
+                        <h2 id="profileName">Nama Pengguna</h2>
+                        <p id="profileEmail">email@example.com</p>
+                        <p id="profileSince">Ahli sejak: Memuatkan...</p>
+                    </div>
+                </div>
+                
+                <h3 class="section-title">Maklumat Peribadi</h3>
+                
+                <div class="profile-details">
+                    <div class="detail-item">
+                        <span class="detail-label">No. Kad Pengenalan</span>
+                        <span class="detail-value" id="profileIC">000000000000</span>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">No. Telefon</span>
+                        <span class="detail-value" id="profilePhone">0123456789</span>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">Jenis Pengguna</span>
+                        <span class="detail-value" id="profileUserType">Memuatkan...</span>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">Jabatan/Agensi</span>
+                        <span class="detail-value" id="profileDepartment">Memuatkan...</span>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">Status Akaun</span>
+                        <span class="detail-value" id="profileStatus">Aktif</span>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">Masa Log Masuk</span>
+                        <span class="detail-value" id="profileLoginTime">Memuatkan...</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Column - Quick Actions -->
+            <div class="quick-actions">
+                <h3 class="section-title">Tindakan Pantas</h3>
+                
+                <div class="action-list">
+                    <a href="index.html" class="action-item" target="_blank">
+                        <div class="action-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="action-text">
+                            <h4>Cari Aset Tersedia</h4>
+                            <p>Lihat senarai aset untuk disewa</p>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="action-item" id="applyAssetBtn">
+                        <div class="action-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="action-text">
+                            <h4>Mohon Sewaan Baru</h4>
+                            <p>Isi borang permohonan sewaan</p>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="action-item" id="viewApplicationsBtn">
+                        <div class="action-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <div class="action-text">
+                            <h4>Status Permohonan</h4>
+                            <p>Semak status permohonan anda</p>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="action-item" id="editProfileBtn">
+                        <div class="action-icon">
+                            <i class="fas fa-user-edit"></i>
+                        </div>
+                        <div class="action-text">
+                            <h4>Kemaskini Profil</h4>
+                            <p>Edit maklumat peribadi anda</p>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="action-item" id="viewHistoryBtn">
+                        <div class="action-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <div class="action-text">
+                            <h4>Sejarah Sewaan</h4>
+                            <p>Lihat rekod sewaan lepas</p>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="action-item" id="helpCenterBtn">
+                        <div class="action-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <div class="action-text">
+                            <h4>Pusat Bantuan</h4>
+                            <p>Dapatkan bantuan dan panduan</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Stats Grid -->
+        <h3 class="section-title">Statistik Anda</h3>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon icon-kuarters">
+                    <i class="fas fa-home"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="statsKuarters">0</h3>
+                    <p>Kuarters Dimohon</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon icon-applications">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="statsApplications">0</h3>
+                    <p>Jumlah Permohonan</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon icon-available">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="statsApproved">0</h3>
+                    <p>Permohonan Diluluskan</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon icon-pending">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="statsPending">0</h3>
+                    <p>Dalam Proses</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <div class="footer-content">
+            <p>&copy; 2023 Portal Sewaan Aset Kerajaan. Hak Cipta Terpelihara.</p>
+            <p>Dashboard v1.0 | <span id="sessionTimer">Sesi aktif: 00:00</span></p>
+        </div>
+    </footer>
+    
+    <!-- Edit Profile Modal -->
+    <div class="modal" id="editProfileModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-edit"></i> Kemaskini Profil</h3>
+                <button class="logout-btn" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editProfileForm">
+                    <!-- Form akan diisi oleh JavaScript -->
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // User Data Management
+        const CURRENT_USER_KEY = 'current_user';
+        const TEMP_USER_DATA_KEY = 'temp_user_data';
+        const USER_STATS_KEY = 'user_stats';
+        
+        // Current user data
+        let currentUser = null;
+        let tempUserData = null;
+        let userStats = null;
+        
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            setupEventListeners();
+            updateSessionTimer();
+            setInterval(updateSessionTimer, 1000);
+        });
+        
+        // Load user data from storage
+        function loadUserData() {
+            // Try to get user data from multiple sources
+            currentUser = JSON.parse(sessionStorage.getItem(CURRENT_USER_KEY)) || 
+                         JSON.parse(localStorage.getItem(CURRENT_USER_KEY)) || 
+                         getUrlParameter('userData') ||
+                         getDemoUserData();
+            
+            tempUserData = JSON.parse(localStorage.getItem(TEMP_USER_DATA_KEY)) || {};
+            userStats = JSON.parse(localStorage.getItem(USER_STATS_KEY)) || getDefaultStats();
+            
+            if (!currentUser) {
+                // Redirect to login if no user data
+                alert('Sila log masuk terlebih dahulu.');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Update UI with user data
+            updateUserInterface();
+            
+            // Show welcome message if from registration
+            if (tempUserData.fromRegistration) {
+                showRegistrationWelcome();
+            }
+        }
+        
+        // Update UI with user data
+        function updateUserInterface() {
+            // User initials for avatar
+            const initials = getInitials(currentUser.name);
+            
+            // Update header
+            document.getElementById('userAvatar').textContent = initials;
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('userType').textContent = getUserTypeText(currentUser.userType);
+            
+            // Update profile card
+            document.getElementById('profileAvatar').textContent = initials;
+            document.getElementById('profileName').textContent = currentUser.name;
+            document.getElementById('profileEmail').textContent = currentUser.email;
+            document.getElementById('profileIC').textContent = formatIC(currentUser.ic);
+            document.getElementById('profilePhone').textContent = formatPhone(currentUser.phone);
+            document.getElementById('profileUserType').textContent = getUserTypeText(currentUser.userType);
+            document.getElementById('profileDepartment').textContent = currentUser.department || 'Tiada';
+            document.getElementById('profileSince').textContent = `Ahli sejak: ${currentUser.createdAt ? formatDate(currentUser.createdAt) : 'Baru'}`;
+            document.getElementById('profileLoginTime').textContent = formatTime(currentUser.loginTime);
+            
+            // Update welcome banner
+            const welcomeTitle = tempUserData.fromRegistration ? 
+                `Selamat Datang, ${currentUser.name}! 🎉` : 
+                `Selamat Kembali, ${currentUser.name}!`;
+            
+            const welcomeMessage = tempUserData.welcomeMessage || 
+                (tempUserData.fromRegistration ? 
+                    'Terima kasih kerana mendaftar dengan Portal Sewaan Aset.' : 
+                    'Apa yang ingin anda lakukan hari ini?');
+            
+            document.getElementById('welcomeTitle').textContent = welcomeTitle;
+            document.getElementById('welcomeMessage').textContent = welcomeMessage;
+            
+            // Update user badge
+            const badgeText = tempUserData.fromRegistration ? 'Pengguna Baru' : 
+                             currentUser.userType === 'admin' ? 'Administrator' :
+                             currentUser.userType === 'staff' ? 'Kakitangan Kerajaan' : 'Orang Awam';
+            document.getElementById('userBadge').textContent = badgeText;
+            
+            // Update stats
+            updateUserStats();
+            
+            // Save user data for microsite
+            prepareDataForMicrosite();
+        }
+        
+        // Update user statistics
+        function updateUserStats() {
+            // In a real app, these would come from a database
+            document.getElementById('statsKuarters').textContent = userStats.kuartersApplied || 0;
+            document.getElementById('statsApplications').textContent = userStats.totalApplications || 0;
+            document.getElementById('statsApproved').textContent = userStats.approvedApplications || 0;
+            document.getElementById('statsPending').textContent = userStats.pendingApplications || 0;
+        }
+        
+        // Prepare user data for microsite
+        function prepareDataForMicrosite() {
+            // Create a simplified user object for microsite
+            const micrositeUserData = {
+                id: currentUser.id,
+                name: currentUser.name,
+                email: currentUser.email,
+                ic: currentUser.ic,
+                phone: currentUser.phone,
+                userType: currentUser.userType,
+                department: currentUser.department,
+                isLoggedIn: true,
+                loginTime: currentUser.loginTime,
+                sessionId: generateSessionId()
+            };
+            
+            // Save to localStorage for microsite to access
+            localStorage.setItem('microsite_user_data', JSON.stringify(micrositeUserData));
+            
+            // Also save to session storage
+            sessionStorage.setItem('microsite_user_session', JSON.stringify({
+                userId: currentUser.id,
+                userName: currentUser.name,
+                userType: currentUser.userType,
+                timestamp: Date.now()
+            }));
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // Logout button
+            document.getElementById('logoutBtn').addEventListener('click', logoutUser);
+            
+            // User profile button
+            document.getElementById('userProfileBtn').addEventListener('click', showUserProfile);
+            
+            // Quick action buttons
+            document.getElementById('applyAssetBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                openMicrositeWithPrefill();
+            });
+            
+            document.getElementById('viewApplicationsBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Fungsi ini akan membuka halaman status permohonan. (Dalam pembangunan)');
+            });
+            
+            document.getElementById('editProfileBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                showEditProfileModal();
+            });
+            
+            document.getElementById('viewHistoryBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Fungsi ini akan membuka halaman sejarah sewaan. (Dalam pembangunan)');
+            });
+            
+            document.getElementById('helpCenterBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Pusat Bantuan akan dibuka tidak lama lagi.');
+            });
+        }
+        
+        // Open microsite with pre-filled user data
+        function openMicrositeWithPrefill() {
+            // Prepare application data
+            const applicationData = {
+                applicantName: currentUser.name,
+                applicantIC: currentUser.ic,
+                applicantPhone: currentUser.phone,
+                applicantEmail: currentUser.email,
+                userType: currentUser.userType,
+                autoFill: true,
+                timestamp: Date.now()
+            };
+            
+            // Save to localStorage for microsite to access
+            localStorage.setItem('application_prefill_data', JSON.stringify(applicationData));
+            
+            // Open microsite in new tab
+            window.open('index.html', '_blank');
+            
+            // Show confirmation
+            alert('Microsite dibuka dengan maklumat anda telah diisi automatik.');
+        }
+        
+        // Show edit profile modal
+        function showEditProfileModal() {
+            const modal = document.getElementById('editProfileModal');
+            const form = document.getElementById('editProfileForm');
+            
+            // Populate form with current data
+            form.innerHTML = `
+                <div style="display: grid; gap: 15px;">
+                    <div>
+                        <label>Nama Penuh</label>
+                        <input type="text" value="${currentUser.name}" class="form-control" id="editName">
+                    </div>
+                    
+                    <div>
+                        <label>Email</label>
+                        <input type="email" value="${currentUser.email}" class="form-control" id="editEmail">
+                    </div>
+                    
+                    <div>
+                        <label>No. Telefon</label>
+                        <input type="tel" value="${currentUser.phone}" class="form-control" id="editPhone">
+                    </div>
+                    
+                    <div>
+                        <label>Jabatan/Agensi</label>
+                        <input type="text" value="${currentUser.department || ''}" class="form-control" id="editDepartment">
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button type="button" class="btn" id="cancelEdit" style="flex: 1;">Batal</button>
+                        <button type="submit" class="btn btn-primary" style="flex: 2;">Simpan Perubahan</button>
+                    </div>
+                </div>
+            `;
+            
+            // Add event listeners
+            form.onsubmit = function(e) {
+                e.preventDefault();
+                saveProfileChanges();
+            };
+            
+            document.getElementById('cancelEdit').onclick = function() {
+                modal.style.display = 'none';
+            };
+            
+            modal.style.display = 'flex';
+        }
+        
+        // Save profile changes
+        function saveProfileChanges() {
+            const newName = document.getElementById('editName').value;
+            const newEmail = document.getElementById('editEmail').value;
+            const newPhone = document.getElementById('editPhone').value;
+            const newDepartment = document.getElementById('editDepartment').value;
+            
+            // Update current user
+            currentUser.name = newName;
+            currentUser.email = newEmail;
+            currentUser.phone = newPhone;
+            currentUser.department = newDepartment;
+            
+            // Update storage
+            sessionStorage.setItem(CURRENT_USER_KEY, JSON.stringify(currentUser));
+            if (localStorage.getItem(CURRENT_USER_KEY)) {
+                localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(currentUser));
+            }
+            
+            // Update UI
+            updateUserInterface();
+            
+            // Close modal
+            document.getElementById('editProfileModal').style.display = 'none';
+            
+            // Show success message
+            alert('Profil berjaya dikemas kini!');
+        }
+        
+        // Logout user
+        function logoutUser() {
+            if (confirm('Adakah anda pasti ingin log keluar?')) {
+                // Clear all user data
+                sessionStorage.removeItem(CURRENT_USER_KEY);
+                sessionStorage.removeItem('microsite_user_session');
+                localStorage.removeItem(TEMP_USER_DATA_KEY);
+                localStorage.removeItem('microsite_user_data');
+                localStorage.removeItem('application_prefill_data');
+                
+                // Redirect to login
+                window.location.href = 'login.html';
+            }
+        }
+        
+        // Show user profile info
+        function showUserProfile() {
+            const profileInfo = `
+Nama: ${currentUser.name}
+Email: ${currentUser.email}
+No. KP: ${formatIC(currentUser.ic)}
+Telefon: ${formatPhone(currentUser.phone)}
+Jenis Pengguna: ${getUserTypeText(currentUser.userType)}
+Jabatan: ${currentUser.department || 'Tiada'}
+Masa Log Masuk: ${formatTime(currentUser.loginTime)}
+            `.trim();
+            
+            alert(profileInfo);
+        }
+        
+        // Show registration welcome message
+        function showRegistrationWelcome() {
+            setTimeout(() => {
+                const welcomeModal = `
+                <div style="text-align: center; padding: 20px;">
+                    <div style="font-size: 3rem; color: var(--success); margin-bottom: 20px;">🎉</div>
+                    <h2 style="color: var(--primary); margin-bottom: 10px;">Selamat Datang ke Portal Sewaan Aset!</h2>
+                    <p style="margin-bottom: 20px;">Terima kasih kerana mendaftar, ${currentUser.name}!</p>
+                    <p style="margin-bottom: 20px;">Berikut adalah langkah-langkah seterusnya:</p>
+                    <ol style="text-align: left; margin-bottom: 20px;">
+                        <li>Lengkapkan profil anda</li>
+                        <li>Terokai aset tersedia</li>
+                        <li>Mohon sewaan pertama anda</li>
+                    </ol>
+                    <button onclick="this.parentElement.parentElement.style.display='none'" 
+                            style="background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                        Mula Sekarang
+                    </button>
+                </div>
+                `;
+                
+                // Create modal
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                    background: rgba(0,0,0,0.5); display: flex; align-items: center; 
+                    justify-content: center; z-index: 1000;
+                `;
+                modal.innerHTML = `
+                    <div style="background: white; border-radius: 15px; max-width: 500px; width: 90%; padding: 0;">
+                        ${welcomeModal}
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                
+                // Clear registration flag
+                delete tempUserData.fromRegistration;
+                localStorage.setItem(TEMP_USER_DATA_KEY, JSON.stringify(tempUserData));
+            }, 1000);
+        }
+        
+        // Update session timer
+        function updateSessionTimer() {
+            if (!currentUser || !currentUser.loginTime) return;
+            
+            const loginTime = new Date(currentUser.loginTime).getTime();
+            const now = Date.now();
+            const diff = now - loginTime;
+            
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('sessionTimer').textContent = 
+                `Sesi aktif: ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Auto logout after 2 hours (for demo)
+            if (hours >= 2) {
+                alert('Sesi anda telah tamat. Sila log masuk semula.');
+                logoutUser();
+            }
+        }
+        
+        // Helper functions
+        function getInitials(name) {
+            return name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+        }
+        
+        function getUserTypeText(userType) {
+            const types = {
+                'admin': 'Administrator',
+                'staff': 'Kakitangan Kerajaan',
+                'public': 'Orang Awam'
+            };
+            return types[userType] || userType;
+        }
+        
+        function formatIC(ic) {
+            if (!ic) return '';
+            const str = ic.toString();
+            if (str.length === 12) {
+                return str.substring(0, 6) + '-' + str.substring(6, 8) + '-' + str.substring(8);
+            }
+            return str;
+        }
+        
+        function formatPhone(phone) {
+            if (!phone) return '';
+            const str = phone.toString();
+            if (str.length === 10) {
+                return str.substring(0, 3) + '-' + str.substring(3, 6) + ' ' + str.substring(6);
+            } else if (str.length === 11) {
+                return str.substring(0, 3) + '-' + str.substring(3, 7) + ' ' + str.substring(7);
+            }
+            return str;
+        }
+        
+        function formatDate(dateString) {
+            if (!dateString) return 'Baru';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('ms-MY', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+        
+        function formatTime(dateString) {
+            if (!dateString) return 'Baru';
+            const date = new Date(dateString);
+            return date.toLocaleTimeString('ms-MY', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+        
+        function generateSessionId() {
+            return 'SESS_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+        
+        function getUrlParameter(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const value = urlParams.get(param);
+            try {
+                return value ? JSON.parse(decodeURIComponent(value)) : null;
+            } catch {
+                return null;
+            }
+        }
+        
+        function getDemoUserData() {
+            // Fallback demo data for testing
+            return {
+                id: 'DEMO_USER',
+                name: 'Pengguna Demo',
+                email: 'demo@email.com',
+                ic: '900101011234',
+                phone: '0123456789',
+                userType: 'staff',
+                department: 'Jabatan Demo',
+                loginTime: new Date().toISOString(),
+                createdAt: '2023-01-01'
+            };
+        }
+        
+        function getDefaultStats() {
+            return {
+                kuartersApplied: Math.floor(Math.random() * 5),
+                totalApplications: Math.floor(Math.random() * 10),
+                approvedApplications: Math.floor(Math.random() * 3),
+                pendingApplications: Math.floor(Math.random() * 4)
+            };
+        }
+        
+        // Export functions for other pages
+        window.getCurrentUser = function() {
+            return currentUser;
+        };
+        
+        window.updateUserStats = function(newStats) {
+            userStats = { ...userStats, ...newStats };
+            localStorage.setItem(USER_STATS_KEY, JSON.stringify(userStats));
+            updateUserStats();
+        };
+    </script>
+</body>
+</html>
