@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borang Permohonan Sewa - Sistem Sewa Aset</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1><i class="fas fa-building"></i> Sistem Sewa Aset</h1>
+            </div>
+            <nav class="navbar">
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Laman Utama</a></li>
+                    <li><a href="status.html"><i class="fas fa-list"></i> Status Kekosongan</a></li>
+                    <li><a href="permohonan.html" class="active"><i class="fas fa-file-signature"></i> Permohonan Sewa</a></li>
+                    <li id="auth-links">
+                        <!-- Dynamic content loaded by JS -->
+                    </li>
+                </ul>
+            </nav>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Application Form -->
+    <main class="main-content">
+        <div class="container">
+            <div class="form-container">
+                <h2 class="form-title"><i class="fas fa-file-signature"></i> Borang Permohonan Sewa Aset</h2>
+                <p class="form-subtitle">Sila isi maklumat di bawah dengan lengkap dan tepat.</p>
+                
+                <form id="permohonan-form">
+                    <!-- Maklumat Pemohon -->
+                    <fieldset>
+                        <legend><i class="fas fa-user"></i> Maklumat Pemohon</legend>
+                        
+                        <div class="form-group">
+                            <label for="nama-pemohon">Nama Penuh</label>
+                            <input type="text" id="nama-pemohon" name="nama-pemohon" class="form-control" required readonly>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email-pemohon">Alamat Email</label>
+                                <input type="email" id="email-pemohon" name="email-pemohon" class="form-control" required readonly>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="telefon-pemohon">Nombor Telefon</label>
+                                <input type="tel" id="telefon-pemohon" name="telefon-pemohon" class="form-control" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="jawatan">Jawatan</label>
+                                <input type="text" id="jawatan" name="jawatan" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="jabatan">Jabatan / Agensi</label>
+                                <input type="text" id="jabatan" name="jabatan" class="form-control" required>
+                            </div>
+                        </div>
+                    </fieldset>
+                    
+                    <!-- Maklumat Aset -->
+                    <fieldset>
+                        <legend><i class="fas fa-building"></i> Maklumat Aset</legend>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="jenis-aset">Jenis Aset</label>
+                                <select id="jenis-aset" name="jenis-aset" class="form-control" required>
+                                    <option value="">-- Pilih Jenis Aset --</option>
+                                    <option value="Sewa Pejabat">Sewa Pejabat</option>
+                                    <option value="Kuarters Kakitangan">Kuarters Kakitangan</option>
+                                    <option value="Sewa Tanah Lot">Sewa Tanah Lot</option>
+                                    <option value="Rumah Rehat">Rumah Rehat</option>
+                                    <option value="Lot Kedai">Lot Kedai</option>
+                                    <option value="Bangunan Kompleks">Bangunan Kompleks</option>
+                                    <option value="Jeti">Jeti</option>
+                                    <option value="Bilik">Bilik</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="nama-aset">Nama Aset / Lokasi</label>
+                                <input type="text" id="nama-aset" name="nama-aset" class="form-control" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="tempoh-sewa">Tempoh Sewa</label>
+                                <select id="tempoh-sewa" name="tempoh-sewa" class="form-control" required>
+                                    <option value="">-- Pilih Tempoh --</option>
+                                    <option value="1 Tahun">1 Tahun</option>
+                                    <option value="2 Tahun">2 Tahun</option>
+                                    <option value="3 Tahun">3 Tahun</option>
+                                    <option value="5 Tahun">5 Tahun</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="tarikh-mula">Tarikh Mula Diingini</label>
+                                <input type="date" id="tarikh-mula" name="tarikh-mula" class="form-control" required>
+                            </div>
+                        </div>
+                    </fieldset>
+                    
+                    <!-- Maklumat Tambahan -->
+                    <fieldset>
+                        <legend><i class="fas fa-info-circle"></i> Maklumat Tambahan</legend>
+                        
+                        <div class="form-group">
+                            <label for="tujuan">Tujuan Sewaan</label>
+                            <textarea id="tujuan" name="tujuan" class="form-control" rows="4" placeholder="Nyatakan tujuan sewaan aset ini..." required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="catatan">Catatan Tambahan (Jika ada)</label>
+                            <textarea id="catatan" name="catatan" class="form-control" rows="3" placeholder="Sebarang maklumat tambahan..."></textarea>
+                        </div>
+                    </fieldset>
+                    
+                    <!-- Declaration -->
+                    <div class="declaration">
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <input type="checkbox" id="declaration" name="declaration" required>
+                                <label for="declaration">
+                                    Saya mengaku bahawa segala maklumat yang diberikan adalah benar dan tepat. 
+                                    Saya memahami bahawa maklumat palsu boleh menyebabkan permohonan saya ditolak 
+                                    atau tindakan undang-undang diambil.
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="form-group">
+                        <button type="submit" class="btn-submit">
+                            <i class="fas fa-paper-plane"></i> Hantar Permohonan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Sistem Sewa Aset</h3>
+                    <p>Portal rasmi pengurusan sewaan pelbagai jenis aset.</p>
+                    <p><i class="fas fa-phone"></i> 03-1234 5678</p>
+                    <p><i class="fas fa-envelope"></i> info@sewa-aset.gov.my</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Pautan Pantas</h3>
+                    <ul>
+                        <li><a href="index.html">Laman Utama</a></li>
+                        <li><a href="status.html">Status Kekosongan</a></li>
+                        <li><a href="permohonan.html">Permohonan Sewa</a></li>
+                        <li><a href="login.html">Log Masuk</a></li>
+                        <li><a href="register.html">Daftar Akaun</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Jenis Aset</h3>
+                    <ul>
+                        <li>Sewa Pejabat</li>
+                        <li>Kuarters Kakitangan</li>
+                        <li>Sewa Tanah Lot</li>
+                        <li>Rumah Rehat</li>
+                        <li>Lot Kedai</li>
+                        <li>Bangunan Kompleks</li>
+                        <li>Jeti</li>
+                        <li>Bilik</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Sistem Pengurusan Sewa Aset. Hak cipta terpelihara.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>
