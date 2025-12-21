@@ -1721,7 +1721,7 @@
                             <select id="searchLocation">
                                 <option value="">Semua Lokasi</option>
                                 <option value="kl">Kuala Lumpur</option>
-                                <option value="Perlis">Kuala Perlis</option>
+                                <option value="shahalam">Shah Alam</option>
                                 <option value="pj">Petaling Jaya</option>
                                 <option value="subang">Subang Jaya</option>
                             </select>
@@ -1982,6 +1982,10 @@
                             <span class="detail-value" id="successAssetType">Kuarters Kakitangan</span>
                         </div>
                         <div class="detail-item">
+                            <span class="detail-label">Lokasi:</span>
+                            <span class="detail-value" id="successLocation">Shah Alam</span>
+                        </div>
+                        <div class="detail-item">
                             <span class="detail-label">Tarikh Mohon:</span>
                             <span class="detail-value" id="successDate">15 Oktober 2023</span>
                         </div>
@@ -2012,10 +2016,10 @@
             {
                 id: 1,
                 type: "kuarters",
-                name: "Kuarters Kakitangan",
+                name: "Kuarters Kakitangan - Type A",
                 icon: "fas fa-home",
                 color: "#9b59b6",
-                location: "Perlis, Kuala Perlis",
+                location: "Shah Alam, Seksyen 7",
                 totalUnits: 24,
                 availableUnits: 8,
                 size: "850 sq.ft.",
@@ -2024,7 +2028,7 @@
                 status: "available",
                 description: "Kuarters untuk kakitangan kerajaan dengan 3 bilik tidur, lengkap dengan kemudahan asas."
             },
-           /* {
+            {
                 id: 2,
                 type: "kuarters",
                 name: "Kuarters Kakitangan - Type B",
@@ -2038,7 +2042,7 @@
                 monthlyRent: "RM 380",
                 status: "limited",
                 description: "Kuarters dengan 2 bilik tidur sesuai untuk kakitangan bujang atau pasangan."
-            },*/
+            },
             {
                 id: 3,
                 type: "pejabat",
@@ -2083,20 +2087,6 @@
             },
             {
                 id: 6,
-                type: "tanah",
-                name: "Tanah - Sarawak",
-                icon: "fas fa-map-marked-alt",
-                color: "#2ecc71",
-                location: "Sarawak",
-                totalUnits: 4,
-                availableUnits: 4,
-                size: "11,000 sq.ft.",
-                monthlyRent: "RM 1,000",
-                status: "limited",
-                description: "Tanah lot untuk tujuan perindustrian atau komersial."
-            },
-            {
-                id: 7,
                 type: "rumah_rehat",
                 name: "Rumah Rehat - Cameron Highlands",
                 icon: "fas fa-umbrella-beach",
@@ -2111,7 +2101,7 @@
                 description: "Rumah rehat untuk percutian kakitangan kerajaan."
             },
             {
-                id: 8,
+                id: 7,
                 type: "bilik",
                 name: "Bilik - Asrama Kakitangan",
                 icon: "fas fa-door-closed",
@@ -3132,7 +3122,7 @@
         function getLocationText(locationCode) {
             const locations = {
                 'kl': 'kuala lumpur',
-               'Perlis': 'Kuala Perlis',
+                'shahalam': 'shah alam',
                 'pj': 'petaling jaya',
                 'subang': 'subang jaya'
             };
