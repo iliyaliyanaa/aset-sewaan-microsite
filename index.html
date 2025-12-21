@@ -1709,19 +1709,12 @@
                                 <option value="tanah">Sewa Tanah Lot</option>
                                 <option value="rumah_rehat">Sewa Rumah Rehat</option>
                                 <option value="kedai">Sewa Lot Kedai</option>
-                                <option value="bilik">Bilik Sejuk</option>
-                                <option value="slipway">Slipway</option>
-                                <option value="pphp">PPHP</option>
-                                <option value="kompleks">Kompleks</option>
-                                <option value="pasar">Pasar Nelayan</option>
-                                <option value="akuakultur">Akuakultur</option>
-                                <option value="ccdc">CCDC</option>
-                                <option value="jeti">Jeti</option>
+                                <option value="bilik">Bilik</option>
                             </select>
                             <select id="searchLocation">
                                 <option value="">Semua Lokasi</option>
                                 <option value="kl">Kuala Lumpur</option>
-                                <option value="Perlis">Kuala Perlis</option>
+                                <option value="shahalam">Shah Alam</option>
                                 <option value="pj">Petaling Jaya</option>
                                 <option value="subang">Subang Jaya</option>
                             </select>
@@ -1899,14 +1892,7 @@
                                 <option value="tanah">Sewa Tanah Lot</option>
                                 <option value="rumah_rehat">Sewa Rumah Rehat</option>
                                 <option value="kedai">Sewa Lot Kedai</option>
-                                <option value="bilik">Bilik Sejuk</option>
-                                <option value="slipway">Slipway</option>
-                                <option value="pphp">PPHP</option>
-                                <option value="kompleks">Kompleks</option>
-                                <option value="pasar">Pasar Nelayan</option>
-                                <option value="akuakultur">Akuakultur</option>
-                                <option value="ccdc">CCDC</option>
-                                <option value="jeti">Jeti</option>
+                                <option value="bilik">Bilik</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -1982,6 +1968,10 @@
                             <span class="detail-value" id="successAssetType">Kuarters Kakitangan</span>
                         </div>
                         <div class="detail-item">
+                            <span class="detail-label">Lokasi:</span>
+                            <span class="detail-value" id="successLocation">Shah Alam</span>
+                        </div>
+                        <div class="detail-item">
                             <span class="detail-label">Tarikh Mohon:</span>
                             <span class="detail-value" id="successDate">15 Oktober 2023</span>
                         </div>
@@ -2012,10 +2002,10 @@
             {
                 id: 1,
                 type: "kuarters",
-                name: "Kuarters Kakitangan",
+                name: "Kuarters Kakitangan - Type A",
                 icon: "fas fa-home",
                 color: "#9b59b6",
-                location: "Perlis, Kuala Perlis",
+                location: "Shah Alam, Seksyen 7",
                 totalUnits: 24,
                 availableUnits: 8,
                 size: "850 sq.ft.",
@@ -2024,7 +2014,7 @@
                 status: "available",
                 description: "Kuarters untuk kakitangan kerajaan dengan 3 bilik tidur, lengkap dengan kemudahan asas."
             },
-           /* {
+            {
                 id: 2,
                 type: "kuarters",
                 name: "Kuarters Kakitangan - Type B",
@@ -2038,7 +2028,7 @@
                 monthlyRent: "RM 380",
                 status: "limited",
                 description: "Kuarters dengan 2 bilik tidur sesuai untuk kakitangan bujang atau pasangan."
-            },*/
+            },
             {
                 id: 3,
                 type: "pejabat",
@@ -2083,20 +2073,6 @@
             },
             {
                 id: 6,
-                type: "tanah",
-                name: "Tanah - Sarawak",
-                icon: "fas fa-map-marked-alt",
-                color: "#2ecc71",
-                location: "Sarawak",
-                totalUnits: 4,
-                availableUnits: 4,
-                size: "11,000 sq.ft.",
-                monthlyRent: "RM 1,000",
-                status: "limited",
-                description: "Tanah lot untuk tujuan perindustrian atau komersial."
-            },
-            {
-                id: 7,
                 type: "rumah_rehat",
                 name: "Rumah Rehat - Cameron Highlands",
                 icon: "fas fa-umbrella-beach",
@@ -2111,7 +2087,7 @@
                 description: "Rumah rehat untuk percutian kakitangan kerajaan."
             },
             {
-                id: 8,
+                id: 7,
                 type: "bilik",
                 name: "Bilik - Asrama Kakitangan",
                 icon: "fas fa-door-closed",
@@ -2134,14 +2110,7 @@
             { id: "kedai", name: "Lot Kedai", icon: "fas fa-store" },
             { id: "tanah", name: "Tanah Lot", icon: "fas fa-map-marked-alt" },
             { id: "rumah_rehat", name: "Rumah Rehat", icon: "fas fa-umbrella-beach" },
-            { id: "bilik", name: "Bilik Sejuk", icon: "fas fa-door-closed" }
-            { id: "slipway", name: "Slipway", icon: "fas fa-door-closed" }
-            { id: "pphp", name: "PPHP", icon: "fas fa-door-closed" }
-            { id: "kompleks", name: "Kompleks", icon: "fas fa-door-closed" }
-            { id: "pasar", name: "Pasar Nelayan", icon: "fas fa-door-closed" }
-            { id: "akuakultur", name: "Akuakultur", icon: "fas fa-door-closed" }
-            { id: "ccdc", name: "CCDC", icon: "fas fa-door-closed" }
-            { id: "jeti", name: "Jeti", icon: "fas fa-door-closed" }
+            { id: "bilik", name: "Bilik", icon: "fas fa-door-closed" }
         ];
         
         // Demo Users
@@ -3132,7 +3101,7 @@
         function getLocationText(locationCode) {
             const locations = {
                 'kl': 'kuala lumpur',
-               'Perlis': 'Kuala Perlis',
+                'shahalam': 'shah alam',
                 'pj': 'petaling jaya',
                 'subang': 'subang jaya'
             };
