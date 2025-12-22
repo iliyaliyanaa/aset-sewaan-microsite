@@ -2011,14 +2011,41 @@
             
             <div class="modal-footer">
                 <button type="button" class="btn" id="cancelApplication">Batal</button>
-                <button type="submit" class="btn btn-primary">Hantar Permohonan</button>
-            </div>
+                <form id="rentalApplicationForm" class="auth-form">
+    <!-- Form content -->
+    <button type="submit" class="btn btn-primary">Hantar Permohonan</button>
+</form>
+            
+                <script>
+// JavaScript mesti guna id yang sama
+document.getElementById('rentalApplicationForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    // Handle submission
+});
+</script>
         </form>
     </div>
 </div>
 
 <!-- JavaScript untuk Lokasi Dinamik -->
 <script>
+    // BETUL: Check validation dulu
+function handleFormSubmission(event) {
+    event.preventDefault();
+    
+    // Validate form dulu
+    if (!validateForm()) {
+        alert('Sila lengkapkan semua maklumat yang diperlukan.');
+        return; // Berhenti di sini jika tidak valid
+    }
+    
+    submitApplication(); // Hanya jalankan jika valid
+}
+
+function validateForm() {
+    const form = document.getElementById('rentalApplicationForm');
+    return form.checkValidity(); // Return true/false
+}
 // Data kekosongan untuk setiap jenis aset
 const vacancyData = {
     kuarters: [
