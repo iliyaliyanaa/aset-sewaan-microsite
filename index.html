@@ -1946,7 +1946,7 @@
                     <div class="form-group">
                         <label for="assetLocation" class="required">Lokasi Pilihan</label>
                         <div id="locationContainer">
-                            <select id="assetLocation" class="form-control" required>
+                            <select id="assetLocation" class="form-control" required style="display: none;">
                                 <!-- Will be populated automatically -->
                             </select>
                             <div id="statusMessage">
@@ -2100,12 +2100,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const assetType = document.getElementById('assetType');
     const assetLocation = document.getElementById('assetLocation');
     
-     Status message elements
+    // Status message elements
     const initialMessage = document.getElementById('initialMessage');
     const loadingMessage = document.getElementById('loadingMessage');
     const noVacancyMessage = document.getElementById('noVacancyMessage');
     
-     Function to hide all messages and dropdown
+    // Function to hide all messages and dropdown
     function hideAllMessages() {
         initialMessage.style.display = 'none';
         loadingMessage.style.display = 'none';
@@ -2115,7 +2115,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Function to update location dropdown
     function updateLocationDropdown(assetTypeValue) {
-         Reset state
+        // Reset state
         hideAllMessages();
         assetLocation.innerHTML = '';
         assetLocation.disabled = true;
@@ -2125,10 +2125,10 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-         Show loading message
-       loadingMessage.style.display = 'block';
+        // Show loading message
+        loadingMessage.style.display = 'block';
         
-         Simulate loading delay
+        // Simulate loading delay
         setTimeout(() => {
             processLocations(assetTypeValue);
         }, 300);
@@ -2136,12 +2136,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Process locations data
     function processLocations(assetTypeValue) {
-         Get locations for selected asset type
+        // Get locations for selected asset type
         const locations = vacancyData[assetTypeValue];
         
         if (!locations || locations.length === 0) {
             hideAllMessages();
-             noVacancyMessage.style.display = 'block';
+            noVacancyMessage.style.display = 'block';
             noVacancyMessage.innerHTML = `
                 <i class="fas fa-exclamation-triangle"></i> 
                 Tiada data lokasi untuk jenis aset ini
@@ -2153,7 +2153,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const availableLocations = locations.filter(loc => loc.vacancies > 0);
         
         if (availableLocations.length === 0) {
-             No vacancies available
+            // No vacancies available
             hideAllMessages();
             noVacancyMessage.style.display = 'block';
             noVacancyMessage.innerHTML = `
@@ -2161,12 +2161,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 Tiada kekosongan untuk <strong>${assetType.options[assetType.selectedIndex].text}</strong> pada masa ini
             `;
         } else {
-             Vacancies available - show dropdown
-               hideAllMessages();
-                assetLocation.style.display = 'block';
-               assetLocation.disabled = false;
+            // Vacancies available - show dropdown
+            hideAllMessages();
+            assetLocation.style.display = 'block';
+            assetLocation.disabled = false;
             
-             Add default option
+            // Add default option
             const defaultOption = document.createElement('option');
             defaultOption.value = "";
             defaultOption.textContent = `-- Pilih lokasi (${availableLocations.length} pilihan) --`;
@@ -2174,7 +2174,7 @@ document.addEventListener('DOMContentLoaded', function() {
             defaultOption.selected = true;
             assetLocation.appendChild(defaultOption);
             
-             Add available locations
+            // Add available locations
             availableLocations.forEach(location => {
                 const option = document.createElement('option');
                 option.value = location.id;
@@ -2186,8 +2186,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Event listener for asset type change
     if (assetType) {
-       assetType.addEventListener('change', function() {
-           updateLocationDropdown(this.value);
+        assetType.addEventListener('change', function() {
+            updateLocationDropdown(this.value);
         });
     }
 });
@@ -2208,11 +2208,10 @@ style.textContent = `
             opacity: 1;
             transform: translateY(0);
         }
-   }
+    }
 `;
 document.head.appendChild(style);
 </script>
-    
                         <!--
                         <div class="auth-form-group">
                             <label for="registerPassword" class="required">Kata Laluan</label>
@@ -3176,8 +3175,8 @@ if (!document.querySelector('link[href*="font-awesome"]')) {
 }
 </script>
                  
-                    <!-- Untuk user/pemohon biasa - HANYA lihat lokasi kosong -->
-<!--<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 1.5rem;">
+                    <!-- Untuk user/pemohon biasa - HANYA lihat lokasi kosong --><!--
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 1.5rem;">
     <div class="form-group">
         <label for="assetType" class="form-label">Jenis Aset</label>
         <select id="assetType" class="form-control" required>
