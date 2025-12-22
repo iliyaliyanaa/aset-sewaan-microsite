@@ -1888,7 +1888,43 @@
                         <label for="applicantAddress" class="required">Alamat Tempat Tinggal</label>
                         <textarea id="applicantAddress" class="form-control" required></textarea>
                     </div>
-                    
+                    <!-- Untuk user/pemohon biasa - HANYA lihat lokasi kosong -->
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 1.5rem;">
+    <div class="form-group">
+        <label for="assetType" class="form-label">Jenis Aset</label>
+        <select id="assetType" class="form-control" required>
+            <option value="" selected disabled>Sila pilih jenis aset</option>
+            <option value="kuarters">Kuarters</option>
+            <option value="pejabat">Pejabat</option>
+            <!-- option lain... -->
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="assetLocation" class="form-label">Lokasi (Kosong Sahaja)</label>
+        <select id="assetLocation" class="form-control" required disabled>
+            <option value="" selected disabled>Pilih jenis aset dahulu</option>
+        </select>
+        <div id="noVacancyMessage" class="text-danger small mt-1" style="display: none;">
+            ⚠️ Tiada kekosongan pada lokasi ini
+        </div>
+    </div>
+</div>
+
+<script>
+// User hanya boleh pilih lokasi KOSONG sahaja
+function updateLocationForUser() {
+    const selectedType = assetType.value;
+    const locations = vacancyData[selectedType] || [];
+    
+    // FILTER: Hanya lokasi dengan vacancies > 0
+    const availableLocations = locations.filter(loc => loc.vacancies > 0);
+    
+    // Populate dropdown dengan lokasi kosong sahaja
+    // ... (code seperti sebelumnya)
+}
+</script>
+                    <!--
                     <div class="form-row">
                         <div class="form-group">
                             <label for="assetType" class="required">Jenis Aset Dipohon</label>
@@ -1915,7 +1951,7 @@
                                 <option value="">Sila Pilih Jenis Aset Dahulu</option>
                             </select>
                         </div>
-                    </div>
+                    </div>-->
                     
                     <div class="form-row">
                         <div class="form-group">
