@@ -1854,112 +1854,176 @@
         </footer>
     </div>
     
-    <!-- Application Modal -->
-    <div class="modal" id="applicationModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fas fa-file-alt"></i> Borang Permohonan Sewaan</h3>
-                <button class="close-modal" id="closeModal">&times;</button>
-            </div>
-            
-            <div class="auto-fill-notification" id="autoFillNotification">
-                <i class="fas fa-check-circle"></i>
-                <span>Maklumat anda telah diisi automatik dari profil.</span>
-            </div>
-                 <input type="hidden" id="userType" value="staff">
-                        <!--<div class="form-group">
-                        <div class="auth-form-group">-->
-                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 1.5rem;">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="registerName" class="required">Nama Penuh</label>
-                            <div class="auth-input-with-icon">
-                                <i class="fas fa-user auth-input-icon"></i>
-                                <input type="text" id="registerName" class="auth-input" placeholder="Masukkan nama penuh" required>
-                            </div>
-                            <div class="validation-message" id="registerNameError"></div>
-                        </div>
-                        
-                        <!--<div class="auth-form-group">-->
-                            <div class="form-group">
-                            <label for="registerIC" class="required">No. Kad Pengenalan</label>
-                            <div class="auth-input-with-icon">
-                                <i class="fas fa-id-card auth-input-icon"></i>
-                                <input type="text" id="registerIC" class="auth-input" placeholder="cth: 800101011234" required>
-                            </div>
-                            <div class="validation-message" id="registerICError"></div>
-                        </div>
-                        
-                        <div class="auth-form-group">
-                            <label for="registerEmail" class="required">Alamat Email</label>
-                            <div class="auth-input-with-icon">
-                                <i class="fas fa-envelope auth-input-icon"></i>
-                                <input type="email" id="registerEmail" class="auth-input" placeholder="cth: user@email.com" required>
-                            </div>
-                            <div class="validation-message" id="registerEmailError"></div>
-                        </div>
-                        
-                        <div class="auth-form-group">
-                            <label for="registerPhone" class="required">No. Telefon</label>
-                            <div class="auth-input-with-icon">
-                                <i class="fas fa-phone auth-input-icon"></i>
-                                <input type="tel" id="registerPhone" class="auth-input" placeholder="cth: 0123456789" required>
-                            </div>
-                            <div class="validation-message" id="registerPhoneError"></div>
-                        </div>
-            <div class="form-group">
-                        <label for="applicantAddress" class="required">Alamat Tempat Tinggal</label>
-                        <textarea id="applicantAddress" class="form-control" required></textarea>
-                    </div>
-                 
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 1.5rem;">
-    <div class="form-group">
-        <label for="applicantEmail" class="required">Jenis Aset</label>
-       <!-- <label for="assetType" class="form-label">Jenis Aset </label>-->
-        <select id="assetType" class="form-control" required>
-            <option value="" selected disabled>-- Sila pilih jenis aset --</option>
-            <option value="kuarters">Kuarters</option>
-            <option value="pejabat">Pejabat</option>
-            <option value="kedai">Lot Kedai</option>
-            <option value="tanah">Tanah</option>
-            <option value="rumah_rehat">Rumah Rehat</option>
-            <option value="bilik">Bilik Sejuk</option>
-            <option value="slipway">Slipway</option>
-            <option value="pphp">PPHP</option>
-            <option value="kompleks">Kompleks</option>
-            <option value="pasar">Pasar Nelayan</option>
-            <option value="akuakultur">Akuakultur</option>
-            <option value="ccdc">CCDC</option>
-            <option value="jeti">Jeti</option>
-        </select>
-       <!-- <small class="form-text text-muted">Pilih jenis aset yang ingin dipohon</small>-->
-    </div>
-    
-    <div class="form-group">
-        <label for="assetLocation" class="form-label">Lokasi </label>
-        <div id="locationContainer">
-            <!-- Dropdown lokasi -->
-            <select id="assetLocation" class="form-control" required style="display: none;">
-                <!-- Akan diisi secara automatik -->
-            </select>
-            
-            <!-- Status messages -->
-            <div id="statusMessage">
-                <div id="initialMessage" class="status-initial">
-                    <i class="fas fa-info-circle"></i> Pilih jenis aset terlebih dahulu
-                </div>
-                <div id="loadingMessage" class="status-loading" style="display: none;">
-                    <i class="fas fa-spinner fa-spin"></i> Sedang memuatkan lokasi...
-                </div>
-                <div id="noVacancyMessage" class="status-no-vacancy" style="display: none;">
-                    <i class="fas fa-exclamation-triangle"></i> Tiada kekosongan tersedia
-                </div>
-            </div>
+   <!-- Application Modal (DIPINDAHKAN KE TEMPAT YANG BETUL) -->
+<div class="modal" id="applicationModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fas fa-file-alt"></i> Borang Permohonan Sewaan</h3>
+            <button class="close-modal" id="closeModal">&times;</button>
         </div>
-        <!--<small class="form-text text-muted">Hanya lokasi dengan kekosongan akan dipaparkan</small>-->
+        
+        <div class="auto-fill-notification" id="autoFillNotification">
+            <i class="fas fa-check-circle"></i>
+            <span>Maklumat anda telah diisi automatik dari profil.</span>
+        </div>
+        
+        <form id="rentalApplicationForm">
+            <div class="modal-body">
+                <!-- Section 1: Maklumat Pemohon -->
+                <div class="section-title" style="display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem; color: var(--primary);">
+                    <i class="fas fa-user-circle"></i>
+                    <h4 style="margin: 0;">Maklumat Pemohon</h4>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="applicantName" class="required">Nama Penuh</label>
+                        <div class="auth-input-with-icon">
+                            <i class="fas fa-user auth-input-icon"></i>
+                            <input type="text" id="applicantName" class="auth-input" placeholder="Masukkan nama penuh" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="applicantIC" class="required">No. Kad Pengenalan</label>
+                        <div class="auth-input-with-icon">
+                            <i class="fas fa-id-card auth-input-icon"></i>
+                            <input type="text" id="applicantIC" class="auth-input" placeholder="cth: 800101011234" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="applicantPhone" class="required">No. Telefon</label>
+                        <div class="auth-input-with-icon">
+                            <i class="fas fa-phone auth-input-icon"></i>
+                            <input type="tel" id="applicantPhone" class="auth-input" placeholder="cth: 0123456789" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="applicantEmail" class="required">Alamat Email</label>
+                        <div class="auth-input-with-icon">
+                            <i class="fas fa-envelope auth-input-icon"></i>
+                            <input type="email" id="applicantEmail" class="auth-input" placeholder="cth: user@email.com" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="applicantAddress" class="required">Alamat Tempat Tinggal</label>
+                    <textarea id="applicantAddress" class="form-control" placeholder="Masukkan alamat tempat tinggal semasa" required></textarea>
+                </div>
+                
+                <!-- Section 2: Maklumat Aset Dipohon -->
+                <div class="section-title" style="display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem; color: var(--primary);">
+                    <i class="fas fa-building"></i>
+                    <h4 style="margin: 0;">Maklumat Aset Dipohon</h4>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="assetType" class="required">Jenis Aset</label>
+                        <select id="assetType" class="form-control" required>
+                            <option value="" selected disabled>-- Sila pilih jenis aset --</option>
+                            <option value="kuarters">Kuarters Kakitangan</option>
+                            <option value="pejabat">Pejabat</option>
+                            <option value="kedai">Lot Kedai</option>
+                            <option value="tanah">Tanah</option>
+                            <option value="rumah_rehat">Rumah Rehat</option>
+                            <option value="bilik">Bilik Sejuk</option>
+                            <option value="slipway">Slipway</option>
+                            <option value="pphp">PPHP</option>
+                            <option value="kompleks">Kompleks</option>
+                            <option value="pasar">Pasar Nelayan</option>
+                            <option value="akuakultur">Akuakultur</option>
+                            <option value="ccdc">CCDC</option>
+                            <option value="jeti">Jeti</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="assetLocation" class="required">Lokasi Pilihan</label>
+                        <div id="locationContainer">
+                            <select id="assetLocation" class="form-control" required style="display: none;">
+                                <!-- Will be populated automatically -->
+                            </select>
+                            <div id="statusMessage">
+                                <div id="initialMessage" class="status-initial" style="padding: 1rem; background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 6px; color: #6c757d;">
+                                    <i class="fas fa-info-circle"></i> Pilih jenis aset terlebih dahulu
+                                </div>
+                                <div id="loadingMessage" class="status-loading" style="display: none; padding: 1rem; background-color: #cff4fc; border: 1px solid #b6effb; border-radius: 6px; color: #055160;">
+                                    <i class="fas fa-spinner fa-spin"></i> Sedang memuatkan lokasi...
+                                </div>
+                                <div id="noVacancyMessage" class="status-no-vacancy" style="display: none; padding: 1rem; background-color: #fff3cd; border: 1px solid #ffecb5; border-radius: 6px; color: #664d03;">
+                                    <i class="fas fa-exclamation-triangle"></i> Tiada kekosongan tersedia
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="startDate">Tarikh Mula Diingini</label>
+                        <input type="date" id="startDate" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="duration">Tempoh Sewaan</label>
+                        <select id="duration" class="form-control">
+                            <option value="12">12 Bulan</option>
+                            <option value="24">24 Bulan</option>
+                            <option value="36" selected>36 Bulan</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Section 3: Tujuan Permohonan -->
+                <div class="section-title" style="display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem; color: var(--primary);">
+                    <i class="fas fa-bullseye"></i>
+                    <h4 style="margin: 0;">Tujuan Permohonan</h4>
+                </div>
+                
+                <div class="form-group">
+                    <label for="purpose" class="required">Tujuan Permohonan</label>
+                    <textarea id="purpose" class="form-control" placeholder="Sila nyatakan tujuan permohonan sewaan ini dengan jelas..." required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="additionalInfo">Maklumat Tambahan (Jika Ada)</label>
+                    <textarea id="additionalInfo" class="form-control" placeholder="Sebarang maklumat tambahan yang perlu dimaklumkan..."></textarea>
+                </div>
+                
+                <!-- Section 4: Pengakuan -->
+                <div class="section-title" style="display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem; color: var(--primary);">
+                    <i class="fas fa-file-signature"></i>
+                    <h4 style="margin: 0;">Pengakuan</h4>
+                </div>
+                
+                <div class="form-group">
+                    <div style="display: flex; align-items: start; gap: 10px; background-color: #f8f9fa; padding: 1rem; border-radius: 6px;">
+                        <input type="checkbox" id="agreeTermsApplication" required style="margin-top: 3px;">
+                        <label for="agreeTermsApplication" style="margin-bottom: 0; font-size: 0.9rem;">
+                            <strong>Saya mengakui bahawa:</strong><br>
+                            1. Semua maklumat yang diberikan adalah benar dan tepat.<br>
+                            2. Saya memahami bahawa maklumat palsu boleh menyebabkan permohonan ditolak.<br>
+                            3. Saya setuju dengan syarat dan terma yang ditetapkan.
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn" id="cancelApplication">Batal</button>
+                <button type="submit" class="btn btn-primary">Hantar Permohonan</button>
+            </div>
+        </form>
     </div>
 </div>
 
+<!-- JavaScript untuk Lokasi Dinamik -->
 <script>
 // Data kekosongan untuk setiap jenis aset
 const vacancyData = {
@@ -2018,7 +2082,7 @@ const vacancyData = {
     ]
 };
 
-// Initialize when page loads
+// Initialize when modal opens
 document.addEventListener('DOMContentLoaded', function() {
     const assetType = document.getElementById('assetType');
     const assetLocation = document.getElementById('assetLocation');
@@ -2104,105 +2168,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 option.textContent = `${location.name} (${location.vacancies} kosong)`;
                 assetLocation.appendChild(option);
             });
-            
-            // Add change event listener for location
-            assetLocation.addEventListener('change', function() {
-                if (this.value) {
-                    // You can add additional logic here when location is selected
-                }
-            });
         }
     }
     
     // Event listener for asset type change
-    assetType.addEventListener('change', function() {
-        updateLocationDropdown(this.value);
-    });
+    if (assetType) {
+        assetType.addEventListener('change', function() {
+            updateLocationDropdown(this.value);
+        });
+    }
 });
 
-// CSS styling
+// Tambahkan CSS untuk animasi
 const style = document.createElement('style');
 style.textContent = `
-    .form-group {
-        margin-bottom: 1rem;
-    }
-    
-    .form-label {
-        display: block;
-        margin-bottom: 0.5rem;
-        font-weight: 600;
-        color: #333;
-    }
-    
-    .form-control {
-        display: block;
-        width: 100%;
-        padding: 0.75rem 1rem;
-        font-size: 1rem;
-        font-weight: 400;
-        line-height: 1.5;
-        color: #212529;
-        background-color: #fff;
-        background-clip: padding-box;
-        border: 1px solid #ced4da;
-        border-radius: 0.375rem;
-        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    }
-    
-    .form-control:focus {
-        color: #212529;
-        background-color: #fff;
-        border-color: #86b7fe;
-        outline: 0;
-        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-    }
-    
-    .form-control:disabled {
-        background-color: #e9ecef;
-        opacity: 1;
-    }
-    
-    .form-text {
-        display: block;
-        margin-top: 0.25rem;
-        font-size: 0.875em;
-        color: #6c757d;
-    }
-    
-    #statusMessage > div {
-        padding: 1rem;
-        border-radius: 0.375rem;
-        margin-bottom: 1rem;
-    }
-    
-    .status-initial {
-        background-color: #f8f9fa;
-        border: 1px solid #e9ecef;
-        color: #6c757d;
-    }
-    
-    .status-loading {
-        background-color: #cff4fc;
-        border: 1px solid #b6effb;
-        color: #055160;
-    }
-    
-    .status-no-vacancy {
-        background-color: #fff3cd;
-        border: 1px solid #ffecb5;
-        color: #664d03;
-    }
-    
-    .fa-spinner {
-        margin-right: 0.5rem;
-    }
-    
-    .fa-info-circle, .fa-exclamation-triangle {
-        margin-right: 0.5rem;
-    }
-    
-    /* Smooth animation for dropdown */
-    #assetLocation {
+    .status-initial, .status-loading, .status-no-vacancy {
         animation: fadeIn 0.3s ease-out;
     }
     
@@ -2216,141 +2196,9 @@ style.textContent = `
             transform: translateY(0);
         }
     }
-    
-    /* Better select styling */
-    select.form-control option {
-        padding: 0.5rem;
-    }
 `;
 document.head.appendChild(style);
-
-// Load Font Awesome if not already loaded
-if (!document.querySelector('link[href*="font-awesome"]')) {
-    const faLink = document.createElement('link');
-    faLink.rel = 'stylesheet';
-    faLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css';
-    document.head.appendChild(faLink);
-}
 </script>
-                 
-                    <!-- Untuk user/pemohon biasa - HANYA lihat lokasi kosong --><!--
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 1.5rem;">
-    <div class="form-group">
-        <label for="assetType" class="form-label">Jenis Aset</label>
-        <select id="assetType" class="form-control" required>
-            <option value="" selected disabled>Sila pilih jenis aset</option>
-            <option value="kuarters">Kuarters</option>
-            <option value="pejabat">Pejabat</option>
-            <option value="tanah">Tanah Lot</option>
-            <option value="rumah_rehat">Rumah Rehat</option>
-            <option value="kedai">Lot Kedai</option>
-            <option value="bilik">Bilik Sejuk </option>
-            <option value="slipway">Slipway</option>
-            <option value="pphp">PPHP</option>
-            <option value="kompleks">Kompleks</option>
-            <option value="pasar">Pasar Nelayan</option>
-            <option value="akuakultur">Akuakultur</option>
-            <option value="ccdc">CCDC</option>
-            <option value="jeti">Jeti</option>
-            <!-- option lain... -->
-        </select>
-    </div>
-    <!--
-    <div class="form-group">
-        <label for="assetLocation" class="form-label">Lokasi</label>
-        <select id="assetLocation" class="form-control" required disabled>
-            <option value="" selected disabled>Pilih jenis aset dahulu</option>
-        </select>
-        <div id="noVacancyMessage" class="text-danger small mt-1" style="display: none;">
-            ⚠️ Tiada kekosongan pada lokasi ini
-        </div>
-    </div>
-</div>
--->
-<script>
-// User hanya boleh pilih lokasi KOSONG sahaja
-function updateLocationForUser() {
-    const selectedType = assetType.value;
-    const locations = vacancyData[selectedType] || [];
-    
-    // FILTER: Hanya lokasi dengan vacancies > 0
-    const availableLocations = locations.filter(loc => loc.vacancies > 0);
-    
-    // Populate dropdown dengan lokasi kosong sahaja
-    // ... (code seperti sebelumnya)
-}
-</script>
-                 <!--   
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="assetType" class="required">Jenis Aset Dipohon</label>
-                            <select id="assetType" class="form-control" required>
-                                <option value="">Sila Pilih</option>
-                                <option value="kuarters">Kuarters Kakitangan</option>
-                                <option value="pejabat">Sewa Pejabat</option>
-                                <option value="tanah">Sewa Tanah Lot</option>
-                                <option value="rumah_rehat">Sewa Rumah Rehat</option>
-                                <option value="kedai">Sewa Lot Kedai</option>
-                                <option value="bilik">Bilik Sejuk </option>
-                                <option value="slipway">Slipway</option>
-                                <option value="pphp">PPHP</option>
-                                <option value="kompleks">Kompleks</option>
-                                <option value="pasar">Pasar Nelayan</option>
-                                <option value="akuakultur">Akuakultur</option>
-                                <option value="ccdc">CCDC</option>
-                                <option value="jeti">Jeti</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="location" class="required">Lokasi Pilihan</label>
-                            <select id="location" class="form-control" required>
-                                <option value="">Sila Pilih Jenis Aset Dahulu</option>
-                            </select>
-                        </div>
-                    </div>-->
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 1.5rem;">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="startDate">Tarikh Mula Diingini</label>
-                            <input type="date" id="startDate" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="duration">Tempoh Sewaan</label>
-                            <select id="duration" class="form-control">
-                                <option value="12">12 Bulan</option>
-                                <option value="24">24 Bulan</option>
-                                <option value="36" selected>36 Bulan</option>
-                            </select>
-                        </div>
-                    </div>
-                   <!-- <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 1.5rem;">-->
-                    <div class="form-row">
-                    <div class="form-group">
-                        <label for="purpose" class="required">Tujuan Permohonan</label>
-                        <textarea id="purpose" class="form-control" placeholder="Sila nyatakan tujuan permohonan sewaan ini..." required></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="additionalInfo">Maklumat Tambahan (Jika Ada)</label>
-                        <textarea id="additionalInfo" class="form-control" placeholder="Sebarang maklumat tambahan yang perlu dimaklumkan..."></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <div style="display: flex; align-items: start; gap: 10px;">
-                            <input type="checkbox" id="agreeTerms" required style="margin-top: 3px;">
-                            <label for="agreeTerms" style="margin-bottom: 0; font-size: 0.9rem;">
-                                Saya mengakui bahawa maklumat yang diberikan adalah benar.
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn" id="cancelApplication">Batal</button>
-                    <button type="submit" class="btn btn-primary">Hantar Permohonan</button>
-                </div>
-            </form>
-        </div>
-    </div>
                         <!--
                         <div class="auth-form-group">
                             <label for="registerPassword" class="required">Kata Laluan</label>
