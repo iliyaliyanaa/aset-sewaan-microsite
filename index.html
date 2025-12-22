@@ -2096,122 +2096,405 @@ const vacancyData = {
 };
 
 // Initialize when modal opens
-document.addEventListener('DOMContentLoaded', function() {
-    const assetType = document.getElementById('assetType');
-    const assetLocation = document.getElementById('assetLocation');
+//document.addEventListener('DOMContentLoaded', function() {
+  //  const assetType = document.getElementById('assetType');
+    //const assetLocation = document.getElementById('assetLocation');
     
     // Status message elements
-    const initialMessage = document.getElementById('initialMessage');
-    const loadingMessage = document.getElementById('loadingMessage');
-    const noVacancyMessage = document.getElementById('noVacancyMessage');
+    //const initialMessage = document.getElementById('initialMessage');
+   // const loadingMessage = document.getElementById('loadingMessage');
+   // const noVacancyMessage = document.getElementById('noVacancyMessage');
     
     // Function to hide all messages and dropdown
-    function hideAllMessages() {
-        initialMessage.style.display = 'none';
-        loadingMessage.style.display = 'none';
-        noVacancyMessage.style.display = 'none';
-        assetLocation.style.display = 'none';
-    }
+   // function hideAllMessages() {
+     //   initialMessage.style.display = 'none';
+       // loadingMessage.style.display = 'none';
+       // noVacancyMessage.style.display = 'none';
+       // assetLocation.style.display = 'none';
+   // }
     
     // Function to update location dropdown
-    function updateLocationDropdown(assetTypeValue) {
+   // function updateLocationDropdown(assetTypeValue) {
         // Reset state
-        hideAllMessages();
-        assetLocation.innerHTML = '';
-        assetLocation.disabled = true;
+     //   hideAllMessages();
+      //  assetLocation.innerHTML = '';
+      //  assetLocation.disabled = true;
         
-        if (!assetTypeValue) {
-            initialMessage.style.display = 'block';
-            return;
-        }
+       // if (!assetTypeValue) {
+         //   initialMessage.style.display = 'block';
+           // return;
+       // }
         
         // Show loading message
-        loadingMessage.style.display = 'block';
+       // loadingMessage.style.display = 'block';
         
         // Simulate loading delay
-        setTimeout(() => {
-            processLocations(assetTypeValue);
-        }, 300);
-    }
+       // setTimeout(() => {
+         //   processLocations(assetTypeValue);
+       // }, 300);
+   // }
     
     // Process locations data
-    function processLocations(assetTypeValue) {
+   // function processLocations(assetTypeValue) {
         // Get locations for selected asset type
-        const locations = vacancyData[assetTypeValue];
+     //   const locations = vacancyData[assetTypeValue];
         
-        if (!locations || locations.length === 0) {
-            hideAllMessages();
-            noVacancyMessage.style.display = 'block';
-            noVacancyMessage.innerHTML = `
-                <i class="fas fa-exclamation-triangle"></i> 
-                Tiada data lokasi untuk jenis aset ini
-            `;
-            return;
-        }
+       // if (!locations || locations.length === 0) {
+         //   hideAllMessages();
+           // noVacancyMessage.style.display = 'block';
+           // noVacancyMessage.innerHTML = `
+             //   <i class="fas fa-exclamation-triangle"></i> 
+               // Tiada data lokasi untuk jenis aset ini
+           // `;
+           // return;
+       // }
         
         // Filter locations with vacancies
-        const availableLocations = locations.filter(loc => loc.vacancies > 0);
+        //const availableLocations = locations.filter(loc => loc.vacancies > 0);
         
-        if (availableLocations.length === 0) {
+        //if (availableLocations.length === 0) {
             // No vacancies available
-            hideAllMessages();
-            noVacancyMessage.style.display = 'block';
-            noVacancyMessage.innerHTML = `
-                <i class="fas fa-exclamation-triangle"></i> 
-                Tiada kekosongan untuk <strong>${assetType.options[assetType.selectedIndex].text}</strong> pada masa ini
-            `;
-        } else {
+          //  hideAllMessages();
+           // noVacancyMessage.style.display = 'block';
+           // noVacancyMessage.innerHTML = `
+             //   <i class="fas fa-exclamation-triangle"></i> 
+               // Tiada kekosongan untuk <strong>${assetType.options[assetType.selectedIndex].text}</strong> pada masa ini
+            //`;
+       // } else {
             // Vacancies available - show dropdown
-            hideAllMessages();
-            assetLocation.style.display = 'block';
-            assetLocation.disabled = false;
+         //   hideAllMessages();
+           // assetLocation.style.display = 'block';
+           // assetLocation.disabled = false;
             
             // Add default option
-            const defaultOption = document.createElement('option');
-            defaultOption.value = "";
-            defaultOption.textContent = `-- Pilih lokasi (${availableLocations.length} pilihan) --`;
-            defaultOption.disabled = true;
-            defaultOption.selected = true;
-            assetLocation.appendChild(defaultOption);
+           // const defaultOption = document.createElement('option');
+           // defaultOption.value = "";
+           // defaultOption.textContent = `-- Pilih lokasi (${availableLocations.length} pilihan) --`;
+           // defaultOption.disabled = true;
+           // defaultOption.selected = true;
+           // assetLocation.appendChild(defaultOption);
             
             // Add available locations
-            availableLocations.forEach(location => {
-                const option = document.createElement('option');
-                option.value = location.id;
-                option.textContent = `${location.name} (${location.vacancies} kosong)`;
-                assetLocation.appendChild(option);
-            });
-        }
-    }
+           // availableLocations.forEach(location => {
+            //    const option = document.createElement('option');
+               // option.value = location.id;
+             //   option.textContent = `${location.name} (${location.vacancies} kosong)`;
+               // assetLocation.appendChild(option);
+           // });
+        //}
+    //}
     
     // Event listener for asset type change
-    if (assetType) {
-        assetType.addEventListener('change', function() {
-            updateLocationDropdown(this.value);
-        });
-    }
-});
+    //if (assetType) {
+      //  assetType.addEventListener('change', function() {
+        //    updateLocationDropdown(this.value);
+        //});
+    //}
+//});
 
 // Tambahkan CSS untuk animasi
-const style = document.createElement('style');
-style.textContent = `
-    .status-initial, .status-loading, .status-no-vacancy {
-        animation: fadeIn 0.3s ease-out;
-    }
+//const style = document.createElement('style');
+//style.textContent = `
+  //  .status-initial, .status-loading, .status-no-vacancy {
+    //    animation: fadeIn 0.3s ease-out;
+    //}
     
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(-10px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-`;
-document.head.appendChild(style);
+   // @keyframes fadeIn {
+     //   from {
+     //       opacity: 0;
+      //      transform: translateY(-10px);
+     //   }
+     //   to {
+        //    opacity: 1;
+        //    transform: translateY(0);
+    //    }
+//    }
+//`;
+//document.head.appendChild(style);
 </script>
+    // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const assetType = document.getElementById('assetType');
+            const assetLocation = document.getElementById('assetLocation');
+            const submitButton = document.getElementById('submitButton');
+            
+            // Status message elements
+            const initialMessage = document.getElementById('initialMessage');
+            const loadingMessage = document.getElementById('loadingMessage');
+            const noVacancyMessage = document.getElementById('noVacancyMessage');
+            
+            // Function to hide all messages and dropdown
+            function hideAllMessages() {
+                initialMessage.style.display = 'none';
+                loadingMessage.style.display = 'none';
+                noVacancyMessage.style.display = 'none';
+                assetLocation.style.display = 'none';
+            }
+            
+            // Function to update location dropdown
+            function updateLocationDropdown(assetTypeValue) {
+                // Reset state
+                hideAllMessages();
+                assetLocation.innerHTML = '';
+                assetLocation.disabled = true;
+                
+                if (!assetTypeValue) {
+                    initialMessage.style.display = 'block';
+                    return;
+                }
+                
+                // Show loading message
+                loadingMessage.style.display = 'block';
+                
+                // Simulate loading delay
+                setTimeout(() => {
+                    processLocations(assetTypeValue);
+                }, 300);
+            }
+            
+            // Process locations data
+            function processLocations(assetTypeValue) {
+                // Get locations for selected asset type
+                const locations = vacancyData[assetTypeValue];
+                
+                if (!locations || locations.length === 0) {
+                    hideAllMessages();
+                    noVacancyMessage.style.display = 'block';
+                    noVacancyMessage.innerHTML = `
+                        <i class="fas fa-exclamation-triangle"></i> 
+                        Tiada data lokasi untuk jenis aset ini
+                    `;
+                    return;
+                }
+                
+                // Filter locations with vacancies
+                const availableLocations = locations.filter(loc => loc.vacancies > 0);
+                
+                if (availableLocations.length === 0) {
+                    // No vacancies available
+                    hideAllMessages();
+                    noVacancyMessage.style.display = 'block';
+                    noVacancyMessage.innerHTML = `
+                        <i class="fas fa-exclamation-triangle"></i> 
+                        Tiada kekosongan untuk <strong>${assetType.options[assetType.selectedIndex].text}</strong> pada masa ini
+                    `;
+                } else {
+                    // Vacancies available - show dropdown
+                    hideAllMessages();
+                    assetLocation.style.display = 'block';
+                    assetLocation.disabled = false;
+                    
+                    // Add default option
+                    const defaultOption = document.createElement('option');
+                    defaultOption.value = "";
+                    defaultOption.textContent = `-- Pilih lokasi (${availableLocations.length} pilihan) --`;
+                    defaultOption.disabled = true;
+                    defaultOption.selected = true;
+                    assetLocation.appendChild(defaultOption);
+                    
+                    // Add available locations
+                    availableLocations.forEach(location => {
+                        const option = document.createElement('option');
+                        option.value = location.id;
+                        option.textContent = `${location.name} (${location.vacancies} kosong)`;
+                        assetLocation.appendChild(option);
+                    });
+                    
+                    // Add change event listener for location
+                    assetLocation.addEventListener('change', function() {
+                        if (this.value) {
+                            this.style.borderColor = '#28a745';
+                        }
+                    });
+                }
+            }
+            
+            // Event listener for asset type change
+            assetType.addEventListener('change', function() {
+                updateLocationDropdown(this.value);
+            });
+            
+            // Form submission handler
+            document.getElementById('rentalApplicationForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menghantar...';
+                
+                // Validate form
+                if (!validateForm()) {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = '<i class="fas fa-paper-plane"></i> Hantar Permohonan';
+                    return;
+                }
+                
+                // Collect form data
+                const formData = {
+                    applicantName: document.getElementById('applicantName').value,
+                    applicantIC: document.getElementById('applicantIC').value,
+                    applicantPhone: document.getElementById('applicantPhone').value,
+                    applicantEmail: document.getElementById('applicantEmail').value,
+                    applicantAddress: document.getElementById('applicantAddress').value,
+                    assetType: assetType.options[assetType.selectedIndex].text,
+                    assetLocation: assetLocation.options[assetLocation.selectedIndex].text,
+                    assetLocationId: assetLocation.value,
+                    startDate: document.getElementById('startDate').value,
+                    duration: document.getElementById('duration').value,
+                    purpose: document.getElementById('purpose').value,
+                    additionalInfo: document.getElementById('additionalInfo').value,
+                    agreeTerms: document.getElementById('agreeTerms').checked,
+                    submissionDate: new Date().toISOString()
+                };
+                
+                // Simulate API call (2 seconds delay)
+                setTimeout(() => {
+                    // Show success
+                    showSuccessMessage();
+                    
+                    // Log to console
+                    console.log('Permohonan berjaya dihantar:', formData);
+                    
+                    // Reset form after 3 seconds
+                    setTimeout(() => {
+                        this.reset();
+                        updateLocationDropdown('');
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = '<i class="fas fa-paper-plane"></i> Hantar Permohonan';
+                    }, 3000);
+                    
+                }, 2000);
+            });
+            
+            // Cancel button handler
+            document.getElementById('cancelApplication').addEventListener('click', function() {
+                if (confirm('Adakah anda pasti ingin membatalkan permohonan?')) {
+                    document.getElementById('rentalApplicationForm').reset();
+                    updateLocationDropdown('');
+                }
+            });
+            
+            // Form validation function
+            function validateForm() {
+                // Clear previous errors
+                clearErrors();
+                
+                const requiredFields = [
+                    { id: 'applicantName', label: 'Nama Penuh' },
+                    { id: 'applicantIC', label: 'No. Kad Pengenalan' },
+                    { id: 'applicantPhone', label: 'No. Telefon' },
+                    { id: 'applicantEmail', label: 'Email' },
+                    { id: 'applicantAddress', label: 'Alamat Tempat Tinggal' },
+                    { id: 'assetType', label: 'Jenis Aset' },
+                    { id: 'purpose', label: 'Tujuan Permohonan' }
+                ];
+                
+                let isValid = true;
+                
+                for (const field of requiredFields) {
+                    const element = document.getElementById(field.id);
+                    if (!element.value.trim()) {
+                        showError(element, `Sila isi ruangan ${field.label}`);
+                        isValid = false;
+                    }
+                }
+                
+                // Validate IC format
+                const ic = document.getElementById('applicantIC').value;
+                if (ic && !/^\d{6}-\d{2}-\d{4}$|^\d{12}$/.test(ic)) {
+                    showError(document.getElementById('applicantIC'), 
+                        'Format No. Kad Pengenalan tidak sah. Gunakan format: 123456-12-1234 atau 123456121234');
+                    isValid = false;
+                }
+                
+                // Validate phone format
+                const phone = document.getElementById('applicantPhone').value;
+                if (phone && !/^[\d\s\-\+\(\)]{10,15}$/.test(phone.replace(/\s/g, ''))) {
+                    showError(document.getElementById('applicantPhone'), 
+                        'Sila masukkan nombor telefon yang sah (10-15 digit)');
+                    isValid = false;
+                }
+                
+                // Validate email format
+                const email = document.getElementById('applicantEmail').value;
+                if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    showError(document.getElementById('applicantEmail'), 
+                        'Sila masukkan alamat email yang sah');
+                    isValid = false;
+                }
+                
+                // Validate asset location is selected
+                if (!assetLocation.value) {
+                    showError(assetLocation, 'Sila pilih lokasi aset');
+                    isValid = false;
+                }
+                
+                if (!document.getElementById('agreeTerms').checked) {
+                    alert('Sila tandakan pengakuan bahawa maklumat yang diberikan adalah benar');
+                    document.getElementById('agreeTerms').focus();
+                    isValid = false;
+                }
+                
+                return isValid;
+            }
+            
+            function showError(element, message) {
+                element.classList.add('error');
+                element.style.borderColor = '#dc3545';
+                
+                // Create error message element
+                const errorElement = document.createElement('div');
+                errorElement.className = 'error-message';
+                errorElement.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
+                
+                // Insert after the element
+                element.parentNode.insertBefore(errorElement, element.nextSibling);
+            }
+            
+            function clearErrors() {
+                // Remove error styling
+                document.querySelectorAll('.form-control.error').forEach(el => {
+                    el.classList.remove('error');
+                    el.style.borderColor = '';
+                });
+                
+                // Remove error messages
+                document.querySelectorAll('.error-message').forEach(el => {
+                    el.remove();
+                });
+            }
+            
+            function showSuccessMessage() {
+                const successContainer = document.getElementById('successMessageContainer');
+                successContainer.innerHTML = `
+                    <div class="success-message">
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <strong>Permohonan Berjaya Dihantar!</strong><br>
+                            No. Rujukan: APP-${Date.now().toString().slice(-8)}<br>
+                            Kami akan menghubungi anda dalam masa 3-5 hari bekerja.
+                        </div>
+                    </div>
+                `;
+                successContainer.style.display = 'block';
+                
+                // Scroll to success message
+                successContainer.scrollIntoView({ behavior: 'smooth' });
+                
+                // Hide success message after 10 seconds
+                setTimeout(() => {
+                    successContainer.style.display = 'none';
+                }, 10000);
+            }
+            
+            // Set minimum date to today for start date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('startDate').min = today;
+            
+            // Initialize form
+            updateLocationDropdown('');
+        });
+    </script>
+</body>
+</html>
                         <!--
                         <div class="auth-form-group">
                             <label for="registerPassword" class="required">Kata Laluan</label>
