@@ -1921,9 +1921,9 @@
     <div class="form-group">
         <label for="assetLocation" class="form-label">Lokasi </label>
         <div id="locationContainer">
-            <!-- Debug info 
+            <!-- Debug info  -->
             <div id="debugInfo" class="debug-info" style="display: none; font-size: 12px; color: #666; margin-bottom: 5px;"></div>
-            -->
+           
             <!-- Dropdown lokasi -->
             <select id="assetLocation" class="form-control" required style="display: none;">
             
@@ -2105,8 +2105,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     assetLocation.appendChild(option);
                 });
                 
-                logDebug(`Dropdown lokasi diisi dengan ${availableLocations.length} pilihan`);
-                locationStatus.textContent = `Sedia: ${availableLocations.length} lokasi tersedia`;
+              //  logDebug(`Dropdown lokasi diisi dengan ${availableLocations.length} pilihan`);
+              //  locationStatus.textContent = `Sedia: ${availableLocations.length} lokasi tersedia`;
                 
                 // Add change event listener untuk lokasi
                 assetLocation.addEventListener('change', function() {
