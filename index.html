@@ -1853,574 +1853,445 @@
             </div>
         </footer>
     </div>
-    <!DOCTYPE html>
-<html lang="ms">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Borang Permohonan Sewa Aset</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-        :root {
-            --primary: #1a5f7a;
-            --secondary: #57c5b6;
-            --accent: #159895;
-            --light: #f8f9fa;
-            --dark: #343a40;
-            --success: #28a745;
-            --warning: #ffc107;
-            --danger: #dc3545;
-            --gray: #6c757d;
-            --light-gray: #e9ecef;
-            --white: #ffffff;
-            --border-radius: 8px;
-            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            --transition: all 0.3s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(135deg, var(--light) 0%, #e3f2fd 100%);
-            min-height: 100vh;
-            padding: 20px;
-            color: var(--dark);
-        }
-
-        .modal {
-            max-width: 900px;
-            margin: 20px auto;
-            background: var(--white);
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            overflow: hidden;
-            border: 1px solid var(--light-gray);
-        }
-
-        .modal-header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-            padding: 1.75rem 2rem;
-            color: var(--white);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .modal-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--secondary), var(--accent), var(--primary));
-        }
-
-        .modal-header h2 {
-            font-size: 1.75rem;
-            margin: 0;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .modal-header h2 i {
-            color: var(--secondary);
-            font-size: 1.8rem;
-        }
-
-        .modal-body {
-            padding: 2rem;
-        }
-
-        .section-title {
-            color: var(--primary);
-            font-size: 1.25rem;
-            margin: 2rem 0 1.25rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 2px solid var(--secondary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 600;
-        }
-
-        .section-title:first-child {
-            margin-top: 0;
-        }
-
-        .section-title i {
-            color: var(--accent);
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        @media (max-width: 768px) {
-            .form-row {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--dark);
-            font-size: 0.95rem;
-        }
-
-        label.required::after {
-            content: ' *';
-            color: var(--danger);
-        }
-
-        .form-control {
-            display: block;
-            width: 100%;
-            padding: 0.85rem 1rem;
-            font-size: 1rem;
-            line-height: 1.5;
-            color: var(--dark);
-            background-color: var(--white);
-            border: 2px solid var(--light-gray);
-            border-radius: var(--border-radius);
-            transition: var(--transition);
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--secondary);
-            box-shadow: 0 0 0 3px rgba(87, 197, 182, 0.25);
-            background-color: var(--white);
-        }
-
-        .form-control:disabled {
-            background-color: var(--light-gray);
-            opacity: 1;
-            cursor: not-allowed;
-        }
-
-        textarea.form-control {
-            min-height: 100px;
-            resize: vertical;
-            font-family: inherit;
-        }
-
-        select.form-control {
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%231a5f7a' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 1rem center;
-            background-size: 16px 12px;
-            padding-right: 2.5rem;
-        }
-
-        /* Status Messages dengan warna baru */
-        #statusMessage > div {
-            padding: 1rem;
-            border-radius: var(--border-radius);
-            margin-bottom: 1rem;
-            border: 2px solid transparent;
-        }
-        
-        .status-initial {
-            background-color: rgba(87, 197, 182, 0.1);
-            border-color: var(--secondary);
-            color: var(--primary);
-        }
-        
-        .status-loading {
-            background-color: rgba(87, 197, 182, 0.15);
-            border-color: var(--accent);
-            color: var(--primary);
-        }
-        
-        .status-no-vacancy {
-            background-color: rgba(255, 193, 7, 0.15);
-            border-color: var(--warning);
-            color: #856404;
-        }
-
-        .status-success {
-            background-color: rgba(40, 167, 69, 0.15);
-            border-color: var(--success);
-            color: var(--success);
-        }
-
-        .fa-spinner {
-            margin-right: 0.5rem;
-        }
-        
-        .fa-info-circle, .fa-exclamation-triangle {
-            margin-right: 0.5rem;
-        }
-
-        /* Checkbox styling */
-        .checkbox-group {
-            margin: 2rem 0;
-        }
-
-        .checkbox-container {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            padding: 1.25rem;
-            background: linear-gradient(135deg, rgba(87, 197, 182, 0.05) 0%, rgba(26, 95, 122, 0.05) 100%);
-            border-radius: var(--border-radius);
-            border: 2px solid var(--light-gray);
-            transition: var(--transition);
-        }
-
-        .checkbox-container:hover {
-            border-color: var(--secondary);
-            background: linear-gradient(135deg, rgba(87, 197, 182, 0.1) 0%, rgba(26, 95, 122, 0.1) 100%);
-        }
-
-        .checkbox-container input[type="checkbox"] {
-            margin-top: 3px;
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            accent-color: var(--primary);
-        }
-
-        .checkbox-container label {
-            margin: 0;
-            font-weight: normal;
-            cursor: pointer;
-            line-height: 1.5;
-            color: var(--dark);
-        }
-
-        /* Button styling dengan warna baru */
-        .modal-footer {
-            display: flex;
-            justify-content: flex-end;
-            gap: 12px;
-            padding: 1.5rem 2rem;
-            border-top: 1px solid var(--light-gray);
-            background-color: var(--light);
-        }
-
-        .btn {
-            padding: 0.75rem 1.75rem;
-            border-radius: var(--border-radius);
-            border: 2px solid transparent;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn i {
-            font-size: 1.1rem;
-        }
-
-        #cancelApplication {
-            background-color: var(--gray);
-            color: var(--white);
-            border-color: var(--gray);
-        }
-
-        #cancelApplication:hover {
-            background-color: #5a6268;
-            border-color: #545b62;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-            color: var(--white);
-            border: none;
-        }
-
-        .btn-primary:hover:not(:disabled) {
-            background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(26, 95, 122, 0.3);
-        }
-
-        .btn-primary:disabled {
-            background: var(--light-gray);
-            color: var(--gray);
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        /* Animation */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        #assetLocation {
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        /* Helper text */
-        .form-text {
-            display: block;
-            margin-top: 0.25rem;
-            font-size: 0.875em;
-            color: var(--gray);
-        }
-
-        /* Error styling */
-        .error {
-            border-color: var(--danger) !important;
-        }
-
-        .error:focus {
-            box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.25) !important;
-        }
-
-        .error-message {
-            color: var(--danger);
-            font-size: 0.875em;
-            margin-top: 0.25rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .error-message i {
-            font-size: 0.9rem;
-        }
-
-        /* Success message */
-        .alert-success {
-            background-color: rgba(40, 167, 69, 0.15);
-            border: 2px solid var(--success);
-            color: var(--success);
-            padding: 1.25rem;
-            border-radius: var(--border-radius);
-            margin: 1.5rem 0;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        .alert-success i {
-            font-size: 1.5rem;
-            color: var(--success);
-        }
-
-        /* Small screen adjustments */
-        @media (max-width: 576px) {
-            .modal-body {
-                padding: 1.5rem;
-            }
+    
+    <!-- Application Modal -->
+    <div class="modal" id="applicationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-file-alt"></i> Borang Permohonan Sewaan</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
             
-            .modal-header {
-                padding: 1.25rem 1.5rem;
-            }
+            <div class="auto-fill-notification" id="autoFillNotification">
+                <i class="fas fa-check-circle"></i>
+                <span>Maklumat anda telah diisi automatik dari profil.</span>
+            </div>
+                 <input type="hidden" id="userType" value="staff">
+                        <!--<div class="form-group">
+                        <div class="auth-form-group">-->
+                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 1.5rem;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="registerName" class="required">Nama Penuh</label>
+                            <div class="auth-input-with-icon">
+                                <i class="fas fa-user auth-input-icon"></i>
+                                <input type="text" id="registerName" class="auth-input" placeholder="Masukkan nama penuh" required>
+                            </div>
+                            <div class="validation-message" id="registerNameError"></div>
+                        </div>
+                        
+                        <!--<div class="auth-form-group">-->
+                            <div class="form-group">
+                            <label for="registerIC" class="required">No. Kad Pengenalan</label>
+                            <div class="auth-input-with-icon">
+                                <i class="fas fa-id-card auth-input-icon"></i>
+                                <input type="text" id="registerIC" class="auth-input" placeholder="cth: 800101011234" required>
+                            </div>
+                            <div class="validation-message" id="registerICError"></div>
+                        </div>
+                        
+                        <div class="auth-form-group">
+                            <label for="registerEmail" class="required">Alamat Email</label>
+                            <div class="auth-input-with-icon">
+                                <i class="fas fa-envelope auth-input-icon"></i>
+                                <input type="email" id="registerEmail" class="auth-input" placeholder="cth: user@email.com" required>
+                            </div>
+                            <div class="validation-message" id="registerEmailError"></div>
+                        </div>
+                        
+                        <div class="auth-form-group">
+                            <label for="registerPhone" class="required">No. Telefon</label>
+                            <div class="auth-input-with-icon">
+                                <i class="fas fa-phone auth-input-icon"></i>
+                                <input type="tel" id="registerPhone" class="auth-input" placeholder="cth: 0123456789" required>
+                            </div>
+                            <div class="validation-message" id="registerPhoneError"></div>
+                        </div>
+            <div class="form-group">
+                        <label for="applicantAddress" class="required">Alamat Tempat Tinggal</label>
+                        <textarea id="applicantAddress" class="form-control" required></textarea>
+                    </div>
+                 
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 1.5rem;">
+    <div class="form-group">
+        <label for="applicantEmail" class="required">Jenis Aset</label>
+       <!-- <label for="assetType" class="form-label">Jenis Aset </label>-->
+        <select id="assetType" class="form-control" required>
+            <option value="" selected disabled>-- Sila pilih jenis aset --</option>
+            <option value="kuarters">Kuarters</option>
+            <option value="pejabat">Pejabat</option>
+            <option value="kedai">Lot Kedai</option>
+            <option value="tanah">Tanah</option>
+            <option value="rumah_rehat">Rumah Rehat</option>
+            <option value="bilik">Bilik Sejuk</option>
+            <option value="slipway">Slipway</option>
+            <option value="pphp">PPHP</option>
+            <option value="kompleks">Kompleks</option>
+            <option value="pasar">Pasar Nelayan</option>
+            <option value="akuakultur">Akuakultur</option>
+            <option value="ccdc">CCDC</option>
+            <option value="jeti">Jeti</option>
+        </select>
+       <!-- <small class="form-text text-muted">Pilih jenis aset yang ingin dipohon</small>-->
+    </div>
+    
+    <div class="form-group">
+        <label for="assetLocation" class="form-label">Lokasi </label>
+        <div id="locationContainer">
+            <!-- Dropdown lokasi -->
+            <select id="assetLocation" class="form-control" required style="display: none;">
+                <!-- Akan diisi secara automatik -->
+            </select>
             
-            .modal-header h2 {
-                font-size: 1.5rem;
-            }
-            
-            .modal-footer {
-                flex-direction: column;
-                gap: 0.75rem;
-            }
-            
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-
-        /* Loading animation */
-        .loading {
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-
-        /* Grid layout for asset selection */
-        .asset-selection-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 1.5rem;
-        }
-
-        @media (max-width: 768px) {
-            .asset-selection-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-        }
-
-        /* Input focus effects */
-        .form-control:not(.error):focus {
-            border-color: var(--secondary);
-            background-color: var(--white);
-        }
-
-        /* Selection styling */
-        select option {
-            padding: 0.5rem;
-            background-color: var(--white);
-        }
-
-        select option:checked {
-            background-color: var(--secondary);
-            color: var(--white);
-        }
-
-        /* Vacancy badge */
-        .vacancy-info {
-            display: inline-block;
-            background-color: var(--secondary);
-            color: var(--white);
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-left: 8px;
-        }
-
-        /* Date input styling */
-        input[type="date"] {
-            position: relative;
-        }
-
-        input[type="date"]::-webkit-calendar-picker-indicator {
-            cursor: pointer;
-            opacity: 0.7;
-            transition: opacity 0.2s;
-        }
-
-        input[type="date"]::-webkit-calendar-picker-indicator:hover {
-            opacity: 1;
-        }
-
-        /* Icon inside inputs */
-        .input-with-icon {
-            position: relative;
-        }
-
-        .input-with-icon i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--gray);
-        }
-
-        .input-with-icon .form-control {
-            padding-left: 45px;
-        }
-    </style>
-</head>
-<body>
-    <div class="modal">
-        <div class="modal-header">
-            <h2><i class="fas fa-file-contract"></i> Borang Permohonan Sewa Aset</h2>
+            <!-- Status messages -->
+            <div id="statusMessage">
+                <div id="initialMessage" class="status-initial">
+                    <i class="fas fa-info-circle"></i> Pilih jenis aset terlebih dahulu
+                </div>
+                <div id="loadingMessage" class="status-loading" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> Sedang memuatkan lokasi...
+                </div>
+                <div id="noVacancyMessage" class="status-no-vacancy" style="display: none;">
+                    <i class="fas fa-exclamation-triangle"></i> Tiada kekosongan tersedia
+                </div>
+            </div>
         </div>
+        <!--<small class="form-text text-muted">Hanya lokasi dengan kekosongan akan dipaparkan</small>-->
+    </div>
+</div>
 
-        <form id="rentalApplicationForm">
-            <div class="modal-body">
-                <!-- Section 1: Maklumat Pemohon -->
-                <div class="section-title">
-                    <i class="fas fa-user-circle"></i>
-                    MAKLUMAT PEMOHON
-                </div>
+<script>
+// Data kekosongan untuk setiap jenis aset
+const vacancyData = {
+    kuarters: [
+        { id: 'Q001', name: 'Kuarters Jalan Bunga, Kuala Lumpur', vacancies: 3 },
+        { id: 'Q002', name: 'Kuarters Taman Suria, Shah Alam', vacancies: 0 },
+        { id: 'Q003', name: 'Kuarters Desa Permai, Petaling Jaya', vacancies: 2 },
+        { id: 'Q004', name: 'Kuarters Bandar Baru Bangi', vacancies: 1 }
+    ],
+    pejabat: [
+        { id: 'O001', name: 'Pejabat Wisma PKNS, Shah Alam', vacancies: 2 },
+        { id: 'O002', name: 'Pejabat Menara KL Sentral', vacancies: 0 },
+        { id: 'O003', name: 'Pejabat Cyberjaya', vacancies: 0 }
+    ],
+    kedai: [
+        { id: 'S001', name: 'Lot Kedai Pasar Tani, Bangi', vacancies: 1 },
+        { id: 'S002', name: 'Lot Kedai Kompleks 99, Kajang', vacancies: 0 },
+        { id: 'S003', name: 'Lot Kedai Jalan Pasar, Klang', vacancies: 3 }
+    ],
+    tanah: [
+        { id: 'L001', name: 'Tanah Lot 123, Seksyen 5, Shah Alam', vacancies: 1 },
+        { id: 'L002', name: 'Tanah Lot 456, Mukim Kajang', vacancies: 2 }
+    ],
+    rumah_rehat: [
+        { id: 'RR001', name: 'Rumah Rehat Port Dickson', vacancies: 0 },
+        { id: 'RR002', name: 'Rumah Rehat Cameron Highlands', vacancies: 1 }
+    ],
+    bilik: [
+        { id: 'BS001', name: 'Bilik Sejuk Kompleks A, Putrajaya', vacancies: 2 }
+    ],
+    slipway: [
+        { id: 'SW001', name: 'Slipway Lumut, Perak', vacancies: 1 },
+        { id: 'SW002', name: 'Slipway Penang', vacancies: 0 }
+    ],
+    pphp: [
+        { id: 'PP001', name: 'PPHP Kuala Selangor', vacancies: 1 },
+        { id: 'PP002', name: 'PPHP Langkawi', vacancies: 2 }
+    ],
+    kompleks: [
+        { id: 'KC001', name: 'Kompleks Perniagaan, Cyberjaya', vacancies: 4 }
+    ],
+    pasar: [
+        { id: 'PN001', name: 'Pasar Nelayan Kuantan, Pahang', vacancies: 1 },
+        { id: 'PN002', name: 'Pasar Nelayan Kuala Terengganu', vacancies: 0 }
+    ],
+    akuakultur: [
+        { id: 'AQ001', name: 'Tapak Akuakultur Besut, Terengganu', vacancies: 2 }
+    ],
+    ccdc: [
+        { id: 'CC001', name: 'CCDC Wilayah Utara, Alor Setar', vacancies: 0 },
+        { id: 'CC002', name: 'CCDC Wilayah Selatan, Johor Bahru', vacancies: 3 }
+    ],
+    jeti: [
+        { id: 'JT001', name: 'Jeti Pelabuhan Klang', vacancies: 1 },
+        { id: 'JT002', name: 'Jeti Pulau Ketam', vacancies: 0 }
+    ]
+};
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="applicantName" class="required">Nama Penuh</label>
-                        <div class="input-with-icon">
-                            <i class="fas fa-user"></i>
-                            <input type="text" id="applicantName" class="form-control" placeholder="Masukkan nama penuh anda" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="applicantIC" class="required">No. Kad Pengenalan</label>
-                        <div class="input-with-icon">
-                            <i class="fas fa-id-card"></i>
-                            <input type="text" id="applicantIC" class="form-control" placeholder="Contoh: 123456-12-1234" required>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="applicantPhone" class="required">No. Telefon</label>
-                        <div class="input-with-icon">
-                            <i class="fas fa-phone"></i>
-                            <input type="tel" id="applicantPhone" class="form-control" placeholder="Contoh: 012-3456789" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="applicantEmail" class="required">Email</label>
-                        <div class="input-with-icon">
-                            <i class="fas fa-envelope"></i>
-                            <input type="email" id="applicantEmail" class="form-control" placeholder="nama@contoh.com" required>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="applicantAddress" class="required">Alamat Tempat Tinggal</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-home"></i>
-                        <textarea id="applicantAddress" class="form-control" placeholder="Masukkan alamat penuh anda termasuk poskod dan bandar" required></textarea>
-                    </div>
-                </div>
-             
-                <!-- Section 2: Maklumat Aset -->
-                <div class="section-title">
-                    <i class="fas fa-building"></i>
-                    MAKLUMAT ASET DIPOHON
-                </div>
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    const assetType = document.getElementById('assetType');
+    const assetLocation = document.getElementById('assetLocation');
+    
+    // Status message elements
+    const initialMessage = document.getElementById('initialMessage');
+    const loadingMessage = document.getElementById('loadingMessage');
+    const noVacancyMessage = document.getElementById('noVacancyMessage');
+    
+    // Function to hide all messages and dropdown
+    function hideAllMessages() {
+        initialMessage.style.display = 'none';
+        loadingMessage.style.display = 'none';
+        noVacancyMessage.style.display = 'none';
+        assetLocation.style.display = 'none';
+    }
+    
+    // Function to update location dropdown
+    function updateLocationDropdown(assetTypeValue) {
+        // Reset state
+        hideAllMessages();
+        assetLocation.innerHTML = '';
+        assetLocation.disabled = true;
+        
+        if (!assetTypeValue) {
+            initialMessage.style.display = 'block';
+            return;
+        }
+        
+        // Show loading message
+        loadingMessage.style.display = 'block';
+        
+        // Simulate loading delay
+        setTimeout(() => {
+            processLocations(assetTypeValue);
+        }, 300);
+    }
+    
+    // Process locations data
+    function processLocations(assetTypeValue) {
+        // Get locations for selected asset type
+        const locations = vacancyData[assetTypeValue];
+        
+        if (!locations || locations.length === 0) {
+            hideAllMessages();
+            noVacancyMessage.style.display = 'block';
+            noVacancyMessage.innerHTML = `
+                <i class="fas fa-exclamation-triangle"></i> 
+                Tiada data lokasi untuk jenis aset ini
+            `;
+            return;
+        }
+        
+        // Filter locations with vacancies
+        const availableLocations = locations.filter(loc => loc.vacancies > 0);
+        
+        if (availableLocations.length === 0) {
+            // No vacancies available
+            hideAllMessages();
+            noVacancyMessage.style.display = 'block';
+            noVacancyMessage.innerHTML = `
+                <i class="fas fa-exclamation-triangle"></i> 
+                Tiada kekosongan untuk <strong>${assetType.options[assetType.selectedIndex].text}</strong> pada masa ini
+            `;
+        } else {
+            // Vacancies available - show dropdown
+            hideAllMessages();
+            assetLocation.style.display = 'block';
+            assetLocation.disabled = false;
+            
+            // Add default option
+            const defaultOption = document.createElement('option');
+            defaultOption.value = "";
+            defaultOption.textContent = `-- Pilih lokasi (${availableLocations.length} pilihan) --`;
+            defaultOption.disabled = true;
+            defaultOption.selected = true;
+            assetLocation.appendChild(defaultOption);
+            
+            // Add available locations
+            availableLocations.forEach(location => {
+                const option = document.createElement('option');
+                option.value = location.id;
+                option.textContent = `${location.name} (${location.vacancies} kosong)`;
+                assetLocation.appendChild(option);
+            });
+            
+            // Add change event listener for location
+            assetLocation.addEventListener('change', function() {
+                if (this.value) {
+                    // You can add additional logic here when location is selected
+                }
+            });
+        }
+    }
+    
+    // Event listener for asset type change
+    assetType.addEventListener('change', function() {
+        updateLocationDropdown(this.value);
+    });
+});
 
-                <div class="asset-selection-grid">
-                    <div class="form-group">
-                        <label for="assetType" class="required">Jenis Aset</label>
-                        <div class="input-with-icon">
-                            <i class="fas fa-tag"></i>
+// CSS styling
+const style = document.createElement('style');
+style.textContent = `
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .form-control {
+        display: block;
+        width: 100%;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #212529;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: 0.375rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+    
+    .form-control:focus {
+        color: #212529;
+        background-color: #fff;
+        border-color: #86b7fe;
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+    
+    .form-control:disabled {
+        background-color: #e9ecef;
+        opacity: 1;
+    }
+    
+    .form-text {
+        display: block;
+        margin-top: 0.25rem;
+        font-size: 0.875em;
+        color: #6c757d;
+    }
+    
+    #statusMessage > div {
+        padding: 1rem;
+        border-radius: 0.375rem;
+        margin-bottom: 1rem;
+    }
+    
+    .status-initial {
+        background-color: #f8f9fa;
+        border: 1px solid #e9ecef;
+        color: #6c757d;
+    }
+    
+    .status-loading {
+        background-color: #cff4fc;
+        border: 1px solid #b6effb;
+        color: #055160;
+    }
+    
+    .status-no-vacancy {
+        background-color: #fff3cd;
+        border: 1px solid #ffecb5;
+        color: #664d03;
+    }
+    
+    .fa-spinner {
+        margin-right: 0.5rem;
+    }
+    
+    .fa-info-circle, .fa-exclamation-triangle {
+        margin-right: 0.5rem;
+    }
+    
+    /* Smooth animation for dropdown */
+    #assetLocation {
+        animation: fadeIn 0.3s ease-out;
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Better select styling */
+    select.form-control option {
+        padding: 0.5rem;
+    }
+`;
+document.head.appendChild(style);
+
+// Load Font Awesome if not already loaded
+if (!document.querySelector('link[href*="font-awesome"]')) {
+    const faLink = document.createElement('link');
+    faLink.rel = 'stylesheet';
+    faLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css';
+    document.head.appendChild(faLink);
+}
+</script>
+                 
+                    <!-- Untuk user/pemohon biasa - HANYA lihat lokasi kosong --><!--
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 1.5rem;">
+    <div class="form-group">
+        <label for="assetType" class="form-label">Jenis Aset</label>
+        <select id="assetType" class="form-control" required>
+            <option value="" selected disabled>Sila pilih jenis aset</option>
+            <option value="kuarters">Kuarters</option>
+            <option value="pejabat">Pejabat</option>
+            <option value="tanah">Tanah Lot</option>
+            <option value="rumah_rehat">Rumah Rehat</option>
+            <option value="kedai">Lot Kedai</option>
+            <option value="bilik">Bilik Sejuk </option>
+            <option value="slipway">Slipway</option>
+            <option value="pphp">PPHP</option>
+            <option value="kompleks">Kompleks</option>
+            <option value="pasar">Pasar Nelayan</option>
+            <option value="akuakultur">Akuakultur</option>
+            <option value="ccdc">CCDC</option>
+            <option value="jeti">Jeti</option>
+            <!-- option lain... -->
+        </select>
+    </div>
+    <!--
+    <div class="form-group">
+        <label for="assetLocation" class="form-label">Lokasi</label>
+        <select id="assetLocation" class="form-control" required disabled>
+            <option value="" selected disabled>Pilih jenis aset dahulu</option>
+        </select>
+        <div id="noVacancyMessage" class="text-danger small mt-1" style="display: none;">
+            ⚠️ Tiada kekosongan pada lokasi ini
+        </div>
+    </div>
+</div>
+-->
+<script>
+// User hanya boleh pilih lokasi KOSONG sahaja
+function updateLocationForUser() {
+    const selectedType = assetType.value;
+    const locations = vacancyData[selectedType] || [];
+    
+    // FILTER: Hanya lokasi dengan vacancies > 0
+    const availableLocations = locations.filter(loc => loc.vacancies > 0);
+    
+    // Populate dropdown dengan lokasi kosong sahaja
+    // ... (code seperti sebelumnya)
+}
+</script>
+                 <!--   
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="assetType" class="required">Jenis Aset Dipohon</label>
                             <select id="assetType" class="form-control" required>
-                                <option value="" selected disabled>-- Sila pilih jenis aset --</option>
-                                <option value="kuarters">Kuarters</option>
-                                <option value="pejabat">Pejabat</option>
-                                <option value="kedai">Lot Kedai</option>
-                                <option value="tanah">Tanah</option>
-                                <option value="rumah_rehat">Rumah Rehat</option>
-                                <option value="bilik">Bilik Sejuk</option>
+                                <option value="">Sila Pilih</option>
+                                <option value="kuarters">Kuarters Kakitangan</option>
+                                <option value="pejabat">Sewa Pejabat</option>
+                                <option value="tanah">Sewa Tanah Lot</option>
+                                <option value="rumah_rehat">Sewa Rumah Rehat</option>
+                                <option value="kedai">Sewa Lot Kedai</option>
+                                <option value="bilik">Bilik Sejuk </option>
                                 <option value="slipway">Slipway</option>
                                 <option value="pphp">PPHP</option>
                                 <option value="kompleks">Kompleks</option>
@@ -2430,487 +2301,56 @@
                                 <option value="jeti">Jeti</option>
                             </select>
                         </div>
-                        <small class="form-text text-muted">Pilih jenis aset yang ingin dipohon</small>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="assetLocation" class="required">Lokasi</label>
-                        <div id="locationContainer">
-                            <div class="input-with-icon">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <select id="assetLocation" class="form-control" required style="display: none;">
-                                    <!-- Akan diisi secara automatik -->
-                                </select>
-                            </div>
-                            
-                            <div id="statusMessage">
-                                <div id="initialMessage" class="status-initial">
-                                    <i class="fas fa-info-circle"></i> Pilih jenis aset terlebih dahulu
-                                </div>
-                                <div id="loadingMessage" class="status-loading" style="display: none;">
-                                    <i class="fas fa-spinner fa-spin"></i> Sedang memuatkan lokasi...
-                                </div>
-                                <div id="noVacancyMessage" class="status-no-vacancy" style="display: none;">
-                                    <i class="fas fa-exclamation-triangle"></i> Tiada kekosongan tersedia
-                                </div>
-                            </div>
+                        <div class="form-group">
+                            <label for="location" class="required">Lokasi Pilihan</label>
+                            <select id="location" class="form-control" required>
+                                <option value="">Sila Pilih Jenis Aset Dahulu</option>
+                            </select>
                         </div>
-                        <small class="form-text text-muted">Hanya lokasi dengan kekosongan akan dipaparkan</small>
-                    </div>
-                </div>
-
-                <!-- Section 3: Tarikh dan Tempoh -->
-                <div class="section-title">
-                    <i class="fas fa-calendar-alt"></i>
-                    TEMPOH SEWAAN
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="startDate">Tarikh Mula Diingini</label>
-                        <div class="input-with-icon">
-                            <i class="fas fa-calendar"></i>
+                    </div>-->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 1.5rem;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="startDate">Tarikh Mula Diingini</label>
                             <input type="date" id="startDate" class="form-control">
                         </div>
-                        <small class="form-text text-muted">Kosongkan jika tiada tarikh khusus</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="duration">Tempoh Sewaan</label>
-                        <div class="input-with-icon">
-                            <i class="fas fa-clock"></i>
+                        <div class="form-group">
+                            <label for="duration">Tempoh Sewaan</label>
                             <select id="duration" class="form-control">
                                 <option value="12">12 Bulan</option>
                                 <option value="24">24 Bulan</option>
                                 <option value="36" selected>36 Bulan</option>
                             </select>
                         </div>
-                        <small class="form-text text-muted">Pilih tempoh sewaan yang diingini</small>
                     </div>
-                </div>
-
-                <!-- Section 4: Tujuan dan Maklumat Tambahan -->
-                <div class="section-title">
-                    <i class="fas fa-edit"></i>
-                    TUJUAN PERMOHONAN
-                </div>
-
-                <div class="form-row">
+                   <!-- <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 1.5rem;">-->
+                    <div class="form-row">
                     <div class="form-group">
                         <label for="purpose" class="required">Tujuan Permohonan</label>
-                        <div class="input-with-icon">
-                            <i class="fas fa-bullseye"></i>
-                            <textarea id="purpose" class="form-control" placeholder="Sila nyatakan tujuan permohonan sewaan ini dengan jelas..." required></textarea>
-                        </div>
-                        <small class="form-text text-muted">Nyatakan tujuan penggunaan aset dengan terperinci</small>
+                        <textarea id="purpose" class="form-control" placeholder="Sila nyatakan tujuan permohonan sewaan ini..." required></textarea>
                     </div>
+                    
                     <div class="form-group">
                         <label for="additionalInfo">Maklumat Tambahan (Jika Ada)</label>
-                        <div class="input-with-icon">
-                            <i class="fas fa-sticky-note"></i>
-                            <textarea id="additionalInfo" class="form-control" placeholder="Sebarang maklumat tambahan yang perlu dimaklumkan..."></textarea>
+                        <textarea id="additionalInfo" class="form-control" placeholder="Sebarang maklumat tambahan yang perlu dimaklumkan..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div style="display: flex; align-items: start; gap: 10px;">
+                            <input type="checkbox" id="agreeTerms" required style="margin-top: 3px;">
+                            <label for="agreeTerms" style="margin-bottom: 0; font-size: 0.9rem;">
+                                Saya mengakui bahawa maklumat yang diberikan adalah benar.
+                            </label>
                         </div>
-                        <small class="form-text text-muted">Maklumat tambahan untuk pertimbangan pihak berkuasa</small>
                     </div>
                 </div>
-                
-                <!-- Section 5: Pengakuan -->
-                <div class="section-title">
-                    <i class="fas fa-file-signature"></i>
-                    PENGAKUAN
+                <div class="modal-footer">
+                    <button type="button" class="btn" id="cancelApplication">Batal</button>
+                    <button type="submit" class="btn btn-primary">Hantar Permohonan</button>
                 </div>
-
-                <div class="checkbox-group">
-                    <div class="checkbox-container">
-                        <input type="checkbox" id="agreeTerms" required>
-                        <label for="agreeTerms">
-                            Saya mengakui bahawa maklumat yang diberikan adalah benar dan tepat. Saya memahami bahawa maklumat palsu boleh menyebabkan permohonan ditolak atau tindakan undang-undang diambil.
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Success Message Container -->
-                <div id="successMessage" style="display: none;"></div>
-            </div>
-            
-            <!-- Modal Footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn" id="cancelApplication">
-                    <i class="fas fa-times"></i> Batal
-                </button>
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-paper-plane"></i> Hantar Permohonan
-                </button>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-
-    <script>
-        // Data kekosongan untuk setiap jenis aset
-        const vacancyData = {
-            kuarters: [
-                { id: 'Q001', name: 'Kuarters Jalan Bunga, Kuala Lumpur', vacancies: 3 },
-                { id: 'Q002', name: 'Kuarters Taman Suria, Shah Alam', vacancies: 0 },
-                { id: 'Q003', name: 'Kuarters Desa Permai, Petaling Jaya', vacancies: 2 },
-                { id: 'Q004', name: 'Kuarters Bandar Baru Bangi', vacancies: 1 }
-            ],
-            pejabat: [
-                { id: 'O001', name: 'Pejabat Wisma PKNS, Shah Alam', vacancies: 2 },
-                { id: 'O002', name: 'Pejabat Menara KL Sentral', vacancies: 0 },
-                { id: 'O003', name: 'Pejabat Cyberjaya', vacancies: 0 }
-            ],
-            kedai: [
-                { id: 'S001', name: 'Lot Kedai Pasar Tani, Bangi', vacancies: 1 },
-                { id: 'S002', name: 'Lot Kedai Kompleks 99, Kajang', vacancies: 0 },
-                { id: 'S003', name: 'Lot Kedai Jalan Pasar, Klang', vacancies: 3 }
-            ],
-            tanah: [
-                { id: 'L001', name: 'Tanah Lot 123, Seksyen 5, Shah Alam', vacancies: 1 },
-                { id: 'L002', name: 'Tanah Lot 456, Mukim Kajang', vacancies: 2 }
-            ],
-            rumah_rehat: [
-                { id: 'RR001', name: 'Rumah Rehat Port Dickson', vacancies: 0 },
-                { id: 'RR002', name: 'Rumah Rehat Cameron Highlands', vacancies: 1 }
-            ],
-            bilik: [
-                { id: 'BS001', name: 'Bilik Sejuk Kompleks A, Putrajaya', vacancies: 2 }
-            ],
-            slipway: [
-                { id: 'SW001', name: 'Slipway Lumut, Perak', vacancies: 1 },
-                { id: 'SW002', name: 'Slipway Penang', vacancies: 0 }
-            ],
-            pphp: [
-                { id: 'PP001', name: 'PPHP Kuala Selangor', vacancies: 1 },
-                { id: 'PP002', name: 'PPHP Langkawi', vacancies: 2 }
-            ],
-            kompleks: [
-                { id: 'KC001', name: 'Kompleks Perniagaan, Cyberjaya', vacancies: 4 }
-            ],
-            pasar: [
-                { id: 'PN001', name: 'Pasar Nelayan Kuantan, Pahang', vacancies: 1 },
-                { id: 'PN002', name: 'Pasar Nelayan Kuala Terengganu', vacancies: 0 }
-            ],
-            akuakultur: [
-                { id: 'AQ001', name: 'Tapak Akuakultur Besut, Terengganu', vacancies: 2 }
-            ],
-            ccdc: [
-                { id: 'CC001', name: 'CCDC Wilayah Utara, Alor Setar', vacancies: 0 },
-                { id: 'CC002', name: 'CCDC Wilayah Selatan, Johor Bahru', vacancies: 3 }
-            ],
-            jeti: [
-                { id: 'JT001', name: 'Jeti Pelabuhan Klang', vacancies: 1 },
-                { id: 'JT002', name: 'Jeti Pulau Ketam', vacancies: 0 }
-            ]
-        };
-
-        // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            const assetType = document.getElementById('assetType');
-            const assetLocation = document.getElementById('assetLocation');
-            const submitButton = document.querySelector('.btn-primary');
-            
-            // Status message elements
-            const initialMessage = document.getElementById('initialMessage');
-            const loadingMessage = document.getElementById('loadingMessage');
-            const noVacancyMessage = document.getElementById('noVacancyMessage');
-            
-            // Function to hide all messages and dropdown
-            function hideAllMessages() {
-                initialMessage.style.display = 'none';
-                loadingMessage.style.display = 'none';
-                noVacancyMessage.style.display = 'none';
-                assetLocation.style.display = 'none';
-            }
-            
-            // Function to update location dropdown
-            function updateLocationDropdown(assetTypeValue) {
-                // Reset state
-                hideAllMessages();
-                assetLocation.innerHTML = '';
-                assetLocation.disabled = true;
-                
-                if (!assetTypeValue) {
-                    initialMessage.style.display = 'block';
-                    return;
-                }
-                
-                // Show loading message
-                loadingMessage.style.display = 'block';
-                
-                // Simulate loading delay
-                setTimeout(() => {
-                    processLocations(assetTypeValue);
-                }, 500);
-            }
-            
-            // Process locations data
-            function processLocations(assetTypeValue) {
-                // Get locations for selected asset type
-                const locations = vacancyData[assetTypeValue];
-                
-                if (!locations || locations.length === 0) {
-                    hideAllMessages();
-                    noVacancyMessage.style.display = 'block';
-                    noVacancyMessage.innerHTML = `
-                        <i class="fas fa-exclamation-triangle"></i> 
-                        Tiada data lokasi untuk jenis aset ini
-                    `;
-                    return;
-                }
-                
-                // Filter locations with vacancies
-                const availableLocations = locations.filter(loc => loc.vacancies > 0);
-                
-                if (availableLocations.length === 0) {
-                    // No vacancies available
-                    hideAllMessages();
-                    noVacancyMessage.style.display = 'block';
-                    noVacancyMessage.innerHTML = `
-                        <i class="fas fa-exclamation-triangle"></i> 
-                        Tiada kekosongan untuk <strong>${assetType.options[assetType.selectedIndex].text}</strong> pada masa ini
-                    `;
-                } else {
-                    // Vacancies available - show dropdown
-                    hideAllMessages();
-                    assetLocation.style.display = 'block';
-                    assetLocation.disabled = false;
-                    
-                    // Add default option
-                    const defaultOption = document.createElement('option');
-                    defaultOption.value = "";
-                    defaultOption.textContent = `-- Pilih lokasi (${availableLocations.length} pilihan) --`;
-                    defaultOption.disabled = true;
-                    defaultOption.selected = true;
-                    assetLocation.appendChild(defaultOption);
-                    
-                    // Add available locations
-                    availableLocations.forEach(location => {
-                        const option = document.createElement('option');
-                        option.value = location.id;
-                        option.textContent = `${location.name}`;
-                        assetLocation.appendChild(option);
-                    });
-                    
-                    // Add change event listener for location
-                    assetLocation.addEventListener('change', function() {
-                        if (this.value) {
-                            this.style.borderColor = 'var(--success)';
-                        }
-                    });
-                }
-            }
-            
-            // Event listener for asset type change
-            assetType.addEventListener('change', function() {
-                updateLocationDropdown(this.value);
-                
-                // Animate selection
-                this.style.borderColor = 'var(--secondary)';
-                this.style.transform = 'scale(1.02)';
-                setTimeout(() => {
-                    this.style.transform = 'scale(1)';
-                }, 200);
-            });
-            
-            // Form submission handler
-            document.getElementById('rentalApplicationForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const originalButtonText = submitButton.innerHTML;
-                submitButton.disabled = true;
-                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menghantar...';
-                
-                // Validate form
-                if (!validateForm()) {
-                    submitButton.disabled = false;
-                    submitButton.innerHTML = originalButtonText;
-                    return;
-                }
-                
-                // Collect form data
-                const formData = {
-                    applicantName: document.getElementById('applicantName').value,
-                    applicantIC: document.getElementById('applicantIC').value,
-                    applicantPhone: document.getElementById('applicantPhone').value,
-                    applicantEmail: document.getElementById('applicantEmail').value,
-                    applicantAddress: document.getElementById('applicantAddress').value,
-                    assetType: assetType.options[assetType.selectedIndex].text,
-                    assetLocation: assetLocation.options[assetLocation.selectedIndex].text,
-                    assetLocationId: assetLocation.value,
-                    startDate: document.getElementById('startDate').value,
-                    duration: document.getElementById('duration').value,
-                    purpose: document.getElementById('purpose').value,
-                    additionalInfo: document.getElementById('additionalInfo').value,
-                    agreeTerms: document.getElementById('agreeTerms').checked,
-                    submissionDate: new Date().toISOString()
-                };
-                
-                // Simulate API call
-                setTimeout(() => {
-                    // Show success message
-                    showSuccessMessage(formData);
-                    
-                    // Reset form after 3 seconds
-                    setTimeout(() => {
-                        this.reset();
-                        updateLocationDropdown('');
-                        submitButton.disabled = false;
-                        submitButton.innerHTML = originalButtonText;
-                    }, 3000);
-                    
-                }, 1500);
-            });
-            
-            // Cancel button handler
-            document.getElementById('cancelApplication').addEventListener('click', function() {
-                if (confirm('Adakah anda pasti ingin membatalkan permohonan? Semua data akan hilang.')) {
-                    document.getElementById('rentalApplicationForm').reset();
-                    updateLocationDropdown('');
-                    
-                    // Animate cancel
-                    this.style.transform = 'scale(0.95)';
-                    setTimeout(() => {
-                        this.style.transform = 'scale(1)';
-                    }, 200);
-                }
-            });
-            
-            // Form validation function
-            function validateForm() {
-                // Clear previous errors
-                clearErrors();
-                
-                const requiredFields = [
-                    { id: 'applicantName', label: 'Nama Penuh' },
-                    { id: 'applicantIC', label: 'No. Kad Pengenalan' },
-                    { id: 'applicantPhone', label: 'No. Telefon' },
-                    { id: 'applicantEmail', label: 'Email' },
-                    { id: 'applicantAddress', label: 'Alamat Tempat Tinggal' },
-                    { id: 'assetType', label: 'Jenis Aset' },
-                    { id: 'purpose', label: 'Tujuan Permohonan' }
-                ];
-                
-                let isValid = true;
-                
-                for (const field of requiredFields) {
-                    const element = document.getElementById(field.id);
-                    if (!element.value.trim()) {
-                        showError(element, `Sila isi ruangan "${field.label}"`);
-                        isValid = false;
-                    }
-                }
-                
-                // Validate IC format
-                const ic = document.getElementById('applicantIC').value;
-                if (ic && !/^\d{6}-\d{2}-\d{4}$|^\d{12}$/.test(ic)) {
-                    showError(document.getElementById('applicantIC'), 
-                        'Format No. Kad Pengenalan tidak sah. Gunakan format: 123456-12-1234 atau 123456121234');
-                    isValid = false;
-                }
-                
-                // Validate phone format
-                const phone = document.getElementById('applicantPhone').value;
-                const cleanPhone = phone.replace(/\s/g, '');
-                if (phone && !/^[\d\-\+\(\)]{10,15}$/.test(cleanPhone)) {
-                    showError(document.getElementById('applicantPhone'), 
-                        'Sila masukkan nombor telefon yang sah (10-15 digit)');
-                    isValid = false;
-                }
-                
-                // Validate email format
-                const email = document.getElementById('applicantEmail').value;
-                if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                    showError(document.getElementById('applicantEmail'), 
-                        'Sila masukkan alamat email yang sah');
-                    isValid = false;
-                }
-                
-                // Validate asset location is selected
-                if (assetLocation.style.display !== 'none' && !assetLocation.value) {
-                    showError(assetLocation, 'Sila pilih lokasi aset');
-                    isValid = false;
-                }
-                
-                if (!document.getElementById('agreeTerms').checked) {
-                    const checkbox = document.getElementById('agreeTerms');
-                    checkbox.parentElement.style.borderColor = 'var(--danger)';
-                    alert('Sila tandakan pengakuan bahawa maklumat yang diberikan adalah benar');
-                    checkbox.focus();
-                    isValid = false;
-                }
-                
-                return isValid;
-            }
-            
-            function showError(element, message) {
-                element.classList.add('error');
-                
-                // Create error message element
-                const errorElement = document.createElement('div');
-                errorElement.className = 'error-message';
-                errorElement.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
-                
-                // Insert after the element
-                element.parentNode.insertBefore(errorElement, element.nextSibling);
-                
-                // Focus on the element
-                element.focus();
-            }
-            
-            function clearErrors() {
-                // Remove error styling
-                document.querySelectorAll('.form-control.error').forEach(el => {
-                    el.classList.remove('error');
-                });
-                
-                // Remove checkbox error styling
-                document.getElementById('agreeTerms').parentElement.style.borderColor = '';
-                
-                // Remove error messages
-                document.querySelectorAll('.error-message').forEach(el => {
-                    el.remove();
-                });
-            }
-            
-            function showSuccessMessage(formData) {
-                const successContainer = document.getElementById('successMessage');
-                const refNumber = 'APP-' + Date.now().toString().slice(-8);
-                
-                successContainer.innerHTML = `
-                    <div class="alert-success">
-                        <i class="fas fa-check-circle"></i>
-                        <div>
-                            <strong style="font-size: 1.1rem;">Permohonan Berjaya Dihantar!</strong><br>
-                            <div style="margin-top: 8px;">
-                                <strong>No. Rujukan:</strong> ${refNumber}<br>
-                                <strong>Tarikh Hantar:</strong> ${new Date().toLocaleDateString('ms-MY')}<br>
-                                Kami akan menghubungi anda dalam masa 3-5 hari bekerja.
-                            </div>
-                        </div>
-                    </div>
-                `;
-                successContainer.style.display = 'block';
-                
-                // Log to console for debugging
-                console.log('Form submitted successfully:', { refNumber, ...formData });
-                
-                // Scroll to success message
-                successContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                
-                // Hide after 10 seconds
-                setTimeout(() => {
-                    successContainer.style.display = 'none';
-                }, 10000);
-            }
-            
-            // Set minimum date to today
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('startDate').min = today;
-            
-            // Initialize form
-            updateLocationDropdown('');
-        });
-    </script>
-</body>
-</html>
                         <!--
                         <div class="auth-form-group">
                             <label for="registerPassword" class="required">Kata Laluan</label>
