@@ -1895,6 +1895,7 @@
                         <label for="applicantAddress" class="required">Alamat Tempat Tinggal</label>
                         <textarea id="applicantAddress" class="form-control" required></textarea>
                     </div>
+                   
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 1.5rem;">
     <div class="form-group">
         <label for="assetType" class="form-label">Jenis Aset *</label>
@@ -1914,276 +1915,350 @@
             <option value="ccdc">CCDC</option>
             <option value="jeti">Jeti</option>
         </select>
-        <small class="form-text text-muted">Pilih jenis aset yang ingin dipohon</small>
+        <small id="typeStatus" class="form-text text-muted">Belum dipilih</small>
     </div>
     
     <div class="form-group">
         <label for="assetLocation" class="form-label">Lokasi *</label>
-        <!-- Gunakan div untuk ganti dropdown jika tiada kosong -->
         <div id="locationContainer">
-            <select id="assetLocation" class="form-control" required disabled style="display: none;">
-                <!-- Dropdown akan diisi secara automatik -->
+            <!-- Debug info -->
+            <div id="debugInfo" class="debug-info" style="display: none; font-size: 12px; color: #666; margin-bottom: 5px;"></div>
+            
+            <!-- Dropdown lokasi -->
+            <select id="assetLocation" class="form-control" required style="display: none;">
+                <!-- Akan diisi secara automatik -->
             </select>
-            <div id="noLocationMessage" class="alert alert-info" style="display: none;">
-                <i class="fas fa-info-circle"></i> Pilih jenis aset untuk melihat lokasi yang tersedia
-            </div>
-            <div id="noVacancyMessage" class="alert alert-warning" style="display: none;">
-                <i class="fas fa-exclamation-triangle"></i> Maaf, tiada kekosongan untuk jenis aset ini
+            
+            <!-- Status messages -->
+            <div id="statusMessage" class="status-message">
+                <div id="initialMessage" class="alert alert-secondary">
+                    <i class="fas fa-info-circle"></i> Pilih jenis aset terlebih dahulu
+                </div>
+                <div id="loadingMessage" class="alert alert-info" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> Sedang memuatkan lokasi...
+                </div>
+                <div id="noVacancyMessage" class="alert alert-warning" style="display: none;">
+                    <i class="fas fa-exclamation-triangle"></i> Tiada kekosongan tersedia
+                </div>
+                <div id="errorMessage" class="alert alert-danger" style="display: none;">
+                    <i class="fas fa-times-circle"></i> Ralat memuatkan lokasi
+                </div>
             </div>
         </div>
-        <small class="form-text text-muted">Lokasi hanya akan dipaparkan jika ada kekosongan</small>
+        <small id="locationStatus" class="form-text text-muted">Menunggu pilihan jenis aset</small>
     </div>
 </div>
 
+<!-- Debug panel (boleh sembunyikan dalam production) -->
+<div id="debugPanel" style="background: #f8f9fa; padding: 10px; border-radius: 5px; margin-top: 10px; font-family: monospace; font-size: 12px; display: none;">
+    <strong>Debug Info:</strong>
+    <div id="debugLog"></div>
+</div>
+
+<button onclick="toggleDebug()" style="margin-top: 10px; font-size: 12px; padding: 5px 10px;">Toggle Debug</button>
+
 <script>
-// Data kekosongan untuk setiap jenis aset
+// ==================== FUNGSI DEBUG ====================
+let debugEnabled = false;
+
+function toggleDebug() {
+    debugEnabled = !debugEnabled;
+    document.getElementById('debugPanel').style.display = debugEnabled ? 'block' : 'none';
+    logDebug(`Debug ${debugEnabled ? 'diaktifkan' : 'dinyahaktifkan'}`);
+}
+
+function logDebug(message) {
+    if (!debugEnabled) return;
+    
+    const debugLog = document.getElementById('debugLog');
+    const timestamp = new Date().toLocaleTimeString();
+    const logEntry = document.createElement('div');
+    logEntry.textContent = `[${timestamp}] ${message}`;
+    debugLog.appendChild(logEntry);
+    debugLog.scrollTop = debugLog.scrollHeight;
+    
+    // Juga update debug info di form
+    document.getElementById('debugInfo').textContent = message;
+    document.getElementById('debugInfo').style.display = 'block';
+}
+
+// ==================== DATA CONTOH ====================
 const vacancyData = {
     kuarters: [
-        { id: 'Q001', name: 'Kuarters Kuala Perlis, Perlis', vacancies: 1 },
-        { id: 'Q002', name: 'Kuarters Padang Besar, Perlis', vacancies: 0 },
-        { id: 'Q003', name: 'Kuarters Langkawi, Kedah', vacancies: 0 },
-        { id: 'Q004', name: 'Kuarters Bukit Kayu Hitam, Kedah', vacancies: 9 },
-        { id: 'Q005', name: 'Kuarters Bayan Permai, Pulau Pinang', vacancies: 0 },
-        { id: 'Q006', name: 'Kuarters Meru, Selangor', vacancies: 1 },
-        { id: 'Q007', name: 'Kuarters Camar Laut, Selangor', vacancies: 0 },
-        { id: 'Q008', name: 'Kuarters Cempaka Court, Selangor', vacancies: 9 },
-        { id: 'Q009', name: 'Kuarters Pengerang, Johor', vacancies: 1 },
-        { id: 'Q0010', name: 'Kuarters Sedili, Johor', vacancies: 3 },
-        { id: 'Q0011', name: 'Kuarters Bukit Mersing, Johor', vacancies: 1 },
-        { id: 'Q0012', name: 'Kuarters Endau, Johor', vacancies: 3 },
-        { id: 'Q0013', name: 'Kuarters Taman Guru, Pahang', vacancies: 0 },
-        { id: 'Q0014', name: 'Kuarters Chendering, Terengganu', vacancies: 1 },
-        { id: 'Q0015', name: 'Kuarters Bachok, Kelantan', vacancies: 0 },
-        { id: 'Q0016', name: 'Kuarters Kuala Besar, Kelantan', vacancies: 4 },
-        { id: 'Q0017', name: 'Kuarters Geting, Kelantan', vacancies: 5 },
-        { id: 'Q0018', name: 'Kuarters Tanjung Manis, Sarawak', vacancies: 3 },
-        { id: 'Q0019', name: 'Kuarters Mukah, Sarawak', vacancies: 0 },
-        { id: 'Q0020', name: 'Kuarters Bintulu, Sarawak', vacancies: 0 },
-        { id: 'Q0021', name: 'Kuarters Miri, Sarawak', vacancies: 3 },
-        { id: 'Q0022', name: 'Kuarters Labuan, Sabah', vacancies: 0 }
-        
-        
-        
+        { id: 'Q001', name: 'Kuarters Jalan Bunga, KL', vacancies: 3, available: true },
+        { id: 'Q002', name: 'Kuarters Taman Suria, Shah Alam', vacancies: 0, available: false },
+        { id: 'Q003', name: 'Kuarters Desa Permai, PJ', vacancies: 2, available: true }
     ],
     pejabat: [
-        { id: 'O001', name: 'Pejabat Wisma PKNS, Shah Alam', vacancies: 2 },
-        { id: 'O002', name: 'Pejabat Menara KL Sentral', vacancies: 0 },
-        { id: 'O003', name: 'Pejabat Cyberjaya', vacancies: 0 }
+        { id: 'O001', name: 'Pejabat Wisma PKNS', vacancies: 2, available: true },
+        { id: 'O002', name: 'Pejabat Menara KL', vacancies: 0, available: false }
     ],
     kedai: [
-        { id: 'S001', name: 'Lot Kedai Pasar Tani, Bangi', vacancies: 1 },
-        { id: 'S002', name: 'Lot Kedai Kompleks 99, Kajang', vacancies: 0 },
-        { id: 'S003', name: 'Lot Kedai Jalan Pasar, Klang', vacancies: 3 }
+        { id: 'S001', name: 'Lot Kedai Pasar Tani', vacancies: 1, available: true }
     ],
     tanah: [
-        { id: 'L001', name: 'Tanah Lot 123, Seksyen 5, Shah Alam', vacancies: 1 },
-        { id: 'L002', name: 'Tanah Lot 456, Mukim Kajang', vacancies: 2 }
-    ],
-    rumah_rehat: [
-        { id: 'RR001', name: 'Rumah Rehat Port Dickson', vacancies: 0 },
-        { id: 'RR002', name: 'Rumah Rehat Cameron Highlands', vacancies: 1 }
-    ],
-    bilik: [
-        { id: 'BS001', name: 'Bilik Sejuk Kompleks A, Putrajaya', vacancies: 2 }
-    ],
-    slipway: [
-        { id: 'SW001', name: 'Slipway Lumut, Perak', vacancies: 1 },
-        { id: 'SW002', name: 'Slipway Penang', vacancies: 0 }
-    ],
-    pphp: [
-        { id: 'PP001', name: 'PPHP Kuala Selangor', vacancies: 1 },
-        { id: 'PP002', name: 'PPHP Langkawi', vacancies: 2 }
-    ],
-    kompleks: [
-        { id: 'KC001', name: 'Kompleks Perniagaan, Cyberjaya', vacancies: 4 }
-    ],
-    pasar: [
-        { id: 'PN001', name: 'Pasar Nelayan Kuantan, Pahang', vacancies: 1 },
-        { id: 'PN002', name: 'Pasar Nelayan Kuala Terengganu', vacancies: 0 }
-    ],
-    akuakultur: [
-        { id: 'AQ001', name: 'Tapak Akuakultur Besut, Terengganu', vacancies: 2 }
-    ],
-    ccdc: [
-        { id: 'CC001', name: 'CCDC Wilayah Utara, Alor Setar', vacancies: 0 },
-        { id: 'CC002', name: 'CCDC Wilayah Selatan, Johor Bahru', vacancies: 3 }
-    ],
-    jeti: [
-        { id: 'JT001', name: 'Jeti Pelabuhan Klang', vacancies: 1 },
-        { id: 'JT002', name: 'Jeti Pulau Ketam', vacancies: 0 }
+        { id: 'L001', name: 'Tanah Lot 123, Shah Alam', vacancies: 1, available: true }
     ]
 };
 
-// Inisialisasi ketika halaman dimuat
+// ==================== FUNGSI UTAMA ====================
 document.addEventListener('DOMContentLoaded', function() {
+    logDebug('Halaman dimuatkan');
+    
+    // Get DOM elements
     const assetType = document.getElementById('assetType');
     const assetLocation = document.getElementById('assetLocation');
-    const noLocationMessage = document.getElementById('noLocationMessage');
+    const typeStatus = document.getElementById('typeStatus');
+    const locationStatus = document.getElementById('locationStatus');
+    
+    // Status message elements
+    const initialMessage = document.getElementById('initialMessage');
+    const loadingMessage = document.getElementById('loadingMessage');
     const noVacancyMessage = document.getElementById('noVacancyMessage');
+    const errorMessage = document.getElementById('errorMessage');
     
-    // Tunjukkan mesej awal
-    noLocationMessage.style.display = 'block';
-    
-    // Event listener untuk perubahan jenis aset
-    assetType.addEventListener('change', function() {
-        const selectedType = this.value;
-        
-        // Sembunyikan semua mesej dan dropdown terlebih dahulu
-        noLocationMessage.style.display = 'none';
+    // Function untuk hide semua messages
+    function hideAllMessages() {
+        initialMessage.style.display = 'none';
+        loadingMessage.style.display = 'none';
         noVacancyMessage.style.display = 'none';
+        errorMessage.style.display = 'none';
         assetLocation.style.display = 'none';
-        assetLocation.disabled = true;
-        assetLocation.innerHTML = '';
+    }
+    
+    // Function untuk update location dropdown
+    function updateLocationDropdown(assetTypeValue) {
+        logDebug(`Memproses jenis aset: ${assetTypeValue}`);
         
-        if (!selectedType) {
-            noLocationMessage.style.display = 'block';
+        // Reset state
+        hideAllMessages();
+        assetLocation.innerHTML = '';
+        assetLocation.disabled = true;
+        
+        if (!assetTypeValue) {
+            logDebug('Jenis aset kosong, tunjuk mesej awal');
+            initialMessage.style.display = 'block';
+            locationStatus.textContent = 'Menunggu pilihan jenis aset';
             return;
         }
         
-        // Dapatkan lokasi untuk jenis aset yang dipilih
-        const locations = vacancyData[selectedType] || [];
+        // Tunjukkan loading
+        loadingMessage.style.display = 'block';
+        locationStatus.textContent = 'Sedang memuatkan lokasi...';
         
-        // Filter hanya lokasi yang ada kekosongan
-        const availableLocations = locations.filter(loc => loc.vacancies > 0);
-        
-        if (availableLocations.length === 0) {
-            // Tiada kekosongan - tunjuk mesej
-            noVacancyMessage.style.display = 'block';
-            noVacancyMessage.innerHTML = `
-                <i class="fas fa-exclamation-triangle"></i> 
-                Maaf, tiada kekosongan untuk <strong>${this.options[this.selectedIndex].text}</strong> pada masa ini.
-                <br><small>Sila pilih jenis aset lain atau cuba lagi kemudian.</small>
-            `;
-        } else {
-            // Ada kekosongan - tunjuk dropdown
-            assetLocation.style.display = 'block';
-            assetLocation.disabled = false;
+        // Simulate API delay (boleh buang dalam production)
+        setTimeout(() => {
+            processLocations(assetTypeValue);
+        }, 300);
+    }
+    
+    // Process locations data
+    function processLocations(assetTypeValue) {
+        try {
+            logDebug(`Mencari lokasi untuk: ${assetTypeValue}`);
             
-            // Tambah option pertama
-            const defaultOption = document.createElement('option');
-            defaultOption.value = "";
-            defaultOption.textContent = `-- Pilih lokasi (${availableLocations.length} pilihan) --`;
-            defaultOption.disabled = true;
-            defaultOption.selected = true;
-            assetLocation.appendChild(defaultOption);
+            // Dapatkan data lokasi
+            const locations = vacancyData[assetTypeValue];
             
-            // Tambah setiap lokasi yang ada kosong
-            availableLocations.forEach(location => {
-                const option = document.createElement('option');
-                option.value = location.id;
-                
-                // Tandakan dengan bintang jika banyak kekosongan
-                const vacancyIcon = location.vacancies >= 3 ? " ⭐" : "";
-                option.textContent = `${location.name} (${location.vacancies} kosong)${vacancyIcon}`;
-                
-                // Simpan data tambahan
-                option.dataset.vacancies = location.vacancies;
-                option.dataset.fullName = location.name;
-                
-                assetLocation.appendChild(option);
-            });
+            if (!locations || locations.length === 0) {
+                logDebug(`Tiada data lokasi untuk: ${assetTypeValue}`);
+                hideAllMessages();
+                errorMessage.style.display = 'block';
+                locationStatus.textContent = 'Tiada data lokasi ditemui';
+                return;
+            }
             
-            // Event listener untuk perubahan lokasi
-            assetLocation.addEventListener('change', function() {
-                if (this.value) {
-                    const selectedOption = this.options[this.selectedIndex];
-                    console.log(`Lokasi dipilih: ${selectedOption.dataset.fullName}, Kekosongan: ${selectedOption.dataset.vacancies}`);
-                    
-                    // Anda boleh tambah logik tambahan di sini
-                    // Contoh: Tunjukkan maklumat lanjut tentang lokasi
-                }
-            });
+            // Filter lokasi yang ada kekosongan
+            const availableLocations = locations.filter(loc => loc.vacancies > 0);
+            logDebug(`Lokasi ditemui: ${locations.length}, Kosong: ${availableLocations.length}`);
+            
+            if (availableLocations.length === 0) {
+                // Tiada kekosongan
+                hideAllMessages();
+                noVacancyMessage.style.display = 'block';
+                noVacancyMessage.innerHTML = `
+                    <i class="fas fa-exclamation-triangle"></i> 
+                    Tiada kekosongan untuk <strong>${assetType.options[assetType.selectedIndex].text}</strong>
+                `;
+                locationStatus.textContent = 'Tiada kekosongan tersedia';
+            } else {
+                // Ada kekosongan - buat dropdown
+                hideAllMessages();
+                assetLocation.style.display = 'block';
+                assetLocation.disabled = false;
+                
+                // Add default option
+                const defaultOption = document.createElement('option');
+                defaultOption.value = "";
+                defaultOption.textContent = `-- Pilih lokasi (${availableLocations.length} pilihan) --`;
+                defaultOption.disabled = true;
+                defaultOption.selected = true;
+                assetLocation.appendChild(defaultOption);
+                
+                // Add available locations
+                availableLocations.forEach((location, index) => {
+                    const option = document.createElement('option');
+                    option.value = location.id;
+                    option.textContent = `${location.name} (${location.vacancies} kosong)`;
+                    option.dataset.index = index;
+                    assetLocation.appendChild(option);
+                });
+                
+                logDebug(`Dropdown lokasi diisi dengan ${availableLocations.length} pilihan`);
+                locationStatus.textContent = `Sedia: ${availableLocations.length} lokasi tersedia`;
+                
+                // Add change event listener untuk lokasi
+                assetLocation.addEventListener('change', function() {
+                    if (this.value) {
+                        logDebug(`Lokasi dipilih: ${this.options[this.selectedIndex].text}`);
+                    }
+                });
+            }
+            
+        } catch (error) {
+            logDebug(`ERROR: ${error.message}`);
+            hideAllMessages();
+            errorMessage.style.display = 'block';
+            errorMessage.textContent = `Ralat: ${error.message}`;
+            locationStatus.textContent = 'Ralat memproses lokasi';
         }
+    }
+    
+    // Event listener untuk jenis aset
+    assetType.addEventListener('change', function() {
+        const selectedValue = this.value;
+        const selectedText = this.options[this.selectedIndex].text;
+        
+        logDebug(`Jenis aset berubah: ${selectedText} (${selectedValue})`);
+        typeStatus.textContent = `Dipilih: ${selectedText}`;
+        typeStatus.style.color = '#28a745';
+        
+        // Update lokasi dropdown
+        updateLocationDropdown(selectedValue);
     });
     
-    // Validasi form submission
-    document.querySelector('form').addEventListener('submit', function(e) {
-        if (!assetType.value) {
-            e.preventDefault();
-            alert('Sila pilih jenis aset');
-            assetType.focus();
-            return;
-        }
-        
-        if (!assetLocation.value && assetLocation.style.display !== 'none') {
-            e.preventDefault();
-            alert('Sila pilih lokasi');
-            assetLocation.focus();
-            return;
-        }
-        
-        if (noVacancyMessage.style.display === 'block') {
-            e.preventDefault();
-            alert('Tiada kekosongan untuk jenis aset yang dipilih. Sila pilih jenis aset lain.');
-            return;
-        }
-    });
+    // Test function untuk debug
+    window.testLocationLoad = function(type) {
+        logDebug(`Manual test untuk: ${type}`);
+        assetType.value = type;
+        updateLocationDropdown(type);
+    };
+    
+    // Auto-test on load (boleh disable)
+    // setTimeout(() => testLocationLoad('kuarters'), 1000);
 });
 
-// CSS styling
+// ==================== STYLING ====================
 const style = document.createElement('style');
 style.textContent = `
-    .alert {
-        padding: 12px 16px;
+    .form-group {
+        position: relative;
+    }
+    
+    .form-label {
+        font-weight: 600;
+        margin-bottom: 8px;
+        display: block;
+        color: #333;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 10px 12px;
+        border: 2px solid #ddd;
         border-radius: 6px;
-        margin-bottom: 0;
+        font-size: 14px;
+        transition: all 0.3s;
+        background-color: white;
+    }
+    
+    .form-control:focus {
+        border-color: #4a90e2;
+        box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+        outline: none;
+    }
+    
+    .form-control:disabled {
+        background-color: #f8f9fa;
+        cursor: not-allowed;
+        opacity: 0.7;
+    }
+    
+    .alert {
+        padding: 12px 15px;
+        border-radius: 6px;
+        margin-bottom: 10px;
+        border: 1px solid transparent;
+    }
+    
+    .alert-secondary {
+        background-color: #f8f9fa;
+        border-color: #e9ecef;
+        color: #6c757d;
     }
     
     .alert-info {
         background-color: #d1ecf1;
-        border: 1px solid #bee5eb;
+        border-color: #bee5eb;
         color: #0c5460;
     }
     
     .alert-warning {
         background-color: #fff3cd;
-        border: 1px solid #ffeaa7;
+        border-color: #ffeaa7;
         color: #856404;
     }
     
-    .form-text {
-        font-size: 0.85rem;
-        margin-top: 4px;
+    .alert-danger {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
     }
     
-    select.form-control {
-        transition: all 0.3s ease;
+    .status-message {
+        min-height: 60px;
     }
     
-    select.form-control:focus {
-        border-color: #4a90e2;
-        box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.25);
+    .debug-info {
+        background: #f0f0f0;
+        padding: 5px;
+        border-radius: 3px;
+        border-left: 3px solid #6c757d;
     }
     
-    select.form-control option {
-        padding: 10px;
-    }
-    
-    select.form-control option[data-vacancies="3"],
-    select.form-control option[data-vacancies="4"],
-    select.form-control option[data-vacancies="5"] {
-        background-color: #f0fff4;
-        font-weight: 600;
-        color: #2d3748;
-    }
-    
-    .fas {
+    .fa-spinner {
         margin-right: 8px;
     }
     
     /* Animation untuk dropdown */
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-10px); }
-        to { opacity: 1; transform: translateY(0); }
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
     
     #assetLocation {
-        animation: fadeIn 0.3s ease-out;
+        animation: slideDown 0.3s ease-out;
+    }
+    
+    /* Highlight untuk option dengan banyak kosong */
+    select option[data-index] {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    select option[data-index]:hover {
+        background-color: #e3f2fd;
     }
 `;
 document.head.appendChild(style);
 
-// Tambah Font Awesome jika belum ada
+// Load Font Awesome jika belum ada
 if (!document.querySelector('link[href*="font-awesome"]')) {
     const faLink = document.createElement('link');
     faLink.rel = 'stylesheet';
@@ -2191,6 +2266,16 @@ if (!document.querySelector('link[href*="font-awesome"]')) {
     document.head.appendChild(faLink);
 }
 </script>
+
+<!-- Test Buttons untuk Debug -->
+<div style="margin-top: 20px; padding: 15px; background: #f0f8ff; border-radius: 5px;">
+    <h4 style="margin-top: 0;">Test Functions:</h4>
+    <button onclick="testLocationLoad('kuarters')" style="margin: 5px; padding: 8px 15px;">Test Kuarters</button>
+    <button onclick="testLocationLoad('pejabat')" style="margin: 5px; padding: 8px 15px;">Test Pejabat</button>
+    <button onclick="testLocationLoad('kedai')" style="margin: 5px; padding: 8px 15px;">Test Kedai</button>
+    <button onclick="testLocationLoad('xxxx')" style="margin: 5px; padding: 8px 15px; background: #ff6b6b;">Test Error</button>
+    <button onclick="assetType.value=''; updateLocationDropdown('')" style="margin: 5px; padding: 8px 15px;">Reset</button>
+</div>
                     
                     <!-- Untuk user/pemohon biasa - HANYA lihat lokasi kosong --><!--
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 1.5rem;">
