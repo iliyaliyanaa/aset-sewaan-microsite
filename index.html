@@ -1855,62 +1855,48 @@
     </div>
     
     <!-- Application Modal -->
-    <div class="modal" id="applicationModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fas fa-file-alt"></i> Borang Permohonan Sewaan</h3>
-                <button class="close-modal" id="closeModal">&times;</button>
+   <body>
+    <div class="form-container">
+        <div class="form-header">
+            <h1><i class="fas fa-file-alt"></i> Borang Permohonan Sewa Aset</h1>
+            <p>Isikan maklumat anda dengan lengkap dan tepat untuk permohonan sewa aset</p>
+        </div>
+
+        <form id="rentalApplicationForm" class="form-body">
+            <!-- Section 1: Maklumat Pemohon -->
+            <div class="section-title">
+                <i class="fas fa-user"></i>
+                MAKLUMAT PEMOHON
             </div>
-            
-            <div class="auto-fill-notification" id="autoFillNotification">
-                <i class="fas fa-check-circle"></i>
-                <span>Maklumat anda telah diisi automatik dari profil.</span>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="applicantName" class="required">Nama Penuh</label>
+                    <input type="text" id="applicantName" class="form-control" placeholder="Masukkan nama penuh anda" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="applicantIC" class="required">No. Kad Pengenalan</label>
+                    <input type="text" id="applicantIC" class="form-control" placeholder="Contoh: 123456-12-1234" required>
+                </div>
             </div>
-                 <input type="hidden" id="userType" value="staff">
-                        <!--<div class="form-group">
-                        <div class="auth-form-group">-->
-                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 1.5rem;">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="registerName" class="required">Nama Penuh</label>
-                            <div class="auth-input-with-icon">
-                                <i class="fas fa-user auth-input-icon"></i>
-                                <input type="text" id="registerName" class="auth-input" placeholder="Masukkan nama penuh" required>
-                            </div>
-                            <div class="validation-message" id="registerNameError"></div>
-                        </div>
-                        
-                        <!--<div class="auth-form-group">-->
-                            <div class="form-group">
-                            <label for="registerIC" class="required">No. Kad Pengenalan</label>
-                            <div class="auth-input-with-icon">
-                                <i class="fas fa-id-card auth-input-icon"></i>
-                                <input type="text" id="registerIC" class="auth-input" placeholder="cth: 800101011234" required>
-                            </div>
-                            <div class="validation-message" id="registerICError"></div>
-                        </div>
-                        
-                        <div class="auth-form-group">
-                            <label for="registerEmail" class="required">Alamat Email</label>
-                            <div class="auth-input-with-icon">
-                                <i class="fas fa-envelope auth-input-icon"></i>
-                                <input type="email" id="registerEmail" class="auth-input" placeholder="cth: user@email.com" required>
-                            </div>
-                            <div class="validation-message" id="registerEmailError"></div>
-                        </div>
-                        
-                        <div class="auth-form-group">
-                            <label for="registerPhone" class="required">No. Telefon</label>
-                            <div class="auth-input-with-icon">
-                                <i class="fas fa-phone auth-input-icon"></i>
-                                <input type="tel" id="registerPhone" class="auth-input" placeholder="cth: 0123456789" required>
-                            </div>
-                            <div class="validation-message" id="registerPhoneError"></div>
-                        </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="applicantPhone" class="required">No. Telefon</label>
+                    <input type="tel" id="applicantPhone" class="form-control" placeholder="Contoh: 012-3456789" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="applicantEmail" class="required">Email</label>
+                    <input type="email" id="applicantEmail" class="form-control" placeholder="nama@contoh.com" required>
+                </div>
+            </div>
+
             <div class="form-group">
-                        <label for="applicantAddress" class="required">Alamat Tempat Tinggal</label>
-                        <textarea id="applicantAddress" class="form-control" required></textarea>
-                    </div>
+                <label for="applicantAddress" class="required">Alamat Tempat Tinggal</label>
+                <textarea id="applicantAddress" class="form-control" placeholder="Masukkan alamat penuh anda termasuk poskod dan bandar" required></textarea>
+            </div>
                  
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 1.5rem;">
     <div class="form-group">
