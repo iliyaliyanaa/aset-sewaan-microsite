@@ -2121,7 +2121,14 @@ const vacancyData = {
         { id: 'JT002', name: 'Jeti Pulau Ketam', vacancies: 0 }
     ]
 };
-
+// BETUL: Event listener mesti dipanggil selepas DOM siap
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('rentalApplicationForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        // Code untuk hantar permohonan
+        console.log('Form submitted!');
+    });
+});
 // Initialize when modal opens
 document.addEventListener('DOMContentLoaded', function() {
     const assetType = document.getElementById('assetType');
