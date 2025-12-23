@@ -807,24 +807,6 @@
             gap: 15px;
         }
         
-        /* Auto-fill Notification */
-        .auto-fill-notification {
-            background-color: rgba(40, 167, 69, 0.1);
-            border: 1px solid rgba(40, 167, 69, 0.3);
-            color: var(--success);
-            padding: 10px 15px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            display: none;
-        }
-        
-        .auto-fill-notification.active {
-            display: flex;
-        }
-        
         /* Success Modal */
         .success-modal {
             text-align: center;
@@ -969,52 +951,6 @@
             cursor: pointer;
         }
         
-        /* Notification Panel */
-        .notification-panel {
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            width: 300px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-            display: none;
-            z-index: 1001;
-        }
-        
-        .notification-panel.active {
-            display: block;
-        }
-        
-        .notification-header {
-            padding: 1rem;
-            background: var(--primary);
-            color: white;
-            border-radius: 10px 10px 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .notification-list {
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        
-        .notification-item {
-            padding: 1rem;
-            border-bottom: 1px solid var(--light-gray);
-            cursor: pointer;
-        }
-        
-        .notification-item.unread {
-            background-color: rgba(26, 95, 122, 0.05);
-        }
-        
-        .notification-item:hover {
-            background-color: rgba(0,0,0,0.02);
-        }
-        
         /* Responsive */
         @media (max-width: 992px) {
             .form-row {
@@ -1062,27 +998,6 @@
             display: block;
         }
         
-        /* Notification Bell */
-        .notification-bell {
-            position: relative;
-            cursor: pointer;
-        }
-        
-        .notification-count {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: var(--danger);
-            color: white;
-            font-size: 0.7rem;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
         /* Location Selector Styles */
         .location-selector {
             margin-bottom: 1rem;
@@ -1127,6 +1042,20 @@
         
         .vacancy-info.danger {
             color: var(--danger);
+        }
+        
+        /* Form field dengan data automatik */
+        .auto-filled-field {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            color: #495057;
+            font-weight: 500;
+        }
+        
+        .auto-filled-field:focus {
+            background-color: #f8f9fa;
+            border-color: #e9ecef;
+            box-shadow: none;
         }
     </style>
 </head>
@@ -1325,10 +1254,6 @@
                 </div>
                 
                 <div class="user-section">
-                    <div class="notification-bell" id="notificationBell">
-                        <i class="fas fa-bell" style="font-size: 1.2rem; color: white;"></i>
-                        <div class="notification-count" id="notificationCount">0</div>
-                    </div>
                     <div class="user-profile" id="userProfileBtn">
                         <div class="user-avatar" id="userAvatar">P</div>
                         <div>
@@ -1342,19 +1267,6 @@
                 </div>
             </div>
         </header>
-        
-        <!-- Notification Panel -->
-        <div class="notification-panel" id="notificationPanel">
-            <div class="notification-header">
-                <h4 style="margin: 0;">Notifikasi</h4>
-                <button class="btn" style="padding: 2px 8px; font-size: 0.8rem;" id="markAllRead">
-                    <i class="fas fa-check-double"></i> Tanda semua dibaca
-                </button>
-            </div>
-            <div class="notification-list" id="notificationList">
-                <!-- Notifications will be loaded here -->
-            </div>
-        </div>
         
         <!-- Navigation -->
         <nav class="app-nav" id="appNav">
@@ -1552,7 +1464,6 @@
                             <div>
                                 <h3 style="color: var(--primary); margin-bottom: 5px;" id="profileName">Nama Pengguna</h3>
                                 <p style="color: var(--gray); margin-bottom: 5px;" id="profileEmail">email@example.com</p>
-                                <span class="user-type-badge" id="profileUserType">Kakitangan Kerajaan</span>
                             </div>
                         </div>
                         
@@ -1563,8 +1474,13 @@
                             </div>
                             
                             <div>
-                                <label style="display: block; margin-bottom: 5px; color: var(--gray);">Jenis Pengguna</label>
-                                <div style="font-weight: 500;" id="profileUserTypeText">Kakitangan Kerajaan</div>
+                                <label style="display: block; margin-bottom: 5px; color: var(--gray);">No. Telefon</label>
+                                <div style="font-weight: 500;" id="profilePhone">-</div>
+                            </div>
+                            
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; color: var(--gray);">Alamat</label>
+                                <div style="font-weight: 500;" id="profileAddress">-</div>
                             </div>
                             
                             <div>
@@ -1642,26 +1558,21 @@
             
             <div class="modal-body">
                 <form id="rentalApplicationForm">
-                    <div class="auto-fill-notification" id="autoFillNotification">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Maklumat anda telah diisi automatik dari profil.</span>
-                    </div>
-                    
                     <div class="form-row">
                         <div class="form-group">
                             <label for="applicantName" class="required">Nama Penuh</label>
-                            <input type="text" id="applicantName" class="form-control" required>
+                            <input type="text" id="applicantName" class="form-control auto-filled-field" required>
                         </div>
                         <div class="form-group">
                             <label for="applicantIC" class="required">No. Kad Pengenalan</label>
-                            <input type="text" id="applicantIC" class="form-control" required>
+                            <input type="text" id="applicantIC" class="form-control auto-filled-field" required>
                         </div>
                     </div>
                     
                     <div class="form-row">
                         <div class="form-group">
                             <label for="applicantEmail" class="required">Email</label>
-                            <input type="email" id="applicantEmail" class="form-control" required>
+                            <input type="email" id="applicantEmail" class="form-control auto-filled-field" required>
                         </div>
                         <div class="form-group">
                             <label for="applicantPhone" class="required">No. Telefon</label>
@@ -1832,7 +1743,6 @@
             CURRENT_USER: 'current_asset_user',
             APPLICATIONS: 'user_applications',
             ASSETS: 'asset_data',
-            NOTIFICATIONS: 'system_notifications',
             VACANCIES: 'asset_vacancies'
         };
         
@@ -2012,7 +1922,6 @@
         let users = [];
         let applications = [];
         let assets = [];
-        let notifications = [];
         let vacancies = VACANCY_DATA;
         
         // Initialize System
@@ -2033,10 +1942,6 @@
             // Initialize assets
             const storedAssets = localStorage.getItem(STORAGE_KEYS.ASSETS);
             assets = storedAssets ? JSON.parse(storedAssets) : ASSETS_DATA;
-            
-            // Initialize notifications
-            const storedNotifications = localStorage.getItem(STORAGE_KEYS.NOTIFICATIONS);
-            notifications = storedNotifications ? JSON.parse(storedNotifications) : [];
             
             // Initialize vacancies
             const storedVacancies = localStorage.getItem(STORAGE_KEYS.VACANCIES);
@@ -2109,7 +2014,8 @@
                 address: user.address,
                 userType: user.userType,
                 role: user.role,
-                typeText: user.typeText
+                typeText: user.typeText,
+                createdAt: user.createdAt
             };
             
             // Save to storage
@@ -2119,7 +2025,6 @@
             }
             
             showApplication();
-            createNotification(`${user.name} telah log masuk`, 'system');
         }
         
         function handleRegister(e) {
@@ -2145,8 +2050,6 @@
             
             document.getElementById('registerForm').classList.remove('active');
             document.getElementById('successMessage').classList.add('active');
-            
-            createNotification(`Pengguna baru didaftarkan: ${userData.name}`, 'system');
         }
         
         // ============================================
@@ -2167,9 +2070,6 @@
             
             // Update navigation based on role
             updateNavigation();
-            
-            // Update notification count
-            updateNotificationCount();
         }
         
         function updateNavigation() {
@@ -2245,8 +2145,8 @@
                 document.getElementById('profileName').textContent = user.name;
                 document.getElementById('profileEmail').textContent = user.email;
                 document.getElementById('profileIC').textContent = user.ic;
-                document.getElementById('profileUserType').textContent = user.typeText;
-                document.getElementById('profileUserTypeText').textContent = user.typeText;
+                document.getElementById('profilePhone').textContent = user.phone || '-';
+                document.getElementById('profileAddress').textContent = user.address || '-';
                 document.getElementById('profileSince').textContent = formatDate(user.createdAt);
                 document.getElementById('profileTotalApps').textContent = userApps.length;
                 document.getElementById('profileAvatar').textContent = getInitials(user.name);
@@ -2561,20 +2461,16 @@
             // Reset location selector
             resetLocationSelector();
             
-            // Auto-fill user data
+            // Auto-fill user data from profile
             if (currentUser) {
                 const user = users.find(u => u.id === currentUser.id);
                 if (user) {
+                    // Automatically fill name, IC, and email from profile
                     document.getElementById('applicantName').value = user.name;
                     document.getElementById('applicantIC').value = user.ic;
                     document.getElementById('applicantEmail').value = user.email;
-                    document.getElementById('applicantPhone').value = user.phone;
-                    document.getElementById('applicantAddress').value = user.address;
-                    
-                    document.getElementById('autoFillNotification').style.display = 'flex';
-                    setTimeout(() => {
-                        document.getElementById('autoFillNotification').style.display = 'none';
-                    }, 3000);
+                    document.getElementById('applicantPhone').value = user.phone || '';
+                    document.getElementById('applicantAddress').value = user.address || '';
                 }
             }
             
@@ -2592,20 +2488,10 @@
             tomorrow.setDate(tomorrow.getDate() + 1);
             document.getElementById('startDate').value = tomorrow.toISOString().split('T')[0];
             
-            // Reset form
-            document.getElementById('rentalApplicationForm').reset();
-            
-            // Re-set the values after reset
-            if (currentUser && user) {
-                document.getElementById('applicantName').value = user.name;
-                document.getElementById('applicantIC').value = user.ic;
-                document.getElementById('applicantEmail').value = user.email;
-                document.getElementById('applicantPhone').value = user.phone;
-                document.getElementById('applicantAddress').value = user.address;
-            }
-            if (assetType) {
-                document.getElementById('assetType').value = assetType;
-            }
+            // Reset form except auto-filled fields
+            document.getElementById('purpose').value = '';
+            document.getElementById('additionalInfo').value = '';
+            document.getElementById('agreeTermsModal').checked = false;
         }
         
         function resetLocationSelector() {
@@ -2731,6 +2617,7 @@
                 applicantName: document.getElementById('applicantName').value,
                 applicantEmail: document.getElementById('applicantEmail').value,
                 applicantPhone: document.getElementById('applicantPhone').value,
+                applicantAddress: document.getElementById('applicantAddress').value,
                 purpose: document.getElementById('purpose').value,
                 additionalInfo: document.getElementById('additionalInfo').value,
                 status: 'pending',
@@ -2741,7 +2628,7 @@
             applications.unshift(application);
             localStorage.setItem(STORAGE_KEYS.APPLICATIONS, JSON.stringify(applications));
             
-            // Update vacancy count
+            // Update vacancy count (reduce by 1)
             selectedLocation.vacancies -= 1;
             localStorage.setItem(STORAGE_KEYS.VACANCIES, JSON.stringify(vacancies));
             
@@ -2751,9 +2638,6 @@
                 asset.availableUnits -= 1;
                 localStorage.setItem(STORAGE_KEYS.ASSETS, JSON.stringify(assets));
             }
-            
-            // Create notification for admin
-            createNotification(`Permohonan baru dari ${application.applicantName} (${application.reference})`, 'application', application.id);
             
             // Show success modal
             showSuccessModal(application);
@@ -2814,12 +2698,23 @@
                         <span class="detail-label">Telefon:</span>
                         <span class="detail-value">${app.applicantPhone || 'Tiada'}</span>
                     </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Alamat:</span>
+                        <span class="detail-value">${app.applicantAddress || 'Tiada'}</span>
+                    </div>
                 </div>
                 
                 ${app.purpose ? `
                 <div style="background-color: var(--light); padding: 1.5rem; border-radius: 8px;">
                     <h4 style="color: var(--primary); margin-bottom: 1rem;">Tujuan Permohonan</h4>
                     <p>${app.purpose}</p>
+                </div>
+                ` : ''}
+                
+                ${app.additionalInfo ? `
+                <div style="background-color: var(--light); padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;">
+                    <h4 style="color: var(--primary); margin-bottom: 1rem;">Maklumat Tambahan</h4>
+                    <p>${app.additionalInfo}</p>
                 </div>
                 ` : ''}
             `;
@@ -2875,7 +2770,7 @@
             // Save to localStorage
             localStorage.setItem(STORAGE_KEYS.APPLICATIONS, JSON.stringify(applications));
             
-            // If rejected, restore vacancy
+            // If rejected, restore vacancy (lokasi naik balik)
             if (status === 'rejected') {
                 const location = vacancies[app.assetType]?.find(loc => loc.id === app.locationId);
                 if (location) {
@@ -2892,15 +2787,16 @@
                 localStorage.setItem(STORAGE_KEYS.ASSETS, JSON.stringify(assets));
             }
             
-            // Create notification for user
-            createNotification(`Permohonan ${app.reference} telah ${status === 'approved' ? 'diluluskan' : 'ditolak'}`, 
-                status === 'approved' ? 'success' : 'warning', null, app.applicantId);
-            
             // Update dashboard
             loadDashboard();
             
             // Show confirmation
             alert(`Permohonan ${app.reference} telah ${status === 'approved' ? 'diluluskan' : 'ditolak'}`);
+            
+            // If admin is processing, reload the admin applications list
+            if (currentUser.role === 'admin') {
+                loadAdminApplications();
+            }
         }
         
         function showSuccessModal(application) {
@@ -2910,156 +2806,6 @@
             document.getElementById('successDate').textContent = formatDate(application.applyDate);
             
             document.getElementById('successModal').style.display = 'flex';
-        }
-        
-        // ============================================
-        // NOTIFICATION SYSTEM
-        // ============================================
-        
-        function createNotification(message, type = 'info', relatedId = null, recipientId = null) {
-            const notification = {
-                id: Date.now(),
-                message: message,
-                type: type,
-                relatedId: relatedId,
-                recipientId: recipientId || (currentUser ? currentUser.id : null),
-                timestamp: new Date().toISOString(),
-                read: false,
-                createdAt: new Date().toISOString()
-            };
-            
-            notifications.unshift(notification);
-            localStorage.setItem(STORAGE_KEYS.NOTIFICATIONS, JSON.stringify(notifications));
-            
-            updateNotificationCount();
-            
-            // If admin is logged in and it's an application notification, show notification panel
-            if (currentUser && currentUser.role === 'admin' && type === 'application') {
-                showNotificationPanel();
-                loadNotifications();
-            }
-        }
-        
-        function updateNotificationCount() {
-            if (!currentUser) return;
-            
-            let userNotifications;
-            if (currentUser.role === 'admin') {
-                // Admin sees all notifications
-                userNotifications = notifications.filter(n => !n.read);
-            } else {
-                // Users see only their notifications
-                userNotifications = notifications.filter(n => 
-                    (n.recipientId === currentUser.id || !n.recipientId) && !n.read
-                );
-            }
-            
-            const countElement = document.getElementById('notificationCount');
-            countElement.textContent = userNotifications.length;
-            countElement.style.display = userNotifications.length > 0 ? 'flex' : 'none';
-        }
-        
-        function loadNotifications() {
-            const notificationList = document.getElementById('notificationList');
-            if (!currentUser) return;
-            
-            let userNotifications;
-            if (currentUser.role === 'admin') {
-                userNotifications = notifications;
-            } else {
-                userNotifications = notifications.filter(n => 
-                    n.recipientId === currentUser.id || !n.recipientId
-                );
-            }
-            
-            if (userNotifications.length === 0) {
-                notificationList.innerHTML = `
-                    <div style="text-align: center; padding: 2rem; color: var(--gray);">
-                        <i class="fas fa-bell-slash" style="font-size: 2rem; margin-bottom: 1rem;"></i>
-                        <p>Tiada notifikasi</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            notificationList.innerHTML = '';
-            userNotifications.forEach(notification => {
-                let icon, color;
-                switch(notification.type) {
-                    case 'success':
-                        icon = 'fas fa-check-circle';
-                        color = 'var(--success)';
-                        break;
-                    case 'warning':
-                        icon = 'fas fa-exclamation-triangle';
-                        color = 'var(--warning)';
-                        break;
-                    case 'application':
-                        icon = 'fas fa-file-alt';
-                        color = 'var(--primary)';
-                        break;
-                    default:
-                        icon = 'fas fa-info-circle';
-                        color = 'var(--gray)';
-                }
-                
-                const item = document.createElement('div');
-                item.className = `notification-item ${notification.read ? '' : 'unread'}`;
-                item.dataset.notificationId = notification.id;
-                item.innerHTML = `
-                    <div style="display: flex; align-items: start; gap: 10px;">
-                        <div style="color: ${color}; font-size: 1.2rem;">
-                            <i class="${icon}"></i>
-                        </div>
-                        <div style="flex: 1;">
-                            <p style="margin-bottom: 5px; font-size: 0.9rem;">${notification.message}</p>
-                            <small style="color: var(--gray);">${formatTime(notification.timestamp)}</small>
-                        </div>
-                        ${!notification.read ? `<div style="width: 8px; height: 8px; background-color: var(--primary); border-radius: 50%;"></div>` : ''}
-                    </div>
-                `;
-                notificationList.appendChild(item);
-                
-                // Add click event
-                item.addEventListener('click', function() {
-                    markNotificationAsRead(notification.id);
-                    if (notification.type === 'application' && currentUser.role === 'admin' && notification.relatedId) {
-                        viewApplicationDetails(notification.relatedId);
-                        hideNotificationPanel();
-                    }
-                });
-            });
-        }
-        
-        function markNotificationAsRead(notificationId) {
-            const notification = notifications.find(n => n.id == notificationId);
-            if (notification) {
-                notification.read = true;
-                localStorage.setItem(STORAGE_KEYS.NOTIFICATIONS, JSON.stringify(notifications));
-                updateNotificationCount();
-                loadNotifications();
-            }
-        }
-        
-        function markAllNotificationsAsRead() {
-            notifications.forEach(notification => {
-                if (!notification.read && 
-                    (currentUser.role === 'admin' || notification.recipientId === currentUser.id)) {
-                    notification.read = true;
-                }
-            });
-            localStorage.setItem(STORAGE_KEYS.NOTIFICATIONS, JSON.stringify(notifications));
-            updateNotificationCount();
-            loadNotifications();
-        }
-        
-        function showNotificationPanel() {
-            document.getElementById('notificationPanel').classList.add('active');
-            loadNotifications();
-        }
-        
-        function hideNotificationPanel() {
-            document.getElementById('notificationPanel').classList.remove('active');
         }
         
         // ============================================
@@ -3077,14 +2823,6 @@
                 month: 'long',
                 day: 'numeric'
             });
-        }
-        
-        function formatTime(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleTimeString('ms-MY', {
-                hour: '2-digit',
-                minute: '2-digit'
-            }) + ', ' + formatDate(dateString);
         }
         
         function closeModal(modalId) {
@@ -3119,6 +2857,8 @@
                 } else {
                     loadUserApplications();
                 }
+            } else if (pageId === 'profilePage') {
+                // Profile is already loaded in loadUserDashboard
             } else if (pageId === 'usersPage') {
                 loadUsersList();
             }
@@ -3215,29 +2955,6 @@
                     localStorage.removeItem(STORAGE_KEYS.CURRENT_USER);
                     currentUser = null;
                     showAuthentication();
-                }
-            });
-            
-            // Notification bell
-            document.getElementById('notificationBell').addEventListener('click', function(e) {
-                e.stopPropagation();
-                const panel = document.getElementById('notificationPanel');
-                if (panel.classList.contains('active')) {
-                    hideNotificationPanel();
-                } else {
-                    showNotificationPanel();
-                }
-            });
-            
-            // Mark all as read
-            document.getElementById('markAllRead')?.addEventListener('click', function() {
-                markAllNotificationsAsRead();
-            });
-            
-            // Close notification panel when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.notification-panel') && !e.target.closest('.notification-bell')) {
-                    hideNotificationPanel();
                 }
             });
             
