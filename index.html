@@ -1855,6 +1855,7 @@
     </div>
     
    <!-- Application Modal (DIPINDAHKAN KE TEMPAT YANG BETUL) -->
+<!-- Application Modal - BETUL -->
 <div class="modal" id="applicationModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -1867,8 +1868,8 @@
             <span>Maklumat anda telah diisi automatik dari profil.</span>
         </div>
         
-        <form id="rentalApplicationForm">
-            <div class="modal-body">
+        <div class="modal-body">
+            <form id="rentalApplicationForm">
                 <!-- Section 1: Maklumat Pemohon -->
                 <div class="section-title" style="display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem; color: var(--primary);">
                     <i class="fas fa-user-circle"></i>
@@ -2002,22 +2003,24 @@
                     <h4 style="margin: 0;">Pengakuan</h4>
                 </div>
                 
-                <div class="checkbox-container">
-                <input type="checkbox" id="agreeTerms" required>
-                <label for="agreeTerms">
-                    Saya mengakui bahawa maklumat yang diberikan adalah benar. Saya memahami bahawa maklumat palsu boleh menyebabkan permohonan ditolak.
-                </label>
-            </div>
-            
-            <div class="modal-footer">
-                <button type="button" class="btn" id="cancelApplication">Batal</button>
-                <form id="rentalApplicationForm" class="auth-form">
-    <!-- Form content -->
-    <button type="submit" class="btn btn-primary id="submitBtn">Hantar Permohonan</button>
-</form>
-            
-                <script>
-<script>
+                <div class="form-group">
+                    <div style="display: flex; align-items: start; gap: 10px; margin-bottom: 1.5rem;">
+                        <input type="checkbox" id="applicationAgreeTerms" required style="margin-top: 3px;">
+                        <label for="applicationAgreeTerms" style="margin-bottom: 0; font-size: 0.9rem;">
+                            Saya mengakui bahawa maklumat yang diberikan adalah benar. Saya memahami bahawa maklumat palsu boleh menyebabkan permohonan ditolak.
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn" id="cancelApplication">Batal</button>
+                    <!-- BUTTON HANTAR YANG BETUL -->
+                    <button type="submit" class="btn btn-primary" id="submitApplicationBtn">Hantar Permohonan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
         // 1. INISIALISASI
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM loaded, setting up form...');
@@ -4623,6 +4626,242 @@ function updateLocationForUser() {
             
             showNotification('Test data telah diisi!', 'info');
         };
+        // ============================================
+// FUNGSI KHUSUS UNTUK BORANG PERMOHONAN
+// ============================================
+
+// Fungsi untuk membuka modal permohonan
+function openApplicationModal(assetId = null) {
+    const modal = document.getElementById('applicationModal');
+    modal.style.display = 'flex';
+    
+    // Reset form terlebih dahulu
+    document.getElementById('rentalApplicationForm').reset();
+    
+    // Reset status lokasi
+    document.getElementById('initialMessage').style.display = 'block';
+    document.getElementById('loadingMessage').style.display = 'none';
+    document.getElementById('noVacancyMessage').style.display = 'none';
+    document.getElementById('assetLocation').style.display = 'none';
+    
+    // Auto-fill user data jika user sudah login
+    if (currentUser) {
+        document.getElementById('applicantName').value = currentUser.name;
+        document.getElementById('applicantIC').value = formatIC(currentUser.ic);
+        document.getElementById('applicantPhone').value = formatPhone(currentUser.phone);
+        document.getElementById('applicantEmail').value = currentUser.email;
+        document.getElementById('applicantAddress').value = currentUser.department ? 
+            `Pejabat: ${currentUser.department}` : 'Alamat tidak dinyatakan';
+        
+        // Show auto-fill notification
+        const notification = document.getElementById('autoFillNotification');
+        notification.style.display = 'flex';
+        setTimeout(() => {
+            notification.style.display = 'none';
+        }, 3000);
+    }
+    
+    // Set asset type jika disediakan
+    if (assetId) {
+        const asset = assets.find(a => a.id == assetId);
+        if (asset) {
+            document.getElementById('assetType').value = asset.type;
+            // Trigger change event untuk load lokasi
+            document.getElementById('assetType').dispatchEvent(new Event('change'));
+        }
+    }
+    
+    // Set default start date (tomorrow)
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    document.getElementById('startDate').value = tomorrow.toISOString().split('T')[0];
+}
+
+// Fungsi untuk menangani perubahan jenis aset
+function handleAssetTypeChange() {
+    const assetType = document.getElementById('assetType').value;
+    const assetLocation = document.getElementById('assetLocation');
+    const initialMessage = document.getElementById('initialMessage');
+    const loadingMessage = document.getElementById('loadingMessage');
+    const noVacancyMessage = document.getElementById('noVacancyMessage');
+    
+    // Sembunyikan semua mesej dan dropdown
+    initialMessage.style.display = 'none';
+    loadingMessage.style.display = 'none';
+    noVacancyMessage.style.display = 'none';
+    assetLocation.style.display = 'none';
+    assetLocation.innerHTML = '';
+    assetLocation.disabled = true;
+    
+    if (!assetType) {
+        initialMessage.style.display = 'block';
+        return;
+    }
+    
+    // Tunjukkan loading
+    loadingMessage.style.display = 'block';
+    
+    // Simulate loading delay
+    setTimeout(() => {
+        populateLocations(assetType);
+    }, 500);
+}
+
+// Fungsi untuk populate lokasi berdasarkan jenis aset
+function populateLocations(assetType) {
+    const assetLocation = document.getElementById('assetLocation');
+    const loadingMessage = document.getElementById('loadingMessage');
+    const noVacancyMessage = document.getElementById('noVacancyMessage');
+    
+    // Get locations data from vacancyData
+    const locations = vacancyData[assetType] || [];
+    
+    // Filter locations with vacancies
+    const availableLocations = locations.filter(loc => loc.vacancies > 0);
+    
+    if (availableLocations.length === 0) {
+        // No vacancies available
+        loadingMessage.style.display = 'none';
+        noVacancyMessage.style.display = 'block';
+        noVacancyMessage.innerHTML = `
+            <i class="fas fa-exclamation-triangle"></i> 
+            Tiada kekosongan untuk <strong>${document.getElementById('assetType').options[document.getElementById('assetType').selectedIndex].text}</strong> pada masa ini
+        `;
+    } else {
+        // Vacancies available
+        loadingMessage.style.display = 'none';
+        assetLocation.style.display = 'block';
+        assetLocation.disabled = false;
+        
+        // Clear existing options
+        assetLocation.innerHTML = '';
+        
+        // Add default option
+        const defaultOption = document.createElement('option');
+        defaultOption.value = "";
+        defaultOption.textContent = `-- Pilih lokasi (${availableLocations.length} pilihan) --`;
+        defaultOption.disabled = true;
+        defaultOption.selected = true;
+        assetLocation.appendChild(defaultOption);
+        
+        // Add available locations
+        availableLocations.forEach(location => {
+            const option = document.createElement('option');
+            option.value = location.id;
+            option.textContent = `${location.name} (${location.vacancies} kosong)`;
+            assetLocation.appendChild(option);
+        });
+    }
+}
+
+// Fungsi untuk hantar permohonan
+function handleApplicationSubmit(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    // Dapatkan semua required fields
+    const requiredFields = [
+        'applicantName', 'applicantIC', 'applicantPhone', 'applicantEmail',
+        'applicantAddress', 'assetType', 'assetLocation', 'purpose'
+    ];
+    
+    // Check validation
+    let isValid = true;
+    requiredFields.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (!field.value.trim()) {
+            isValid = false;
+            field.style.borderColor = 'var(--danger)';
+        } else {
+            field.style.borderColor = '';
+        }
+    });
+    
+    // Check checkbox
+    const agreeCheckbox = document.getElementById('applicationAgreeTerms');
+    if (!agreeCheckbox.checked) {
+        isValid = false;
+        agreeCheckbox.parentElement.style.color = 'var(--danger)';
+    } else {
+        agreeCheckbox.parentElement.style.color = '';
+    }
+    
+    if (!isValid) {
+        alert('Sila lengkapkan semua maklumat yang diperlukan.');
+        return;
+    }
+    
+    // Create application object
+    const application = {
+        id: Date.now(),
+        reference: `APP-${new Date().getFullYear()}-${String(userApplications.length + 1).padStart(3, '0')}`,
+        assetType: document.getElementById('assetType').value,
+        assetName: document.getElementById('assetType').options[document.getElementById('assetType').selectedIndex].text,
+        location: document.getElementById('assetLocation').options[document.getElementById('assetLocation').selectedIndex].text,
+        applyDate: new Date().toISOString().split('T')[0],
+        applicantId: currentUser ? currentUser.id : 0,
+        applicantName: document.getElementById('applicantName').value,
+        status: 'processing',
+        statusText: 'Dalam Proses',
+        purpose: document.getElementById('purpose').value
+    };
+    
+    // Save application
+    userApplications.unshift(application);
+    localStorage.setItem(APPLICATIONS_KEY, JSON.stringify(userApplications));
+    
+    // Update UI
+    updateApplicationsList();
+    updateDashboard();
+    
+    // Show success modal
+    showSuccessModal(application);
+    
+    // Close application modal
+    closeModal('applicationModal');
+    
+    // Reset form
+    document.getElementById('rentalApplicationForm').reset();
+}
+
+// ============================================
+// SETUP EVENT LISTENERS UNTUK BORANG
+// ============================================
+
+// Pastikan ini dipanggil dalam DOMContentLoaded
+function setupApplicationFormEvents() {
+    // Asset type change
+    const assetTypeSelect = document.getElementById('assetType');
+    if (assetTypeSelect) {
+        assetTypeSelect.addEventListener('change', handleAssetTypeChange);
+    }
+    
+    // Form submission
+    const applicationForm = document.getElementById('rentalApplicationForm');
+    if (applicationForm) {
+        applicationForm.addEventListener('submit', handleApplicationSubmit);
+    }
+    
+    // Cancel button
+    const cancelBtn = document.getElementById('cancelApplication');
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', function() {
+            closeModal('applicationModal');
+        });
+    }
+    
+    // Close modal button
+    const closeBtn = document.getElementById('closeModal');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function() {
+            closeModal('applicationModal');
+        });
+    }
+}
+
+// Panggil fungsi ini dalam DOMContentLoaded anda
+// Tambah ini dalam fungsi setupEventListeners() anda:
+// setupApplicationFormEvents();
     </script>
 </body>
 </html>
