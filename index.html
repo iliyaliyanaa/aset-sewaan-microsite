@@ -2021,116 +2021,7 @@
         </div>
     </div>
 </div>
-        // 1. INISIALISASI
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded, setting up form...');
-            
-            // 2. DAPATKAN ELEMENTS
-            const form = document.getElementById('rentalApplicationForm');
-            const submitBtn = document.getElementById('submitBtn');
-            
-            // 3. SETUP REAL-TIME VALIDATION
-            setupRealTimeValidation(form, submitBtn);
-            
-            // 4. SETUP FORM SUBMISSION
-            form.addEventListener('submit', function(event) {
-                console.log('Form submitted event triggered');
-                event.preventDefault(); // IMPORTANT!
-                
-                // 5. VALIDATE FORM
-                if (!validateForm(form)) {
-                    alert('Sila lengkapkan semua maklumat yang diperlukan.');
-                    return;
-                }
-                
-                // 6. DISABLE BUTTON SELAMA PROCESSING
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = 'SEDANG MENGHANTAR...';
-                
-                // 7. SIMULATE API CALL
-                setTimeout(function() {
-                    // 8. HANDLE SUCCESS
-                    console.log('Permohonan berjaya dihantar!');
-                    alert('Permohonan anda telah berjaya dihantar!');
-                    
-                    // 9. RESET FORM
-                    form.reset();
-                    
-                    // 10. ENABLE BUTTON KEMBALI
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = 'HANTAR PERMOHONAN';
-                    
-                }, 2000); // Simulate 2 second delay
-            });
-            
-            console.log('Form setup completed');
-        });
         
-        // FUNGSI UNTUK VALIDATION
-        function validateForm(form) {
-            console.log('Validating form...');
-            
-            // Check semua required fields
-            const requiredFields = form.querySelectorAll('[required]');
-            let isValid = true;
-            
-            requiredFields.forEach(field => {
-                if (!field.value.trim()) {
-                    isValid = false;
-                    console.log('Field empty:', field.id);
-                }
-                
-                // Check khusus untuk checkbox
-                if (field.type === 'checkbox' && !field.checked) {
-                    isValid = false;
-                    console.log('Checkbox not checked:', field.id);
-                }
-            });
-            
-            console.log('Form valid:', isValid);
-            return isValid;
-        }
-        
-        // FUNGSI UNTUK REAL-TIME VALIDATION
-        function setupRealTimeValidation(form, submitBtn) {
-            const fields = form.querySelectorAll('input, textarea, select');
-            
-            fields.forEach(field => {
-                field.addEventListener('input', function() {
-                    updateSubmitButton(form, submitBtn);
-                });
-                
-                field.addEventListener('change', function() {
-                    updateSubmitButton(form, submitBtn);
-                });
-            });
-            
-            // Initial check
-            updateSubmitButton(form, submitBtn);
-        }
-        
-        function updateSubmitButton(form, submitBtn) {
-            const isValid = validateForm(form);
-            submitBtn.disabled = !isValid;
-        }
-        
-        // DEBUG FUNCTIONS
-        window.debugForm = {
-            testSubmit: function() {
-                document.getElementById('testApplicationForm').dispatchEvent(
-                    new Event('submit')
-                );
-            },
-            showFormState: function() {
-                const form = document.getElementById('testApplicationForm');
-                console.log('Form state:', {
-                    name: document.getElementById('applicantName').value,
-                    purpose: document.getElementById('purpose').value,
-                    agreed: document.getElementById('agreeTerms').checked,
-                    submitDisabled: document.getElementById('submitBtn').disabled
-                });
-            }
-        };
     </script>
 
 <!-- JavaScript untuk Lokasi Dinamik -->
@@ -2235,7 +2126,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Form submitted!');
     });
 });
-// Initialize when modal opens
+  
 document.addEventListener('DOMContentLoaded', function() {
     const assetType = document.getElementById('assetType');
     const assetLocation = document.getElementById('assetLocation');
@@ -2330,6 +2221,45 @@ document.addEventListener('DOMContentLoaded', function() {
             updateLocationDropdown(this.value);
         });
     }
+      // ============================================
+// SETUP EVENT LISTENERS UNTUK BORANG
+// ============================================
+
+// Pastikan ini dipanggil dalam DOMContentLoaded
+function setupApplicationFormEvents() {
+    // Asset type change
+    const assetTypeSelect = document.getElementById('assetType');
+    if (assetTypeSelect) {
+        assetTypeSelect.addEventListener('change', handleAssetTypeChange);
+    }
+    
+    // Form submission
+    const applicationForm = document.getElementById('rentalApplicationForm');
+    if (applicationForm) {
+        applicationForm.addEventListener('submit', handleApplicationSubmit);
+    }
+    
+    // Cancel button
+    const cancelBtn = document.getElementById('cancelApplication');
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', function() {
+            closeModal('applicationModal');
+        });
+    }
+    
+    // Close modal button
+    const closeBtn = document.getElementById('closeModal');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function() {
+            closeModal('applicationModal');
+        });
+    }
+}
+
+// Panggil fungsi ini dalam DOMContentLoaded anda
+// Tambah ini dalam fungsi setupEventListeners() anda:
+// setupApplicationFormEvents();
+// Initialize when modal opens
 });
 
 // Tambahkan CSS untuk animasi
@@ -4172,7 +4102,7 @@ function updateLocationForUser() {
                 document.getElementById('applicantIC').value = formatIC(currentUser.ic);
                 document.getElementById('applicantPhone').value = formatPhone(currentUser.phone);
                 document.getElementById('applicantEmail').value = currentUser.email;
-                document.getElementById('applicantAddress').value = 'Alamat tidak dinyatakan';
+                document.getElementById('applicantAddress').value = '';
                 
                 // Show auto-fill notification
                 document.getElementById('autoFillNotification').style.display = 'flex';
@@ -4824,44 +4754,7 @@ function handleApplicationSubmit(event) {
     document.getElementById('rentalApplicationForm').reset();
 }
 
-// ============================================
-// SETUP EVENT LISTENERS UNTUK BORANG
-// ============================================
 
-// Pastikan ini dipanggil dalam DOMContentLoaded
-function setupApplicationFormEvents() {
-    // Asset type change
-    const assetTypeSelect = document.getElementById('assetType');
-    if (assetTypeSelect) {
-        assetTypeSelect.addEventListener('change', handleAssetTypeChange);
-    }
-    
-    // Form submission
-    const applicationForm = document.getElementById('rentalApplicationForm');
-    if (applicationForm) {
-        applicationForm.addEventListener('submit', handleApplicationSubmit);
-    }
-    
-    // Cancel button
-    const cancelBtn = document.getElementById('cancelApplication');
-    if (cancelBtn) {
-        cancelBtn.addEventListener('click', function() {
-            closeModal('applicationModal');
-        });
-    }
-    
-    // Close modal button
-    const closeBtn = document.getElementById('closeModal');
-    if (closeBtn) {
-        closeBtn.addEventListener('click', function() {
-            closeModal('applicationModal');
-        });
-    }
-}
-
-// Panggil fungsi ini dalam DOMContentLoaded anda
-// Tambah ini dalam fungsi setupEventListeners() anda:
-// setupApplicationFormEvents();
     </script>
 </body>
 </html>
