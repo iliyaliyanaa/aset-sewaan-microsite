@@ -601,12 +601,6 @@
             border-left: 3px solid var(--secondary);
         }
         
-        .ic-display {
-            font-family: 'Courier New', monospace;
-            letter-spacing: 2px;
-            font-weight: bold;
-        }
-        
         .ic-value {
             font-family: 'Courier New', monospace;
             letter-spacing: 1px;
@@ -971,7 +965,6 @@
                                     <tr>
                                         <th>No. Rujukan</th>
                                         <th>Pemohon</th>
-                                        <th>No. KP</th>
                                         <th>Jenis Aset</th>
                                         <th>Tarikh Mohon</th>
                                         <th>Status</th>
@@ -1061,7 +1054,6 @@
                                 <tr>
                                     <th>No. Rujukan</th>
                                     <th>Pemohon</th>
-                                    <th>No. KP</th>
                                     <th>Jenis Aset</th>
                                     <th>Lokasi</th>
                                     <th>Tarikh Mohon</th>
@@ -1099,7 +1091,6 @@
                                 <tr>
                                     <th>No. Rujukan</th>
                                     <th>Pemohon</th>
-                                    <th>No. KP</th>
                                     <th>Jenis Aset</th>
                                     <th>Tarikh Mohon</th>
                                     <th>Tarikh Proses</th>
@@ -1430,6 +1421,7 @@
         const ADMIN_KEY = 'admin_data';
         const ADMIN_SESSION_KEY = 'current_admin';
         const LOCATION_TRACKING_KEY = 'location_tracking';
+        const USER_LOCATIONS_KEY = 'user_available_locations';
         
         // Admin Credentials
         const ADMIN_CREDENTIALS = {
@@ -1445,6 +1437,7 @@
         let users = [];
         let assets = [];
         let locationTracking = [];
+        let userAvailableLocations = [];
         let currentApplicationId = null;
         let currentUserId = null;
         let currentAssetId = null;
@@ -1466,6 +1459,7 @@
             loadUsers();
             loadAssets();
             loadLocationTracking();
+            loadUserAvailableLocations();
             
             // Initialize admin account if not exists
             const storedAdmin = localStorage.getItem(ADMIN_KEY);
@@ -1494,8 +1488,28 @@
             locationTracking = storedLocations ? JSON.parse(storedLocations) : [];
         }
         
+        function loadUserAvailableLocations() {
+            const storedUserLocations = localStorage.getItem(USER_LOCATIONS_KEY);
+            userAvailableLocations = storedUserLocations ? JSON.parse(storedUserLocations) : [];
+            
+            // Initialize with default locations if empty
+            if (userAvailableLocations.length === 0 && assets.length > 0) {
+                userAvailableLocations = assets.map(asset => ({
+                    assetType: asset.type,
+                    assetName: asset.name,
+                    location: asset.location,
+                    available: asset.availableUnits > 0
+                }));
+                saveUserAvailableLocations();
+            }
+        }
+        
         function saveLocationTracking() {
             localStorage.setItem(LOCATION_TRACKING_KEY, JSON.stringify(locationTracking));
+        }
+        
+        function saveUserAvailableLocations() {
+            localStorage.setItem(USER_LOCATIONS_KEY, JSON.stringify(userAvailableLocations));
         }
         
         function checkAdminLoginStatus() {
@@ -1519,6 +1533,7 @@
                 if (currentAdmin) {
                     loadApplications(); // Reload applications from localStorage
                     loadAssets(); // Reload assets
+                    loadUserAvailableLocations(); // Reload user locations
                     updateDashboardCounters();
                     renderRecentApplications();
                     renderNewApplications();
@@ -1550,6 +1565,9 @@
                     if (e.key === USER_DB_KEY) {
                         loadUsers();
                         renderUsers();
+                    }
+                    if (e.key === USER_LOCATIONS_KEY) {
+                        loadUserAvailableLocations();
                     }
                 }
             });
@@ -1656,7 +1674,7 @@
             if (recentApps.length === 0) {
                 tableBody.innerHTML = `
                     <tr>
-                        <td colspan="7" style="text-align: center; padding: 2rem; color: var(--gray);">
+                        <td colspan="6" style="text-align: center; padding: 2rem; color: var(--gray);">
                             Tiada permohonan terkini
                         </td>
                     </tr>
@@ -1665,14 +1683,10 @@
             }
             
             recentApps.forEach(app => {
-                // Check if IC exists and is not empty
-                const icValue = app.applicantIC ? formatIC(app.applicantIC) : '-';
-                
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${app.reference}</td>
                     <td>${app.applicantName}</td>
-                    <td class="ic-value">${icValue}</td>
                     <td>${app.assetName}</td>
                     <td>${formatDate(app.applyDate)}</td>
                     <td><span class="status-badge status-${app.status}">${getStatusText(app.status)}</span></td>
@@ -1776,7 +1790,7 @@
             if (pendingApps.length === 0) {
                 tableBody.innerHTML = `
                     <tr>
-                        <td colspan="8" style="text-align: center; padding: 2rem; color: var(--gray);">
+                        <td colspan="7" style="text-align: center; padding: 2rem; color: var(--gray);">
                             Tiada permohonan menunggu kelulusan
                         </td>
                     </tr>
@@ -1785,14 +1799,10 @@
             }
             
             pendingApps.forEach(app => {
-                // Check if IC exists and is not empty
-                const icValue = app.applicantIC ? formatIC(app.applicantIC) : '-';
-                
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${app.reference}</td>
                     <td>${app.applicantName}</td>
-                    <td class="ic-value">${icValue}</td>
                     <td>${app.assetName}</td>
                     <td>${app.location}</td>
                     <td>${formatDate(app.applyDate)}</td>
@@ -1849,7 +1859,7 @@
             if (processedApps.length === 0) {
                 tableBody.innerHTML = `
                     <tr>
-                        <td colspan="9" style="text-align: center; padding: 2rem; color: var(--gray);">
+                        <td colspan="8" style="text-align: center; padding: 2rem; color: var(--gray);">
                             Tiada permohonan diproses
                         </td>
                     </tr>
@@ -1858,14 +1868,10 @@
             }
             
             processedApps.forEach(app => {
-                // Check if IC exists and is not empty
-                const icValue = app.applicantIC ? formatIC(app.applicantIC) : '-';
-                
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${app.reference}</td>
                     <td>${app.applicantName}</td>
-                    <td class="ic-value">${icValue}</td>
                     <td>${app.assetName}</td>
                     <td>${formatDate(app.applyDate)}</td>
                     <td>${app.processedDate ? formatDate(app.processedDate) : '-'}</td>
@@ -2020,8 +2026,12 @@
                     asset.availableUnits -= 1;
                     localStorage.setItem(ASSETS_KEY, JSON.stringify(assets));
                 }
+                // Remove location from user available locations
+                removeLocationFromUserList(application);
             } else if (status === 'rejected') {
                 trackLocationStatus(application, 'rejected');
+                // Automatically restore location for user
+                restoreLocationForUser(application);
                 // Show microsite for rejected locations
                 setTimeout(() => {
                     showLocationMicrosite(appId);
@@ -2072,9 +2082,13 @@
                     asset.availableUnits -= 1;
                     localStorage.setItem(ASSETS_KEY, JSON.stringify(assets));
                 }
+                // Remove location from user available locations
+                removeLocationFromUserList(application);
             } else if (status === 'rejected') {
                 statusText = 'Permohonan ditolak';
                 trackLocationStatus(application, 'rejected');
+                // Automatically restore location for user
+                restoreLocationForUser(application);
                 // Show microsite for rejected locations
                 setTimeout(() => {
                     showLocationMicrosite(currentApplicationId);
@@ -2104,8 +2118,56 @@
         }
         
         // ============================================
-        // LOCATION MICROSITE FUNCTIONS
+        // LOCATION MANAGEMENT FOR USER SYSTEM
         // ============================================
+        
+        function removeLocationFromUserList(application) {
+            // Find and update location in user available locations
+            const locationIndex = userAvailableLocations.findIndex(loc => 
+                loc.assetName === application.assetName && 
+                loc.location === application.location
+            );
+            
+            if (locationIndex !== -1) {
+                userAvailableLocations[locationIndex].available = false;
+                saveUserAvailableLocations();
+            }
+        }
+        
+        function restoreLocationForUser(application) {
+            // Find location in user available locations and mark as available
+            let locationIndex = userAvailableLocations.findIndex(loc => 
+                loc.assetName === application.assetName && 
+                loc.location === application.location
+            );
+            
+            if (locationIndex === -1) {
+                // Add new location entry
+                userAvailableLocations.push({
+                    assetType: application.assetType,
+                    assetName: application.assetName,
+                    location: application.location,
+                    available: true
+                });
+            } else {
+                // Update existing location
+                userAvailableLocations[locationIndex].available = true;
+            }
+            
+            saveUserAvailableLocations();
+            
+            // Also update asset availability count
+            const asset = assets.find(a => a.name === application.assetName);
+            if (asset) {
+                asset.availableUnits += 1;
+                localStorage.setItem(ASSETS_KEY, JSON.stringify(assets));
+            }
+            
+            // Trigger storage event to notify user system
+            localStorage.setItem('location_updated', Date.now().toString());
+            
+            return true;
+        }
         
         function trackLocationStatus(application, status) {
             const existingIndex = locationTracking.findIndex(loc => 
@@ -2148,7 +2210,7 @@
                     <div style="grid-column: span 2; text-align: center; padding: 2rem;">
                         <i class="fas fa-map-marked-alt" style="font-size: 3rem; color: var(--light-gray); margin-bottom: 1rem;"></i>
                         <h3>Tiada Lokasi Ditolak</h3>
-                        <p>Semua lokasi berada dalam status tersedia</p>
+                        <p>Semua lokasi telah dikembalikan ke sistem pengguna</p>
                     </div>
                 `;
             } else {
@@ -2164,10 +2226,16 @@
                         <p><strong>No. Rujukan:</strong> ${location.reference}</p>
                         <p><strong>Status:</strong> <span class="status-badge status-rejected">Ditolak</span></p>
                         <p><strong>Dikemaskini:</strong> ${formatDate(location.updatedAt)}</p>
-                        <button class="btn btn-sm" onclick="restoreLocation('${location.applicationId}')" 
-                                style="margin-top: 10px; background-color: var(--success); color: white;">
-                            <i class="fas fa-redo"></i> Kembalikan Lokasi
-                        </button>
+                        <div style="display: flex; gap: 10px; margin-top: 10px;">
+                            <button class="btn btn-sm" onclick="restoreSingleLocation('${location.applicationId}')" 
+                                    style="background-color: var(--success); color: white;">
+                                <i class="fas fa-redo"></i> Kembalikan
+                            </button>
+                            <button class="btn btn-sm" onclick="checkUserLocationStatus('${location.applicationId}')" 
+                                    style="background-color: var(--secondary); color: white;">
+                                <i class="fas fa-eye"></i> Semak Status
+                            </button>
+                        </div>
                     `;
                     gridContainer.appendChild(card);
                 });
@@ -2177,31 +2245,46 @@
             document.getElementById('micrositeContainer').style.display = 'flex';
         }
         
-        function restoreLocation(appId) {
+        function restoreSingleLocation(appId) {
             const locationData = locationTracking.find(loc => loc.applicationId == appId);
             if (!locationData) return;
             
-            // Update location status to available
-            const index = locationTracking.findIndex(loc => loc.applicationId == appId);
-            if (index !== -1) {
-                locationTracking[index].status = 'available';
-                locationTracking[index].updatedAt = new Date().toISOString();
-                locationTracking[index].restoredBy = currentAdmin.name;
-                
-                saveLocationTracking();
-                
-                // Update corresponding asset availability
-                const asset = assets.find(a => a.name === locationData.assetName && a.location === locationData.location);
-                if (asset) {
-                    asset.availableUnits += 1;
-                    localStorage.setItem(ASSETS_KEY, JSON.stringify(assets));
-                    renderAssets();
+            // Find the original application
+            const application = applications.find(app => app.id == appId);
+            if (!application) return;
+            
+            if (restoreLocationForUser(application)) {
+                // Update location tracking status
+                const index = locationTracking.findIndex(loc => loc.applicationId == appId);
+                if (index !== -1) {
+                    locationTracking[index].status = 'available';
+                    locationTracking[index].updatedAt = new Date().toISOString();
+                    locationTracking[index].restoredBy = currentAdmin.name;
+                    saveLocationTracking();
                 }
                 
-                showNotification('Lokasi berjaya dikembalikan ke status tersedia!', 'success');
+                showNotification('Lokasi berjaya dikembalikan ke sistem pengguna!', 'success');
                 
                 // Refresh microsite display
                 showLocationMicrosite(appId);
+            }
+        }
+        
+        function checkUserLocationStatus(appId) {
+            const locationData = locationTracking.find(loc => loc.applicationId == appId);
+            if (!locationData) return;
+            
+            // Check if location is available in user system
+            const isAvailable = userAvailableLocations.some(loc => 
+                loc.assetName === locationData.assetName && 
+                loc.location === locationData.location &&
+                loc.available === true
+            );
+            
+            if (isAvailable) {
+                showNotification('Lokasi ini TELAH tersedia untuk pengguna lain.', 'success');
+            } else {
+                showNotification('Lokasi ini BELUM tersedia untuk pengguna lain.', 'warning');
             }
         }
         
@@ -2213,28 +2296,29 @@
                 return;
             }
             
-            if (confirm(`Adakah anda pasti ingin mengembalikan ${rejectedLocations.length} lokasi yang ditolak?`)) {
+            if (confirm(`Adakah anda pasti ingin mengembalikan ${rejectedLocations.length} lokasi yang ditolak ke sistem pengguna?`)) {
+                let restoredCount = 0;
+                
                 rejectedLocations.forEach(location => {
-                    // Update location status
-                    const index = locationTracking.findIndex(loc => loc.applicationId === location.applicationId);
-                    if (index !== -1) {
-                        locationTracking[index].status = 'available';
-                        locationTracking[index].updatedAt = new Date().toISOString();
-                        locationTracking[index].restoredBy = currentAdmin.name;
-                    }
-                    
-                    // Update asset availability
-                    const asset = assets.find(a => a.name === location.assetName && a.location === location.location);
-                    if (asset) {
-                        asset.availableUnits += 1;
+                    // Find the original application
+                    const application = applications.find(app => app.id === location.applicationId);
+                    if (application) {
+                        if (restoreLocationForUser(application)) {
+                            // Update location tracking status
+                            const index = locationTracking.findIndex(loc => loc.applicationId === location.applicationId);
+                            if (index !== -1) {
+                                locationTracking[index].status = 'available';
+                                locationTracking[index].updatedAt = new Date().toISOString();
+                                locationTracking[index].restoredBy = currentAdmin.name;
+                                restoredCount++;
+                            }
+                        }
                     }
                 });
                 
                 saveLocationTracking();
-                localStorage.setItem(ASSETS_KEY, JSON.stringify(assets));
                 
-                renderAssets();
-                showNotification(`${rejectedLocations.length} lokasi berjaya dikembalikan!`, 'success');
+                showNotification(`${restoredCount} lokasi berjaya dikembalikan ke sistem pengguna!`, 'success');
                 
                 // Refresh microsite display
                 const firstAppId = rejectedLocations[0]?.applicationId;
@@ -2533,6 +2617,9 @@
             // Save to localStorage
             localStorage.setItem(ASSETS_KEY, JSON.stringify(assets));
             
+            // Also update user available locations
+            updateUserAvailableLocationsFromAssets();
+            
             // Update UI
             renderAssets();
             
@@ -2542,6 +2629,18 @@
             // Close modal and reset
             closeModal('assetModal');
             resetAssetForm();
+        }
+        
+        function updateUserAvailableLocationsFromAssets() {
+            // Update user available locations based on current assets
+            userAvailableLocations = assets.map(asset => ({
+                assetType: asset.type,
+                assetName: asset.name,
+                location: asset.location,
+                available: asset.availableUnits > 0
+            }));
+            
+            saveUserAvailableLocations();
         }
         
         function getAssetIcon(type) {
@@ -2838,8 +2937,7 @@
             if (searchFilter) {
                 filteredApps = filteredApps.filter(app => 
                     app.applicantName.toLowerCase().includes(searchFilter) ||
-                    app.reference.toLowerCase().includes(searchFilter) ||
-                    (app.applicantIC && app.applicantIC.toString().includes(searchFilter))
+                    app.reference.toLowerCase().includes(searchFilter)
                 );
             }
             
@@ -2873,47 +2971,57 @@
             tableBody.innerHTML = '';
             
             filteredApps.forEach(app => {
-                // Check if IC exists and is not empty
-                const icValue = app.applicantIC ? formatIC(app.applicantIC) : '-';
-                
                 const isNewTable = tableId === 'newApplicationsTable';
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${app.reference}</td>
-                    <td>${app.applicantName}</td>
-                    <td class="ic-value">${icValue}</td>
-                    <td>${app.assetName}</td>
-                    <td>${app.location}</td>
-                    <td>${formatDate(app.applyDate)}</td>
-                    ${isNewTable ? `
-                    <td>
-                        <div class="action-buttons">
-                            <button class="btn btn-sm btn-view view-application-btn" data-id="${app.id}">
-                                <i class="fas fa-eye"></i> Lihat
-                            </button>
-                            <button class="btn btn-sm btn-processing process-application-btn" data-id="${app.id}">
-                                <i class="fas fa-clock"></i> Proses
-                            </button>
-                        </div>
-                    </td>
-                    ` : `
-                    <td><span class="status-badge status-processing">${getStatusText(app.status)}</span></td>
-                    <td>
-                        <div class="action-buttons">
-                            <button class="btn btn-sm btn-view view-application-btn" data-id="${app.id}">
-                                <i class="fas fa-eye"></i> Lihat
-                            </button>
-                            <button class="btn btn-sm btn-approve approve-application-btn" data-id="${app.id}">
-                                <i class="fas fa-check"></i> Lulus
-                            </button>
-                            <button class="btn btn-sm btn-reject reject-application-btn" data-id="${app.id}">
-                                <i class="fas fa-times"></i> Tolak
-                            </button>
-                        </div>
-                    </td>
-                    `}
-                `;
-                tableBody.appendChild(row);
+                
+                if (isNewTable) {
+                    // Check if IC exists and is not empty
+                    const icValue = app.applicantIC ? formatIC(app.applicantIC) : '-';
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${app.reference}</td>
+                        <td>${app.applicantName}</td>
+                        <td class="ic-value">${icValue}</td>
+                        <td>${app.assetName}</td>
+                        <td>${app.location}</td>
+                        <td>${formatDate(app.applyDate)}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-sm btn-view view-application-btn" data-id="${app.id}">
+                                    <i class="fas fa-eye"></i> Lihat
+                                </button>
+                                <button class="btn btn-sm btn-processing process-application-btn" data-id="${app.id}">
+                                    <i class="fas fa-clock"></i> Proses
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                } else {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${app.reference}</td>
+                        <td>${app.applicantName}</td>
+                        <td>${app.assetName}</td>
+                        <td>${app.location}</td>
+                        <td>${formatDate(app.applyDate)}</td>
+                        <td><span class="status-badge status-processing">${getStatusText(app.status)}</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-sm btn-view view-application-btn" data-id="${app.id}">
+                                    <i class="fas fa-eye"></i> Lihat
+                                </button>
+                                <button class="btn btn-sm btn-approve approve-application-btn" data-id="${app.id}">
+                                    <i class="fas fa-check"></i> Lulus
+                                </button>
+                                <button class="btn btn-sm btn-reject reject-application-btn" data-id="${app.id}">
+                                    <i class="fas fa-times"></i> Tolak
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                }
             });
             
             // Re-add event listeners
@@ -3024,6 +3132,7 @@ Unit Disewa: ${assets.reduce((sum, a) => sum + (a.totalUnits - a.availableUnits)
 
 LOKASI DITOLAK:
 Jumlah: ${locationTracking.filter(loc => loc.status === 'rejected').length}
+Lokasi Dikembalikan: ${locationTracking.filter(loc => loc.status === 'available').length}
 
 Dihasilkan pada: ${new Date().toLocaleString('ms-MY')}
 Oleh: ${currentAdmin.name}
