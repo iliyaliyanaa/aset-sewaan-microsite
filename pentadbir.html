@@ -1859,9 +1859,7 @@
             
             processedApps.forEach(app => {
                 // Check if IC exists and is not empty
-               // const icValue = app.applicantIC ? formatIC(app.applicantIC) : '-';
-                // Check if IC exists and is not empty
-                const icValue = user.ic ? formatIC(user.ic) : '-';
+                const icValue = app.applicantIC ? formatIC(app.applicantIC) : '-';
                 
                 const row = document.createElement('tr');
                 row.innerHTML = `
