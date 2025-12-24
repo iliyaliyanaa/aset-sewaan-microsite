@@ -1732,7 +1732,7 @@
             </div>
         </div>
     </div>
-    
+
     <script>
         // ============================================
         // DATA STORAGE AND INITIALIZATION
@@ -1746,7 +1746,7 @@
             VACANCIES: 'asset_vacancies'
         };
         
-        // Data Kekosongan Lokasi
+        // Data Kekosongan Lokasi (Real-time AutoCount)
         const VACANCY_DATA = {
             kuarters: [
                 { id: 'Q001', name: 'Kuarters Kuala Perlis, Perlis', vacancies: 1 },
@@ -2128,9 +2128,12 @@
         }
         
         function loadUserDashboard() {
-            // Update statistics
+            // Update statistics based on real-time vacancy data
             const totalQuarters = assets.find(a => a.type === 'kuarters')?.totalUnits || 0;
-            const availableQuarters = assets.find(a => a.type === 'kuarters')?.availableUnits || 0;
+            
+            // Calculate available quarters from vacancies data
+            const availableQuarters = vacancies.kuarters?.reduce((sum, location) => sum + location.vacancies, 0) || 0;
+            
             const userApps = applications.filter(app => app.applicantId === currentUser.id);
             const pendingApps = userApps.filter(app => app.status === 'pending');
             
@@ -2138,6 +2141,9 @@
             document.getElementById('dashboardAvailableQuarters').textContent = availableQuarters;
             document.getElementById('dashboardMyApplications').textContent = userApps.length;
             document.getElementById('dashboardPending').textContent = pendingApps.length;
+            
+            // Update asset available units based on vacancies
+            updateAssetAvailability();
             
             // Update profile
             const user = users.find(u => u.id === currentUser.id);
@@ -2152,19 +2158,38 @@
                 document.getElementById('profileAvatar').textContent = getInitials(user.name);
             }
             
-            // Load quick access assets
+            // Load quick access assets with real-time availability
             loadQuickAccessAssets();
             
             // Load user applications
             loadUserApplications();
         }
         
+        function updateAssetAvailability() {
+            // Update each asset's availableUnits based on vacancies
+            assets.forEach(asset => {
+                if (vacancies[asset.type]) {
+                    const totalVacancies = vacancies[asset.type].reduce((sum, loc) => sum + loc.vacancies, 0);
+                    asset.availableUnits = totalVacancies;
+                }
+            });
+            
+            // Save updated assets
+            localStorage.setItem(STORAGE_KEYS.ASSETS, JSON.stringify(assets));
+        }
+        
         function loadAdminDashboard() {
-            // Update statistics
+            // Update statistics with real-time data
             document.getElementById('totalUsers').textContent = users.filter(u => u.role === 'user').length;
             document.getElementById('totalApplications').textContent = applications.length;
             document.getElementById('pendingApplications').textContent = applications.filter(app => app.status === 'pending').length;
-            document.getElementById('availableAssets').textContent = assets.reduce((sum, asset) => sum + asset.availableUnits, 0);
+            
+            // Calculate total available assets from vacancies
+            const totalAvailable = Object.keys(vacancies).reduce((total, assetType) => {
+                const assetVacancies = vacancies[assetType] || [];
+                return total + assetVacancies.reduce((sum, loc) => sum + loc.vacancies, 0);
+            }, 0);
+            document.getElementById('availableAssets').textContent = totalAvailable;
             
             // Load applications for admin
             loadAdminApplications();
@@ -2181,13 +2206,26 @@
                 const totalVacancies = vacancies[asset.type]?.reduce((sum, loc) => sum + loc.vacancies, 0) || 0;
                 const availableLocations = vacancies[asset.type]?.filter(loc => loc.vacancies > 0).length || 0;
                 
+                // Determine status
+                let statusClass, statusText;
+                if (totalVacancies > 3) {
+                    statusClass = 'status-available';
+                    statusText = `${totalVacancies} Tersedia`;
+                } else if (totalVacancies > 0) {
+                    statusClass = 'status-limited';
+                    statusText = `${totalVacancies} Terhad`;
+                } else {
+                    statusClass = 'status-unavailable';
+                    statusText = 'Tidak Tersedia';
+                }
+                
                 const card = document.createElement('div');
                 card.className = 'asset-card';
                 card.innerHTML = `
                     <div class="asset-image" style="background-color: ${asset.color}20; color: ${asset.color};">
                         <i class="${asset.icon}"></i>
-                        <div class="asset-status ${totalVacancies > 0 ? 'status-available' : 'status-unavailable'}">
-                            ${totalVacancies > 0 ? `${totalVacancies} Tersedia` : 'Tidak Tersedia'}
+                        <div class="asset-status ${statusClass}">
+                            ${statusText}
                         </div>
                     </div>
                     <div class="asset-content">
@@ -2238,17 +2276,37 @@
             const assetsGrid = document.getElementById('assetsGrid');
             assetsGrid.innerHTML = '';
             
+            // Calculate total available units for display
+            const totalAvailable = assets.reduce((sum, asset) => sum + (asset.availableUnits || 0), 0);
+            const totalUnits = assets.reduce((sum, asset) => sum + (asset.totalUnits || 0), 0);
+            
+            document.getElementById('availableCount').textContent = totalAvailable;
+            document.getElementById('totalCount').textContent = totalUnits;
+            
             assets.forEach(asset => {
                 const totalVacancies = vacancies[asset.type]?.reduce((sum, loc) => sum + loc.vacancies, 0) || 0;
                 const availableLocations = vacancies[asset.type]?.filter(loc => loc.vacancies > 0).length || 0;
+                
+                // Determine status
+                let statusClass, statusText;
+                if (totalVacancies > 3) {
+                    statusClass = 'status-available';
+                    statusText = `${totalVacancies} Tersedia`;
+                } else if (totalVacancies > 0) {
+                    statusClass = 'status-limited';
+                    statusText = `${totalVacancies} Terhad`;
+                } else {
+                    statusClass = 'status-unavailable';
+                    statusText = 'Tidak Tersedia';
+                }
                 
                 const card = document.createElement('div');
                 card.className = 'asset-card';
                 card.innerHTML = `
                     <div class="asset-image" style="background-color: ${asset.color}20; color: ${asset.color};">
                         <i class="${asset.icon}"></i>
-                        <div class="asset-status ${totalVacancies > 0 ? 'status-available' : 'status-unavailable'}">
-                            ${totalVacancies > 0 ? `${totalVacancies} Tersedia` : 'Tidak Tersedia'}
+                        <div class="asset-status ${statusClass}">
+                            ${statusText}
                         </div>
                     </div>
                     <div class="asset-content">
@@ -2348,22 +2406,36 @@
             const appList = document.getElementById('adminApplicationsList');
             appList.innerHTML = '';
             
-            const pendingApps = applications.filter(app => app.status === 'pending');
+            // Show all applications, newest first
+            const sortedApps = [...applications].sort((a, b) => new Date(b.applyDate) - new Date(a.applyDate));
             
-            if (pendingApps.length === 0) {
+            if (sortedApps.length === 0) {
                 appList.innerHTML = `
                     <div class="table-row" style="grid-template-columns: 1fr; text-align: center; padding: 2rem; color: var(--gray);">
                         <div>
                             <i class="fas fa-check-circle" style="font-size: 2rem; margin-bottom: 1rem; color: var(--success);"></i>
-                            <h4>Tiada Permohonan Baru</h4>
-                            <p>Semua permohonan telah diproses.</p>
+                            <h4>Tiada Permohonan</h4>
+                            <p>Belum ada permohonan dibuat.</p>
                         </div>
                     </div>
                 `;
                 return;
             }
             
-            pendingApps.forEach((app, index) => {
+            sortedApps.forEach((app, index) => {
+                let statusBadge;
+                switch(app.status) {
+                    case 'pending':
+                        statusBadge = '<span class="badge-processing" style="padding: 3px 10px; border-radius: 15px;">Menunggu</span>';
+                        break;
+                    case 'approved':
+                        statusBadge = '<span style="padding: 3px 10px; border-radius: 15px; background-color: rgba(40, 167, 69, 0.15); color: var(--success);">Diluluskan</span>';
+                        break;
+                    case 'rejected':
+                        statusBadge = '<span style="padding: 3px 10px; border-radius: 15px; background-color: rgba(220, 53, 69, 0.15); color: var(--danger);">Ditolak</span>';
+                        break;
+                }
+                
                 const row = document.createElement('div');
                 row.className = 'table-row';
                 row.innerHTML = `
@@ -2371,17 +2443,19 @@
                     <div>${app.applicantName}</div>
                     <div>${app.assetName}</div>
                     <div>${formatDate(app.applyDate)}</div>
-                    <div><span class="badge-processing" style="padding: 3px 10px; border-radius: 15px;">Menunggu</span></div>
+                    <div>${statusBadge}</div>
                     <div class="action-buttons">
                         <button class="action-btn" style="background-color: var(--primary); color: white;" data-app-id="${app.id}" data-action="view">
                             <i class="fas fa-eye"></i>
                         </button>
+                        ${app.status === 'pending' ? `
                         <button class="action-btn" style="background-color: var(--success); color: white;" data-app-id="${app.id}" data-action="approve">
                             <i class="fas fa-check"></i>
                         </button>
                         <button class="action-btn" style="background-color: var(--danger); color: white;" data-app-id="${app.id}" data-action="reject">
                             <i class="fas fa-times"></i>
                         </button>
+                        ` : ''}
                     </div>
                 `;
                 appList.appendChild(row);
@@ -2451,7 +2525,7 @@
         }
         
         // ============================================
-        // APPLICATION FUNCTIONS WITH DYNAMIC LOCATION
+        // APPLICATION FUNCTIONS WITH AUTOCOUNT
         // ============================================
         
         function openApplicationModal(assetType = null) {
@@ -2628,9 +2702,11 @@
             applications.unshift(application);
             localStorage.setItem(STORAGE_KEYS.APPLICATIONS, JSON.stringify(applications));
             
-            // Update vacancy count (reduce by 1)
+            // Update vacancy count (reduce by 1) - REAL-TIME AUTOCOUNT
             selectedLocation.vacancies -= 1;
             localStorage.setItem(STORAGE_KEYS.VACANCIES, JSON.stringify(vacancies));
+            
+            console.log(`📉 Lokasi ${selectedLocation.name} kekosongan berkurang ke: ${selectedLocation.vacancies}`);
             
             // Update asset availability
             const asset = assets.find(a => a.type === assetType);
@@ -2647,6 +2723,11 @@
             
             // Update dashboard
             loadDashboard();
+            
+            // Update all asset displays
+            if (document.getElementById('assetsPage').classList.contains('active')) {
+                loadAllAssets();
+            }
         }
         
         function viewApplicationDetails(appId) {
@@ -2682,6 +2763,18 @@
                             ${app.status === 'pending' ? 'Menunggu Kelulusan' : app.status === 'approved' ? 'Diluluskan' : 'Ditolak'}
                         </span>
                     </div>
+                    ${app.processedDate ? `
+                    <div class="detail-item">
+                        <span class="detail-label">Tarikh Diproses:</span>
+                        <span class="detail-value">${formatDate(app.processedDate)}</span>
+                    </div>
+                    ` : ''}
+                    ${app.processedBy ? `
+                    <div class="detail-item">
+                        <span class="detail-label">Diproses Oleh:</span>
+                        <span class="detail-value">${app.processedBy}</span>
+                    </div>
+                    ` : ''}
                 </div>
                 
                 <div style="background-color: var(--light); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
@@ -2770,21 +2863,28 @@
             // Save to localStorage
             localStorage.setItem(STORAGE_KEYS.APPLICATIONS, JSON.stringify(applications));
             
-            // If rejected, restore vacancy (lokasi naik balik)
+            // AUTOCOUNT SYSTEM: Kembalikan kekosongan jika permohonan ditolak
             if (status === 'rejected') {
+                // Kembalikan kekosongan lokasi (lokasi naik balik)
                 const location = vacancies[app.assetType]?.find(loc => loc.id === app.locationId);
                 if (location) {
                     location.vacancies += 1;
+                    console.log(`✅ Lokasi ${location.name} dikembalikan, kekosongan: ${location.vacancies}`);
                 }
                 
-                // Update asset availability
+                // Kembalikan kekosongan aset
                 const asset = assets.find(a => a.type === app.assetType);
                 if (asset) {
                     asset.availableUnits += 1;
+                    console.log(`✅ Aset ${asset.name} dikembalikan, unit tersedia: ${asset.availableUnits}`);
                 }
                 
+                // Simpan perubahan
                 localStorage.setItem(STORAGE_KEYS.VACANCIES, JSON.stringify(vacancies));
                 localStorage.setItem(STORAGE_KEYS.ASSETS, JSON.stringify(assets));
+                
+                // Tunjukkan notifikasi AutoCount
+                showAutoCountNotification(app, location);
             }
             
             // Update dashboard
@@ -2796,6 +2896,71 @@
             // If admin is processing, reload the admin applications list
             if (currentUser.role === 'admin') {
                 loadAdminApplications();
+            }
+            
+            // Update all displays
+            if (document.getElementById('assetsPage').classList.contains('active')) {
+                loadAllAssets();
+            }
+        }
+        
+        function showAutoCountNotification(app, location) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: linear-gradient(135deg, var(--success) 0%, #20c997 100%);
+                color: white;
+                padding: 15px 20px;
+                border-radius: 8px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                z-index: 9999;
+                max-width: 350px;
+                animation: slideIn 0.5s ease;
+            `;
+            
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                    <i class="fas fa-sync-alt" style="font-size: 1.2rem;"></i>
+                    <strong style="font-size: 1.1rem;">AutoCount System</strong>
+                </div>
+                <div style="font-size: 0.9rem;">
+                    <div>Kekosongan lokasi dikembalikan:</div>
+                    <div><strong>${location.name}</strong></div>
+                    <div>Kekosongan: <strong>${location.vacancies} unit</strong></div>
+                    <div style="margin-top: 8px; font-size: 0.8rem; opacity: 0.9;">
+                        <i class="fas fa-info-circle"></i> Lokasi kini tersedia untuk permohonan baru
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remove after 5 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.5s ease';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 500);
+            }, 5000);
+            
+            // Add CSS animations
+            if (!document.querySelector('#autocount-styles')) {
+                const style = document.createElement('style');
+                style.id = 'autocount-styles';
+                style.textContent = `
+                    @keyframes slideIn {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                    @keyframes slideOut {
+                        from { transform: translateX(0); opacity: 1; }
+                        to { transform: translateX(100%); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
             }
         }
         
@@ -2961,6 +3126,7 @@
             // Refresh applications (admin)
             document.getElementById('refreshApplications')?.addEventListener('click', function() {
                 loadAdminApplications();
+                alert('Senarai permohonan telah dikemas kini!');
             });
             
             // Add user button (admin)
@@ -2978,6 +3144,13 @@
                 } else {
                     passwordField.type = 'password';
                     icon.className = 'fas fa-eye';
+                }
+            });
+            
+            // Close details button
+            document.addEventListener('click', function(e) {
+                if (e.target.id === 'closeDetailsBtn') {
+                    closeModal('applicationDetailsModal');
                 }
             });
         }
@@ -3006,6 +3179,32 @@
         document.addEventListener('DOMContentLoaded', function() {
             initializeSystem();
             setupEventListeners();
+            
+            // Add AutoCount info to dashboard
+            const autoCountInfo = document.createElement('div');
+            autoCountInfo.style.cssText = `
+                background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+                color: white;
+                padding: 15px;
+                border-radius: 10px;
+                margin-top: 20px;
+                text-align: center;
+            `;
+            autoCountInfo.innerHTML = `
+                <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 5px;">
+                    <i class="fas fa-sync-alt fa-spin"></i>
+                    <strong>Sistem AutoCount Aktif</strong>
+                </div>
+                <div style="font-size: 0.9rem;">
+                    Kekosongan lokasi dikemas kini secara automatik apabila permohonan ditolak
+                </div>
+            `;
+            
+            // Insert after dashboard cards
+            const userDashboard = document.getElementById('userDashboard');
+            if (userDashboard) {
+                userDashboard.querySelector('.dashboard-cards')?.after(autoCountInfo);
+            }
         });
     </script>
 </body>
