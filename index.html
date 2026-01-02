@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Aset Sewaan - Portal Lengkap</title>
+    <title>Sistem Pengurusan Sewaan Aset Kerajaan</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -32,6 +32,7 @@
         body {
             background-color: #f5f7fa;
             color: var(--dark);
+            min-height: 100vh;
         }
         
         .container {
@@ -183,6 +184,17 @@
             color: var(--primary);
         }
         
+        .auth-tab.active:after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary);
+            border-radius: 3px;
+        }
+        
         .auth-form {
             display: none;
         }
@@ -252,6 +264,7 @@
             color: var(--gray);
             cursor: pointer;
             font-size: 1.1rem;
+            padding: 5px;
         }
         
         .auth-form-options {
@@ -288,6 +301,12 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
+        .auth-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
         .auth-footer {
             text-align: center;
             margin-top: 30px;
@@ -299,6 +318,12 @@
             color: var(--primary);
             text-decoration: none;
             font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        .auth-footer a:hover {
+            color: var(--accent);
+            text-decoration: underline;
         }
         
         .user-type-selection {
@@ -315,6 +340,10 @@
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
+        }
+        
+        .user-type-option:hover {
+            border-color: var(--secondary);
         }
         
         .user-type-option.selected {
@@ -350,6 +379,202 @@
             margin: 0 auto 20px;
             font-size: 2.5rem;
             color: var(--success);
+        }
+        
+        /* Password strength meter */
+        .password-strength {
+            margin-top: 8px;
+            height: 5px;
+            background-color: #e9ecef;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s, background-color 0.3s;
+        }
+        
+        .strength-weak { background-color: #dc3545; }
+        .strength-fair { background-color: #ffc107; }
+        .strength-good { background-color: #28a745; }
+        .strength-strong { background-color: #159895; }
+        
+        .password-requirements {
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        
+        .password-requirements ul {
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+        
+        .password-requirements li {
+            margin-bottom: 3px;
+        }
+        
+        .requirement-met {
+            color: var(--success);
+        }
+        
+        .requirement-not-met {
+            color: var(--danger);
+        }
+        
+        /* Error messages */
+        .error-message {
+            color: var(--danger);
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
+        /* Success messages */
+        .success-message {
+            color: var(--success);
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .success-message.show {
+            display: block;
+        }
+        
+        /* Loading spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Forgot password specific styles */
+        .forgot-password-container {
+            display: none;
+        }
+        
+        .forgot-password-container.active {
+            display: block;
+        }
+        
+        .forgot-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .forgot-steps:before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 25px;
+            right: 25px;
+            height: 2px;
+            background-color: var(--light-gray);
+            z-index: 1;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+        
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            color: var(--gray);
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .step.active .step-icon {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .step.completed .step-icon {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .step-text {
+            font-size: 0.8rem;
+            color: var(--gray);
+            text-align: center;
+        }
+        
+        .step.active .step-text {
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        /* Reset code input */
+        .reset-code-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .reset-code-input {
+            width: 50px;
+            height: 60px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        .reset-code-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26, 95, 122, 0.1);
+        }
+        
+        .reset-code-input.filled {
+            border-color: var(--primary);
+            background-color: rgba(26, 95, 122, 0.05);
+        }
+        
+        /* Countdown timer */
+        .countdown-timer {
+            font-size: 0.85rem;
+            color: var(--warning);
+            font-weight: 500;
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        .countdown-timer.expired {
+            color: var(--danger);
         }
         
         /* ===== MAIN APPLICATION ===== */
@@ -951,32 +1176,6 @@
             cursor: pointer;
         }
         
-        /* Responsive */
-        @media (max-width: 992px) {
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-            
-            .table-header, .table-row {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .auth-container {
-                flex-direction: column;
-            }
-            
-            .user-type-selection {
-                grid-template-columns: 1fr;
-            }
-            
-            .assets-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
         /* Page Content */
         .page-content {
             display: none;
@@ -986,16 +1185,59 @@
             display: block;
         }
         
-        /* Validation Messages */
-        .validation-message {
-            font-size: 0.85rem;
-            margin-top: 5px;
-            display: none;
+        /* Responsive */
+        @media (max-width: 992px) {
+            .auth-container {
+                flex-direction: column;
+                max-width: 600px;
+            }
+            
+            .auth-left {
+                padding: 30px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .table-header, .table-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .reset-code-container {
+                flex-wrap: wrap;
+            }
+            
+            .reset-code-input {
+                width: 45px;
+                height: 55px;
+            }
         }
         
-        .validation-message.error {
-            color: var(--danger);
-            display: block;
+        @media (max-width: 768px) {
+            .user-type-selection {
+                grid-template-columns: 1fr;
+            }
+            
+            .assets-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                overflow-x: auto;
+                padding: 10px 0;
+            }
+            
+            .nav-links a {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .forgot-steps:before {
+                left: 20px;
+                right: 20px;
+            }
         }
         
         /* Location Selector Styles */
@@ -1107,133 +1349,341 @@
             
             <div class="auth-right">
                 <div class="auth-form-container">
+                    <!-- Tab Navigation (Only Login & Register) -->
                     <div class="auth-tabs">
                         <button class="auth-tab active" id="loginTab">Log Masuk</button>
                         <button class="auth-tab" id="registerTab">Daftar Akaun</button>
                     </div>
                     
-                    <form class="auth-form active" id="loginForm">
-                        <div class="auth-title">
-                            <h2>Log Masuk</h2>
-                            <p>Sila masukkan maklumat akaun anda</p>
-                        </div>
-                        
-                        <div class="auth-form-group">
-                            <label for="loginEmail" class="required">Email atau No. KP</label>
-                            <div class="auth-input-with-icon">
-                                <i class="fas fa-user auth-input-icon"></i>
-                                <input type="text" id="loginEmail" class="auth-input" placeholder="cth: user@email.com atau 800101011234" required>
+                    <!-- Main Auth Forms Container -->
+                    <div id="mainAuthContainer">
+                        <!-- Login Form -->
+                        <form class="auth-form active" id="loginForm">
+                            <div class="auth-title">
+                                <h2>Log Masuk</h2>
+                                <p>Sila masukkan maklumat akaun anda</p>
                             </div>
-                            <div class="validation-message" id="loginEmailError"></div>
-                        </div>
-                        
-                        <div class="auth-form-group">
-                            <label for="loginPassword" class="required">Kata Laluan</label>
-                            <div class="auth-input-with-icon">
-                                <i class="fas fa-lock auth-input-icon"></i>
-                                <input type="password" id="loginPassword" class="auth-input" placeholder="Masukkan kata laluan" required>
-                                <button type="button" class="auth-password-toggle" id="toggleLoginPassword">
-                                    <i class="fas fa-eye"></i>
-                                </button>
+                            
+                            <div class="auth-form-group">
+                                <label for="loginEmail" class="required">Email atau No. KP</label>
+                                <div class="auth-input-with-icon">
+                                    <i class="fas fa-user auth-input-icon"></i>
+                                    <input type="text" id="loginEmail" class="auth-input" placeholder="cth: user@email.com atau 800101011234" required>
+                                </div>
+                                <div class="error-message" id="loginEmailError"></div>
                             </div>
-                            <div class="validation-message" id="loginPasswordError"></div>
-                        </div>
-                        
-                        <div class="auth-form-options">
-                            <div class="auth-remember">
-                                <input type="checkbox" id="rememberMe">
-                                <label for="rememberMe">Ingat saya</label>
+                            
+                            <div class="auth-form-group">
+                                <label for="loginPassword" class="required">Kata Laluan</label>
+                                <div class="auth-input-with-icon">
+                                    <i class="fas fa-lock auth-input-icon"></i>
+                                    <input type="password" id="loginPassword" class="auth-input" placeholder="Masukkan kata laluan" required>
+                                    <button type="button" class="auth-password-toggle" id="toggleLoginPassword">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="error-message" id="loginPasswordError"></div>
                             </div>
-                        </div>
+                            
+                            <div class="auth-form-options">
+                                <div class="auth-remember">
+                                    <input type="checkbox" id="rememberMe">
+                                    <label for="rememberMe">Ingat saya</label>
+                                </div>
+                                <div>
+                                    <a href="#" id="forgotPasswordLink" style="color: var(--primary); text-decoration: none; font-weight: 500;">
+                                        Lupa kata laluan?
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="auth-btn auth-btn-primary" id="loginBtn">
+                                <i class="fas fa-sign-in-alt"></i> Log Masuk
+                            </button>
+                            
+                            <div class="auth-footer">
+                                Tiada akaun? <a href="#" id="goToRegister">Daftar di sini</a>
+                            </div>
+                        </form>
                         
-                        <button type="submit" class="auth-btn auth-btn-primary">
-                            <i class="fas fa-sign-in-alt"></i> Log Masuk
-                        </button>
+                        <!-- Register Form -->
+                        <form class="auth-form" id="registerForm">
+                            <div class="auth-title">
+                                <h2>Daftar Akaun Baru</h2>
+                                <p>Sila isi maklumat di bawah</p>
+                            </div>
+                            
+                            <div class="user-type-selection">
+                                <div class="user-type-option selected" data-type="staff">
+                                    <i class="fas fa-user-tie"></i>
+                                    <h4>Kakitangan Kerajaan</h4>
+                                    <p>Untuk permohonan kuarters</p>
+                                </div>
+                                <div class="user-type-option" data-type="public">
+                                    <i class="fas fa-users"></i>
+                                    <h4>Orang Awam</h4>
+                                    <p>Untuk sewaan aset lain</p>
+                                </div>
+                            </div>
+                            <input type="hidden" id="userType" value="staff">
+                            
+                            <div class="auth-form-group">
+                                <label for="registerName" class="required">Nama Penuh</label>
+                                <div class="auth-input-with-icon">
+                                    <i class="fas fa-user auth-input-icon"></i>
+                                    <input type="text" id="registerName" class="auth-input" placeholder="Masukkan nama penuh" required>
+                                </div>
+                            </div>
+                            
+                            <div class="auth-form-group">
+                                <label for="registerIC" class="required">No. Kad Pengenalan</label>
+                                <div class="auth-input-with-icon">
+                                    <i class="fas fa-id-card auth-input-icon"></i>
+                                    <input type="text" id="registerIC" class="auth-input" placeholder="cth: 800101011234" required>
+                                </div>
+                            </div>
+                            
+                            <div class="auth-form-group">
+                                <label for="registerEmail" class="required">Alamat Email</label>
+                                <div class="auth-input-with-icon">
+                                    <i class="fas fa-envelope auth-input-icon"></i>
+                                    <input type="email" id="registerEmail" class="auth-input" placeholder="cth: user@email.com" required>
+                                </div>
+                            </div>
+                            
+                            <div class="auth-form-group">
+                                <label for="registerPhone" class="required">No. Telefon</label>
+                                <div class="auth-input-with-icon">
+                                    <i class="fas fa-phone auth-input-icon"></i>
+                                    <input type="tel" id="registerPhone" class="auth-input" placeholder="cth: 0123456789" required>
+                                </div>
+                            </div>
+                            
+                            <div class="auth-form-group">
+                                <label for="registerPassword" class="required">Kata Laluan</label>
+                                <div class="auth-input-with-icon">
+                                    <i class="fas fa-lock auth-input-icon"></i>
+                                    <input type="password" id="registerPassword" class="auth-input" placeholder="Minimum 8 aksara" required>
+                                    <button type="button" class="auth-password-toggle" id="toggleRegisterPassword">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="password-strength">
+                                    <div class="strength-bar" id="passwordStrengthBar"></div>
+                                </div>
+                                <div class="password-requirements">
+                                    <p>Keperluan kata laluan:</p>
+                                    <ul>
+                                        <li id="reqLength" class="requirement-not-met">Minimum 8 aksara</li>
+                                        <li id="reqUpper" class="requirement-not-met">Sekurang-kurangnya 1 huruf besar</li>
+                                        <li id="reqNumber" class="requirement-not-met">Sekurang-kurangnya 1 nombor</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="auth-form-group">
+                                <label for="confirmPassword" class="required">Sahkan Kata Laluan</label>
+                                <div class="auth-input-with-icon">
+                                    <i class="fas fa-lock auth-input-icon"></i>
+                                    <input type="password" id="confirmPassword" class="auth-input" placeholder="Masukkan semula kata laluan" required>
+                                    <button type="button" class="auth-password-toggle" id="toggleConfirmRegisterPassword">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="error-message" id="confirmPasswordError"></div>
+                            </div>
+                            
+                            <div class="auth-form-group">
+                                <div style="display: flex; align-items: start; gap: 10px;">
+                                    <input type="checkbox" id="agreeTerms" required style="margin-top: 3px;">
+                                    <label for="agreeTerms" style="margin-bottom: 0; font-size: 0.9rem;">
+                                        Saya bersetuju dengan Terma & Syarat dan Dasar Privasi
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="auth-btn auth-btn-primary" id="registerBtn">
+                                <i class="fas fa-user-plus"></i> Daftar Akaun
+                            </button>
+                            
+                            <div class="auth-footer">
+                                Sudah ada akaun? <a href="#" id="goToLogin">Log masuk di sini</a>
+                            </div>
+                        </form>
                         
-                        <div class="auth-footer">
-                            Tiada akaun? <a href="#" id="goToRegister">Daftar di sini</a>
+                        <!-- Registration Success Message -->
+                        <div class="auth-success" id="successMessage">
+                            <div class="auth-success-icon">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <h2>Pendaftaran Berjaya!</h2>
+                            <p>Akaun anda telah berjaya didaftarkan.</p>
+                            <button class="auth-btn auth-btn-primary" id="goToLoginFromSuccess" style="margin-top: 20px;">
+                                <i class="fas fa-sign-in-alt"></i> Log Masuk Sekarang
+                            </button>
                         </div>
-                    </form>
+                    </div>
                     
-                    <form class="auth-form" id="registerForm">
-                        <div class="auth-title">
-                            <h2>Daftar Akaun Baru</h2>
-                            <p>Sila isi maklumat di bawah</p>
-                        </div>
-                        
-                        <div class="user-type-selection">
-                            <div class="user-type-option selected" data-type="staff">
-                                <i class="fas fa-user-tie"></i>
-                                <h4>Kakitangan Kerajaan</h4>
-                                <p>Untuk permohonan kuarters</p>
+                    <!-- Forgot Password Container (Hidden by Default) -->
+                    <div class="forgot-password-container" id="forgotPasswordContainer">
+                        <!-- Step 1: Enter Email -->
+                        <div class="forgot-step" id="step1">
+                            <div class="forgot-steps">
+                                <div class="step active" id="step1Indicator">
+                                    <div class="step-icon">1</div>
+                                    <div class="step-text">Masukkan Email</div>
+                                </div>
+                                <div class="step" id="step2Indicator">
+                                    <div class="step-icon">2</div>
+                                    <div class="step-text">Sahkan Kod</div>
+                                </div>
+                                <div class="step" id="step3Indicator">
+                                    <div class="step-icon">3</div>
+                                    <div class="step-text">Kata Laluan Baru</div>
+                                </div>
                             </div>
-                            <div class="user-type-option" data-type="public">
-                                <i class="fas fa-users"></i>
-                                <h4>Orang Awam</h4>
-                                <p>Untuk sewaan aset lain</p>
+                            
+                            <div class="auth-title">
+                                <h2>Lupa Kata Laluan</h2>
+                                <p>Masukkan email anda untuk menetapkan semula kata laluan</p>
                             </div>
-                        </div>
-                        <input type="hidden" id="userType" value="staff">
-                        
-                        <div class="auth-form-group">
-                            <label for="registerName" class="required">Nama Penuh</label>
-                            <div class="auth-input-with-icon">
-                                <i class="fas fa-user auth-input-icon"></i>
-                                <input type="text" id="registerName" class="auth-input" placeholder="Masukkan nama penuh" required>
+                            
+                            <div class="auth-form-group">
+                                <label for="forgotEmail" class="required">Alamat Email</label>
+                                <div class="auth-input-with-icon">
+                                    <i class="fas fa-envelope auth-input-icon"></i>
+                                    <input type="email" id="forgotEmail" class="auth-input" placeholder="cth: user@email.com" required>
+                                </div>
+                                <div class="error-message" id="forgotEmailError"></div>
+                                <div class="success-message" id="forgotEmailSuccess"></div>
                             </div>
-                        </div>
-                        
-                        <div class="auth-form-group">
-                            <label for="registerIC" class="required">No. Kad Pengenalan</label>
-                            <div class="auth-input-with-icon">
-                                <i class="fas fa-id-card auth-input-icon"></i>
-                                <input type="text" id="registerIC" class="auth-input" placeholder="cth: 800101011234" required>
-                            </div>
-                        </div>
-                        
-                        <div class="auth-form-group">
-                            <label for="registerEmail" class="required">Alamat Email</label>
-                            <div class="auth-input-with-icon">
-                                <i class="fas fa-envelope auth-input-icon"></i>
-                                <input type="email" id="registerEmail" class="auth-input" placeholder="cth: user@email.com" required>
-                            </div>
-                        </div>
-                        
-                        <div class="auth-form-group">
-                            <label for="registerPassword" class="required">Kata Laluan</label>
-                            <div class="auth-input-with-icon">
-                                <i class="fas fa-lock auth-input-icon"></i>
-                                <input type="password" id="registerPassword" class="auth-input" placeholder="Minimum 8 aksara" required>
+                            
+                            <button type="button" class="auth-btn auth-btn-primary" id="sendResetBtn">
+                                <i class="fas fa-paper-plane"></i> Hantar Kod Pengesahan
+                            </button>
+                            
+                            <div class="auth-footer">
+                                <a href="#" id="backToLoginFromForgot"><i class="fas fa-arrow-left"></i> Kembali ke Log Masuk</a>
                             </div>
                         </div>
                         
-                        <div class="auth-form-group">
-                            <div style="display: flex; align-items: start; gap: 10px;">
-                                <input type="checkbox" id="agreeTerms" required style="margin-top: 3px;">
-                                <label for="agreeTerms" style="margin-bottom: 0; font-size: 0.9rem;">
-                                    Saya bersetuju dengan Terma & Syarat dan Dasar Privasi
-                                </label>
+                        <!-- Step 2: Verify Code -->
+                        <div class="forgot-step" id="step2" style="display: none;">
+                            <div class="forgot-steps">
+                                <div class="step completed">
+                                    <div class="step-icon"><i class="fas fa-check"></i></div>
+                                    <div class="step-text">Masukkan Email</div>
+                                </div>
+                                <div class="step active">
+                                    <div class="step-icon">2</div>
+                                    <div class="step-text">Sahkan Kod</div>
+                                </div>
+                                <div class="step">
+                                    <div class="step-icon">3</div>
+                                    <div class="step-text">Kata Laluan Baru</div>
+                                </div>
+                            </div>
+                            
+                            <div class="auth-title">
+                                <h2>Sahkan Kod Pengesahan</h2>
+                                <p>Masukkan 6-digit kod yang dihantar ke email anda</p>
+                            </div>
+                            
+                            <div class="auth-form-group">
+                                <label for="resetCode" class="required">Kod Pengesahan</label>
+                                <div class="reset-code-container">
+                                    <input type="text" class="reset-code-input" maxlength="1" data-index="0">
+                                    <input type="text" class="reset-code-input" maxlength="1" data-index="1">
+                                    <input type="text" class="reset-code-input" maxlength="1" data-index="2">
+                                    <input type="text" class="reset-code-input" maxlength="1" data-index="3">
+                                    <input type="text" class="reset-code-input" maxlength="1" data-index="4">
+                                    <input type="text" class="reset-code-input" maxlength="1" data-index="5">
+                                </div>
+                                <input type="hidden" id="resetCode">
+                                <div class="error-message" id="resetCodeError"></div>
+                                <div class="countdown-timer" id="codeTimer"></div>
+                            </div>
+                            
+                            <button type="button" class="auth-btn auth-btn-primary" id="verifyCodeBtn" disabled>
+                                <i class="fas fa-check"></i> Sahkan Kod
+                            </button>
+                            
+                            <div class="auth-footer">
+                                <a href="#" id="backToEmailStep"><i class="fas fa-arrow-left"></i> Kembali ke langkah sebelumnya</a>
+                                <br>
+                                <a href="#" id="resendCodeLink" style="font-size: 0.85rem; color: var(--gray);">Hantar semula kod</a>
                             </div>
                         </div>
                         
-                        <button type="submit" class="auth-btn auth-btn-primary">
-                            <i class="fas fa-user-plus"></i> Daftar Akaun
-                        </button>
+                        <!-- Step 3: New Password -->
+                        <div class="forgot-step" id="step3" style="display: none;">
+                            <div class="forgot-steps">
+                                <div class="step completed">
+                                    <div class="step-icon"><i class="fas fa-check"></i></div>
+                                    <div class="step-text">Masukkan Email</div>
+                                </div>
+                                <div class="step completed">
+                                    <div class="step-icon"><i class="fas fa-check"></i></div>
+                                    <div class="step-text">Sahkan Kod</div>
+                                </div>
+                                <div class="step active">
+                                    <div class="step-icon">3</div>
+                                    <div class="step-text">Kata Laluan Baru</div>
+                                </div>
+                            </div>
+                            
+                            <div class="auth-title">
+                                <h2>Set Semula Kata Laluan</h2>
+                                <p>Masukkan kata laluan baru anda</p>
+                            </div>
+                            
+                            <div class="auth-form-group">
+                                <label for="newPassword" class="required">Kata Laluan Baru</label>
+                                <div class="auth-input-with-icon">
+                                    <i class="fas fa-lock auth-input-icon"></i>
+                                    <input type="password" id="newPassword" class="auth-input" placeholder="Minimum 8 aksara" required>
+                                    <button type="button" class="auth-password-toggle" id="toggleNewPassword">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="password-strength">
+                                    <div class="strength-bar" id="newPasswordStrengthBar"></div>
+                                </div>
+                                <div class="error-message" id="newPasswordError"></div>
+                            </div>
+                            
+                            <div class="auth-form-group">
+                                <label for="confirmNewPassword" class="required">Sahkan Kata Laluan Baru</label>
+                                <div class="auth-input-with-icon">
+                                    <i class="fas fa-lock auth-input-icon"></i>
+                                    <input type="password" id="confirmNewPassword" class="auth-input" placeholder="Masukkan semula kata laluan" required>
+                                    <button type="button" class="auth-password-toggle" id="toggleConfirmNewPassword">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="error-message" id="confirmNewPasswordError"></div>
+                            </div>
+                            
+                            <button type="button" class="auth-btn auth-btn-primary" id="resetPasswordBtn">
+                                <i class="fas fa-sync-alt"></i> Set Semula Kata Laluan
+                            </button>
+                            
+                            <div class="auth-footer">
+                                <a href="#" id="backToCodeStep"><i class="fas fa-arrow-left"></i> Kembali ke pengesahan kod</a>
+                            </div>
+                        </div>
                         
-                        <div class="auth-footer">
-                            Sudah ada akaun? <a href="#" id="goToLogin">Log masuk di sini</a>
+                        <!-- Forgot Password Success -->
+                        <div class="auth-success" id="forgotSuccessMessage" style="display: none;">
+                            <div class="auth-success-icon">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <h2>Kata Laluan Berjaya Ditetapkan Semula!</h2>
+                            <p>Anda kini boleh log masuk dengan kata laluan baru anda.</p>
+                            <button class="auth-btn auth-btn-primary" id="goToLoginAfterReset" style="margin-top: 20px;">
+                                <i class="fas fa-sign-in-alt"></i> Log Masuk Sekarang
+                            </button>
                         </div>
-                    </form>
-                    
-                    <div class="auth-success" id="successMessage">
-                        <div class="auth-success-icon">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <h2>Pendaftaran Berjaya!</h2>
-                        <p>Akaun anda telah berjaya didaftarkan.</p>
-                        <button class="auth-btn auth-btn-primary" id="goToLoginFromSuccess" style="margin-top: 20px;">
-                            <i class="fas fa-sign-in-alt"></i> Log Masuk Sekarang
-                        </button>
                     </div>
                 </div>
             </div>
@@ -1292,7 +1742,6 @@
                         <div class="welcome-content">
                             <h2 id="welcomeTitle">Selamat Datang!</h2>
                             <p id="welcomeMessage">Portal sewaan aset.</p>
-                           <!-- <span class="user-type-badge" id="userWelcomeBadge">Kakitangan Kerajaan</span>-->
                         </div>
                         <div style="font-size: 4rem; color: var(--secondary); opacity: 0.7;">
                             <i class="fas fa-hand-wave"></i>
@@ -1464,6 +1913,7 @@
                             <div>
                                 <h3 style="color: var(--primary); margin-bottom: 5px;" id="profileName">Nama Pengguna</h3>
                                 <p style="color: var(--gray); margin-bottom: 5px;" id="profileEmail">email@example.com</p>
+                                <span class="user-type-badge" id="profileType">Kakitangan Kerajaan</span>
                             </div>
                         </div>
                         
@@ -1479,13 +1929,18 @@
                             </div>
                             
                             <div>
-                                <label style="display: block; margin-bottom: 5px; color: var(--gray);">Alamat</label>
-                                <div style="font-weight: 500;" id="profileAddress">-</div>
+                                <label style="display: block; margin-bottom: 5px; color: var(--gray);">Jabatan</label>
+                                <div style="font-weight: 500;" id="profileDepartment">-</div>
                             </div>
                             
                             <div>
                                 <label style="display: block; margin-bottom: 5px; color: var(--gray);">Ahli Sejak</label>
                                 <div style="font-weight: 500;" id="profileSince">-</div>
+                            </div>
+                            
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; color: var(--gray);">Alamat</label>
+                                <div style="font-weight: 500;" id="profileAddress">-</div>
                             </div>
                             
                             <div>
@@ -1539,10 +1994,19 @@
                             <li><i class="fas fa-clock"></i> Isnin - Jumaat: 8:30am - 5:30pm</li>
                         </ul>
                     </div>
+                    
+                    <div class="footer-section">
+                        <h3>Bantuan Pantas</h3>
+                        <ul class="footer-links" style="list-style: none; color: #ccc;">
+                            <li><a href="#" style="color: #ccc; text-decoration: none;" data-page="assets">Aset Tersedia</a></li>
+                            <li><a href="#" style="color: #ccc; text-decoration: none;" data-page="application">Status Permohonan</a></li>
+                            <li><a href="#" style="color: #ccc; text-decoration: none;" data-page="profile">Profil Saya</a></li>
+                        </ul>
+                    </div>
                 </div>
                 
                 <div class="copyright">
-                    &copy; 2023 Portal Sewaan Aset. Hak Cipta Terpelihara.
+                    &copy; 2023 Portal Sewaan Aset Kerajaan. Hak Cipta Terpelihara.
                 </div>
             </div>
         </footer>
@@ -1594,15 +2058,6 @@
                                 <option value="pejabat">Pejabat</option>
                                 <option value="tanah">Tanah Lot</option>
                                 <option value="rumah_rehat">Rumah Rehat</option>
-                                <option value="kedai">Lot Kedai</option>
-                                <option value="bilik">Bilik Sejuk</option>
-                                <option value="slipway">Slipway</option>
-                                <option value="pphp">PPHP</option>
-                                <option value="kompleks">Kompleks</option>
-                                <option value="pasar">Pasar Nelayan</option>
-                                <option value="akuakultur">Akuakultur</option>
-                                <option value="ccdc">CCDC</option>
-                                <option value="jeti">Jeti</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -1743,10 +2198,108 @@
             CURRENT_USER: 'current_asset_user',
             APPLICATIONS: 'user_applications',
             ASSETS: 'asset_data',
-            VACANCIES: 'asset_vacancies'
+            VACANCIES: 'asset_vacancies',
+            RESET_CODES: 'password_reset_codes'
         };
         
-       // Data Kekosongan Lokasi (Real-time AutoCount)
+        // Demo Users
+        const DEMO_USERS = [
+            {
+                id: 1,
+                name: "Ahmad bin Ali",
+                ic: "850505011234",
+                email: "ahmad@email.com",
+                phone: "0123456789",
+                password: "Password123",
+                address: "No 123, Jalan Bunga, 43000 Kajang, Selangor",
+                userType: "staff",
+                typeText: "Kakitangan Kerajaan",
+                department: "Jabatan Kerja Raya",
+                createdAt: "2023-10-01",
+                status: "active",
+                role: "user"
+            },
+            {
+                id: 2,
+                name: "Admin Sistem",
+                ic: "900101011234",
+                email: "admin@email.com",
+                phone: "0123456789",
+                password: "Admin123",
+                address: "Aras 5, Menara Kerajaan, Putrajaya",
+                userType: "admin",
+                typeText: "Pentadbir Sistem",
+                department: "Pentadbiran",
+                createdAt: "2023-10-01",
+                status: "active",
+                role: "admin"
+            },
+            {
+                id: 3,
+                name: "Siti binti Hassan",
+                ic: "900101011234",
+                email: "siti@email.com",
+                phone: "0134567890",
+                password: "Password123",
+                address: "No 45, Taman Mewah, 53100 Kuala Lumpur",
+                userType: "public",
+                typeText: "Orang Awam",
+                department: "",
+                createdAt: "2023-10-05",
+                status: "active",
+                role: "user"
+            }
+        ];
+        
+        // Asset Data
+        const ASSETS_DATA = [
+            {
+                id: 1,
+                type: "kuarters",
+                name: "Kuarters Kakitangan",
+                icon: "fas fa-home",
+                color: "#9b59b6",
+                description: "Kuarters untuk kakitangan kerajaan dengan kemudahan lengkap. 3 bilik tidur, 2 bilik air, dapur dan ruang tamu.",
+                monthlyRent: "RM 450",
+                totalUnits: 181,
+                availableUnits: 49
+            },
+            {
+                id: 2,
+                type: "pejabat",
+                name: "Sewa Pejabat",
+                icon: "fas fa-building",
+                color: "#3498db",
+                description: "Pejabat di lokasi strategik dengan kemudahan lengkap termasuk parking, sistem keselamatan dan internet.",
+                monthlyRent: "RM 2,500",
+                totalUnits: 24,
+                availableUnits: 3
+            },
+            {
+                id: 3,
+                type: "tanah",
+                name: "Tanah Lot",
+                icon: "fas fa-map-marked-alt",
+                color: "#2ecc71",
+                description: "Tanah lot untuk tujuan perindustrian atau komersial. Lokasi strategik dengan akses jalan raya utama.",
+                monthlyRent: "RM 3,200",
+                totalUnits: 8,
+                availableUnits: 3
+            },
+            {
+                id: 4,
+                type: "rumah_rehat",
+                name: "Rumah Rehat",
+                icon: "fas fa-bed",
+                color: "#e74c3c",
+                description: "Rumah rehat untuk kegunaan rasmi dengan kemudahan asas dan suasana yang selesa.",
+                monthlyRent: "RM 1,200",
+                totalUnits: 12,
+                availableUnits: 2
+            }
+        ];
+        
+        // Data Kekosongan Lokasi (Real-time AutoCount)
         const VACANCY_DATA = {
             kuarters: [
                 { id: 'Q001', name: 'Kuarters Kuala Perlis, Perlis', vacancies: 1 },
@@ -1803,8 +2356,7 @@
                 { id: 'L0010', name: 'Tanah Sarawak', vacancies: 4 }
             ],
             rumah_rehat: [
-                { id: 'RR001', name: 'Rumah Rehat Bayu Beach Resort, Port Dickson', vacancies: 1 },
-                { id: 'RR002', name: 'Rumah Rehat Acheh', vacancies: 3 }
+                { id: 'RR001', name: 'Rumah Rehat Bayu Beach Resort, Port Dickson', vacancies: 1 }
                 
             ],
             bilik: [
@@ -1883,110 +2435,18 @@
                 { id: 'JT0012', name: 'Jeti Sarawak', vacancies: 17 },
                 { id: 'JT0013', name: 'Jeti WP Labuan', vacancies: 1 },
                 { id: 'JT0014', name: 'Jeti Sabah', vacancies: 32 }
-            ]
+            ],
         };
-        
-        // Demo Users
-        const DEMO_USERS = [
-            {
-                id: 1,
-                name: "Ahmad bin Ali",
-                ic: "850505011234",
-                email: "ahmad@email.com",
-                phone: "0123456789",
-                password: "password123",
-                userType: "staff",
-                typeText: "Kakitangan Kerajaan",
-                department: "Jabatan Kerja Raya",
-                address: "No 123, Jalan Bunga, 43000 Kajang, Selangor",
-                createdAt: "2023-10-01",
-                status: "active",
-                role: "user"
-            },
-            {
-                id: 2,
-                name: "Admin Sistem",
-                ic: "900101011234",
-                email: "admin@email.com",
-                phone: "0123456789",
-                password: "admin123",
-                userType: "admin",
-                typeText: "Pentadbir Sistem",
-                department: "Pentadbiran",
-                address: "Aras 5, Menara Kerajaan, Putrajaya",
-                createdAt: "2023-10-01",
-                status: "active",
-                role: "admin"
-            },
-            {
-                id: 3,
-                name: "Siti binti Hassan",
-                ic: "900101011234",
-                email: "siti@email.com",
-                phone: "0134567890",
-                password: "password123",
-                userType: "public",
-                typeText: "Orang Awam",
-                address: "No 45, Taman Mewah, 53100 Kuala Lumpur",
-                createdAt: "2023-10-05",
-                status: "active",
-                role: "user"
-            }
-        ];
-        
-        // Asset Data
-        const ASSETS_DATA = [
-            {
-                id: 1,
-                type: "kuarters",
-                name: "Kuarters Kakitangan",
-                icon: "fas fa-home",
-                color: "#9b59b6",
-                description: "Kuarters untuk kakitangan kerajaan dengan kemudahan lengkap. 3 bilik tidur, 2 bilik air, dapur dan ruang tamu.",
-                monthlyRent: "RM 450",
-                totalUnits: 181,
-                availableUnits: 49
-            },
-            {
-                id: 2,
-                type: "pejabat",
-                name: "Sewa Pejabat",
-                icon: "fas fa-building",
-                color: "#3498db",
-                description: "Pejabat di lokasi strategik dengan kemudahan lengkap termasuk parking, sistem keselamatan dan internet.",
-                monthlyRent: "RM 2,500",
-                totalUnits: 24,
-                availableUnits: 3
-            },
-            {
-                id: 3,
-                type: "kedai",
-                name: "Lot Kedai",
-                icon: "fas fa-store",
-                color: "#f39c12",
-                description: "Lot kedai di kawasan komersial dengan foot traffic tinggi. Sesuai untuk perniagaan runcit dan servis.",
-                monthlyRent: "RM 1,800",
-                totalUnits: 15,
-                availableUnits: 4
-            },
-            {
-                id: 4,
-                type: "tanah",
-                name: "Tanah Lot",
-                icon: "fas fa-map-marked-alt",
-                color: "#2ecc71",
-                description: "Tanah lot untuk tujuan perindustrian atau komersial. Lokasi strategik dengan akses jalan raya utama.",
-                monthlyRent: "RM 3,200",
-                totalUnits: 8,
-                availableUnits: 3
-            }
-        ];
         
         let currentUser = null;
         let users = [];
         let applications = [];
         let assets = [];
         let vacancies = VACANCY_DATA;
+        let resetCodes = {};
+        let currentForgotEmail = '';
+        let resetCodeExpiry = null;
+        let countdownInterval = null;
         
         // Initialize System
         function initializeSystem() {
@@ -2014,6 +2474,13 @@
             } else {
                 localStorage.setItem(STORAGE_KEYS.VACANCIES, JSON.stringify(vacancies));
             }
+            
+            // Initialize reset codes
+            const storedResetCodes = localStorage.getItem(STORAGE_KEYS.RESET_CODES);
+            resetCodes = storedResetCodes ? JSON.parse(storedResetCodes) : {};
+            
+            // Clean up expired reset codes
+            cleanupExpiredResetCodes();
             
             // Check login status
             checkLoginStatus();
@@ -2054,17 +2521,29 @@
             const password = document.getElementById('loginPassword').value;
             const rememberMe = document.getElementById('rememberMe').checked;
             
+            // Validate inputs
+            if (!identifier) {
+                showError('loginEmailError', 'Sila masukkan email atau No. KP');
+                return;
+            }
+            
+            if (!password) {
+                showError('loginPasswordError', 'Sila masukkan kata laluan');
+                return;
+            }
+            
+            // Find user
             const user = users.find(u => 
                 u.email === identifier || u.ic === identifier
             );
             
             if (!user) {
-                alert('Akaun tidak ditemui');
+                showError('loginEmailError', 'Akaun tidak ditemui');
                 return;
             }
             
             if (user.password !== password) {
-                alert('Kata laluan tidak betul');
+                showError('loginPasswordError', 'Kata laluan tidak betul');
                 return;
             }
             
@@ -2079,6 +2558,7 @@
                 userType: user.userType,
                 role: user.role,
                 typeText: user.typeText,
+                department: user.department,
                 createdAt: user.createdAt
             };
             
@@ -2094,885 +2574,475 @@
         function handleRegister(e) {
             e.preventDefault();
             
+            const name = document.getElementById('registerName').value.trim();
+            const ic = document.getElementById('registerIC').value;
+            const email = document.getElementById('registerEmail').value.trim();
+            const phone = document.getElementById('registerPhone').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const userType = document.getElementById('userType').value;
+            
+            // Validate inputs
+            if (!name) {
+                alert('Sila masukkan nama penuh');
+                return;
+            }
+            
+            if (!ic || ic.length < 12) {
+                alert('Sila masukkan No. Kad Pengenalan yang sah');
+                return;
+            }
+            
+            if (!email || !validateEmail(email)) {
+                alert('Sila masukkan alamat email yang sah');
+                return;
+            }
+            
+            if (!phone || phone.length < 10) {
+                alert('Sila masukkan nombor telefon yang sah');
+                return;
+            }
+            
+            if (!validatePasswordStrength(password)) {
+                alert('Kata laluan tidak memenuhi keperluan keselamatan');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                document.getElementById('confirmPasswordError').textContent = 'Kata laluan tidak sepadan';
+                document.getElementById('confirmPasswordError').classList.add('show');
+                return;
+            }
+            
+            // Check if user already exists
+            if (users.some(u => u.email === email)) {
+                alert('Email sudah didaftarkan. Sila gunakan email lain.');
+                return;
+            }
+            
+            if (users.some(u => u.ic === ic)) {
+                alert('No. Kad Pengenalan sudah didaftarkan.');
+                return;
+            }
+            
+            // Create user object
             const userData = {
                 id: users.length + 1,
-                name: document.getElementById('registerName').value.trim(),
-                ic: document.getElementById('registerIC').value,
-                email: document.getElementById('registerEmail').value.trim(),
-                phone: '0123456789',
-                password: document.getElementById('registerPassword').value,
-                address: 'Alamat belum diisi',
-                userType: document.getElementById('userType').value,
-                typeText: document.getElementById('userType').value === 'staff' ? 'Kakitangan Kerajaan' : 'Orang Awam',
+                name: name,
+                ic: ic,
+                email: email,
+                phone: phone,
+                password: password,
+                address: "",
+                userType: userType,
+                typeText: userType === 'staff' ? 'Kakitangan Kerajaan' : 'Orang Awam',
+                department: userType === 'staff' ? "Jabatan Kerajaan" : "",
                 createdAt: new Date().toISOString().split('T')[0],
                 status: 'active',
                 role: 'user'
             };
             
+            // Add to users array
             users.push(userData);
             localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users));
             
+            // Clear form
+            document.getElementById('registerForm').reset();
+            
+            // Show success message
             document.getElementById('registerForm').classList.remove('active');
             document.getElementById('successMessage').classList.add('active');
         }
         
         // ============================================
-        // USER INTERFACE FUNCTIONS
+        // FORGOT PASSWORD FUNCTIONS
         // ============================================
         
-        function updateUserInterface() {
-            if (!currentUser) return;
-            
-            // Update header
-            document.getElementById('headerUserName').textContent = currentUser.name;
-            document.getElementById('userAvatar').textContent = getInitials(currentUser.name);
-            document.getElementById('userName').textContent = currentUser.name;
-            document.getElementById('userTypeBadge').textContent = currentUser.typeText;
-            
-            // Update welcome message
-            document.getElementById('welcomeTitle').textContent = `Selamat Datang, ${currentUser.name.split(' ')[0]}!`;
-            
-            // Update navigation based on role
-            updateNavigation();
+        function showForgotPassword() {
+            // Hide main auth container
+            document.getElementById('mainAuthContainer').style.display = 'none';
+            // Show forgot password container
+            document.getElementById('forgotPasswordContainer').classList.add('active');
+            // Reset to step 1
+            showForgotStep(1);
+            // Clear any previous data
+            resetForgotPasswordForm();
         }
         
-        function updateNavigation() {
-            const navLinks = document.getElementById('navLinks');
-            navLinks.innerHTML = '';
-            
-            const links = [
-                { page: 'dashboard', icon: 'fas fa-home', text: 'Dashboard' }
-            ];
-            
-            if (currentUser.role === 'admin') {
-                links.push(
-                    { page: 'users', icon: 'fas fa-users', text: 'Pengguna' },
-                    { page: 'application', icon: 'fas fa-file-alt', text: 'Semua Permohonan' }
-                );
-            } else {
-                links.push(
-                    { page: 'assets', icon: 'fas fa-building', text: 'Aset Tersedia' },
-                    { page: 'application', icon: 'fas fa-file-alt', text: 'Permohonan Saya' },
-                    { page: 'profile', icon: 'fas fa-user', text: 'Profil Saya' }
-                );
-            }
-            
-            links.forEach(link => {
-                const li = document.createElement('li');
-                li.innerHTML = `
-                    <a href="#" class="${link.page === 'dashboard' ? 'active' : ''}" data-page="${link.page}">
-                        <i class="${link.icon}"></i> ${link.text}
-                    </a>
-                `;
-                navLinks.appendChild(li);
-            });
-            
-            // Update header style for admin
-            if (currentUser.role === 'admin') {
-                document.getElementById('appHeader').classList.add('admin-header');
-                document.getElementById('appNav').classList.add('admin-nav');
-                document.getElementById('newApplicationBtn').style.display = 'none';
-            } else {
-                document.getElementById('appHeader').classList.remove('admin-header');
-                document.getElementById('appNav').classList.remove('admin-nav');
-                document.getElementById('newApplicationBtn').style.display = 'block';
+        function hideForgotPassword() {
+            // Hide forgot password container
+            document.getElementById('forgotPasswordContainer').classList.remove('active');
+            // Show main auth container
+            document.getElementById('mainAuthContainer').style.display = 'block';
+            // Stop countdown if running
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
             }
         }
         
-        function loadDashboard() {
-            if (currentUser.role === 'admin') {
-                document.getElementById('userDashboard').style.display = 'none';
-                document.getElementById('adminDashboard').style.display = 'block';
-                loadAdminDashboard();
-            } else {
-                document.getElementById('userDashboard').style.display = 'block';
-                document.getElementById('adminDashboard').style.display = 'none';
-                loadUserDashboard();
-            }
-        }
-        
-        function loadUserDashboard() {
-            // Update statistics based on real-time vacancy data
-            const totalQuarters = assets.find(a => a.type === 'kuarters')?.totalUnits || 0;
-            
-            // Calculate available quarters from vacancies data
-            const availableQuarters = vacancies.kuarters?.reduce((sum, location) => sum + location.vacancies, 0) || 0;
-            
-            const userApps = applications.filter(app => app.applicantId === currentUser.id);
-            const pendingApps = userApps.filter(app => app.status === 'pending');
-            
-            document.getElementById('dashboardTotalQuarters').textContent = totalQuarters;
-            document.getElementById('dashboardAvailableQuarters').textContent = availableQuarters;
-            document.getElementById('dashboardMyApplications').textContent = userApps.length;
-            document.getElementById('dashboardPending').textContent = pendingApps.length;
-            
-            // Update asset available units based on vacancies
-            updateAssetAvailability();
-            
-            // Update profile
-            const user = users.find(u => u.id === currentUser.id);
-            if (user) {
-                document.getElementById('profileName').textContent = user.name;
-                document.getElementById('profileEmail').textContent = user.email;
-                document.getElementById('profileIC').textContent = user.ic;
-                document.getElementById('profilePhone').textContent = user.phone || '-';
-                document.getElementById('profileAddress').textContent = user.address || '-';
-                document.getElementById('profileSince').textContent = formatDate(user.createdAt);
-                document.getElementById('profileTotalApps').textContent = userApps.length;
-                document.getElementById('profileAvatar').textContent = getInitials(user.name);
-            }
-            
-            // Load quick access assets with real-time availability
-            loadQuickAccessAssets();
-            
-            // Load user applications
-            loadUserApplications();
-        }
-        
-        function updateAssetAvailability() {
-            // Update each asset's availableUnits based on vacancies
-            assets.forEach(asset => {
-                if (vacancies[asset.type]) {
-                    const totalVacancies = vacancies[asset.type].reduce((sum, loc) => sum + loc.vacancies, 0);
-                    asset.availableUnits = totalVacancies;
-                }
+        function showForgotStep(step) {
+            // Hide all steps
+            document.querySelectorAll('.forgot-step').forEach(el => {
+                el.style.display = 'none';
             });
+            // Hide success message
+            document.getElementById('forgotSuccessMessage').style.display = 'none';
             
-            // Save updated assets
-            localStorage.setItem(STORAGE_KEYS.ASSETS, JSON.stringify(assets));
-        }
-        
-        function loadAdminDashboard() {
-            // Update statistics with real-time data
-            document.getElementById('totalUsers').textContent = users.filter(u => u.role === 'user').length;
-            document.getElementById('totalApplications').textContent = applications.length;
-            document.getElementById('pendingApplications').textContent = applications.filter(app => app.status === 'pending').length;
-            
-            // Calculate total available assets from vacancies
-            const totalAvailable = Object.keys(vacancies).reduce((total, assetType) => {
-                const assetVacancies = vacancies[assetType] || [];
-                return total + assetVacancies.reduce((sum, loc) => sum + loc.vacancies, 0);
-            }, 0);
-            document.getElementById('availableAssets').textContent = totalAvailable;
-            
-            // Load applications for admin
-            loadAdminApplications();
-            
-            // Load users for admin
-            loadUsersList();
-        }
-        
-        function loadQuickAccessAssets() {
-            const assetsGrid = document.getElementById('quickAccessAssets');
-            assetsGrid.innerHTML = '';
-            
-            assets.forEach(asset => {
-                const totalVacancies = vacancies[asset.type]?.reduce((sum, loc) => sum + loc.vacancies, 0) || 0;
-                const availableLocations = vacancies[asset.type]?.filter(loc => loc.vacancies > 0).length || 0;
-                
-                // Determine status
-                let statusClass, statusText;
-                if (totalVacancies > 3) {
-                    statusClass = 'status-available';
-                    statusText = `${totalVacancies} Tersedia`;
-                } else if (totalVacancies > 0) {
-                    statusClass = 'status-limited';
-                    statusText = `${totalVacancies} Terhad`;
-                } else {
-                    statusClass = 'status-unavailable';
-                    statusText = 'Tidak Tersedia';
-                }
-                
-                const card = document.createElement('div');
-                card.className = 'asset-card';
-                card.innerHTML = `
-                    <div class="asset-image" style="background-color: ${asset.color}20; color: ${asset.color};">
-                        <i class="${asset.icon}"></i>
-                        <div class="asset-status ${statusClass}">
-                            ${statusText}
-                        </div>
-                    </div>
-                    <div class="asset-content">
-                        <h3 class="asset-title">${asset.name}</h3>
-                        <div class="asset-location">
-                            <i class="fas fa-map-marker-alt"></i> ${availableLocations} Lokasi Tersedia
-                        </div>
-                        <div class="asset-details">
-                            <p>${asset.description}</p>
-                            <div class="detail-item">
-                                <span class="detail-label">Sewa Bulanan:</span>
-                                <span class="detail-value">${asset.monthlyRent}</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Unit Tersedia:</span>
-                                <span class="detail-value">${totalVacancies} / ${asset.totalUnits}</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Lokasi Kosong:</span>
-                                <span class="detail-value">${availableLocations} lokasi</span>
-                            </div>
-                        </div>
-                        <div class="asset-actions">
-                            ${totalVacancies > 0 ? `
-                            <button class="btn btn-primary btn-block apply-now-btn" data-asset-type="${asset.type}">
-                                <i class="fas fa-pen"></i> Mohon Sekarang
-                            </button>
-                            ` : `
-                            <button class="btn btn-block" disabled style="background-color: #e9ecef; color: #6c757d; cursor: not-allowed;">
-                                <i class="fas fa-times-circle"></i> Tiada Kekosongan
-                            </button>
-                            `}
-                        </div>
-                    </div>
-                `;
-                assetsGrid.appendChild(card);
-            });
-            
-            // Add event listeners to apply buttons
-            document.querySelectorAll('.apply-now-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    openApplicationModal(this.dataset.assetType);
-                });
-            });
-        }
-        
-        function loadAllAssets() {
-            const assetsGrid = document.getElementById('assetsGrid');
-            assetsGrid.innerHTML = '';
-            
-            // Calculate total available units for display
-            const totalAvailable = assets.reduce((sum, asset) => sum + (asset.availableUnits || 0), 0);
-            const totalUnits = assets.reduce((sum, asset) => sum + (asset.totalUnits || 0), 0);
-            
-            document.getElementById('availableCount').textContent = totalAvailable;
-            document.getElementById('totalCount').textContent = totalUnits;
-            
-            assets.forEach(asset => {
-                const totalVacancies = vacancies[asset.type]?.reduce((sum, loc) => sum + loc.vacancies, 0) || 0;
-                const availableLocations = vacancies[asset.type]?.filter(loc => loc.vacancies > 0).length || 0;
-                
-                // Determine status
-                let statusClass, statusText;
-                if (totalVacancies > 3) {
-                    statusClass = 'status-available';
-                    statusText = `${totalVacancies} Tersedia`;
-                } else if (totalVacancies > 0) {
-                    statusClass = 'status-limited';
-                    statusText = `${totalVacancies} Terhad`;
-                } else {
-                    statusClass = 'status-unavailable';
-                    statusText = 'Tidak Tersedia';
-                }
-                
-                const card = document.createElement('div');
-                card.className = 'asset-card';
-                card.innerHTML = `
-                    <div class="asset-image" style="background-color: ${asset.color}20; color: ${asset.color};">
-                        <i class="${asset.icon}"></i>
-                        <div class="asset-status ${statusClass}">
-                            ${statusText}
-                        </div>
-                    </div>
-                    <div class="asset-content">
-                        <h3 class="asset-title">${asset.name}</h3>
-                        <div class="asset-location">
-                            <i class="fas fa-map-marker-alt"></i> ${availableLocations} Lokasi Tersedia
-                        </div>
-                        <div class="asset-details">
-                            <p>${asset.description}</p>
-                            <div class="detail-item">
-                                <span class="detail-label">Sewa Bulanan:</span>
-                                <span class="detail-value">${asset.monthlyRent}</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Unit Tersedia:</span>
-                                <span class="detail-value">${totalVacancies} / ${asset.totalUnits}</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Lokasi Kosong:</span>
-                                <span class="detail-value">${availableLocations} lokasi</span>
-                            </div>
-                        </div>
-                        <div class="asset-actions">
-                            ${totalVacancies > 0 ? `
-                            <button class="btn btn-primary btn-block apply-now-btn" data-asset-type="${asset.type}">
-                                <i class="fas fa-pen"></i> Mohon Sekarang
-                            </button>
-                            ` : `
-                            <button class="btn btn-block" disabled style="background-color: #e9ecef; color: #6c757d; cursor: not-allowed;">
-                                <i class="fas fa-times-circle"></i> Tiada Kekosongan
-                            </button>
-                            `}
-                        </div>
-                    </div>
-                `;
-                assetsGrid.appendChild(card);
-            });
-            
-            // Add event listeners to apply buttons
-            document.querySelectorAll('.apply-now-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    openApplicationModal(this.dataset.assetType);
-                });
-            });
-        }
-        
-        function loadUserApplications() {
-            const statusList = document.getElementById('applicationStatus');
-            const userApps = applications.filter(app => app.applicantId === currentUser.id);
-            
-            if (userApps.length === 0) {
-                statusList.innerHTML = `
-                    <div style="text-align: center; padding: 2rem; color: var(--gray);">
-                        <i class="fas fa-file-alt" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
-                        <h3>Tiada Permohonan</h3>
-                        <p>Anda belum membuat sebarang permohonan.</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            statusList.innerHTML = '';
-            userApps.forEach(app => {
-                let badgeClass, badgeText;
-                switch(app.status) {
-                    case 'pending':
-                        badgeClass = 'badge-processing';
-                        badgeText = 'Menunggu Admin';
-                        break;
-                    case 'approved':
-                        badgeClass = 'badge-approved';
-                        badgeText = 'Diluluskan';
-                        break;
-                    case 'rejected':
-                        badgeClass = 'badge-rejected';
-                        badgeText = 'Ditolak';
-                        break;
-                    default:
-                        badgeClass = 'badge-processing';
-                        badgeText = 'Dalam Proses';
-                }
-                
-                const item = document.createElement('div');
-                item.className = 'status-item';
-                item.innerHTML = `
-                    <div class="status-info">
-                        <h4>${app.assetName}</h4>
-                        <p>No. Rujukan: ${app.reference} | Lokasi: ${app.location} | Tarikh: ${formatDate(app.applyDate)}</p>
-                    </div>
-                    <div class="status-badge ${badgeClass}">${badgeText}</div>
-                `;
-                statusList.appendChild(item);
-            });
-        }
-        
-        function loadAdminApplications() {
-            const appList = document.getElementById('adminApplicationsList');
-            appList.innerHTML = '';
-            
-            // Show all applications, newest first
-            const sortedApps = [...applications].sort((a, b) => new Date(b.applyDate) - new Date(a.applyDate));
-            
-            if (sortedApps.length === 0) {
-                appList.innerHTML = `
-                    <div class="table-row" style="grid-template-columns: 1fr; text-align: center; padding: 2rem; color: var(--gray);">
-                        <div>
-                            <i class="fas fa-check-circle" style="font-size: 2rem; margin-bottom: 1rem; color: var(--success);"></i>
-                            <h4>Tiada Permohonan</h4>
-                            <p>Belum ada permohonan dibuat.</p>
-                        </div>
-                    </div>
-                `;
-                return;
-            }
-            
-            sortedApps.forEach((app, index) => {
-                let statusBadge;
-                switch(app.status) {
-                    case 'pending':
-                        statusBadge = '<span class="badge-processing" style="padding: 3px 10px; border-radius: 15px;">Menunggu</span>';
-                        break;
-                    case 'approved':
-                        statusBadge = '<span style="padding: 3px 10px; border-radius: 15px; background-color: rgba(40, 167, 69, 0.15); color: var(--success);">Diluluskan</span>';
-                        break;
-                    case 'rejected':
-                        statusBadge = '<span style="padding: 3px 10px; border-radius: 15px; background-color: rgba(220, 53, 69, 0.15); color: var(--danger);">Ditolak</span>';
-                        break;
-                }
-                
-                const row = document.createElement('div');
-                row.className = 'table-row';
-                row.innerHTML = `
-                    <div>${index + 1}</div>
-                    <div>${app.applicantName}</div>
-                    <div>${app.assetName}</div>
-                    <div>${formatDate(app.applyDate)}</div>
-                    <div>${statusBadge}</div>
-                    <div class="action-buttons">
-                        <button class="action-btn" style="background-color: var(--primary); color: white;" data-app-id="${app.id}" data-action="view">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        ${app.status === 'pending' ? `
-                        <button class="action-btn" style="background-color: var(--success); color: white;" data-app-id="${app.id}" data-action="approve">
-                            <i class="fas fa-check"></i>
-                        </button>
-                        <button class="action-btn" style="background-color: var(--danger); color: white;" data-app-id="${app.id}" data-action="reject">
-                            <i class="fas fa-times"></i>
-                        </button>
-                        ` : ''}
-                    </div>
-                `;
-                appList.appendChild(row);
-            });
-            
-            // Add event listeners
-            document.querySelectorAll('[data-action="view"]').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    viewApplicationDetails(this.dataset.appId);
-                });
-            });
-            
-            document.querySelectorAll('[data-action="approve"]').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    processApplication(this.dataset.appId, 'approved');
-                });
-            });
-            
-            document.querySelectorAll('[data-action="reject"]').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    processApplication(this.dataset.appId, 'rejected');
-                });
-            });
-        }
-        
-        function loadUsersList() {
-            const usersList = document.getElementById('usersList');
-            const normalUsers = users.filter(u => u.role === 'user');
-            
-            if (normalUsers.length === 0) {
-                usersList.innerHTML = `
-                    <div class="table-row" style="grid-template-columns: 1fr; text-align: center; padding: 2rem; color: var(--gray);">
-                        <div>
-                            <i class="fas fa-users" style="font-size: 2rem; margin-bottom: 1rem; color: var(--gray);"></i>
-                            <h4>Tiada Pengguna</h4>
-                            <p>Belum ada pengguna berdaftar.</p>
-                        </div>
-                    </div>
-                `;
-                return;
-            }
-            
-            usersList.innerHTML = '';
-            normalUsers.forEach((user, index) => {
-                const row = document.createElement('div');
-                row.className = 'table-row';
-                row.innerHTML = `
-                    <div>${index + 1}</div>
-                    <div>${user.name}</div>
-                    <div>${user.email}</div>
-                    <div>${user.typeText}</div>
-                    <div><span style="color: ${user.status === 'active' ? 'var(--success)' : 'var(--danger)'}; font-weight: bold;">
-                        ${user.status === 'active' ? 'Aktif' : 'Tidak Aktif'}
-                    </span></div>
-                    <div class="action-buttons">
-                        <button class="action-btn" style="background-color: var(--primary); color: white;" data-user-id="${user.id}" data-action="view-user">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="action-btn" style="background-color: ${user.status === 'active' ? 'var(--danger)' : 'var(--success)'}; color: white;" 
-                                data-user-id="${user.id}" data-action="toggle-status">
-                            <i class="fas fa-${user.status === 'active' ? 'ban' : 'check'}"></i>
-                        </button>
-                    </div>
-                `;
-                usersList.appendChild(row);
-            });
-        }
-        
-        // ============================================
-        // APPLICATION FUNCTIONS WITH AUTOCOUNT
-        // ============================================
-        
-        function openApplicationModal(assetType = null) {
-            const modal = document.getElementById('applicationModal');
-            modal.style.display = 'flex';
-            
-            // Reset location selector
-            resetLocationSelector();
-            
-            // Auto-fill user data from profile
-            if (currentUser) {
-                const user = users.find(u => u.id === currentUser.id);
-                if (user) {
-                    // Automatically fill name, IC, and email from profile
-                    document.getElementById('applicantName').value = user.name;
-                    document.getElementById('applicantIC').value = user.ic;
-                    document.getElementById('applicantEmail').value = user.email;
-                    document.getElementById('applicantPhone').value = user.phone || '';
-                    document.getElementById('applicantAddress').value = user.address || '';
-                }
-            }
-            
-            // Set asset type if provided
-            if (assetType) {
-                document.getElementById('assetType').value = assetType;
-                // Trigger change to load locations
+            // Show selected step
+            if (step === 1) {
+                document.getElementById('step1').style.display = 'block';
+            } else if (step === 2) {
+                document.getElementById('step2').style.display = 'block';
+                // Start countdown timer
+                startCodeCountdown();
+                // Auto-focus first code input
                 setTimeout(() => {
-                    loadLocationsForAssetType(assetType);
+                    document.querySelector('.reset-code-input[data-index="0"]').focus();
                 }, 100);
+            } else if (step === 3) {
+                document.getElementById('step3').style.display = 'block';
+            } else if (step === 'success') {
+                document.getElementById('forgotSuccessMessage').style.display = 'block';
+            }
+        }
+        
+        function resetForgotPasswordForm() {
+            // Clear form inputs
+            document.getElementById('forgotEmail').value = '';
+            document.getElementById('resetCode').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmNewPassword').value = '';
+            
+            // Clear code inputs
+            document.querySelectorAll('.reset-code-input').forEach(input => {
+                input.value = '';
+                input.classList.remove('filled');
+            });
+            
+            // Clear error messages
+            document.querySelectorAll('.error-message, .success-message').forEach(el => {
+                el.textContent = '';
+                el.classList.remove('show');
+            });
+            
+            // Reset step indicators
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('completed', 'active');
+            });
+            
+            // Enable buttons
+            document.getElementById('sendResetBtn').disabled = false;
+            document.getElementById('verifyCodeBtn').disabled = true;
+            document.getElementById('resetPasswordBtn').disabled = false;
+            
+            // Clear timer
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+            }
+            document.getElementById('codeTimer').textContent = '';
+            document.getElementById('codeTimer').classList.remove('expired');
+            
+            currentForgotEmail = '';
+            resetCodeExpiry = null;
+        }
+        
+        function sendResetCode() {
+            const email = document.getElementById('forgotEmail').value.trim();
+            
+            // Validate email
+            if (!email || !validateEmail(email)) {
+                showError('forgotEmailError', 'Sila masukkan alamat email yang sah');
+                return;
             }
             
-            // Set default date (tomorrow)
-            const tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            document.getElementById('startDate').value = tomorrow.toISOString().split('T')[0];
+            // Check if user exists
+            const user = users.find(u => u.email === email);
+            if (!user) {
+                showError('forgotEmailError', 'Email tidak dijumpai dalam sistem');
+                return;
+            }
             
-            // Reset form except auto-filled fields
-            document.getElementById('purpose').value = '';
-            document.getElementById('additionalInfo').value = '';
-            document.getElementById('agreeTermsModal').checked = false;
-        }
-        
-        function resetLocationSelector() {
-            // Hide all messages and dropdown
-            document.getElementById('locationInitialMessage').style.display = 'block';
-            document.getElementById('locationLoadingMessage').style.display = 'none';
-            document.getElementById('locationNoVacancyMessage').style.display = 'none';
-            document.getElementById('location').style.display = 'none';
-            document.getElementById('location').disabled = true;
-            document.getElementById('vacancyInfo').style.display = 'none';
+            // Disable button and show loading
+            const sendBtn = document.getElementById('sendResetBtn');
+            const originalText = sendBtn.innerHTML;
+            sendBtn.innerHTML = '<div class="loading-spinner"></div> Menghantar...';
+            sendBtn.disabled = true;
             
-            // Clear location options
-            document.getElementById('location').innerHTML = '<option value="">Pilih jenis aset dahulu</option>';
-        }
-        
-        function loadLocationsForAssetType(assetType) {
-            // Show loading message
-            document.getElementById('locationInitialMessage').style.display = 'none';
-            document.getElementById('locationLoadingMessage').style.display = 'block';
-            document.getElementById('locationNoVacancyMessage').style.display = 'none';
-            document.getElementById('location').style.display = 'none';
-            document.getElementById('vacancyInfo').style.display = 'none';
+            // Generate reset code
+            const resetCode = generateResetCode(email);
+            currentForgotEmail = email;
             
-            // Get locations for this asset type
-            const assetLocations = vacancies[assetType] || [];
-            
-            // Filter locations with vacancies > 0
-            const availableLocations = assetLocations.filter(loc => loc.vacancies > 0);
-            
-            // Simulate loading delay
+            // Simulate API call delay
             setTimeout(() => {
-                updateLocationSelector(availableLocations, assetType);
-            }, 500);
+                // In a real system, send email here
+                // For demo, we'll show the code in success message
+                document.getElementById('forgotEmailSuccess').textContent = 
+                    `Kod pengesahan telah dihantar ke ${email}. Kod: ${resetCode} (Untuk demo sahaja)`;
+                document.getElementById('forgotEmailSuccess').classList.add('show');
+                
+                // Move to step 2 after a delay
+                setTimeout(() => {
+                    showForgotStep(2);
+                    // Pre-fill the code for demo purposes (remove in production)
+                    document.querySelectorAll('.reset-code-input').forEach((input, index) => {
+                        input.value = resetCode[index];
+                        input.classList.add('filled');
+                    });
+                    document.getElementById('resetCode').value = resetCode;
+                    document.getElementById('verifyCodeBtn').disabled = false;
+                }, 1500);
+                
+                // Reset button
+                sendBtn.innerHTML = originalText;
+                sendBtn.disabled = false;
+            }, 2000);
         }
         
-        function updateLocationSelector(availableLocations, assetType) {
-            const locationSelect = document.getElementById('location');
-            const vacancyInfo = document.getElementById('vacancyInfo');
+        function generateResetCode(email) {
+            // Generate 6-digit random code
+            const code = Math.floor(100000 + Math.random() * 900000).toString();
+            const expiry = Date.now() + 10 * 60 * 1000; // 10 minutes
             
-            // Hide loading message
-            document.getElementById('locationLoadingMessage').style.display = 'none';
-            
-            if (availableLocations.length === 0) {
-                // No vacancies available
-                document.getElementById('locationNoVacancyMessage').style.display = 'block';
-                document.getElementById('location').style.display = 'none';
-                vacancyInfo.style.display = 'none';
-                return;
-            }
-            
-            // Show dropdown
-            document.getElementById('locationNoVacancyMessage').style.display = 'none';
-            locationSelect.style.display = 'block';
-            locationSelect.disabled = false;
-            
-            // Clear existing options
-            locationSelect.innerHTML = '';
-            
-            // Add default option
-            const defaultOption = document.createElement('option');
-            defaultOption.value = '';
-            defaultOption.textContent = `-- Pilih Lokasi (${availableLocations.length} pilihan) --`;
-            defaultOption.disabled = true;
-            defaultOption.selected = true;
-            locationSelect.appendChild(defaultOption);
-            
-            // Add available locations
-            availableLocations.forEach(location => {
-                const option = document.createElement('option');
-                option.value = location.id;
-                option.textContent = `${location.name} (${location.vacancies} kosong)`;
-                locationSelect.appendChild(option);
-            });
-            
-            // Show vacancy info
-            const totalVacancies = availableLocations.reduce((sum, loc) => sum + loc.vacancies, 0);
-            vacancyInfo.textContent = `📊 ${totalVacancies} unit kosong di ${availableLocations.length} lokasi berbeza`;
-            vacancyInfo.className = totalVacancies > 5 ? 'vacancy-info' : 
-                                   totalVacancies > 0 ? 'vacancy-info warning' : 'vacancy-info danger';
-            vacancyInfo.style.display = 'block';
-            
-            // Add change event listener
-            locationSelect.addEventListener('change', function() {
-                const selectedLocation = availableLocations.find(loc => loc.id === this.value);
-                if (selectedLocation) {
-                    // Update vacancy info for selected location
-                    vacancyInfo.textContent = `📍 ${selectedLocation.name}: ${selectedLocation.vacancies} unit kosong`;
-                }
-            });
-        }
-        
-        function submitApplication(e) {
-            e.preventDefault();
-            
-            // Validate form
-            const assetType = document.getElementById('assetType').value;
-            const locationId = document.getElementById('location').value;
-            
-            if (!assetType || !locationId) {
-                alert('Sila pilih jenis aset dan lokasi yang sah.');
-                return;
-            }
-            
-            // Get selected location details
-            const availableLocations = vacancies[assetType] || [];
-            const selectedLocation = availableLocations.find(loc => loc.id === locationId);
-            
-            if (!selectedLocation || selectedLocation.vacancies <= 0) {
-                alert('Lokasi yang dipilih tidak mempunyai kekosongan. Sila pilih lokasi lain.');
-                return;
-            }
-            
-            // Create application
-            const application = {
-                id: Date.now(),
-                reference: `APP-${new Date().getFullYear()}-${String(applications.length + 1).padStart(3, '0')}`,
-                assetType: assetType,
-                assetName: document.getElementById('assetType').options[document.getElementById('assetType').selectedIndex].text,
-                location: selectedLocation.name,
-                locationId: locationId,
-                applyDate: new Date().toISOString().split('T')[0],
-                applicantId: currentUser.id,
-                applicantName: document.getElementById('applicantName').value,
-                applicantEmail: document.getElementById('applicantEmail').value,
-                applicantPhone: document.getElementById('applicantPhone').value,
-                applicantAddress: document.getElementById('applicantAddress').value,
-                purpose: document.getElementById('purpose').value,
-                additionalInfo: document.getElementById('additionalInfo').value,
-                status: 'pending',
-                statusText: 'Menunggu Kelulusan Admin'
+            resetCodes[email] = {
+                code: code,
+                expiry: expiry,
+                attempts: 0
             };
             
-            // Save application
-            applications.unshift(application);
-            localStorage.setItem(STORAGE_KEYS.APPLICATIONS, JSON.stringify(applications));
+            localStorage.setItem(STORAGE_KEYS.RESET_CODES, JSON.stringify(resetCodes));
+            resetCodeExpiry = expiry;
             
-            // Update vacancy count (reduce by 1) - REAL-TIME AUTOCOUNT
-            selectedLocation.vacancies -= 1;
-            localStorage.setItem(STORAGE_KEYS.VACANCIES, JSON.stringify(vacancies));
-            
-            // Update asset availability
-            const asset = assets.find(a => a.type === assetType);
-            if (asset) {
-                asset.availableUnits -= 1;
-                localStorage.setItem(STORAGE_KEYS.ASSETS, JSON.stringify(assets));
-            }
-            
-            // Show success modal
-            showSuccessModal(application);
-            
-            // Close modal
-            closeModal('applicationModal');
-            
-            // Update dashboard
-            loadDashboard();
-            
-            // Update all asset displays
-            if (document.getElementById('assetsPage').classList.contains('active')) {
-                loadAllAssets();
-            }
+            return code;
         }
         
-        function viewApplicationDetails(appId) {
-            const app = applications.find(a => a.id == appId);
-            if (!app) return;
-            
-            const modal = document.getElementById('applicationDetailsModal');
-            const content = document.getElementById('applicationDetailsContent');
-            const footer = document.getElementById('applicationDetailsFooter');
-            
-            content.innerHTML = `
-                <div style="background-color: var(--light); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
-                    <h4 style="color: var(--primary); margin-bottom: 1rem;">Maklumat Permohonan</h4>
-                    <div class="detail-item">
-                        <span class="detail-label">No. Rujukan:</span>
-                        <span class="detail-value">${app.reference}</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Tarikh Mohon:</span>
-                        <span class="detail-value">${formatDate(app.applyDate)}</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Jenis Aset:</span>
-                        <span class="detail-value">${app.assetName}</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Lokasi:</span>
-                        <span class="detail-value">${app.location}</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Status:</span>
-                        <span class="detail-value" style="color: ${app.status === 'pending' ? 'var(--warning)' : app.status === 'approved' ? 'var(--success)' : 'var(--danger)'}; font-weight: bold;">
-                            ${app.status === 'pending' ? 'Menunggu Kelulusan' : app.status === 'approved' ? 'Diluluskan' : 'Ditolak'}
-                        </span>
-                    </div>
-                    ${app.processedDate ? `
-                    <div class="detail-item">
-                        <span class="detail-label">Tarikh Diproses:</span>
-                        <span class="detail-value">${formatDate(app.processedDate)}</span>
-                    </div>
-                    ` : ''}
-                    ${app.processedBy ? `
-                    <div class="detail-item">
-                        <span class="detail-label">Diproses Oleh:</span>
-                        <span class="detail-value">${app.processedBy}</span>
-                    </div>
-                    ` : ''}
-                </div>
-                
-                <div style="background-color: var(--light); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
-                    <h4 style="color: var(--primary); margin-bottom: 1rem;">Maklumat Pemohon</h4>
-                    <div class="detail-item">
-                        <span class="detail-label">Nama:</span>
-                        <span class="detail-value">${app.applicantName}</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Email:</span>
-                        <span class="detail-value">${app.applicantEmail}</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Telefon:</span>
-                        <span class="detail-value">${app.applicantPhone || 'Tiada'}</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Alamat:</span>
-                        <span class="detail-value">${app.applicantAddress || 'Tiada'}</span>
-                    </div>
-                </div>
-                
-                ${app.purpose ? `
-                <div style="background-color: var(--light); padding: 1.5rem; border-radius: 8px;">
-                    <h4 style="color: var(--primary); margin-bottom: 1rem;">Tujuan Permohonan</h4>
-                    <p>${app.purpose}</p>
-                </div>
-                ` : ''}
-                
-                ${app.additionalInfo ? `
-                <div style="background-color: var(--light); padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;">
-                    <h4 style="color: var(--primary); margin-bottom: 1rem;">Maklumat Tambahan</h4>
-                    <p>${app.additionalInfo}</p>
-                </div>
-                ` : ''}
-            `;
-            
-            if (app.status === 'pending') {
-                footer.innerHTML = `
-                    <button class="btn btn-success" data-app-id="${app.id}" data-action="approve">
-                        <i class="fas fa-check"></i> Luluskan
-                    </button>
-                    <button class="btn btn-danger" data-app-id="${app.id}" data-action="reject">
-                        <i class="fas fa-times"></i> Tolak
-                    </button>
-                    <button class="btn" id="closeDetailsBtn">
-                        <i class="fas fa-times"></i> Tutup
-                    </button>
-                `;
-            } else {
-                footer.innerHTML = `
-                    <button class="btn" id="closeDetailsBtn">
-                        <i class="fas fa-times"></i> Tutup
-                    </button>
-                `;
-            }
-            
-            modal.style.display = 'flex';
-            
-            // Add event listeners
-            document.querySelectorAll('[data-action="approve"]').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    processApplication(this.dataset.appId, 'approved');
-                    closeModal('applicationDetailsModal');
-                });
+        function verifyResetCode() {
+            const codeInputs = document.querySelectorAll('.reset-code-input');
+            let code = '';
+            codeInputs.forEach(input => {
+                code += input.value;
             });
             
-            document.querySelectorAll('[data-action="reject"]').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    processApplication(this.dataset.appId, 'rejected');
-                    closeModal('applicationDetailsModal');
-                });
+            if (code.length !== 6) {
+                showError('resetCodeError', 'Sila masukkan 6-digit kod yang lengkap');
+                return;
+            }
+            
+            const resetData = resetCodes[currentForgotEmail];
+            if (!resetData) {
+                showError('resetCodeError', 'Kod tidak dijumpai atau telah luput');
+                return;
+            }
+            
+            if (Date.now() > resetData.expiry) {
+                showError('resetCodeError', 'Kod telah luput. Sila minta kod baru');
+                document.getElementById('codeTimer').textContent = 'Kod telah luput';
+                document.getElementById('codeTimer').classList.add('expired');
+                return;
+            }
+            
+            if (resetData.code !== code) {
+                resetData.attempts++;
+                localStorage.setItem(STORAGE_KEYS.RESET_CODES, JSON.stringify(resetCodes));
+                
+                if (resetData.attempts >= 3) {
+                    showError('resetCodeError', 'Terlalu banyak percubaan salah. Sila minta kod baru');
+                    delete resetCodes[currentForgotEmail];
+                    localStorage.setItem(STORAGE_KEYS.RESET_CODES, JSON.stringify(resetCodes));
+                } else {
+                    showError('resetCodeError', `Kod tidak tepat. Percubaan ${resetData.attempts}/3`);
+                }
+                return;
+            }
+            
+            // Code verified successfully
+            document.getElementById('resetCode').value = code;
+            showForgotStep(3);
+        }
+        
+        function resetPassword() {
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmNewPassword').value;
+            const code = document.getElementById('resetCode').value;
+            
+            // Validate inputs
+            if (!validatePasswordStrength(newPassword, 'newPasswordStrengthBar')) {
+                showError('newPasswordError', 'Kata laluan tidak memenuhi keperluan keselamatan');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                showError('confirmNewPasswordError', 'Kata laluan tidak sepadan');
+                return;
+            }
+            
+            if (!code || code.length !== 6) {
+                showError('newPasswordError', 'Kod pengesahan tidak sah');
+                return;
+            }
+            
+            // Find and update user password
+            const userIndex = users.findIndex(u => u.email === currentForgotEmail);
+            if (userIndex === -1) {
+                showError('newPasswordError', 'Pengguna tidak dijumpai');
+                return;
+            }
+            
+            // Verify code again
+            const resetData = resetCodes[currentForgotEmail];
+            if (!resetData || resetData.code !== code) {
+                showError('newPasswordError', 'Kod pengesahan tidak sah');
+                return;
+            }
+            
+            // Update password
+            users[userIndex].password = newPassword;
+            localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users));
+            
+            // Remove used reset code
+            delete resetCodes[currentForgotEmail];
+            localStorage.setItem(STORAGE_KEYS.RESET_CODES, JSON.stringify(resetCodes));
+            
+            // Show success message
+            showForgotStep('success');
+        }
+        
+        function startCodeCountdown() {
+            if (!resetCodeExpiry) return;
+            
+            const timerElement = document.getElementById('codeTimer');
+            const verifyBtn = document.getElementById('verifyCodeBtn');
+            
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+            
+            const updateTimer = () => {
+                const now = Date.now();
+                const remaining = resetCodeExpiry - now;
+                
+                if (remaining <= 0) {
+                    timerElement.textContent = 'Kod telah luput';
+                    timerElement.classList.add('expired');
+                    verifyBtn.disabled = true;
+                    clearInterval(countdownInterval);
+                    return;
+                }
+                
+                const minutes = Math.floor(remaining / 60000);
+                const seconds = Math.floor((remaining % 60000) / 1000);
+                
+                timerElement.textContent = `Kod sah untuk ${minutes}:${seconds.toString().padStart(2, '0')}`;
+                timerElement.classList.remove('expired');
+            };
+            
+            updateTimer();
+            countdownInterval = setInterval(updateTimer, 1000);
+        }
+        
+        function resendResetCode() {
+            if (!currentForgotEmail) {
+                showError('resetCodeError', 'Sila masukkan email anda dahulu');
+                showForgotStep(1);
+                return;
+            }
+            
+            const newCode = generateResetCode(currentForgotEmail);
+            
+            // Show success message
+            document.getElementById('resetCodeError').textContent = 'Kod baru telah dihantar';
+            document.getElementById('resetCodeError').className = 'success-message show';
+            
+            // Pre-fill the code for demo purposes (remove in production)
+            document.querySelectorAll('.reset-code-input').forEach((input, index) => {
+                input.value = newCode[index];
+                input.classList.add('filled');
             });
+            document.getElementById('resetCode').value = newCode;
+            document.getElementById('verifyCodeBtn').disabled = false;
+            
+            // Restart countdown
+            startCodeCountdown();
         }
         
-        function processApplication(appId, status) {
-            const app = applications.find(a => a.id == appId);
-            if (!app) return;
+        function cleanupExpiredResetCodes() {
+            const now = Date.now();
+            let changed = false;
             
-            const statusText = status === 'approved' ? 'Diluluskan' : 'Ditolak';
-            app.status = status;
-            app.statusText = statusText;
-            app.processedBy = currentUser.name;
-            app.processedDate = new Date().toISOString().split('T')[0];
-            
-            // Save to localStorage
-            localStorage.setItem(STORAGE_KEYS.APPLICATIONS, JSON.stringify(applications));
-            
-            // AUTOCOUNT SYSTEM: Kembalikan kekosongan jika permohonan ditolak
-            if (status === 'rejected') {
-                // Kembalikan kekosongan lokasi (lokasi naik balik)
-                const location = vacancies[app.assetType]?.find(loc => loc.id === app.locationId);
-                if (location) {
-                    location.vacancies += 1;
+            for (const email in resetCodes) {
+                if (resetCodes[email].expiry < now) {
+                    delete resetCodes[email];
+                    changed = true;
                 }
-                
-                // Kembalikan kekosongan aset
-                const asset = assets.find(a => a.type === app.assetType);
-                if (asset) {
-                    asset.availableUnits += 1;
-                }
-                
-                // Simpan perubahan
-                localStorage.setItem(STORAGE_KEYS.VACANCIES, JSON.stringify(vacancies));
-                localStorage.setItem(STORAGE_KEYS.ASSETS, JSON.stringify(assets));
             }
             
-            // Update dashboard
-            loadDashboard();
-            
-            // Show confirmation
-            alert(`Permohonan ${app.reference} telah ${status === 'approved' ? 'diluluskan' : 'ditolak'}`);
-            
-            // If admin is processing, reload the admin applications list
-            if (currentUser.role === 'admin') {
-                loadAdminApplications();
+            if (changed) {
+                localStorage.setItem(STORAGE_KEYS.RESET_CODES, JSON.stringify(resetCodes));
             }
-            
-            // Update all displays
-            if (document.getElementById('assetsPage').classList.contains('active')) {
-                loadAllAssets();
-            }
-        }
-        
-        function showSuccessModal(application) {
-            document.getElementById('referenceNumber').textContent = application.reference;
-            document.getElementById('successAssetType').textContent = application.assetName;
-            document.getElementById('successLocation').textContent = application.location;
-            document.getElementById('successDate').textContent = formatDate(application.applyDate);
-            
-            document.getElementById('successModal').style.display = 'flex';
         }
         
         // ============================================
         // UTILITY FUNCTIONS
         // ============================================
+        
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+        
+        function validatePasswordStrength(password, strengthBarId = 'passwordStrengthBar') {
+            const strengthBar = document.getElementById(strengthBarId);
+            let strength = 0;
+            
+            // Check requirements
+            const hasMinLength = password.length >= 8;
+            const hasUpperCase = /[A-Z]/.test(password);
+            const hasLowerCase = /[a-z]/.test(password);
+            const hasNumbers = /\d/.test(password);
+            const hasSpecialChar = /[^A-Za-z0-9]/.test(password);
+            
+            // Update requirement indicators (only for register form)
+            if (document.getElementById('reqLength')) {
+                document.getElementById('reqLength').className = hasMinLength ? 'requirement-met' : 'requirement-not-met';
+                document.getElementById('reqUpper').className = hasUpperCase ? 'requirement-met' : 'requirement-not-met';
+                document.getElementById('reqNumber').className = hasNumbers ? 'requirement-met' : 'requirement-not-met';
+            }
+            
+            // Calculate strength
+            if (hasMinLength) strength += 25;
+            if (hasUpperCase) strength += 25;
+            if (hasNumbers) strength += 25;
+            if (hasSpecialChar) strength += 25;
+            
+            // Update strength bar
+            if (strengthBar) {
+                strengthBar.style.width = strength + '%';
+                if (strength < 50) {
+                    strengthBar.className = 'strength-bar strength-weak';
+                } else if (strength < 75) {
+                    strengthBar.className = 'strength-bar strength-fair';
+                } else if (strength < 100) {
+                    strengthBar.className = 'strength-bar strength-good';
+                } else {
+                    strengthBar.className = 'strength-bar strength-strong';
+                }
+            }
+            
+            return strength >= 75; // At least "good" strength
+        }
+        
+        function showError(elementId, message) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.classList.add('show');
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                element.textContent = '';
+                element.classList.remove('show');
+            }, 5000);
+        }
         
         function getInitials(name) {
             return name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
@@ -2987,63 +3057,57 @@
             });
         }
         
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-        
-        function showPage(pageId) {
-            // Hide all pages
-            document.querySelectorAll('.page-content').forEach(page => {
-                page.classList.remove('active');
-            });
-            
-            // Show selected page
-            document.getElementById(pageId).classList.add('active');
-            
-            // Update navigation
-            document.querySelectorAll('.nav-links a').forEach(link => {
-                link.classList.remove('active');
-                if (link.dataset.page === pageId.replace('Page', '')) {
-                    link.classList.add('active');
-                }
-            });
-            
-            // Load page content
-            if (pageId === 'dashboardPage') {
-                loadDashboard();
-            } else if (pageId === 'assetsPage') {
-                loadAllAssets();
-            } else if (pageId === 'applicationPage') {
-                if (currentUser.role === 'admin') {
-                    loadAdminApplications();
-                } else {
-                    loadUserApplications();
-                }
-            } else if (pageId === 'profilePage') {
-                // Profile is already loaded in loadUserDashboard
-            } else if (pageId === 'usersPage') {
-                loadUsersList();
-            }
-        }
-        
         // ============================================
-        // EVENT LISTENERS
+        // EVENT LISTENERS SETUP
         // ============================================
         
         function setupEventListeners() {
-            // Authentication
+            // Authentication tabs
             document.getElementById('loginTab').addEventListener('click', () => switchAuthTab('login'));
             document.getElementById('registerTab').addEventListener('click', () => switchAuthTab('register'));
+            
+            // Navigation between auth forms
             document.getElementById('goToRegister').addEventListener('click', (e) => {
                 e.preventDefault();
                 switchAuthTab('register');
             });
+            
             document.getElementById('goToLogin').addEventListener('click', (e) => {
                 e.preventDefault();
                 switchAuthTab('login');
             });
+            
             document.getElementById('goToLoginFromSuccess').addEventListener('click', (e) => {
                 e.preventDefault();
+                switchAuthTab('login');
+            });
+            
+            // Forgot password link
+            document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
+                e.preventDefault();
+                showForgotPassword();
+            });
+            
+            // Back from forgot password
+            document.getElementById('backToLoginFromForgot').addEventListener('click', (e) => {
+                e.preventDefault();
+                hideForgotPassword();
+                switchAuthTab('login');
+            });
+            
+            document.getElementById('backToEmailStep').addEventListener('click', (e) => {
+                e.preventDefault();
+                showForgotStep(1);
+            });
+            
+            document.getElementById('backToCodeStep').addEventListener('click', (e) => {
+                e.preventDefault();
+                showForgotStep(2);
+            });
+            
+            document.getElementById('goToLoginAfterReset').addEventListener('click', (e) => {
+                e.preventDefault();
+                hideForgotPassword();
                 switchAuthTab('login');
             });
             
@@ -3061,16 +3125,34 @@
             // Form submissions
             document.getElementById('loginForm').addEventListener('submit', handleLogin);
             document.getElementById('registerForm').addEventListener('submit', handleRegister);
-            document.getElementById('rentalApplicationForm').addEventListener('submit', submitApplication);
             
-            // Asset type change listener
-            document.getElementById('assetType').addEventListener('change', function() {
-                if (this.value) {
-                    loadLocationsForAssetType(this.value);
-                } else {
-                    resetLocationSelector();
-                }
+            // Forgot password buttons
+            document.getElementById('sendResetBtn').addEventListener('click', sendResetCode);
+            document.getElementById('verifyCodeBtn').addEventListener('click', verifyResetCode);
+            document.getElementById('resetPasswordBtn').addEventListener('click', resetPassword);
+            document.getElementById('resendCodeLink').addEventListener('click', (e) => {
+                e.preventDefault();
+                resendResetCode();
             });
+            
+            // Password strength validation
+            document.getElementById('registerPassword').addEventListener('input', function() {
+                validatePasswordStrength(this.value);
+            });
+            
+            document.getElementById('newPassword').addEventListener('input', function() {
+                validatePasswordStrength(this.value, 'newPasswordStrengthBar');
+            });
+            
+            // Password toggle buttons
+            setupPasswordToggle('toggleLoginPassword', 'loginPassword');
+            setupPasswordToggle('toggleRegisterPassword', 'registerPassword');
+            setupPasswordToggle('toggleConfirmRegisterPassword', 'confirmPassword');
+            setupPasswordToggle('toggleNewPassword', 'newPassword');
+            setupPasswordToggle('toggleConfirmNewPassword', 'confirmNewPassword');
+            
+            // Reset code input handling
+            setupResetCodeInputs();
             
             // Navigation
             document.addEventListener('click', function(e) {
@@ -3093,23 +3175,6 @@
                 }
             });
             
-            // Application buttons
-            document.getElementById('newApplicationBtn').addEventListener('click', () => openApplicationModal());
-            document.getElementById('applyNewBtn').addEventListener('click', () => openApplicationModal());
-            
-            // Modal controls
-            document.getElementById('closeModal').addEventListener('click', () => closeModal('applicationModal'));
-            document.getElementById('cancelApplication').addEventListener('click', () => closeModal('applicationModal'));
-            document.getElementById('closeSuccessModal').addEventListener('click', () => closeModal('successModal'));
-            document.getElementById('closeSuccessBtn').addEventListener('click', () => closeModal('successModal'));
-            document.getElementById('closeDetailsModal')?.addEventListener('click', () => closeModal('applicationDetailsModal'));
-            
-            // Success modal buttons
-            document.getElementById('viewStatusBtn').addEventListener('click', function() {
-                closeModal('successModal');
-                showPage('applicationPage');
-            });
-            
             // Logout
             document.getElementById('logoutBtn').addEventListener('click', function() {
                 if (confirm('Adakah anda pasti ingin log keluar?')) {
@@ -3119,40 +3184,100 @@
                     showAuthentication();
                 }
             });
+        }
+        
+        function setupPasswordToggle(toggleId, inputId) {
+            const toggleBtn = document.getElementById(toggleId);
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function() {
+                    const input = document.getElementById(inputId);
+                    const icon = this.querySelector('i');
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        icon.className = 'fas fa-eye-slash';
+                    } else {
+                        input.type = 'password';
+                        icon.className = 'fas fa-eye';
+                    }
+                });
+            }
+        }
+        
+        function setupResetCodeInputs() {
+            const codeInputs = document.querySelectorAll('.reset-code-input');
             
-            // Refresh applications (admin)
-            document.getElementById('refreshApplications')?.addEventListener('click', function() {
-                loadAdminApplications();
-                alert('Senarai permohonan telah dikemas kini!');
-            });
-            
-            // Add user button (admin)
-            document.getElementById('addUserBtn')?.addEventListener('click', function() {
-                alert('Fungsi tambah pengguna akan datang tidak lama lagi.');
-            });
-            
-            // Password toggle
-            document.getElementById('toggleLoginPassword').addEventListener('click', function() {
-                const passwordField = document.getElementById('loginPassword');
-                const icon = this.querySelector('i');
-                if (passwordField.type === 'password') {
-                    passwordField.type = 'text';
-                    icon.className = 'fas fa-eye-slash';
-                } else {
-                    passwordField.type = 'password';
-                    icon.className = 'fas fa-eye';
-                }
-            });
-            
-            // Close details button
-            document.addEventListener('click', function(e) {
-                if (e.target.id === 'closeDetailsBtn') {
-                    closeModal('applicationDetailsModal');
-                }
+            codeInputs.forEach((input, index) => {
+                // Handle input
+                input.addEventListener('input', function(e) {
+                    const value = this.value;
+                    
+                    // Only allow numbers
+                    if (!/^\d*$/.test(value)) {
+                        this.value = value.replace(/\D/g, '');
+                        return;
+                    }
+                    
+                    // Limit to 1 character
+                    if (value.length > 1) {
+                        this.value = value.charAt(0);
+                    }
+                    
+                    // Update filled state
+                    if (this.value) {
+                        this.classList.add('filled');
+                    } else {
+                        this.classList.remove('filled');
+                    }
+                    
+                    // Auto-focus next input
+                    if (value && index < codeInputs.length - 1) {
+                        codeInputs[index + 1].focus();
+                    }
+                    
+                    // Update verify button state
+                    updateVerifyButtonState();
+                });
+                
+                // Handle backspace
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && !this.value && index > 0) {
+                        codeInputs[index - 1].focus();
+                    }
+                });
+                
+                // Handle paste
+                input.addEventListener('paste', function(e) {
+                    e.preventDefault();
+                    const pastedData = e.clipboardData.getData('text').replace(/\D/g, '');
+                    
+                    if (pastedData.length === 6) {
+                        for (let i = 0; i < 6; i++) {
+                            if (codeInputs[i]) {
+                                codeInputs[i].value = pastedData[i];
+                                codeInputs[i].classList.add('filled');
+                            }
+                        }
+                        updateVerifyButtonState();
+                    }
+                });
             });
         }
         
+        function updateVerifyButtonState() {
+            const codeInputs = document.querySelectorAll('.reset-code-input');
+            let isComplete = true;
+            
+            codeInputs.forEach(input => {
+                if (!input.value) {
+                    isComplete = false;
+                }
+            });
+            
+            document.getElementById('verifyCodeBtn').disabled = !isComplete;
+        }
+        
         function switchAuthTab(tabName) {
+            // Hide all tabs and forms
             document.getElementById('loginTab').classList.remove('active');
             document.getElementById('registerTab').classList.remove('active');
             
@@ -3160,13 +3285,23 @@
             document.getElementById('registerForm').classList.remove('active');
             document.getElementById('successMessage').classList.remove('active');
             
+            // Clear error messages
+            document.querySelectorAll('.error-message, .success-message').forEach(el => {
+                el.textContent = '';
+                el.classList.remove('show');
+            });
+            
+            // Show selected tab and form
             if (tabName === 'login') {
                 document.getElementById('loginTab').classList.add('active');
                 document.getElementById('loginForm').classList.add('active');
-            } else {
+            } else if (tabName === 'register') {
                 document.getElementById('registerTab').classList.add('active');
                 document.getElementById('registerForm').classList.add('active');
             }
+            
+            // Make sure forgot password is hidden
+            hideForgotPassword();
         }
         
         // ============================================
