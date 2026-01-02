@@ -2299,142 +2299,25 @@
             }
         ];
         
-        // Data Kekosongan Lokasi (Real-time AutoCount)
+        // Vacancy Data
         const VACANCY_DATA = {
             kuarters: [
                 { id: 'Q001', name: 'Kuarters Kuala Perlis, Perlis', vacancies: 1 },
                 { id: 'Q002', name: 'Kuarters Padang Besar, Perlis', vacancies: 0 },
-                { id: 'Q003', name: 'Kuarters Langkawi, Kedah', vacancies: 3 },
-                { id: 'Q004', name: 'Kuarters Bukit Kayu Hitam, Kedah', vacancies: 9 },
-                { id: 'Q005', name: 'Kuarters Kuala Kedah, Kedah', vacancies: 0 },
-                { id: 'Q006', name: 'Kuarters Bayan Permai, Pulau Pinang', vacancies: 0 },
-                { id: 'Q007', name: 'Kuarters Meru, Selangor', vacancies: 1 },
-                { id: 'Q008', name: 'Kuarters Camar Laut, Selangor', vacancies: 0 },
-                { id: 'Q009', name: 'Kuarters Cempaka Court, Negeri Sembilan', vacancies: 9 },
-                { id: 'Q0010', name: 'Kuarters Pengerang, Johor', vacancies: 1 },
-                { id: 'Q0011', name: 'Kuarters Sedili, Johor', vacancies: 3 },
-                { id: 'Q0012', name: 'Kuarters Mersing, Johor', vacancies: 1 },
-                { id: 'Q0013', name: 'Kuarters Endau, Johor', vacancies: 3 },
-                { id: 'Q0014', name: 'Kuarters Taman Guru, Pahang', vacancies: 0 },
-                { id: 'Q0015', name: 'Kuarters Chendering, Terengganu', vacancies: 1 },
-                { id: 'Q0016', name: 'Kuarters Bachok, Kelantan', vacancies: 0 },
-                { id: 'Q0017', name: 'Kuarters Kuala Besar, Kelantan', vacancies: 4 },
-                { id: 'Q0018', name: 'Kuarters Geting, Kelantan', vacancies: 5 },
-                { id: 'Q0019', name: 'Kuarters Tanjung Manis, Sarawak', vacancies: 3 },
-                { id: 'Q0020', name: 'Kuarters Mukah, Sarawak', vacancies: 0 },
-                { id: 'Q0021', name: 'Kuarters Bintulu, Sarawak', vacancies: 0 },
-                { id: 'Q0022', name: 'Kuarters Miri, Sarawak', vacancies: 3 },
-                { id: 'Q0023', name: 'Kuarters Labuan, Sabah', vacancies: 0 }
+                { id: 'Q003', name: 'Kuarters Langkawi, Kedah', vacancies: 3 }
             ],
             pejabat: [
-                { id: 'O001', name: 'Pejabat PNK Port Dickson, Negeri Sembilan', vacancies: 2 },
-                { id: 'O002', name: 'Pejabat PNK Batu Pahat, Johor', vacancies: 2 },
-                { id: 'O003', name: 'Pejabat PNK Muar,Johor', vacancies: 2 },
-                { id: 'O004', name: 'Pejabat PNK Paka, Terengganu', vacancies: 2 },
-                { id: 'O005', name: 'Pejabat PNK Kuala Terengganu Utara, Terengganu', vacancies: 2 },
-                { id: 'O006', name: 'Pejabat PNK Kuala Penyu, Sarawak', vacancies: 2 },
-                { id: 'O007', name: 'Pejabat PNK Kota Kinabalu, Sarawak', vacancies: 2 },
-                { id: 'O008', name: 'Pejabat PNK Negeri Sabah, Sabah', vacancies: 2 },
-                { id: 'O009', name: 'Pejabat PNK Kota Belud, Sabah', vacancies: 2 },
-                { id: 'O0010', name: 'Pejabat PNK Semporna, Sabah', vacancies: 2 }
-            ],
-            kedai: [
-                { id: 'S001', name: 'Lot Kedai Taman Koperasi Polis, Selangor', vacancies: 1 },
-                { id: 'S002', name: 'Lot Kedai Melaka Raya, Melaka', vacancies: 1 }
-                
+                { id: 'O001', name: 'Pejabat PNK Port Dickson', vacancies: 2 },
+                { id: 'O002', name: 'Pejabat PNK Batu Pahat', vacancies: 1 }
             ],
             tanah: [
                 { id: 'L001', name: 'Tanah Kedah', vacancies: 2 },
-                { id: 'L002', name: 'Tanah Penang', vacancies: 1 },
-                { id: 'L003', name: 'Tanah Perak', vacancies: 2 },
-                { id: 'L004', name: 'Tanah Selangor', vacancies: 3 },
-                { id: 'L005', name: 'Tanah Melaka', vacancies: 5 },
-                { id: 'L006', name: 'Tanah Johor', vacancies: 2 },
-                { id: 'L007', name: 'Tanah Pahang', vacancies: 1 },
-                { id: 'L008', name: 'Tanah Terengganu', vacancies: 2 },
-                { id: 'L009', name: 'Tanah Kelantan', vacancies: 11 },
-                { id: 'L0010', name: 'Tanah Sarawak', vacancies: 4 }
+                { id: 'L002', name: 'Tanah Penang', vacancies: 1 }
             ],
             rumah_rehat: [
-                { id: 'RR001', name: 'Rumah Rehat Bayu Beach Resort, Port Dickson', vacancies: 1 }
-            ],
-            bilik: [
-                { id: 'BS001', name: 'Bilik Sejuk Perlis', vacancies: 5 },
-                { id: 'BS002', name: 'Bilik Sejuk Kedah', vacancies: 7 },
-                { id: 'BS003', name: 'Bilik Sejuk Penang', vacancies: 3 },
-                { id: 'BS004', name: 'Bilik Sejuk Perak', vacancies: 2 },
-                { id: 'BS005', name: 'Bilik Sejuk Selangor', vacancies: 7 },
-                { id: 'BS006', name: 'Bilik Sejuk Negeri Sembilan', vacancies: 3 },
-                { id: 'BS007', name: 'Bilik Sejuk Melaka', vacancies: 5 },
-                { id: 'BS008', name: 'Bilik Sejuk Johor', vacancies: 11 },
-                { id: 'BS009', name: 'Bilik Sejuk Pahang', vacancies: 9 },
-                { id: 'BS0010', name: 'Bilik Sejuk Terengganu', vacancies: 6 },
-                { id: 'BS0011', name: 'Bilik Sejuk Kelantan', vacancies: 4 },
-                { id: 'BS0012', name: 'Bilik Sejuk Sarawak', vacancies: 11 },
-                { id: 'BS0013', name: 'Bilik Sejuk WP Labuan', vacancies: 3 },
-                { id: 'BS0014', name: 'Bilik Sejuk Sabah', vacancies: 5 }
-            ],
-            slipway: [
-                { id: 'SW001', name: 'Slipway Kedah', vacancies: 1 },
-                { id: 'SW002', name: 'Slipway Johor', vacancies: 1 }
-            ],
-            pphp: [
-                { id: 'PP001', name: 'PPHP Perlis', vacancies: 1 },
-                { id: 'PP002', name: 'PPHP Kedah', vacancies: 2 },
-                { id: 'PP003', name: 'PPHP Perak', vacancies: 0 },
-                { id: 'PP004', name: 'PPHP Johor', vacancies: 0 },
-                { id: 'PP005', name: 'PPHP Pahang', vacancies: 2 },
-                { id: 'PP006', name: 'PPHP Terengganu', vacancies: 1 },
-                { id: 'PP007', name: 'PPHP Kelantan', vacancies: 3 },
-                { id: 'PP008', name: 'PPHP Sarawak', vacancies: 2 },
-                { id: 'PP009', name: 'PPHP Sabah', vacancies: 2 }
-                
-            ],
-            kompleks: [
-                { id: 'KC001', name: 'Kompleks LKIM Bintawa, Sarawak', vacancies: 1 }
-            ],
-            pasar: [
-                { id: 'PN001', name: 'Pasar Nelayan Perlis', vacancies: 1 },
-                { id: 'PN002', name: 'Pasar Nelayan Penang', vacancies: 5 },
-                { id: 'PN003', name: 'Pasar Nelayan Perak', vacancies: 3 },
-                { id: 'PN004', name: 'Pasar Nelayan Selangor', vacancies: 5 },
-                { id: 'PN005', name: 'Pasar Nelayan Negeri Sembilan', vacancies: 6 },
-                { id: 'PN006', name: 'Pasar Nelayan Melaka', vacancies: 2 },
-                { id: 'PN007', name: 'Pasar Nelayan Johor', vacancies: 2 },
-                { id: 'PN008', name: 'Pasar Nelayan Terengganu', vacancies: 3 },
-                { id: 'PN009', name: 'Pasar Nelayan Sarawak', vacancies: 10 },
-                { id: 'PN0010', name: 'Pasar Nelayan Sabah', vacancies: 5 }
-            ],
-            akuakultur: [
-                { id: 'AQ001', name: 'Akuakultur Selangor', vacancies: 1 },
-                { id: 'AQ002', name: 'Akuakultur Kelantan', vacancies: 1 },
-                { id: 'AQ003', name: 'Akuakultur Terengganu', vacancies: 2 },
-                { id: 'AQ004', name: 'Akuakultur Pahang', vacancies: 1 },
-                { id: 'AQ005', name: 'Akuakultur Johor', vacancies: 1 }
-                
-            ],
-            ccdc: [
-                { id: 'CC001', name: 'CCDC Terengganu', vacancies: 2 },
-                { id: 'CC002', name: 'CCDC Pahang', vacancies: 2 },
-                { id: 'CC003', name: 'CCDC WP Labuan', vacancies: 1 },
-                { id: 'CC004', name: 'CCDC Sabah', vacancies: 1 }
-            ],
-            jeti: [
-                { id: 'JT001', name: 'Jeti Perlis', vacancies: 0 },
-                { id: 'JT002', name: 'Jeti Kedah', vacancies: 10 },
-                { id: 'JT003', name: 'Jeti Penang', vacancies: 3 },
-                { id: 'JT004', name: 'Jeti Perak', vacancies: 8 },
-                { id: 'JT005', name: 'Jeti Selangor', vacancies: 2 },
-                { id: 'JT006', name: 'Jeti Negeri Sembilan', vacancies: 0 },
-                { id: 'JT007', name: 'Jeti Melaka', vacancies: 0 },
-                { id: 'JT008', name: 'Jeti Johor', vacancies: 7 },
-                { id: 'JT009', name: 'Jeti Pahang', vacancies: 12 },
-                { id: 'JT0010', name: 'Jeti Terengganu', vacancies: 1 },
-                { id: 'JT0011', name: 'Jeti Kelantan', vacancies: 0 },
-                { id: 'JT0012', name: 'Jeti Sarawak', vacancies: 17 },
-                { id: 'JT0013', name: 'Jeti WP Labuan', vacancies: 1 },
-                { id: 'JT0014', name: 'Jeti Sabah', vacancies: 32 }
-            ],
+                { id: 'RR001', name: 'Rumah Rehat Bayu Beach Resort', vacancies: 1 },
+                { id: 'RR002', name: 'Rumah Rehat Acheh', vacancies: 1 }
+            ]
         };
         
         let currentUser = null;
