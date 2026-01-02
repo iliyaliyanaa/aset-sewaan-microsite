@@ -544,6 +544,8 @@
         /* ===== MAIN APPLICATION ===== */
         .app-container {
             display: none;
+            min-height: 100vh;
+            flex-direction: column;
         }
         
         /* Header */
@@ -571,6 +573,16 @@
         
         .app-logo i {
             font-size: 2.2rem;
+        }
+        
+        .app-logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .app-logo-text p {
+            font-size: 0.85rem;
+            opacity: 0.9;
         }
         
         .user-section {
@@ -642,6 +654,7 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
+            color: white;
         }
         
         /* Navigation */
@@ -680,6 +693,7 @@
         /* Dashboard */
         .app-main {
             padding: 2rem 0;
+            flex-grow: 1;
         }
         
         .welcome-banner {
@@ -891,138 +905,14 @@
             color: var(--danger);
         }
         
-        /* Modal */
-        .modal {
+        /* Page Content */
+        .page-content {
             display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
         }
         
-        .modal-content {
-            background-color: white;
-            border-radius: 12px;
-            width: 100%;
-            max-width: 800px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-        
-        .modal-header {
-            padding: 1.5rem 2rem;
-            background: linear-gradient(to right, var(--primary), var(--accent));
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .modal-header h3 {
-            font-size: 1.4rem;
-        }
-        
-        .close-modal {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background-color 0.3s;
-        }
-        
-        .close-modal:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-        
-        .modal-body {
-            padding: 2rem;
-        }
-        
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-group.full-width {
-            grid-column: 1 / span 2;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 1rem;
-            transition: border 0.3s;
-        }
-        
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(26, 95, 122, 0.1);
-        }
-        
-        textarea.form-control {
-            min-height: 120px;
-            resize: vertical;
-        }
-        
-        .modal-footer {
-            padding: 1.5rem 2rem;
-            background-color: var(--light);
-            border-top: 1px solid var(--light-gray);
-            display: flex;
-            justify-content: flex-end;
-            gap: 15px;
-        }
-        
-        /* Success Modal */
-        .success-modal {
-            text-align: center;
-            padding: 3rem;
-        }
-        
-        .success-icon {
-            font-size: 4rem;
-            color: var(--success);
-            margin-bottom: 1rem;
-        }
-        
-        /* Profile Dropdown */
-        .profile-dropdown {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-            min-width: 200px;
-            display: none;
-            z-index: 1000;
-        }
-        
-        .profile-dropdown.active {
+        .page-content.active {
             display: block;
+            animation: fadeIn 0.5s ease;
         }
         
         /* Footer */
@@ -1030,7 +920,7 @@
             background-color: var(--dark);
             color: white;
             padding: 2rem 0;
-            margin-top: 3rem;
+            margin-top: auto;
         }
         
         .footer-content {
@@ -1048,107 +938,27 @@
             font-size: 0.9rem;
         }
         
-        /* Admin Dashboard */
-        .admin-header {
-            background: linear-gradient(135deg, var(--admin-primary) 0%, var(--admin-secondary) 100%);
-            color: white;
+        /* Forgot Password Link */
+        .forgot-password-link {
+            text-align: center;
+            margin-top: 15px;
         }
         
-        .admin-nav {
-            background-color: var(--admin-secondary);
-        }
-        
-        .admin-nav a:hover, .admin-nav a.active {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 2rem;
-        }
-        
-        .stat-card {
-            background: white;
-            border-radius: 10px;
-            padding: 1.5rem;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
-        
-        .stat-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        
-        .stat-label {
-            color: var(--gray);
+        .forgot-password-link a {
+            color: var(--primary);
+            text-decoration: none;
             font-size: 0.9rem;
-        }
-        
-        .applications-table {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-        }
-        
-        .table-header {
-            display: grid;
-            grid-template-columns: 50px 1fr 1fr 150px 100px 120px;
-            padding: 1rem;
-            background-color: var(--light);
-            font-weight: 600;
-            border-bottom: 1px solid var(--light-gray);
-        }
-        
-        .table-row {
-            display: grid;
-            grid-template-columns: 50px 1fr 1fr 150px 100px 120px;
-            padding: 1rem;
-            border-bottom: 1px solid var(--light-gray);
-            align-items: center;
-        }
-        
-        .table-row:hover {
-            background-color: rgba(0,0,0,0.02);
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 5px;
-        }
-        
-        .action-btn {
-            padding: 5px 10px;
-            border-radius: 4px;
-            border: none;
-            font-size: 0.8rem;
             cursor: pointer;
+        }
+        
+        .forgot-password-link a:hover {
+            text-decoration: underline;
         }
         
         /* Responsive */
         @media (max-width: 992px) {
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-            
-            .table-header, .table-row {
-                grid-template-columns: 1fr;
-                gap: 10px;
+            .assets-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             }
         }
         
@@ -1178,109 +988,28 @@
                 height: 50px;
                 font-size: 1.2rem;
             }
-        }
-        
-        /* Page Content */
-        .page-content {
-            display: none;
-        }
-        
-        .page-content.active {
-            display: block;
-        }
-        
-        /* Validation Messages */
-        .validation-message {
-            font-size: 0.85rem;
-            margin-top: 5px;
-            display: none;
-        }
-        
-        .validation-message.error {
-            color: var(--danger);
-            display: block;
-        }
-        
-        .validation-message.success {
-            color: var(--success);
-            display: block;
-        }
-        
-        /* Location Selector Styles */
-        .location-selector {
-            margin-bottom: 1rem;
-        }
-        
-        .location-message {
-            padding: 1rem;
-            border-radius: 6px;
-            margin-bottom: 1rem;
-            display: none;
-        }
-        
-        .location-message.info {
-            background-color: #f8f9fa;
-            border: 1px solid #e9ecef;
-            color: #6c757d;
-            display: block;
-        }
-        
-        .location-message.loading {
-            background-color: #cff4fc;
-            border: 1px solid #b6effb;
-            color: #055160;
-        }
-        
-        .location-message.warning {
-            background-color: #fff3cd;
-            border: 1px solid #ffecb5;
-            color: #664d03;
-        }
-        
-        .vacancy-info {
-            font-size: 0.9rem;
-            color: var(--success);
-            margin-top: 5px;
-            font-weight: 500;
-        }
-        
-        .vacancy-info.warning {
-            color: var(--warning);
-        }
-        
-        .vacancy-info.danger {
-            color: var(--danger);
-        }
-        
-        /* Form field dengan data automatik */
-        .auto-filled-field {
-            background-color: #f8f9fa;
-            border: 1px solid #e9ecef;
-            color: #495057;
-            font-weight: 500;
-        }
-        
-        .auto-filled-field:focus {
-            background-color: #f8f9fa;
-            border-color: #e9ecef;
-            box-shadow: none;
-        }
-        
-        /* Forgot Password Link */
-        .forgot-password-link {
-            text-align: center;
-            margin-top: 15px;
-        }
-        
-        .forgot-password-link a {
-            color: var(--primary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            cursor: pointer;
-        }
-        
-        .forgot-password-link a:hover {
-            text-decoration: underline;
+            
+            .welcome-banner {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -1612,12 +1341,238 @@
         </div>
     </div>
     
-    <!-- Main Application (sama seperti sebelumnya) -->
-    <!-- Kode main application tetap sama seperti sebelumnya -->
-    <!-- Untuk menjimatkan ruang, saya tidak menyalin semua kode main application di sini -->
-    <!-- Fokus adalah pada sistem lupa kata laluan yang baru -->
-    
-    <!-- Kode JavaScript -->
+    <!-- Main Application -->
+    <div class="app-container" id="appContainer">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="container header-content">
+                <div class="app-logo">
+                    <i class="fas fa-building"></i>
+                    <div class="app-logo-text">
+                        <h1>Portal Sewaan Aset</h1>
+                        <p>Selamat datang, <span id="headerUserName">Pengguna</span></p>
+                    </div>
+                </div>
+                
+                <div class="user-section">
+                    <div class="user-profile">
+                        <div class="user-avatar" id="userAvatar">P</div>
+                        <div>
+                            <div class="user-name" id="userName">Pengguna</div>
+                            <div class="user-badge" id="userTypeBadge">Kakitangan</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i> Log Keluar
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Navigation -->
+        <nav class="app-nav">
+            <div class="container nav-container">
+                <ul class="nav-links">
+                    <li><a href="#" class="active" data-page="dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="#" data-page="assets"><i class="fas fa-building"></i> Aset Tersedia</a></li>
+                    <li><a href="#" data-page="application"><i class="fas fa-file-alt"></i> Permohonan Saya</a></li>
+                    <li><a href="#" data-page="profile"><i class="fas fa-user"></i> Profil Saya</a></li>
+                </ul>
+                
+                <div class="quick-actions">
+                    <button class="btn btn-primary" id="newApplicationBtn">
+                        <i class="fas fa-plus"></i> Mohon Baru
+                    </button>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="app-main">
+            <div class="container">
+                <!-- Dashboard Page -->
+                <div id="dashboardPage" class="page-content active">
+                    <div class="welcome-banner">
+                        <div class="welcome-content">
+                            <h2 id="welcomeTitle">Selamat Datang!</h2>
+                            <p id="welcomeMessage">Portal sewaan aset.</p>
+                            <span class="user-type-badge" id="userWelcomeBadge">Kakitangan Kerajaan</span>
+                        </div>
+                        <div style="font-size: 4rem; color: var(--secondary); opacity: 0.7;">
+                            <i class="fas fa-hand-wave"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 2rem;">
+                        <div class="dashboard-card" style="background-color: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                            <div class="card-header" style="display: flex; align-items: center; gap: 15px; margin-bottom: 1rem;">
+                                <div class="card-icon" style="width: 50px; height: 50px; background-color: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
+                                    <i class="fas fa-home"></i>
+                                </div>
+                                <div class="card-content">
+                                    <h3 style="font-size: 1.8rem; color: var(--primary); margin-bottom: 5px;" id="dashboardTotalQuarters">228</h3>
+                                    <p style="color: var(--gray); font-size: 0.9rem;">Jumlah Aset</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="dashboard-card" style="background-color: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                            <div class="card-header" style="display: flex; align-items: center; gap: 15px; margin-bottom: 1rem;">
+                                <div class="card-icon" style="width: 50px; height: 50px; background-color: var(--success); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
+                                    <i class="fas fa-door-open"></i>
+                                </div>
+                                <div class="card-content">
+                                    <h3 style="font-size: 1.8rem; color: var(--primary); margin-bottom: 5px;" id="dashboardAvailableQuarters">49</h3>
+                                    <p style="color: var(--gray); font-size: 0.9rem;">Kuarters Tersedia</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="dashboard-card" style="background-color: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                            <div class="card-header" style="display: flex; align-items: center; gap: 15px; margin-bottom: 1rem;">
+                                <div class="card-icon" style="width: 50px; height: 50px; background-color: var(--accent); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
+                                    <i class="fas fa-file-alt"></i>
+                                </div>
+                                <div class="card-content">
+                                    <h3 style="font-size: 1.8rem; color: var(--primary); margin-bottom: 5px;" id="dashboardMyApplications">0</h3>
+                                    <p style="color: var(--gray); font-size: 0.9rem;">Permohonan Saya</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="dashboard-card" style="background-color: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                            <div class="card-header" style="display: flex; align-items: center; gap: 15px; margin-bottom: 1rem;">
+                                <div class="card-icon" style="width: 50px; height: 50px; background-color: var(--warning); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="card-content">
+                                    <h3 style="font-size: 1.8rem; color: var(--primary); margin-bottom: 5px;" id="dashboardPending">0</h3>
+                                    <p style="color: var(--gray); font-size: 0.9rem;">Dalam Proses</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="section-header">
+                        <h2>Akses Pantas</h2>
+                    </div>
+                    
+                    <div class="assets-grid" id="quickAccessAssets">
+                        <!-- Cards will be loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Assets Page -->
+                <div id="assetsPage" class="page-content">
+                    <div class="section-header">
+                        <h2>Aset Tersedia Untuk Disewa</h2>
+                        <div>
+                            <span id="availableCount">49</span> daripada <span id="totalCount">181</span> unit tersedia
+                        </div>
+                    </div>
+                    
+                    <div class="assets-grid" id="assetsGrid">
+                        <!-- Assets will be loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Application Page -->
+                <div id="applicationPage" class="page-content">
+                    <div class="section-header">
+                        <h2>Permohonan Saya</h2>
+                        <button class="btn btn-primary" id="applyNewBtn">
+                            <i class="fas fa-plus"></i> Permohonan Baru
+                        </button>
+                    </div>
+                    
+                    <div class="status-section">
+                        <div class="status-list" id="applicationStatus">
+                            <!-- Applications will be loaded here -->
+                            <div style="text-align: center; padding: 3rem; color: var(--gray);">
+                                <i class="fas fa-file-alt" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                                <h3>Tiada Permohonan</h3>
+                                <p>Anda belum membuat sebarang permohonan.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Profile Page -->
+                <div id="profilePage" class="page-content">
+                    <div class="section-header">
+                        <h2>Profil Saya</h2>
+                    </div>
+                    
+                    <div class="dashboard-card" style="background-color: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                        <div style="display: flex; align-items: center; gap: 30px; margin-bottom: 2rem;">
+                            <div style="width: 100px; height: 100px; background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); 
+                                border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: white; font-weight: bold;" id="profileAvatar">
+                                P
+                            </div>
+                            <div>
+                                <h3 style="color: var(--primary); margin-bottom: 5px;" id="profileName">Nama Pengguna</h3>
+                                <p style="color: var(--gray); margin-bottom: 5px;" id="profileEmail">email@example.com</p>
+                                <span class="user-type-badge" id="profileTypeBadge">Kakitangan Kerajaan</span>
+                            </div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; color: var(--gray);">No. Kad Pengenalan</label>
+                                <div style="font-weight: 500;" id="profileIC">000000000000</div>
+                            </div>
+                            
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; color: var(--gray);">No. Telefon</label>
+                                <div style="font-weight: 500;" id="profilePhone">-</div>
+                            </div>
+                            
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; color: var(--gray);">Alamat</label>
+                                <div style="font-weight: 500;" id="profileAddress">-</div>
+                            </div>
+                            
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; color: var(--gray);">Ahli Sejak</label>
+                                <div style="font-weight: 500;" id="profileSince">-</div>
+                            </div>
+                            
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; color: var(--gray);">Jumlah Permohonan</label>
+                                <div style="font-weight: 500;" id="profileTotalApps">0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3>Portal Sewaan Aset</h3>
+                        <p>Sistem pengurusan sewaan aset yang efisien dan telus.</p>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h3>Hubungi Admin</h3>
+                        <ul class="footer-links" style="list-style: none; color: #ccc;">
+                            <li><i class="fas fa-phone"></i> 03-8888 1234</li>
+                            <li><i class="fas fa-envelope"></i> admin@aset.gov.my</li>
+                            <li><i class="fas fa-clock"></i> Isnin - Jumaat: 8:30am - 5:30pm</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="copyright">
+                    &copy; 2023 Portal Sewaan Aset. Hak Cipta Terpelihara.
+                </div>
+            </div>
+        </footer>
+    </div>
+
     <script>
         // ============================================
         // DATA STORAGE AND INITIALIZATION
@@ -1680,11 +1635,61 @@
             }
         ];
         
+        // Asset Data untuk demo
+        const ASSETS_DATA = [
+            {
+                id: 1,
+                type: "kuarters",
+                name: "Kuarters Kakitangan",
+                icon: "fas fa-home",
+                color: "#9b59b6",
+                description: "Kuarters untuk kakitangan kerajaan dengan kemudahan lengkap. 3 bilik tidur, 2 bilik air, dapur dan ruang tamu.",
+                monthlyRent: "RM 450",
+                totalUnits: 181,
+                availableUnits: 49
+            },
+            {
+                id: 2,
+                type: "pejabat",
+                name: "Sewa Pejabat",
+                icon: "fas fa-building",
+                color: "#3498db",
+                description: "Pejabat di lokasi strategik dengan kemudahan lengkap termasuk parking, sistem keselamatan dan internet.",
+                monthlyRent: "RM 2,500",
+                totalUnits: 24,
+                availableUnits: 3
+            },
+            {
+                id: 3,
+                type: "kedai",
+                name: "Lot Kedai",
+                icon: "fas fa-store",
+                color: "#f39c12",
+                description: "Lot kedai di kawasan komersial dengan foot traffic tinggi. Sesuai untuk perniagaan runcit dan servis.",
+                monthlyRent: "RM 1,800",
+                totalUnits: 15,
+                availableUnits: 4
+            },
+            {
+                id: 4,
+                type: "tanah",
+                name: "Tanah Lot",
+                icon: "fas fa-map-marked-alt",
+                color: "#2ecc71",
+                description: "Tanah lot untuk tujuan perindustrian atau komersial. Lokasi strategik dengan akses jalan raya utama.",
+                monthlyRent: "RM 3,200",
+                totalUnits: 8,
+                availableUnits: 3
+            }
+        ];
+        
         let currentUser = null;
         let users = [];
         let verificationCodes = [];
         let forgotPasswordTimer = null;
         let currentForgotEmail = '';
+        let applications = [];
+        let assets = ASSETS_DATA;
         
         // Initialize System
         function initializeSystem() {
@@ -1700,6 +1705,16 @@
             // Initialize verification codes
             const storedCodes = localStorage.getItem(STORAGE_KEYS.VERIFICATION_CODES);
             verificationCodes = storedCodes ? JSON.parse(storedCodes) : [];
+            
+            // Initialize applications
+            const storedApps = localStorage.getItem(STORAGE_KEYS.APPLICATIONS);
+            applications = storedApps ? JSON.parse(storedApps) : [];
+            
+            // Initialize assets
+            const storedAssets = localStorage.getItem(STORAGE_KEYS.ASSETS);
+            if (storedAssets) {
+                assets = JSON.parse(storedAssets);
+            }
             
             // Check login status
             checkLoginStatus();
@@ -1723,14 +1738,18 @@
         
         function showAuthentication() {
             document.getElementById('authPage').style.display = 'flex';
+            document.getElementById('appContainer').style.display = 'none';
             // Reset to login form by default
             switchAuthTab('login');
         }
         
         function showApplication() {
             document.getElementById('authPage').style.display = 'none';
-            // Application code would be here
-            alert('Berjaya log masuk! Aplikasi utama akan dimuatkan.');
+            document.getElementById('appContainer').style.display = 'block';
+            
+            // Update user interface
+            updateUserInterface();
+            loadDashboard();
         }
         
         function switchAuthTab(tabName) {
@@ -1762,45 +1781,6 @@
                 document.getElementById('loginTab').classList.add('active');
                 document.getElementById('forgotPasswordForm').classList.add('active');
             }
-        }
-        
-        function resetForgotPasswordForm() {
-            // Reset steps
-            document.getElementById('forgotStep1').classList.add('active');
-            document.getElementById('forgotStep2').classList.remove('active');
-            document.getElementById('forgotStep3').classList.remove('active');
-            
-            // Reset step indicators
-            document.getElementById('step1').classList.add('active');
-            document.getElementById('step1').classList.remove('completed');
-            document.getElementById('step2').classList.remove('active');
-            document.getElementById('step2').classList.remove('completed');
-            document.getElementById('step3').classList.remove('active');
-            document.getElementById('step3').classList.remove('completed');
-            
-            // Clear inputs
-            document.getElementById('forgotEmail').value = '';
-            document.querySelectorAll('.verification-input').forEach(input => {
-                input.value = '';
-                input.classList.remove('filled');
-            });
-            document.getElementById('newPassword').value = '';
-            document.getElementById('confirmPassword').value = '';
-            
-            // Clear validation messages
-            document.getElementById('forgotEmailError').textContent = '';
-            document.getElementById('verificationCodeError').textContent = '';
-            document.getElementById('confirmPasswordError').textContent = '';
-            
-            // Stop timer if running
-            if (forgotPasswordTimer) {
-                clearInterval(forgotPasswordTimer);
-                forgotPasswordTimer = null;
-            }
-            
-            // Reset timer display
-            document.getElementById('timeLeft').textContent = '05:00';
-            document.getElementById('resendCodeLink').classList.remove('disabled');
         }
         
         function handleLogin(e) {
@@ -1851,10 +1831,15 @@
                 localStorage.setItem(STORAGE_KEYS.CURRENT_USER, JSON.stringify(currentUser));
             }
             
-            // Simulate loading
-            document.getElementById('loginSubmitBtn').innerHTML = '<div class="loading"></div>';
+            // Show loading state
+            const loginBtn = document.getElementById('loginSubmitBtn');
+            const originalText = loginBtn.innerHTML;
+            loginBtn.innerHTML = '<div class="loading"></div> Memproses...';
+            
+            // Show application after short delay
             setTimeout(() => {
                 showApplication();
+                loginBtn.innerHTML = originalText;
             }, 1000);
         }
         
@@ -1909,11 +1894,293 @@
         }
         
         // ============================================
+        // APPLICATION FUNCTIONS
+        // ============================================
+        
+        function updateUserInterface() {
+            if (!currentUser) return;
+            
+            // Update header
+            document.getElementById('headerUserName').textContent = currentUser.name.split(' ')[0];
+            document.getElementById('userAvatar').textContent = getInitials(currentUser.name);
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('userTypeBadge').textContent = currentUser.typeText;
+            
+            // Update welcome message
+            document.getElementById('welcomeTitle').textContent = `Selamat Datang, ${currentUser.name.split(' ')[0]}!`;
+            document.getElementById('welcomeMessage').textContent = `Anda telah log masuk sebagai ${currentUser.typeText}`;
+            document.getElementById('userWelcomeBadge').textContent = currentUser.typeText;
+            
+            // Update profile
+            document.getElementById('profileName').textContent = currentUser.name;
+            document.getElementById('profileEmail').textContent = currentUser.email;
+            document.getElementById('profileIC').textContent = currentUser.ic;
+            document.getElementById('profilePhone').textContent = currentUser.phone || '-';
+            document.getElementById('profileAddress').textContent = currentUser.address || '-';
+            document.getElementById('profileSince').textContent = formatDate(currentUser.createdAt);
+            document.getElementById('profileAvatar').textContent = getInitials(currentUser.name);
+            document.getElementById('profileTypeBadge').textContent = currentUser.typeText;
+            
+            // Calculate user applications
+            const userApps = applications.filter(app => app.applicantId === currentUser.id);
+            document.getElementById('profileTotalApps').textContent = userApps.length;
+            document.getElementById('dashboardMyApplications').textContent = userApps.length;
+            document.getElementById('dashboardPending').textContent = userApps.filter(app => app.status === 'pending').length;
+        }
+        
+        function loadDashboard() {
+            // Load quick access assets
+            loadQuickAccessAssets();
+            
+            // Update dashboard stats
+            updateDashboardStats();
+        }
+        
+        function updateDashboardStats() {
+            // Calculate total available units
+            const totalAvailable = assets.reduce((sum, asset) => sum + (asset.availableUnits || 0), 0);
+            const totalUnits = assets.reduce((sum, asset) => sum + (asset.totalUnits || 0), 0);
+            
+            document.getElementById('dashboardTotalQuarters').textContent = totalUnits;
+            document.getElementById('dashboardAvailableQuarters').textContent = totalAvailable;
+            
+            // Calculate user applications
+            const userApps = applications.filter(app => app.applicantId === currentUser?.id);
+            document.getElementById('dashboardMyApplications').textContent = userApps.length;
+            document.getElementById('dashboardPending').textContent = userApps.filter(app => app.status === 'pending').length;
+        }
+        
+        function loadQuickAccessAssets() {
+            const assetsGrid = document.getElementById('quickAccessAssets');
+            assetsGrid.innerHTML = '';
+            
+            // Show only first 4 assets for quick access
+            const quickAssets = assets.slice(0, 4);
+            
+            quickAssets.forEach(asset => {
+                // Determine status
+                let statusClass, statusText;
+                if (asset.availableUnits > 3) {
+                    statusClass = 'status-available';
+                    statusText = `${asset.availableUnits} Tersedia`;
+                } else if (asset.availableUnits > 0) {
+                    statusClass = 'status-limited';
+                    statusText = `${asset.availableUnits} Terhad`;
+                } else {
+                    statusClass = 'status-unavailable';
+                    statusText = 'Tidak Tersedia';
+                }
+                
+                const card = document.createElement('div');
+                card.className = 'asset-card';
+                card.innerHTML = `
+                    <div class="asset-image" style="background-color: ${asset.color}20; color: ${asset.color};">
+                        <i class="${asset.icon}"></i>
+                        <div class="asset-status ${statusClass}">
+                            ${statusText}
+                        </div>
+                    </div>
+                    <div class="asset-content">
+                        <h3 class="asset-title">${asset.name}</h3>
+                        <div class="asset-details">
+                            <p>${asset.description}</p>
+                            <div class="detail-item">
+                                <span class="detail-label">Sewa Bulanan:</span>
+                                <span class="detail-value">${asset.monthlyRent}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Unit Tersedia:</span>
+                                <span class="detail-value">${asset.availableUnits} / ${asset.totalUnits}</span>
+                            </div>
+                        </div>
+                        <div class="asset-actions">
+                            ${asset.availableUnits > 0 ? `
+                            <button class="btn btn-primary btn-block apply-now-btn" data-asset-id="${asset.id}">
+                                <i class="fas fa-pen"></i> Mohon Sekarang
+                            </button>
+                            ` : `
+                            <button class="btn btn-block" disabled style="background-color: #e9ecef; color: #6c757d; cursor: not-allowed;">
+                                <i class="fas fa-times-circle"></i> Tiada Kekosongan
+                            </button>
+                            `}
+                        </div>
+                    </div>
+                `;
+                assetsGrid.appendChild(card);
+            });
+            
+            // Add event listeners to apply buttons
+            document.querySelectorAll('.apply-now-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    alert('Fitur permohonan akan datang tidak lama lagi!');
+                });
+            });
+        }
+        
+        function loadAllAssets() {
+            const assetsGrid = document.getElementById('assetsGrid');
+            assetsGrid.innerHTML = '';
+            
+            // Calculate total available units
+            const totalAvailable = assets.reduce((sum, asset) => sum + (asset.availableUnits || 0), 0);
+            const totalUnits = assets.reduce((sum, asset) => sum + (asset.totalUnits || 0), 0);
+            
+            document.getElementById('availableCount').textContent = totalAvailable;
+            document.getElementById('totalCount').textContent = totalUnits;
+            
+            assets.forEach(asset => {
+                // Determine status
+                let statusClass, statusText;
+                if (asset.availableUnits > 3) {
+                    statusClass = 'status-available';
+                    statusText = `${asset.availableUnits} Tersedia`;
+                } else if (asset.availableUnits > 0) {
+                    statusClass = 'status-limited';
+                    statusText = `${asset.availableUnits} Terhad`;
+                } else {
+                    statusClass = 'status-unavailable';
+                    statusText = 'Tidak Tersedia';
+                }
+                
+                const card = document.createElement('div');
+                card.className = 'asset-card';
+                card.innerHTML = `
+                    <div class="asset-image" style="background-color: ${asset.color}20; color: ${asset.color};">
+                        <i class="${asset.icon}"></i>
+                        <div class="asset-status ${statusClass}">
+                            ${statusText}
+                        </div>
+                    </div>
+                    <div class="asset-content">
+                        <h3 class="asset-title">${asset.name}</h3>
+                        <div class="asset-details">
+                            <p>${asset.description}</p>
+                            <div class="detail-item">
+                                <span class="detail-label">Sewa Bulanan:</span>
+                                <span class="detail-value">${asset.monthlyRent}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Unit Tersedia:</span>
+                                <span class="detail-value">${asset.availableUnits} / ${asset.totalUnits}</span>
+                            </div>
+                        </div>
+                        <div class="asset-actions">
+                            ${asset.availableUnits > 0 ? `
+                            <button class="btn btn-primary btn-block apply-now-btn" data-asset-id="${asset.id}">
+                                <i class="fas fa-pen"></i> Mohon Sekarang
+                            </button>
+                            ` : `
+                            <button class="btn btn-block" disabled style="background-color: #e9ecef; color: #6c757d; cursor: not-allowed;">
+                                <i class="fas fa-times-circle"></i> Tiada Kekosongan
+                            </button>
+                            `}
+                        </div>
+                    </div>
+                `;
+                assetsGrid.appendChild(card);
+            });
+            
+            // Add event listeners to apply buttons
+            document.querySelectorAll('.apply-now-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    alert('Fitur permohonan akan datang tidak lama lagi!');
+                });
+            });
+        }
+        
+        function loadUserApplications() {
+            const statusList = document.getElementById('applicationStatus');
+            const userApps = applications.filter(app => app.applicantId === currentUser?.id);
+            
+            if (userApps.length === 0) {
+                statusList.innerHTML = `
+                    <div style="text-align: center; padding: 3rem; color: var(--gray);">
+                        <i class="fas fa-file-alt" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <h3>Tiada Permohonan</h3>
+                        <p>Anda belum membuat sebarang permohonan.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            statusList.innerHTML = '';
+            userApps.forEach(app => {
+                let badgeClass, badgeText;
+                switch(app.status) {
+                    case 'pending':
+                        badgeClass = 'badge-processing';
+                        badgeText = 'Menunggu Admin';
+                        break;
+                    case 'approved':
+                        badgeClass = 'badge-approved';
+                        badgeText = 'Diluluskan';
+                        break;
+                    case 'rejected':
+                        badgeClass = 'badge-rejected';
+                        badgeText = 'Ditolak';
+                        break;
+                    default:
+                        badgeClass = 'badge-processing';
+                        badgeText = 'Dalam Proses';
+                }
+                
+                const item = document.createElement('div');
+                item.className = 'status-item';
+                item.innerHTML = `
+                    <div class="status-info">
+                        <h4>${app.assetName}</h4>
+                        <p>No. Rujukan: ${app.reference} | Lokasi: ${app.location} | Tarikh: ${formatDate(app.applyDate)}</p>
+                    </div>
+                    <div class="status-badge ${badgeClass}">${badgeText}</div>
+                `;
+                statusList.appendChild(item);
+            });
+        }
+        
+        // ============================================
         // FORGOT PASSWORD FUNCTIONS
         // ============================================
         
+        function resetForgotPasswordForm() {
+            // Reset steps
+            document.getElementById('forgotStep1').classList.add('active');
+            document.getElementById('forgotStep2').classList.remove('active');
+            document.getElementById('forgotStep3').classList.remove('active');
+            
+            // Reset step indicators
+            document.getElementById('step1').classList.add('active');
+            document.getElementById('step1').classList.remove('completed');
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('step2').classList.remove('completed');
+            document.getElementById('step3').classList.remove('active');
+            document.getElementById('step3').classList.remove('completed');
+            
+            // Clear inputs
+            document.getElementById('forgotEmail').value = '';
+            document.querySelectorAll('.verification-input').forEach(input => {
+                input.value = '';
+                input.classList.remove('filled');
+            });
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+            
+            // Clear validation messages
+            document.getElementById('forgotEmailError').textContent = '';
+            document.getElementById('verificationCodeError').textContent = '';
+            document.getElementById('confirmPasswordError').textContent = '';
+            
+            // Stop timer if running
+            if (forgotPasswordTimer) {
+                clearInterval(forgotPasswordTimer);
+                forgotPasswordTimer = null;
+            }
+            
+            // Reset timer display
+            document.getElementById('timeLeft').textContent = '05:00';
+            document.getElementById('resendCodeLink').classList.remove('disabled');
+        }
+        
         function handleForgotPassword() {
-            // Step 1: Send verification code
             const email = document.getElementById('forgotEmail').value.trim();
             
             if (!email) {
@@ -2146,6 +2413,19 @@
         // ============================================
         // UTILITY FUNCTIONS
         // ============================================
+        
+        function getInitials(name) {
+            return name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+        }
+        
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('ms-MY', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
         
         function showValidationError(elementId, message) {
             const element = document.getElementById(elementId);
@@ -2390,6 +2670,58 @@
                     document.querySelector(`.verification-input[data-index="${lastFilledIndex}"]`).focus();
                 });
             });
+            
+            // Navigation in application
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links
+                    document.querySelectorAll('.nav-links a').forEach(l => {
+                        l.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Get page to show
+                    const page = this.dataset.page;
+                    
+                    // Hide all pages
+                    document.querySelectorAll('.page-content').forEach(page => {
+                        page.classList.remove('active');
+                    });
+                    
+                    // Show selected page
+                    document.getElementById(page + 'Page').classList.add('active');
+                    
+                    // Load specific page content if needed
+                    if (page === 'assets') {
+                        loadAllAssets();
+                    } else if (page === 'application') {
+                        loadUserApplications();
+                    }
+                });
+            });
+            
+            // Logout button
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                if (confirm('Adakah anda pasti ingin log keluar?')) {
+                    sessionStorage.removeItem(STORAGE_KEYS.CURRENT_USER);
+                    localStorage.removeItem(STORAGE_KEYS.CURRENT_USER);
+                    currentUser = null;
+                    showAuthentication();
+                }
+            });
+            
+            // Apply buttons
+            document.getElementById('newApplicationBtn').addEventListener('click', function() {
+                alert('Fitur permohonan akan datang tidak lama lagi!');
+            });
+            
+            document.getElementById('applyNewBtn').addEventListener('click', function() {
+                alert('Fitur permohonan akan datang tidak lama lagi!');
+            });
         }
         
         // ============================================
@@ -2399,6 +2731,10 @@
         document.addEventListener('DOMContentLoaded', function() {
             initializeSystem();
             setupEventListeners();
+            
+            // Pre-fill login for easier testing (optional)
+            document.getElementById('loginEmail').value = 'ahmad@email.com';
+            document.getElementById('loginPassword').value = 'password123';
         });
     </script>
 </body>
