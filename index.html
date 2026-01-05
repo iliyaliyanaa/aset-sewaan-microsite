@@ -492,6 +492,7 @@
             display: inline-block;
             transition: all 0.3s;
             border-radius: 5px;
+            cursor: pointer;
         }
         
         .nav-links a:hover, .nav-links a.active {
@@ -568,6 +569,7 @@
             height: 100%;
             display: flex;
             flex-direction: column;
+            cursor: pointer;
         }
         
         .asset-card:hover {
@@ -2463,8 +2465,854 @@
         }
         
         // ============================================
+        // DASHBOARD AND NAVIGATION FUNCTIONS
+        // ============================================
+        
+        function loadDashboard() {
+            if (currentUser.role === 'admin') {
+                document.getElementById('userDashboard').style.display = 'none';
+                document.getElementById('adminDashboard').style.display = 'block';
+                loadAdminDashboard();
+            } else {
+                document.getElementById('userDashboard').style.display = 'block';
+                document.getElementById('adminDashboard').style.display = 'none';
+                loadUserDashboard();
+            }
+        }
+        
+        function loadUserDashboard() {
+            // Update statistics based on real-time vacancy data
+            const totalQuarters = assets.find(a => a.type === 'kuarters')?.totalUnits || 0;
+            
+            // Calculate available quarters from vacancies data
+            const availableQuarters = vacancies.kuarters?.reduce((sum, location) => sum + location.vacancies, 0) || 0;
+            
+            const userApps = applications.filter(app => app.applicantId === currentUser.id);
+            const pendingApps = userApps.filter(app => app.status === 'pending');
+            
+            document.getElementById('dashboardTotalQuarters').textContent = totalQuarters;
+            document.getElementById('dashboardAvailableQuarters').textContent = availableQuarters;
+            document.getElementById('dashboardMyApplications').textContent = userApps.length;
+            document.getElementById('dashboardPending').textContent = pendingApps.length;
+            
+            // Update asset available units based on vacancies
+            updateAssetAvailability();
+            
+            // Update profile
+            const user = users.find(u => u.id === currentUser.id);
+            if (user) {
+                document.getElementById('profileName').textContent = user.name;
+                document.getElementById('profileEmail').textContent = user.email;
+                document.getElementById('profileIC').textContent = user.ic;
+                document.getElementById('profilePhone').textContent = user.phone || '-';
+                document.getElementById('profileAddress').textContent = user.address || '-';
+                document.getElementById('profileSince').textContent = formatDate(user.createdAt);
+                document.getElementById('profileTotalApps').textContent = userApps.length;
+                document.getElementById('profileAvatar').textContent = getInitials(user.name);
+            }
+            
+            // Load quick access assets with real-time availability
+            loadQuickAccessAssets();
+            
+            // Load user applications
+            loadUserApplications();
+        }
+        
+        function updateAssetAvailability() {
+            // Update each asset's availableUnits based on vacancies
+            assets.forEach(asset => {
+                if (vacancies[asset.type]) {
+                    const totalVacancies = vacancies[asset.type].reduce((sum, loc) => sum + loc.vacancies, 0);
+                    asset.availableUnits = totalVacancies;
+                }
+            });
+            
+            // Save updated assets
+            localStorage.setItem(STORAGE_KEYS.ASSETS, JSON.stringify(assets));
+        }
+        
+        function loadAdminDashboard() {
+            // Update statistics with real-time data
+            document.getElementById('totalUsers').textContent = users.filter(u => u.role === 'user').length;
+            document.getElementById('totalApplications').textContent = applications.length;
+            document.getElementById('pendingApplications').textContent = applications.filter(app => app.status === 'pending').length;
+            
+            // Calculate total available assets from vacancies
+            const totalAvailable = Object.keys(vacancies).reduce((total, assetType) => {
+                const assetVacancies = vacancies[assetType] || [];
+                return total + assetVacancies.reduce((sum, loc) => sum + loc.vacancies, 0);
+            }, 0);
+            document.getElementById('availableAssets').textContent = totalAvailable;
+            
+            // Load applications for admin
+            loadAdminApplications();
+            
+            // Load users for admin
+            loadUsersList();
+        }
+        
+        function loadQuickAccessAssets() {
+            const assetsGrid = document.getElementById('quickAccessAssets');
+            assetsGrid.innerHTML = '';
+            
+            assets.forEach(asset => {
+                const totalVacancies = vacancies[asset.type]?.reduce((sum, loc) => sum + loc.vacancies, 0) || 0;
+                const availableLocations = vacancies[asset.type]?.filter(loc => loc.vacancies > 0).length || 0;
+                
+                // Determine status
+                let statusClass, statusText;
+                if (totalVacancies > 3) {
+                    statusClass = 'status-available';
+                    statusText = `${totalVacancies} Tersedia`;
+                } else if (totalVacancies > 0) {
+                    statusClass = 'status-limited';
+                    statusText = `${totalVacancies} Terhad`;
+                } else {
+                    statusClass = 'status-unavailable';
+                    statusText = 'Tidak Tersedia';
+                }
+                
+                const card = document.createElement('div');
+                card.className = 'asset-card';
+                card.innerHTML = `
+                    <div class="asset-image" style="background-color: ${asset.color}20; color: ${asset.color};">
+                        <i class="${asset.icon}"></i>
+                        <div class="asset-status ${statusClass}">
+                            ${statusText}
+                        </div>
+                    </div>
+                    <div class="asset-content">
+                        <h3 class="asset-title">${asset.name}</h3>
+                        <div class="asset-location">
+                            <i class="fas fa-map-marker-alt"></i> ${availableLocations} Lokasi Tersedia
+                        </div>
+                        <div class="asset-details">
+                            <p>${asset.description}</p>
+                            <div class="detail-item">
+                                <span class="detail-label">Sewa Bulanan:</span>
+                                <span class="detail-value">${asset.monthlyRent}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Unit Tersedia:</span>
+                                <span class="detail-value">${totalVacancies} / ${asset.totalUnits}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Lokasi Kosong:</span>
+                                <span class="detail-value">${availableLocations} lokasi</span>
+                            </div>
+                        </div>
+                        <div class="asset-actions">
+                            ${totalVacancies > 0 ? `
+                            <button class="btn btn-primary btn-block apply-now-btn" data-asset-type="${asset.type}">
+                                <i class="fas fa-pen"></i> Mohon Sekarang
+                            </button>
+                            ` : `
+                            <button class="btn btn-block" disabled style="background-color: #e9ecef; color: #6c757d; cursor: not-allowed;">
+                                <i class="fas fa-times-circle"></i> Tiada Kekosongan
+                            </button>
+                            `}
+                        </div>
+                    </div>
+                `;
+                assetsGrid.appendChild(card);
+            });
+            
+            // Add event listeners to apply buttons
+            document.querySelectorAll('.apply-now-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    openApplicationModal(this.dataset.assetType);
+                });
+            });
+        }
+        
+        function loadAllAssets() {
+            const assetsGrid = document.getElementById('assetsGrid');
+            assetsGrid.innerHTML = '';
+            
+            // Calculate total available units for display
+            const totalAvailable = assets.reduce((sum, asset) => sum + (asset.availableUnits || 0), 0);
+            const totalUnits = assets.reduce((sum, asset) => sum + (asset.totalUnits || 0), 0);
+            
+            document.getElementById('availableCount').textContent = totalAvailable;
+            document.getElementById('totalCount').textContent = totalUnits;
+            
+            assets.forEach(asset => {
+                const totalVacancies = vacancies[asset.type]?.reduce((sum, loc) => sum + loc.vacancies, 0) || 0;
+                const availableLocations = vacancies[asset.type]?.filter(loc => loc.vacancies > 0).length || 0;
+                
+                // Determine status
+                let statusClass, statusText;
+                if (totalVacancies > 3) {
+                    statusClass = 'status-available';
+                    statusText = `${totalVacancies} Tersedia`;
+                } else if (totalVacancies > 0) {
+                    statusClass = 'status-limited';
+                    statusText = `${totalVacancies} Terhad`;
+                } else {
+                    statusClass = 'status-unavailable';
+                    statusText = 'Tidak Tersedia';
+                }
+                
+                const card = document.createElement('div');
+                card.className = 'asset-card';
+                card.innerHTML = `
+                    <div class="asset-image" style="background-color: ${asset.color}20; color: ${asset.color};">
+                        <i class="${asset.icon}"></i>
+                        <div class="asset-status ${statusClass}">
+                            ${statusText}
+                        </div>
+                    </div>
+                    <div class="asset-content">
+                        <h3 class="asset-title">${asset.name}</h3>
+                        <div class="asset-location">
+                            <i class="fas fa-map-marker-alt"></i> ${availableLocations} Lokasi Tersedia
+                        </div>
+                        <div class="asset-details">
+                            <p>${asset.description}</p>
+                            <div class="detail-item">
+                                <span class="detail-label">Sewa Bulanan:</span>
+                                <span class="detail-value">${asset.monthlyRent}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Unit Tersedia:</span>
+                                <span class="detail-value">${totalVacancies} / ${asset.totalUnits}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Lokasi Kosong:</span>
+                                <span class="detail-value">${availableLocations} lokasi</span>
+                            </div>
+                        </div>
+                        <div class="asset-actions">
+                            ${totalVacancies > 0 ? `
+                            <button class="btn btn-primary btn-block apply-now-btn" data-asset-type="${asset.type}">
+                                <i class="fas fa-pen"></i> Mohon Sekarang
+                            </button>
+                            ` : `
+                            <button class="btn btn-block" disabled style="background-color: #e9ecef; color: #6c757d; cursor: not-allowed;">
+                                <i class="fas fa-times-circle"></i> Tiada Kekosongan
+                            </button>
+                            `}
+                        </div>
+                    </div>
+                `;
+                assetsGrid.appendChild(card);
+            });
+            
+            // Add event listeners to apply buttons
+            document.querySelectorAll('.apply-now-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    openApplicationModal(this.dataset.assetType);
+                });
+            });
+        }
+        
+        function loadUserApplications() {
+            const statusList = document.getElementById('applicationStatus');
+            const userApps = applications.filter(app => app.applicantId === currentUser.id);
+            
+            if (userApps.length === 0) {
+                statusList.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--gray);">
+                        <i class="fas fa-file-alt" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
+                        <h3>Tiada Permohonan</h3>
+                        <p>Anda belum membuat sebarang permohonan.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            statusList.innerHTML = '';
+            userApps.forEach(app => {
+                let badgeClass, badgeText;
+                switch(app.status) {
+                    case 'pending':
+                        badgeClass = 'badge-processing';
+                        badgeText = 'Menunggu Admin';
+                        break;
+                    case 'approved':
+                        badgeClass = 'badge-approved';
+                        badgeText = 'Diluluskan';
+                        break;
+                    case 'rejected':
+                        badgeClass = 'badge-rejected';
+                        badgeText = 'Ditolak';
+                        break;
+                    default:
+                        badgeClass = 'badge-processing';
+                        badgeText = 'Dalam Proses';
+                }
+                
+                const item = document.createElement('div');
+                item.className = 'status-item';
+                item.innerHTML = `
+                    <div class="status-info">
+                        <h4>${app.assetName}</h4>
+                        <p>No. Rujukan: ${app.reference} | Lokasi: ${app.location} | Tarikh: ${formatDate(app.applyDate)}</p>
+                    </div>
+                    <div class="status-badge ${badgeClass}">${badgeText}</div>
+                `;
+                statusList.appendChild(item);
+            });
+        }
+        
+        function loadAdminApplications() {
+            const appList = document.getElementById('adminApplicationsList');
+            appList.innerHTML = '';
+            
+            // Show all applications, newest first
+            const sortedApps = [...applications].sort((a, b) => new Date(b.applyDate) - new Date(a.applyDate));
+            
+            if (sortedApps.length === 0) {
+                appList.innerHTML = `
+                    <div class="table-row" style="grid-template-columns: 1fr; text-align: center; padding: 2rem; color: var(--gray);">
+                        <div>
+                            <i class="fas fa-check-circle" style="font-size: 2rem; margin-bottom: 1rem; color: var(--success);"></i>
+                            <h4>Tiada Permohonan</h4>
+                            <p>Belum ada permohonan dibuat.</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            sortedApps.forEach((app, index) => {
+                let statusBadge;
+                switch(app.status) {
+                    case 'pending':
+                        statusBadge = '<span class="badge-processing" style="padding: 3px 10px; border-radius: 15px;">Menunggu</span>';
+                        break;
+                    case 'approved':
+                        statusBadge = '<span style="padding: 3px 10px; border-radius: 15px; background-color: rgba(40, 167, 69, 0.15); color: var(--success);">Diluluskan</span>';
+                        break;
+                    case 'rejected':
+                        statusBadge = '<span style="padding: 3px 10px; border-radius: 15px; background-color: rgba(220, 53, 69, 0.15); color: var(--danger);">Ditolak</span>';
+                        break;
+                }
+                
+                const row = document.createElement('div');
+                row.className = 'table-row';
+                row.innerHTML = `
+                    <div>${index + 1}</div>
+                    <div>${app.applicantName}</div>
+                    <div>${app.assetName}</div>
+                    <div>${formatDate(app.applyDate)}</div>
+                    <div>${statusBadge}</div>
+                    <div class="action-buttons">
+                        <button class="action-btn" style="background-color: var(--primary); color: white;" data-app-id="${app.id}" data-action="view">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        ${app.status === 'pending' ? `
+                        <button class="action-btn" style="background-color: var(--success); color: white;" data-app-id="${app.id}" data-action="approve">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button class="action-btn" style="background-color: var(--danger); color: white;" data-app-id="${app.id}" data-action="reject">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        ` : ''}
+                    </div>
+                `;
+                appList.appendChild(row);
+            });
+            
+            // Add event listeners
+            document.querySelectorAll('[data-action="view"]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    viewApplicationDetails(this.dataset.appId);
+                });
+            });
+            
+            document.querySelectorAll('[data-action="approve"]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    processApplication(this.dataset.appId, 'approved');
+                });
+            });
+            
+            document.querySelectorAll('[data-action="reject"]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    processApplication(this.dataset.appId, 'rejected');
+                });
+            });
+        }
+        
+        function loadUsersList() {
+            const usersList = document.getElementById('usersList');
+            const normalUsers = users.filter(u => u.role === 'user');
+            
+            if (normalUsers.length === 0) {
+                usersList.innerHTML = `
+                    <div class="table-row" style="grid-template-columns: 1fr; text-align: center; padding: 2rem; color: var(--gray);">
+                        <div>
+                            <i class="fas fa-users" style="font-size: 2rem; margin-bottom: 1rem; color: var(--gray);"></i>
+                            <h4>Tiada Pengguna</h4>
+                            <p>Belum ada pengguna berdaftar.</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            usersList.innerHTML = '';
+            normalUsers.forEach((user, index) => {
+                const row = document.createElement('div');
+                row.className = 'table-row';
+                row.innerHTML = `
+                    <div>${index + 1}</div>
+                    <div>${user.name}</div>
+                    <div>${user.email}</div>
+                    <div><span style="color: ${user.status === 'active' ? 'var(--success)' : 'var(--danger)'}; font-weight: bold;">
+                        ${user.status === 'active' ? 'Aktif' : 'Tidak Aktif'}
+                    </span></div>
+                    <div class="action-buttons">
+                        <button class="action-btn" style="background-color: var(--primary); color: white;" data-user-id="${user.id}" data-action="view-user">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn" style="background-color: ${user.status === 'active' ? 'var(--danger)' : 'var(--success)'}; color: white;" 
+                                data-user-id="${user.id}" data-action="toggle-status">
+                            <i class="fas fa-${user.status === 'active' ? 'ban' : 'check'}"></i>
+                        </button>
+                    </div>
+                `;
+                usersList.appendChild(row);
+            });
+        }
+        
+        // ============================================
+        // APPLICATION FUNCTIONS WITH AUTOCOUNT
+        // ============================================
+        
+        function openApplicationModal(assetType = null) {
+            const modal = document.getElementById('applicationModal');
+            modal.style.display = 'flex';
+            
+            // Reset location selector
+            resetLocationSelector();
+            
+            // Auto-fill user data from profile
+            if (currentUser) {
+                const user = users.find(u => u.id === currentUser.id);
+                if (user) {
+                    // Automatically fill name, IC, and email from profile
+                    document.getElementById('applicantName').value = user.name;
+                    document.getElementById('applicantIC').value = user.ic;
+                    document.getElementById('applicantEmail').value = user.email;
+                    document.getElementById('applicantPhone').value = user.phone || '';
+                    document.getElementById('applicantAddress').value = user.address || '';
+                }
+            }
+            
+            // Set asset type if provided
+            if (assetType) {
+                document.getElementById('assetType').value = assetType;
+                // Trigger change to load locations
+                setTimeout(() => {
+                    loadLocationsForAssetType(assetType);
+                }, 100);
+            }
+            
+            // Set default date (tomorrow)
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            document.getElementById('startDate').value = tomorrow.toISOString().split('T')[0];
+            
+            // Reset form except auto-filled fields
+            document.getElementById('purpose').value = '';
+            document.getElementById('additionalInfo').value = '';
+            document.getElementById('agreeTermsModal').checked = false;
+        }
+        
+        function resetLocationSelector() {
+            // Hide all messages and dropdown
+            document.getElementById('locationInitialMessage').style.display = 'block';
+            document.getElementById('locationLoadingMessage').style.display = 'none';
+            document.getElementById('locationNoVacancyMessage').style.display = 'none';
+            document.getElementById('location').style.display = 'none';
+            document.getElementById('location').disabled = true;
+            document.getElementById('vacancyInfo').style.display = 'none';
+            
+            // Clear location options
+            document.getElementById('location').innerHTML = '<option value="">Pilih jenis aset dahulu</option>';
+        }
+        
+        function loadLocationsForAssetType(assetType) {
+            // Show loading message
+            document.getElementById('locationInitialMessage').style.display = 'none';
+            document.getElementById('locationLoadingMessage').style.display = 'block';
+            document.getElementById('locationNoVacancyMessage').style.display = 'none';
+            document.getElementById('location').style.display = 'none';
+            document.getElementById('vacancyInfo').style.display = 'none';
+            
+            // Get locations for this asset type
+            const assetLocations = vacancies[assetType] || [];
+            
+            // Filter locations with vacancies > 0
+            const availableLocations = assetLocations.filter(loc => loc.vacancies > 0);
+            
+            // Simulate loading delay
+            setTimeout(() => {
+                updateLocationSelector(availableLocations, assetType);
+            }, 500);
+        }
+        
+        function updateLocationSelector(availableLocations, assetType) {
+            const locationSelect = document.getElementById('location');
+            const vacancyInfo = document.getElementById('vacancyInfo');
+            
+            // Hide loading message
+            document.getElementById('locationLoadingMessage').style.display = 'none';
+            
+            if (availableLocations.length === 0) {
+                // No vacancies available
+                document.getElementById('locationNoVacancyMessage').style.display = 'block';
+                document.getElementById('location').style.display = 'none';
+                vacancyInfo.style.display = 'none';
+                return;
+            }
+            
+            // Show dropdown
+            document.getElementById('locationNoVacancyMessage').style.display = 'none';
+            locationSelect.style.display = 'block';
+            locationSelect.disabled = false;
+            
+            // Clear existing options
+            locationSelect.innerHTML = '';
+            
+            // Add default option
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = `-- Pilih Lokasi (${availableLocations.length} pilihan) --`;
+            defaultOption.disabled = true;
+            defaultOption.selected = true;
+            locationSelect.appendChild(defaultOption);
+            
+            // Add available locations
+            availableLocations.forEach(location => {
+                const option = document.createElement('option');
+                option.value = location.id;
+                option.textContent = `${location.name} (${location.vacancies} kosong)`;
+                locationSelect.appendChild(option);
+            });
+            
+            // Show vacancy info
+            const totalVacancies = availableLocations.reduce((sum, loc) => sum + loc.vacancies, 0);
+            vacancyInfo.textContent = `📊 ${totalVacancies} unit kosong di ${availableLocations.length} lokasi berbeza`;
+            vacancyInfo.className = totalVacancies > 5 ? 'vacancy-info' : 
+                                   totalVacancies > 0 ? 'vacancy-info warning' : 'vacancy-info danger';
+            vacancyInfo.style.display = 'block';
+            
+            // Add change event listener
+            locationSelect.addEventListener('change', function() {
+                const selectedLocation = availableLocations.find(loc => loc.id === this.value);
+                if (selectedLocation) {
+                    // Update vacancy info for selected location
+                    vacancyInfo.textContent = `📍 ${selectedLocation.name}: ${selectedLocation.vacancies} unit kosong`;
+                }
+            });
+        }
+        
+        function submitApplication(e) {
+            e.preventDefault();
+            
+            // Validate form
+            const assetType = document.getElementById('assetType').value;
+            const locationId = document.getElementById('location').value;
+            
+            if (!assetType || !locationId) {
+                alert('Sila pilih jenis aset dan lokasi yang sah.');
+                return;
+            }
+            
+            // Get selected location details
+            const availableLocations = vacancies[assetType] || [];
+            const selectedLocation = availableLocations.find(loc => loc.id === locationId);
+            
+            if (!selectedLocation || selectedLocation.vacancies <= 0) {
+                alert('Lokasi yang dipilih tidak mempunyai kekosongan. Sila pilih lokasi lain.');
+                return;
+            }
+            
+            // Create application
+            const application = {
+                id: Date.now(),
+                reference: `APP-${new Date().getFullYear()}-${String(applications.length + 1).padStart(3, '0')}`,
+                assetType: assetType,
+                assetName: document.getElementById('assetType').options[document.getElementById('assetType').selectedIndex].text,
+                location: selectedLocation.name,
+                locationId: locationId,
+                applyDate: new Date().toISOString().split('T')[0],
+                applicantId: currentUser.id,
+                applicantName: document.getElementById('applicantName').value,
+                applicantEmail: document.getElementById('applicantEmail').value,
+                applicantPhone: document.getElementById('applicantPhone').value,
+                applicantAddress: document.getElementById('applicantAddress').value,
+                purpose: document.getElementById('purpose').value,
+                additionalInfo: document.getElementById('additionalInfo').value,
+                status: 'pending',
+                statusText: 'Menunggu Kelulusan Admin'
+            };
+            
+            // Save application
+            applications.unshift(application);
+            localStorage.setItem(STORAGE_KEYS.APPLICATIONS, JSON.stringify(applications));
+            
+            // Update vacancy count (reduce by 1) - REAL-TIME AUTOCOUNT
+            selectedLocation.vacancies -= 1;
+            localStorage.setItem(STORAGE_KEYS.VACANCIES, JSON.stringify(vacancies));
+            
+            // Update asset availability
+            const asset = assets.find(a => a.type === assetType);
+            if (asset) {
+                asset.availableUnits -= 1;
+                localStorage.setItem(STORAGE_KEYS.ASSETS, JSON.stringify(assets));
+            }
+            
+            // Show success modal
+            showSuccessModal(application);
+            
+            // Close modal
+            closeModal('applicationModal');
+            
+            // Update dashboard
+            loadDashboard();
+            
+            // Update all asset displays
+            if (document.getElementById('assetsPage').classList.contains('active')) {
+                loadAllAssets();
+            }
+        }
+        
+        function viewApplicationDetails(appId) {
+            const app = applications.find(a => a.id == appId);
+            if (!app) return;
+            
+            const modal = document.getElementById('applicationDetailsModal');
+            const content = document.getElementById('applicationDetailsContent');
+            const footer = document.getElementById('applicationDetailsFooter');
+            
+            content.innerHTML = `
+                <div style="background-color: var(--light); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                    <h4 style="color: var(--primary); margin-bottom: 1rem;">Maklumat Permohonan</h4>
+                    <div class="detail-item">
+                        <span class="detail-label">No. Rujukan:</span>
+                        <span class="detail-value">${app.reference}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Tarikh Mohon:</span>
+                        <span class="detail-value">${formatDate(app.applyDate)}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Jenis Aset:</span>
+                        <span class="detail-value">${app.assetName}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Lokasi:</span>
+                        <span class="detail-value">${app.location}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Status:</span>
+                        <span class="detail-value" style="color: ${app.status === 'pending' ? 'var(--warning)' : app.status === 'approved' ? 'var(--success)' : 'var(--danger)'}; font-weight: bold;">
+                            ${app.status === 'pending' ? 'Menunggu Kelulusan' : app.status === 'approved' ? 'Diluluskan' : 'Ditolak'}
+                        </span>
+                    </div>
+                    ${app.processedDate ? `
+                    <div class="detail-item">
+                        <span class="detail-label">Tarikh Diproses:</span>
+                        <span class="detail-value">${formatDate(app.processedDate)}</span>
+                    </div>
+                    ` : ''}
+                    ${app.processedBy ? `
+                    <div class="detail-item">
+                        <span class="detail-label">Diproses Oleh:</span>
+                        <span class="detail-value">${app.processedBy}</span>
+                    </div>
+                    ` : ''}
+                </div>
+                
+                <div style="background-color: var(--light); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                    <h4 style="color: var(--primary); margin-bottom: 1rem;">Maklumat Pemohon</h4>
+                    <div class="detail-item">
+                        <span class="detail-label">Nama:</span>
+                        <span class="detail-value">${app.applicantName}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Email:</span>
+                        <span class="detail-value">${app.applicantEmail}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Telefon:</span>
+                        <span class="detail-value">${app.applicantPhone || 'Tiada'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Alamat:</span>
+                        <span class="detail-value">${app.applicantAddress || 'Tiada'}</span>
+                    </div>
+                </div>
+                
+                ${app.purpose ? `
+                <div style="background-color: var(--light); padding: 1.5rem; border-radius: 8px;">
+                    <h4 style="color: var(--primary); margin-bottom: 1rem;">Tujuan Permohonan</h4>
+                    <p>${app.purpose}</p>
+                </div>
+                ` : ''}
+                
+                ${app.additionalInfo ? `
+                <div style="background-color: var(--light); padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;">
+                    <h4 style="color: var(--primary); margin-bottom: 1rem;">Maklumat Tambahan</h4>
+                    <p>${app.additionalInfo}</p>
+                </div>
+                ` : ''}
+            `;
+            
+            if (app.status === 'pending') {
+                footer.innerHTML = `
+                    <button class="btn btn-success" data-app-id="${app.id}" data-action="approve">
+                        <i class="fas fa-check"></i> Luluskan
+                    </button>
+                    <button class="btn btn-danger" data-app-id="${app.id}" data-action="reject">
+                        <i class="fas fa-times"></i> Tolak
+                    </button>
+                    <button class="btn" id="closeDetailsBtn">
+                        <i class="fas fa-times"></i> Tutup
+                    </button>
+                `;
+            } else {
+                footer.innerHTML = `
+                    <button class="btn" id="closeDetailsBtn">
+                        <i class="fas fa-times"></i> Tutup
+                    </button>
+                `;
+            }
+            
+            modal.style.display = 'flex';
+            
+            // Add event listeners
+            document.querySelectorAll('[data-action="approve"]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    processApplication(this.dataset.appId, 'approved');
+                    closeModal('applicationDetailsModal');
+                });
+            });
+            
+            document.querySelectorAll('[data-action="reject"]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    processApplication(this.dataset.appId, 'rejected');
+                    closeModal('applicationDetailsModal');
+                });
+            });
+        }
+        
+        function processApplication(appId, status) {
+            const app = applications.find(a => a.id == appId);
+            if (!app) return;
+            
+            const statusText = status === 'approved' ? 'Diluluskan' : 'Ditolak';
+            app.status = status;
+            app.statusText = statusText;
+            app.processedBy = currentUser.name;
+            app.processedDate = new Date().toISOString().split('T')[0];
+            
+            // Save to localStorage
+            localStorage.setItem(STORAGE_KEYS.APPLICATIONS, JSON.stringify(applications));
+            
+            // AUTOCOUNT SYSTEM: Kembalikan kekosongan jika permohonan ditolak
+            if (status === 'rejected') {
+                // Kembalikan kekosongan lokasi (lokasi naik balik)
+                const location = vacancies[app.assetType]?.find(loc => loc.id === app.locationId);
+                if (location) {
+                    location.vacancies += 1;
+                }
+                
+                // Kembalikan kekosongan aset
+                const asset = assets.find(a => a.type === app.assetType);
+                if (asset) {
+                    asset.availableUnits += 1;
+                }
+                
+                // Simpan perubahan
+                localStorage.setItem(STORAGE_KEYS.VACANCIES, JSON.stringify(vacancies));
+                localStorage.setItem(STORAGE_KEYS.ASSETS, JSON.stringify(assets));
+            }
+            
+            // Update dashboard
+            loadDashboard();
+            
+            // Show confirmation
+            alert(`Permohonan ${app.reference} telah ${status === 'approved' ? 'diluluskan' : 'ditolak'}`);
+            
+            // If admin is processing, reload the admin applications list
+            if (currentUser.role === 'admin') {
+                loadAdminApplications();
+            }
+            
+            // Update all displays
+            if (document.getElementById('assetsPage').classList.contains('active')) {
+                loadAllAssets();
+            }
+        }
+        
+        function showSuccessModal(application) {
+            document.getElementById('referenceNumber').textContent = application.reference;
+            document.getElementById('successAssetType').textContent = application.assetName;
+            document.getElementById('successLocation').textContent = application.location;
+            document.getElementById('successDate').textContent = formatDate(application.applyDate);
+            
+            document.getElementById('successModal').style.display = 'flex';
+        }
+        
+        // ============================================
         // UTILITY FUNCTIONS
         // ============================================
+        
+        function getInitials(name) {
+            return name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+        }
+        
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('ms-MY', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update navigation
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.page === pageId.replace('Page', '')) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Load page content
+            if (pageId === 'dashboardPage') {
+                loadDashboard();
+            } else if (pageId === 'assetsPage') {
+                loadAllAssets();
+            } else if (pageId === 'applicationPage') {
+                if (currentUser.role === 'admin') {
+                    loadAdminApplications();
+                } else {
+                    loadUserApplications();
+                }
+            } else if (pageId === 'profilePage') {
+                // Profile is already loaded in loadUserDashboard
+            } else if (pageId === 'usersPage') {
+                loadUsersList();
+            }
+        }
         
         function generateToken() {
             return Math.random().toString(36).substr(2) + Date.now().toString(36);
@@ -2550,23 +3398,6 @@
             }
         }
         
-        function getInitials(name) {
-            return name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
-        }
-        
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('ms-MY', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-        }
-        
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-        
         // ============================================
         // EVENT LISTENERS SETUP
         // ============================================
@@ -2614,6 +3445,7 @@
             document.getElementById('forgotPasswordForm').addEventListener('submit', handleForgotPassword);
             document.getElementById('resetPasswordForm').addEventListener('submit', handleResetPassword);
             document.getElementById('changePasswordForm').addEventListener('submit', handleChangePassword);
+            document.getElementById('rentalApplicationForm').addEventListener('submit', submitApplication);
             
             // Password toggles
             document.getElementById('toggleLoginPassword').addEventListener('click', togglePasswordVisibility.bind(null, 'loginPassword', 'toggleLoginPassword'));
@@ -2632,8 +3464,74 @@
             document.getElementById('closeChangePasswordModal').addEventListener('click', () => closeModal('changePasswordModal'));
             document.getElementById('cancelChangePassword').addEventListener('click', () => closeModal('changePasswordModal'));
             
-            // Other existing event listeners (from original code)
-            setupExistingEventListeners();
+            // Application buttons
+            document.getElementById('newApplicationBtn').addEventListener('click', () => openApplicationModal());
+            document.getElementById('applyNewBtn').addEventListener('click', () => openApplicationModal());
+            
+            // Modal controls
+            document.getElementById('closeModal').addEventListener('click', () => closeModal('applicationModal'));
+            document.getElementById('cancelApplication').addEventListener('click', () => closeModal('applicationModal'));
+            document.getElementById('closeSuccessModal').addEventListener('click', () => closeModal('successModal'));
+            document.getElementById('closeSuccessBtn').addEventListener('click', () => closeModal('successModal'));
+            document.getElementById('closeDetailsModal')?.addEventListener('click', () => closeModal('applicationDetailsModal'));
+            
+            // Success modal buttons
+            document.getElementById('viewStatusBtn').addEventListener('click', function() {
+                closeModal('successModal');
+                showPage('applicationPage');
+            });
+            
+            // Logout
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                if (confirm('Adakah anda pasti ingin log keluar?')) {
+                    sessionStorage.removeItem(STORAGE_KEYS.CURRENT_USER);
+                    localStorage.removeItem(STORAGE_KEYS.CURRENT_USER);
+                    currentUser = null;
+                    showAuthentication();
+                }
+            });
+            
+            // Navigation links
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.nav-links a')) {
+                    e.preventDefault();
+                    const link = e.target.closest('a');
+                    const page = link.dataset.page;
+                    showPage(page + 'Page');
+                }
+            });
+            
+            // Refresh applications (admin)
+            document.getElementById('refreshApplications')?.addEventListener('click', function() {
+                loadAdminApplications();
+                alert('Senarai permohonan telah dikemas kini!');
+            });
+            
+            // Add user button (admin)
+            document.getElementById('addUserBtn')?.addEventListener('click', function() {
+                alert('Fungsi tambah pengguna akan datang tidak lama lagi.');
+            });
+            
+            // Edit profile button
+            document.getElementById('editProfileBtn')?.addEventListener('click', function() {
+                alert('Fungsi kemaskini profil akan datang tidak lama lagi.');
+            });
+            
+            // Asset type change listener
+            document.getElementById('assetType').addEventListener('change', function() {
+                if (this.value) {
+                    loadLocationsForAssetType(this.value);
+                } else {
+                    resetLocationSelector();
+                }
+            });
+            
+            // Close details button
+            document.addEventListener('click', function(e) {
+                if (e.target.id === 'closeDetailsBtn') {
+                    closeModal('applicationDetailsModal');
+                }
+            });
         }
         
         function togglePasswordVisibility(passwordFieldId, toggleButtonId) {
@@ -2680,72 +3578,6 @@
                     document.getElementById('forgotPasswordForm').classList.add('active');
                     break;
             }
-        }
-        
-        function setupExistingEventListeners() {
-            // Navigation
-            document.addEventListener('click', function(e) {
-                // Navigation links
-                if (e.target.closest('.nav-links a')) {
-                    e.preventDefault();
-                    const link = e.target.closest('a');
-                    const page = link.dataset.page;
-                    showPage(page + 'Page');
-                }
-                
-                // Footer links
-                if (e.target.closest('.footer-links a')) {
-                    e.preventDefault();
-                    const link = e.target.closest('a');
-                    const page = link.dataset.page;
-                    if (page) {
-                        showPage(page + 'Page');
-                    }
-                }
-            });
-            
-            // Application buttons
-            document.getElementById('newApplicationBtn').addEventListener('click', () => openApplicationModal());
-            document.getElementById('applyNewBtn').addEventListener('click', () => openApplicationModal());
-            
-            // Modal controls
-            document.getElementById('closeModal').addEventListener('click', () => closeModal('applicationModal'));
-            document.getElementById('cancelApplication').addEventListener('click', () => closeModal('applicationModal'));
-            document.getElementById('closeSuccessModal').addEventListener('click', () => closeModal('successModal'));
-            document.getElementById('closeSuccessBtn').addEventListener('click', () => closeModal('successModal'));
-            document.getElementById('closeDetailsModal')?.addEventListener('click', () => closeModal('applicationDetailsModal'));
-            
-            // Success modal buttons
-            document.getElementById('viewStatusBtn').addEventListener('click', function() {
-                closeModal('successModal');
-                showPage('applicationPage');
-            });
-            
-            // Logout
-            document.getElementById('logoutBtn').addEventListener('click', function() {
-                if (confirm('Adakah anda pasti ingin log keluar?')) {
-                    sessionStorage.removeItem(STORAGE_KEYS.CURRENT_USER);
-                    localStorage.removeItem(STORAGE_KEYS.CURRENT_USER);
-                    currentUser = null;
-                    showAuthentication();
-                }
-            });
-            
-            // Refresh applications (admin)
-            document.getElementById('refreshApplications')?.addEventListener('click', function() {
-                loadAdminApplications();
-                alert('Senarai permohonan telah dikemas kini!');
-            });
-            
-            // Add user button (admin)
-            document.getElementById('addUserBtn')?.addEventListener('click', function() {
-                alert('Fungsi tambah pengguna akan datang tidak lama lagi.');
-            });
-            
-            // Edit profile button
-            document.getElementById('editProfileBtn')?.addEventListener('click', function() {
-                alert('Fungsi kemaskini profil akan datang tidak lama lagi.');
-            });
         }
         
         // Initialize system when page loads
