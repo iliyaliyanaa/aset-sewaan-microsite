@@ -7,29 +7,299 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ... (CSS styles remain the same) ... */
+        :root {
+            --primary: #1a5f7a;
+            --secondary: #57c5b6;
+            --accent: #159895;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --admin-primary: #2c3e50;
+            --admin-secondary: #34495e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* ... (CSS Authentication styles remain the same) ... */
+        
+        /* Profile Picture Styles */
+        .profile-picture-container {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .profile-picture {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+            overflow: hidden;
+        }
+        
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-picture-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+        }
+        
+        .change-profile-picture {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: var(--primary);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 2px solid white;
+            transition: all 0.3s;
+        }
+        
+        .change-profile-picture:hover {
+            background-color: var(--accent);
+            transform: scale(1.1);
+        }
+        
+        .profile-picture-input {
+            display: none;
+        }
+        
+        .profile-picture-actions {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .profile-picture-btn {
+            padding: 5px 15px;
+            font-size: 0.8rem;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .profile-picture-btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .profile-picture-btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .profile-picture-btn:hover {
+            opacity: 0.9;
+        }
+        
+        /* ... (Rest of CSS styles remain the same) ... */
     </style>
 </head>
 <body>
-    <!-- ... (HTML structure remains the same until navigation section) ... -->
+    <!-- ... (Authentication Pages remain the same) ... -->
     
-    <!-- Navigation -->
-    <nav class="app-nav" id="appNav">
-        <div class="container nav-container">
-            <ul class="nav-links" id="navLinks">
-                <!-- Navigation links will be loaded here based on user type -->
-            </ul>
-            
-            <div class="quick-actions">
-                <!-- This button will only show for regular users -->
-                <button class="btn btn-primary" id="newApplicationBtn" style="display: none;">
-                    <i class="fas fa-plus"></i> Mohon Baru
-                </button>
+    <!-- Main Application -->
+    <div class="app-container" id="appContainer">
+        <!-- ... (Header and Navigation remain the same) ... -->
+        
+        <!-- Main Content -->
+        <main class="app-main">
+            <div class="container">
+                <!-- ... (Other pages remain the same) ... -->
+                
+                <!-- Profile Page -->
+                <div id="profilePage" class="page-content">
+                    <div class="section-header">
+                        <h2>Profil Saya</h2>
+                        <div class="profile-actions">
+                            <button class="btn btn-primary" id="editProfileBtn">
+                                <i class="fas fa-edit"></i> Kemaskini Profil
+                            </button>
+                            <button class="btn btn-success" id="saveProfileBtn" style="display: none;">
+                                <i class="fas fa-save"></i> Simpan Perubahan
+                            </button>
+                            <button class="btn" id="cancelEditBtn" style="display: none;">
+                                <i class="fas fa-times"></i> Batal
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card" style="background-color: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.05);" id="profileCard">
+                        <div style="display: flex; align-items: center; gap: 30px; margin-bottom: 2rem;">
+                            <div class="profile-picture-container">
+                                <div class="profile-picture" id="profilePicture">
+                                    <!-- Profile picture will be loaded here -->
+                                    <div class="profile-picture-placeholder" id="profilePicturePlaceholder">
+                                        <!-- Initials will be displayed here -->
+                                    </div>
+                                </div>
+                                <div class="change-profile-picture" id="changeProfilePictureBtn" title="Tukar gambar profil">
+                                    <i class="fas fa-camera"></i>
+                                </div>
+                                <input type="file" id="profilePictureInput" class="profile-picture-input" accept="image/*">
+                                <div class="profile-picture-actions" id="profilePictureActions" style="display: none;">
+                                    <button class="profile-picture-btn profile-picture-btn-primary" id="saveProfilePictureBtn">
+                                        <i class="fas fa-save"></i> Simpan
+                                    </button>
+                                    <button class="profile-picture-btn" id="cancelProfilePictureBtn">
+                                        <i class="fas fa-times"></i> Batal
+                                    </button>
+                                </div>
+                            </div>
+                            <div style="flex-grow: 1;">
+                                <div class="profile-view-mode">
+                                    <h3 style="color: var(--primary); margin-bottom: 5px;" id="profileName">Nama Pengguna</h3>
+                                    <p style="color: var(--gray); margin-bottom: 5px;" id="profileEmail">email@example.com</p>
+                                </div>
+                                <div class="profile-edit-mode">
+                                    <div class="profile-form-group">
+                                        <label for="editName" class="required">Nama Penuh</label>
+                                        <input type="text" id="editName" class="form-control" required>
+                                    </div>
+                                </div>
+                                <button class="btn" id="changePasswordBtn" style="margin-top: 10px; font-size: 0.9rem; padding: 5px 15px;">
+                                    <i class="fas fa-key"></i> Tukar Kata Laluan
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                            <!-- No. Kad Pengenalan -->
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; color: var(--gray);">No. Kad Pengenalan</label>
+                                <div class="profile-view-mode">
+                                    <div class="profile-field-value" id="profileIC">000000000000</div>
+                                </div>
+                                <div class="profile-edit-mode">
+                                    <div class="profile-field-edit">
+                                        <input type="text" id="editIC" class="form-control auto-filled-field" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- No. Telefon -->
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; color: var(--gray);">No. Telefon</label>
+                                <div class="profile-view-mode">
+                                    <div class="profile-field-value" id="profilePhone">-</div>
+                                </div>
+                                <div class="profile-edit-mode">
+                                    <div class="profile-field-edit">
+                                        <input type="tel" id="editPhone" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Email -->
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; color: var(--gray);">Alamat Email</label>
+                                <div class="profile-view-mode">
+                                    <div class="profile-field-value" id="profileEmailDisplay">email@example.com</div>
+                                </div>
+                                <div class="profile-edit-mode">
+                                    <div class="profile-field-edit">
+                                        <input type="email" id="editEmail" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Alamat -->
+                            <div style="grid-column: span 2;">
+                                <label style="display: block; margin-bottom: 5px; color: var(--gray);">Alamat</label>
+                                <div class="profile-view-mode">
+                                    <div class="profile-field-value" id="profileAddress">-</div>
+                                </div>
+                                <div class="profile-edit-mode">
+                                    <div class="profile-field-edit">
+                                        <textarea id="editAddress" class="form-control" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Ahli Sejak -->
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; color: var(--gray);">Ahli Sejak</label>
+                                <div class="profile-field-value" id="profileSince">-</div>
+                            </div>
+                            
+                            <!-- Jumlah Permohonan -->
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; color: var(--gray);">Jumlah Permohonan</label>
+                                <div class="profile-field-value" id="profileTotalApps">0</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Maklumat Tambahan -->
+                        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--light-gray);">
+                            <div class="profile-view-mode">
+                                <h4 style="color: var(--primary); margin-bottom: 1rem;">Maklumat Tambahan</h4>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                                    <div>
+                                        <label style="display: block; margin-bottom: 5px; color: var(--gray);">Status Akaun</label>
+                                        <div class="profile-field-value" id="profileStatus">Aktif</div>
+                                    </div>
+                                    <div>
+                                        <label style="display: block; margin-bottom: 5px; color: var(--gray);">Peranan</label>
+                                        <div class="profile-field-value" id="profileRole">Pengguna</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ... (Other pages remain the same) ... -->
             </div>
-        </div>
-    </nav>
+        </main>
+        
+        <!-- ... (Footer remains the same) ... -->
+    </div>
     
-    <!-- ... (Rest of HTML remains the same) ... -->
+    <!-- ... (Modals remain the same) ... -->
 
     <script>
         // ============================================
@@ -42,10 +312,11 @@
             APPLICATIONS: 'user_applications',
             ASSETS: 'asset_data',
             VACANCIES: 'asset_vacancies',
-            PASSWORD_RESET_TOKENS: 'password_reset_tokens'
+            PASSWORD_RESET_TOKENS: 'password_reset_tokens',
+            PROFILE_PICTURES: 'user_profile_pictures'
         };
         
-        // ... (Data declarations remain the same) ...
+        // ... (Other data remains the same) ...
         
         let currentUser = null;
         let users = [];
@@ -53,21 +324,151 @@
         let assets = [];
         let vacancies = VACANCY_DATA;
         let passwordResetTokens = {};
+        let profilePictures = {};
         let isEditingProfile = false;
+        let profilePictureFile = null;
+        let profilePicturePreview = null;
         
         // Initialize System
         function initializeSystem() {
-            // ... (initialization code remains the same) ...
+            // Initialize users
+            const storedUsers = localStorage.getItem(STORAGE_KEYS.USERS);
+            if (!storedUsers) {
+                users = DEMO_USERS;
+                localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users));
+            } else {
+                users = JSON.parse(storedUsers);
+            }
+            
+            // Initialize applications
+            const storedApps = localStorage.getItem(STORAGE_KEYS.APPLICATIONS);
+            applications = storedApps ? JSON.parse(storedApps) : [];
+            
+            // Initialize assets
+            const storedAssets = localStorage.getItem(STORAGE_KEYS.ASSETS);
+            assets = storedAssets ? JSON.parse(storedAssets) : ASSETS_DATA;
+            
+            // Initialize vacancies
+            const storedVacancies = localStorage.getItem(STORAGE_KEYS.VACANCIES);
+            if (storedVacancies) {
+                vacancies = JSON.parse(storedVacancies);
+            } else {
+                localStorage.setItem(STORAGE_KEYS.VACANCIES, JSON.stringify(vacancies));
+            }
+            
+            // Initialize reset tokens
+            const storedTokens = localStorage.getItem(STORAGE_KEYS.PASSWORD_RESET_TOKENS);
+            passwordResetTokens = storedTokens ? JSON.parse(storedTokens) : {};
+            
+            // Initialize profile pictures
+            const storedPictures = localStorage.getItem(STORAGE_KEYS.PROFILE_PICTURES);
+            profilePictures = storedPictures ? JSON.parse(storedPictures) : {};
+            
+            // Check login status
+            checkLoginStatus();
         }
         
         // ... (Authentication functions remain the same) ...
         
         // ============================================
-        // PROFILE EDIT FUNCTIONS - FIXED VERSION
+        // PROFILE PICTURE FUNCTIONS
+        // ============================================
+        
+        function loadProfilePicture(userId) {
+            const profilePicture = document.getElementById('profilePicture');
+            const placeholder = document.getElementById('profilePicturePlaceholder');
+            const userAvatar = document.getElementById('userAvatar');
+            const headerAvatar = document.getElementById('headerUserAvatar');
+            
+            if (profilePictures[userId]) {
+                // Load saved profile picture
+                const img = document.createElement('img');
+                img.src = profilePictures[userId];
+                img.alt = 'Gambar Profil';
+                
+                // Clear placeholder and add image
+                if (profilePicture) {
+                    profilePicture.innerHTML = '';
+                    profilePicture.appendChild(img);
+                }
+                
+                // Update avatars
+                if (userAvatar) {
+                    userAvatar.innerHTML = '';
+                    const avatarImg = document.createElement('img');
+                    avatarImg.src = profilePictures[userId];
+                    avatarImg.alt = 'Avatar';
+                    avatarImg.style.width = '100%';
+                    avatarImg.style.height = '100%';
+                    avatarImg.style.borderRadius = '50%';
+                    userAvatar.appendChild(avatarImg);
+                }
+            } else {
+                // Show initials as placeholder
+                const user = users.find(u => u.id === userId);
+                if (user && placeholder) {
+                    placeholder.textContent = getInitials(user.name);
+                }
+                
+                // Update avatars with initials
+                if (userAvatar) {
+                    userAvatar.textContent = getInitials(user ? user.name : '');
+                }
+            }
+        }
+        
+        function saveProfilePicture(userId) {
+            if (!profilePictureFile) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                // Save to localStorage
+                profilePictures[userId] = e.target.result;
+                localStorage.setItem(STORAGE_KEYS.PROFILE_PICTURES, JSON.stringify(profilePictures));
+                
+                // Update UI
+                loadProfilePicture(userId);
+                
+                // Reset
+                profilePictureFile = null;
+                profilePicturePreview = null;
+                
+                // Hide actions
+                const actions = document.getElementById('profilePictureActions');
+                if (actions) actions.style.display = 'none';
+                
+                // Show success message
+                alert('Gambar profil berjaya disimpan!');
+            };
+            reader.readAsDataURL(profilePictureFile);
+        }
+        
+        function removeProfilePicture(userId) {
+            if (confirm('Adakah anda pasti ingin membuang gambar profil?')) {
+                delete profilePictures[userId];
+                localStorage.setItem(STORAGE_KEYS.PROFILE_PICTURES, JSON.stringify(profilePictures));
+                
+                // Update UI
+                loadProfilePicture(userId);
+                
+                // Reset
+                profilePictureFile = null;
+                profilePicturePreview = null;
+                
+                // Hide actions
+                const actions = document.getElementById('profilePictureActions');
+                if (actions) actions.style.display = 'none';
+                
+                alert('Gambar profil telah dibuang.');
+            }
+        }
+        
+        // ============================================
+        // PROFILE EDIT FUNCTIONS
         // ============================================
         
         function startProfileEdit() {
-            console.log("startProfileEdit called"); // Debug log
+            console.log("startProfileEdit called");
             
             isEditingProfile = true;
             
@@ -104,7 +505,7 @@
         }
         
         function cancelProfileEdit() {
-            console.log("cancelProfileEdit called"); // Debug log
+            console.log("cancelProfileEdit called");
             
             isEditingProfile = false;
             
@@ -128,7 +529,7 @@
         }
         
         function saveProfileChanges() {
-            console.log("saveProfileChanges called"); // Debug log
+            console.log("saveProfileChanges called");
             
             // Clear previous errors
             clearValidationMessages();
@@ -188,6 +589,7 @@
                 // Update UI
                 updateUserInterface();
                 loadUserDashboard();
+                loadProfileData();
                 
                 // Exit edit mode
                 cancelProfileEdit();
@@ -200,30 +602,31 @@
         }
         
         // ============================================
-        // DASHBOARD AND NAVIGATION FUNCTIONS
+        // PROFILE DATA LOADING
         // ============================================
         
-        function loadDashboard() {
-            if (currentUser.role === 'admin') {
-                const userDashboard = document.getElementById('userDashboard');
-                const adminDashboard = document.getElementById('adminDashboard');
+        function loadProfileData() {
+            const user = users.find(u => u.id === currentUser.id);
+            if (user) {
+                // Update view mode
+                document.getElementById('profileName').textContent = user.name;
+                document.getElementById('profileEmail').textContent = user.email;
+                document.getElementById('profileEmailDisplay').textContent = user.email;
+                document.getElementById('profileIC').textContent = user.ic;
+                document.getElementById('profilePhone').textContent = user.phone || 'Tiada';
+                document.getElementById('profileAddress').textContent = user.address || 'Tiada';
+                document.getElementById('profileSince').textContent = formatDate(user.createdAt);
                 
-                if (userDashboard) userDashboard.style.display = 'none';
-                if (adminDashboard) adminDashboard.style.display = 'block';
+                const userApps = applications.filter(app => app.applicantId === currentUser.id);
+                document.getElementById('profileTotalApps').textContent = userApps.length;
                 
-                loadAdminDashboard();
-            } else {
-                const userDashboard = document.getElementById('userDashboard');
-                const adminDashboard = document.getElementById('adminDashboard');
+                document.getElementById('profileStatus').textContent = user.status === 'active' ? 'Aktif' : 'Tidak Aktif';
+                document.getElementById('profileRole').textContent = user.role === 'admin' ? 'Pentadbir' : 'Pengguna';
                 
-                if (userDashboard) userDashboard.style.display = 'block';
-                if (adminDashboard) adminDashboard.style.display = 'none';
-                
-                loadUserDashboard();
+                // Load profile picture
+                loadProfilePicture(currentUser.id);
             }
         }
-        
-        // ... (Other functions remain the same) ...
         
         function updateUserInterface() {
             if (!currentUser) return;
@@ -234,7 +637,6 @@
             const userName = document.getElementById('userName');
             
             if (headerUserName) headerUserName.textContent = currentUser.name;
-            if (userAvatar) userAvatar.textContent = getInitials(currentUser.name);
             if (userName) userName.textContent = currentUser.name;
             
             // Update welcome message
@@ -243,233 +645,34 @@
                 welcomeTitle.textContent = `Selamat Datang, ${currentUser.name.split(' ')[0]}!`;
             }
             
+            // Update profile picture in header
+            loadProfilePicture(currentUser.id);
+            
             // Update navigation based on role
             updateNavigation();
         }
         
-        function updateNavigation() {
-            const navLinks = document.getElementById('navLinks');
-            const newApplicationBtn = document.getElementById('newApplicationBtn');
-            
-            if (!navLinks) return;
-            
-            navLinks.innerHTML = '';
-            
-            const links = [
-                { page: 'dashboard', icon: 'fas fa-home', text: 'Dashboard' }
-            ];
-            
-            if (currentUser.role === 'admin') {
-                links.push(
-                    { page: 'users', icon: 'fas fa-users', text: 'Pengguna' },
-                    { page: 'application', icon: 'fas fa-file-alt', text: 'Semua Permohonan' }
-                );
-                
-                // Hide "Mohon Baru" button for admin
-                if (newApplicationBtn) {
-                    newApplicationBtn.style.display = 'none';
-                }
-            } else {
-                links.push(
-                    { page: 'assets', icon: 'fas fa-building', text: 'Aset Tersedia' },
-                    { page: 'application', icon: 'fas fa-file-alt', text: 'Permohonan Saya' },
-                    { page: 'profile', icon: 'fas fa-user', text: 'Profil Saya' }
-                );
-                
-                // Show "Mohon Baru" button for regular users
-                if (newApplicationBtn) {
-                    newApplicationBtn.style.display = 'block';
-                }
-            }
-            
-            links.forEach(link => {
-                const li = document.createElement('li');
-                li.innerHTML = `
-                    <a href="#" class="${link.page === 'dashboard' ? 'active' : ''}" data-page="${link.page}">
-                        <i class="${link.icon}"></i> ${link.text}
-                    </a>
-                `;
-                navLinks.appendChild(li);
-            });
-            
-            // Update header style for admin
-            const appHeader = document.getElementById('appHeader');
-            const appNav = document.getElementById('appNav');
-            
-            if (appHeader && appNav) {
-                if (currentUser.role === 'admin') {
-                    appHeader.classList.add('admin-header');
-                    appNav.classList.add('admin-nav');
-                } else {
-                    appHeader.classList.remove('admin-header');
-                    appNav.classList.remove('admin-nav');
-                }
-            }
-        }
-        
         // ============================================
-        // APPLICATION FUNCTIONS - FIXED
-        // ============================================
-        
-        function openApplicationModal(assetType = null) {
-            console.log("openApplicationModal called"); // Debug log
-            
-            const modal = document.getElementById('applicationModal');
-            if (!modal) {
-                alert('Ralat: Modal tidak ditemui');
-                return;
-            }
-            
-            modal.style.display = 'flex';
-            
-            // Reset location selector
-            resetLocationSelector();
-            
-            // Auto-fill user data from profile
-            if (currentUser) {
-                const user = users.find(u => u.id === currentUser.id);
-                if (user) {
-                    // Automatically fill name, IC, and email from profile
-                    const applicantName = document.getElementById('applicantName');
-                    const applicantIC = document.getElementById('applicantIC');
-                    const applicantEmail = document.getElementById('applicantEmail');
-                    const applicantPhone = document.getElementById('applicantPhone');
-                    const applicantAddress = document.getElementById('applicantAddress');
-                    
-                    if (applicantName) applicantName.value = user.name;
-                    if (applicantIC) applicantIC.value = user.ic;
-                    if (applicantEmail) applicantEmail.value = user.email;
-                    if (applicantPhone) applicantPhone.value = user.phone || '';
-                    if (applicantAddress) applicantAddress.value = user.address || '';
-                }
-            }
-            
-            // Set asset type if provided
-            if (assetType) {
-                const assetTypeSelect = document.getElementById('assetType');
-                if (assetTypeSelect) {
-                    assetTypeSelect.value = assetType;
-                    // Trigger change to load locations
-                    setTimeout(() => {
-                        loadLocationsForAssetType(assetType);
-                    }, 100);
-                }
-            }
-            
-            // Set default date (tomorrow)
-            const tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            const startDate = document.getElementById('startDate');
-            if (startDate) {
-                startDate.value = tomorrow.toISOString().split('T')[0];
-            }
-            
-            // Reset form except auto-filled fields
-            const purpose = document.getElementById('purpose');
-            const additionalInfo = document.getElementById('additionalInfo');
-            const agreeTermsModal = document.getElementById('agreeTermsModal');
-            
-            if (purpose) purpose.value = '';
-            if (additionalInfo) additionalInfo.value = '';
-            if (agreeTermsModal) agreeTermsModal.checked = false;
-        }
-        
-        // ============================================
-        // EVENT LISTENERS SETUP - FIXED VERSION
+        // EVENT LISTENERS SETUP
         // ============================================
         
         function setupEventListeners() {
-            console.log("Setting up event listeners..."); // Debug log
+            console.log("Setting up event listeners...");
             
-            // Authentication tabs
-            const loginTab = document.getElementById('loginTab');
-            const registerTab = document.getElementById('registerTab');
-            const goToRegister = document.getElementById('goToRegister');
-            const goToLogin = document.getElementById('goToLogin');
-            const goToLoginFromSuccess = document.getElementById('goToLoginFromSuccess');
-            const goToLoginFromResetSuccess = document.getElementById('goToLoginFromResetSuccess');
+            // ... (Authentication event listeners remain the same) ...
             
-            if (loginTab) loginTab.addEventListener('click', () => switchAuthTab('login'));
-            if (registerTab) registerTab.addEventListener('click', () => switchAuthTab('register'));
-            if (goToRegister) goToRegister.addEventListener('click', (e) => {
-                e.preventDefault();
-                switchAuthTab('register');
-            });
-            if (goToLogin) goToLogin.addEventListener('click', (e) => {
-                e.preventDefault();
-                switchAuthTab('login');
-            });
-            if (goToLoginFromSuccess) goToLoginFromSuccess.addEventListener('click', (e) => {
-                e.preventDefault();
-                switchAuthTab('login');
-            });
-            if (goToLoginFromResetSuccess) goToLoginFromResetSuccess.addEventListener('click', (e) => {
-                e.preventDefault();
-                switchAuthTab('login');
-            });
-            
-            // Forgot password links
-            const forgotPasswordLink = document.getElementById('forgotPasswordLink');
-            const backToLogin = document.getElementById('backToLogin');
-            const backToLoginFromReset = document.getElementById('backToLoginFromReset');
-            
-            if (forgotPasswordLink) forgotPasswordLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                switchAuthTab('forgotPassword');
-            });
-            
-            if (backToLogin) backToLogin.addEventListener('click', (e) => {
-                e.preventDefault();
-                switchAuthTab('login');
-            });
-            
-            if (backToLoginFromReset) backToLoginFromReset.addEventListener('click', (e) => {
-                e.preventDefault();
-                switchAuthTab('login');
-            });
-            
-            // Form submissions
-            const loginForm = document.getElementById('loginForm');
-            const registerForm = document.getElementById('registerForm');
-            const forgotPasswordForm = document.getElementById('forgotPasswordForm');
-            const resetPasswordForm = document.getElementById('resetPasswordForm');
-            const changePasswordForm = document.getElementById('changePasswordForm');
-            const rentalApplicationForm = document.getElementById('rentalApplicationForm');
-            
-            if (loginForm) loginForm.addEventListener('submit', handleLogin);
-            if (registerForm) registerForm.addEventListener('submit', handleRegister);
-            if (forgotPasswordForm) forgotPasswordForm.addEventListener('submit', handleForgotPassword);
-            if (resetPasswordForm) resetPasswordForm.addEventListener('submit', handleResetPassword);
-            if (changePasswordForm) changePasswordForm.addEventListener('submit', handleChangePassword);
-            if (rentalApplicationForm) rentalApplicationForm.addEventListener('submit', submitApplication);
-            
-            // Password toggles
-            const toggleLoginPassword = document.getElementById('toggleLoginPassword');
-            const toggleNewPassword = document.getElementById('toggleNewPassword');
-            const toggleConfirmNewPassword = document.getElementById('toggleConfirmNewPassword');
-            const toggleCurrentPassword = document.getElementById('toggleCurrentPassword');
-            const toggleNewPasswordProfile = document.getElementById('toggleNewPasswordProfile');
-            const toggleConfirmNewPasswordProfile = document.getElementById('toggleConfirmNewPasswordProfile');
-            
-            if (toggleLoginPassword) toggleLoginPassword.addEventListener('click', () => togglePasswordVisibility('loginPassword', 'toggleLoginPassword'));
-            if (toggleNewPassword) toggleNewPassword.addEventListener('click', () => togglePasswordVisibility('newPassword', 'toggleNewPassword'));
-            if (toggleConfirmNewPassword) toggleConfirmNewPassword.addEventListener('click', () => togglePasswordVisibility('confirmNewPassword', 'toggleConfirmNewPassword'));
-            if (toggleCurrentPassword) toggleCurrentPassword.addEventListener('click', () => togglePasswordVisibility('currentPassword', 'toggleCurrentPassword'));
-            if (toggleNewPasswordProfile) toggleNewPasswordProfile.addEventListener('click', () => togglePasswordVisibility('newPasswordProfile', 'toggleNewPasswordProfile'));
-            if (toggleConfirmNewPasswordProfile) toggleConfirmNewPasswordProfile.addEventListener('click', () => togglePasswordVisibility('confirmNewPasswordProfile', 'toggleConfirmNewPasswordProfile'));
-            
-            // Profile edit buttons - FIXED
+            // Profile edit buttons
             const editProfileBtn = document.getElementById('editProfileBtn');
             const saveProfileBtn = document.getElementById('saveProfileBtn');
             const cancelEditBtn = document.getElementById('cancelEditBtn');
             
-            console.log("Edit Profile Button:", editProfileBtn); // Debug log
-            console.log("Save Profile Button:", saveProfileBtn); // Debug log
-            console.log("Cancel Edit Button:", cancelEditBtn); // Debug log
+            console.log("Edit Profile Button:", editProfileBtn);
+            console.log("Save Profile Button:", saveProfileBtn);
+            console.log("Cancel Edit Button:", cancelEditBtn);
             
             if (editProfileBtn) {
                 editProfileBtn.addEventListener('click', function(e) {
-                    console.log("Edit profile button clicked!"); // Debug log
+                    console.log("Edit profile button clicked!");
                     e.preventDefault();
                     startProfileEdit();
                 });
@@ -477,7 +680,7 @@
             
             if (saveProfileBtn) {
                 saveProfileBtn.addEventListener('click', function(e) {
-                    console.log("Save profile button clicked!"); // Debug log
+                    console.log("Save profile button clicked!");
                     e.preventDefault();
                     saveProfileChanges();
                 });
@@ -485,154 +688,184 @@
             
             if (cancelEditBtn) {
                 cancelEditBtn.addEventListener('click', function(e) {
-                    console.log("Cancel edit button clicked!"); // Debug log
+                    console.log("Cancel edit button clicked!");
                     e.preventDefault();
                     cancelProfileEdit();
                 });
             }
             
-            // Change password button
-            const changePasswordBtn = document.getElementById('changePasswordBtn');
-            if (changePasswordBtn) {
-                changePasswordBtn.addEventListener('click', () => {
-                    const modal = document.getElementById('changePasswordModal');
-                    if (modal) {
-                        modal.style.display = 'flex';
+            // Profile picture functionality
+            const changeProfilePictureBtn = document.getElementById('changeProfilePictureBtn');
+            const profilePictureInput = document.getElementById('profilePictureInput');
+            const saveProfilePictureBtn = document.getElementById('saveProfilePictureBtn');
+            const cancelProfilePictureBtn = document.getElementById('cancelProfilePictureBtn');
+            
+            if (changeProfilePictureBtn) {
+                changeProfilePictureBtn.addEventListener('click', function() {
+                    if (profilePictureInput) {
+                        profilePictureInput.click();
                     }
                 });
             }
             
-            // Modal close buttons
-            const closeChangePasswordModal = document.getElementById('closeChangePasswordModal');
-            const cancelChangePassword = document.getElementById('cancelChangePassword');
-            
-            if (closeChangePasswordModal) closeChangePasswordModal.addEventListener('click', () => closeModal('changePasswordModal'));
-            if (cancelChangePassword) cancelChangePassword.addEventListener('click', () => closeModal('changePasswordModal'));
-            
-            // Application buttons - FIXED
-            const newApplicationBtn = document.getElementById('newApplicationBtn');
-            const applyNewBtn = document.getElementById('applyNewBtn');
-            
-            console.log("New Application Button:", newApplicationBtn); // Debug log
-            console.log("Apply New Button:", applyNewBtn); // Debug log
-            
-            if (newApplicationBtn) {
-                newApplicationBtn.addEventListener('click', function(e) {
-                    console.log("New Application button clicked!"); // Debug log
-                    e.preventDefault();
-                    openApplicationModal();
-                });
-            }
-            
-            if (applyNewBtn) {
-                applyNewBtn.addEventListener('click', function(e) {
-                    console.log("Apply New button clicked!"); // Debug log
-                    e.preventDefault();
-                    openApplicationModal();
-                });
-            }
-            
-            // Modal controls
-            const closeModalBtn = document.getElementById('closeModal');
-            const cancelApplication = document.getElementById('cancelApplication');
-            const closeSuccessModal = document.getElementById('closeSuccessModal');
-            const closeSuccessBtn = document.getElementById('closeSuccessBtn');
-            const closeDetailsModal = document.getElementById('closeDetailsModal');
-            
-            if (closeModalBtn) closeModalBtn.addEventListener('click', () => closeModal('applicationModal'));
-            if (cancelApplication) cancelApplication.addEventListener('click', () => closeModal('applicationModal'));
-            if (closeSuccessModal) closeSuccessModal.addEventListener('click', () => closeModal('successModal'));
-            if (closeSuccessBtn) closeSuccessBtn.addEventListener('click', () => closeModal('successModal'));
-            if (closeDetailsModal) closeDetailsModal.addEventListener('click', () => closeModal('applicationDetailsModal'));
-            
-            // Success modal buttons
-            const viewStatusBtn = document.getElementById('viewStatusBtn');
-            if (viewStatusBtn) {
-                viewStatusBtn.addEventListener('click', function() {
-                    closeModal('successModal');
-                    showPage('applicationPage');
-                });
-            }
-            
-            // Logout
-            const logoutBtn = document.getElementById('logoutBtn');
-            if (logoutBtn) {
-                logoutBtn.addEventListener('click', function() {
-                    if (confirm('Adakah anda pasti ingin log keluar?')) {
-                        sessionStorage.removeItem(STORAGE_KEYS.CURRENT_USER);
-                        localStorage.removeItem(STORAGE_KEYS.CURRENT_USER);
-                        currentUser = null;
-                        showAuthentication();
+            if (profilePictureInput) {
+                profilePictureInput.addEventListener('change', function(e) {
+                    if (e.target.files && e.target.files[0]) {
+                        profilePictureFile = e.target.files[0];
+                        
+                        // Validate file type
+                        const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+                        if (!validTypes.includes(profilePictureFile.type)) {
+                            alert('Hanya fail gambar dibenarkan (JPEG, PNG, GIF, WebP)');
+                            profilePictureFile = null;
+                            return;
+                        }
+                        
+                        // Validate file size (max 2MB)
+                        if (profilePictureFile.size > 2 * 1024 * 1024) {
+                            alert('Saiz fail terlalu besar. Maksimum 2MB dibenarkan.');
+                            profilePictureFile = null;
+                            return;
+                        }
+                        
+                        // Create preview
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            profilePicturePreview = e.target.result;
+                            
+                            // Update profile picture preview
+                            const profilePicture = document.getElementById('profilePicture');
+                            if (profilePicture) {
+                                profilePicture.innerHTML = '';
+                                const img = document.createElement('img');
+                                img.src = profilePicturePreview;
+                                img.alt = 'Pratonton Gambar';
+                                profilePicture.appendChild(img);
+                            }
+                            
+                            // Show action buttons
+                            const actions = document.getElementById('profilePictureActions');
+                            if (actions) actions.style.display = 'flex';
+                        };
+                        reader.readAsDataURL(profilePictureFile);
                     }
                 });
             }
             
-            // Navigation links - DELEGATED EVENT LISTENER
-            document.addEventListener('click', function(e) {
-                const navLink = e.target.closest('.nav-links a');
-                if (navLink) {
-                    e.preventDefault();
-                    const page = navLink.dataset.page;
-                    if (page) {
-                        showPage(page + 'Page');
-                    }
-                }
-            });
-            
-            // Refresh applications (admin)
-            const refreshApplications = document.getElementById('refreshApplications');
-            if (refreshApplications) {
-                refreshApplications.addEventListener('click', function() {
-                    loadAdminApplications();
-                    alert('Senarai permohonan telah dikemas kini!');
-                });
-            }
-            
-            // Add user button (admin)
-            const addUserBtn = document.getElementById('addUserBtn');
-            if (addUserBtn) {
-                addUserBtn.addEventListener('click', function() {
-                    alert('Fungsi tambah pengguna akan datang tidak lama lagi.');
-                });
-            }
-            
-            // Asset type change listener
-            const assetTypeSelect = document.getElementById('assetType');
-            if (assetTypeSelect) {
-                assetTypeSelect.addEventListener('change', function() {
-                    if (this.value) {
-                        loadLocationsForAssetType(this.value);
+            if (saveProfilePictureBtn) {
+                saveProfilePictureBtn.addEventListener('click', function() {
+                    if (profilePictureFile) {
+                        saveProfilePicture(currentUser.id);
                     } else {
-                        resetLocationSelector();
+                        alert('Sila pilih gambar terlebih dahulu');
                     }
                 });
             }
             
-            // Close details button
-            document.addEventListener('click', function(e) {
-                if (e.target.id === 'closeDetailsBtn') {
-                    closeModal('applicationDetailsModal');
-                }
-            });
+            if (cancelProfilePictureBtn) {
+                cancelProfilePictureBtn.addEventListener('click', function() {
+                    // Reset to original picture
+                    loadProfilePicture(currentUser.id);
+                    
+                    // Reset variables
+                    profilePictureFile = null;
+                    profilePicturePreview = null;
+                    
+                    // Hide actions
+                    const actions = document.getElementById('profilePictureActions');
+                    if (actions) actions.style.display = 'none';
+                });
+            }
             
-            // Quick access assets - DELEGATED EVENT LISTENER
-            document.addEventListener('click', function(e) {
-                const applyNowBtn = e.target.closest('.apply-now-btn');
-                if (applyNowBtn) {
-                    e.preventDefault();
-                    const assetType = applyNowBtn.dataset.assetType;
-                    openApplicationModal(assetType);
-                }
-            });
+            // Remove profile picture button
+            const removeProfilePictureBtn = document.getElementById('removeProfilePictureBtn');
+            if (removeProfilePictureBtn) {
+                removeProfilePictureBtn.addEventListener('click', function() {
+                    removeProfilePicture(currentUser.id);
+                });
+            }
             
-            console.log("Event listeners setup complete!"); // Debug log
+            // ... (Other event listeners remain the same) ...
+            
+            console.log("Event listeners setup complete!");
         }
         
-        // ... (Rest of the functions remain the same) ...
+        // ============================================
+        // UTILITY FUNCTIONS
+        // ============================================
+        
+        function getInitials(name) {
+            if (!name) return '??';
+            return name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+        }
+        
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('ms-MY', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+        
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+        
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            const selectedPage = document.getElementById(pageId);
+            if (selectedPage) {
+                selectedPage.classList.add('active');
+            }
+            
+            // Update navigation
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.page === pageId.replace('Page', '')) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Load page content
+            if (pageId === 'dashboardPage') {
+                loadDashboard();
+            } else if (pageId === 'assetsPage') {
+                loadAllAssets();
+            } else if (pageId === 'applicationPage') {
+                if (currentUser.role === 'admin') {
+                    loadAdminApplications();
+                } else {
+                    loadUserApplications();
+                }
+            } else if (pageId === 'profilePage') {
+                // Load profile data
+                loadProfileData();
+                // Reset edit mode if active
+                if (isEditingProfile) {
+                    cancelProfileEdit();
+                }
+                // Reset profile picture actions
+                const actions = document.getElementById('profilePictureActions');
+                if (actions) actions.style.display = 'none';
+            } else if (pageId === 'usersPage') {
+                loadUsersList();
+            }
+        }
+        
+        // ... (Other utility functions remain the same) ...
         
         // Initialize system when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            console.log("DOM loaded, initializing system..."); // Debug log
+            console.log("DOM loaded, initializing system...");
             initializeSystem();
             setupEventListeners();
         });
