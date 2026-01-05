@@ -1086,6 +1086,46 @@
         .verification-note i {
             margin-right: 8px;
         }
+        
+        /* Profile edit form */
+        .profile-form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .profile-edit-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 2rem;
+            justify-content: flex-end;
+        }
+        
+        .profile-view-mode {
+            display: block;
+        }
+        
+        .profile-edit-mode {
+            display: none;
+        }
+        
+        .editing .profile-view-mode {
+            display: none;
+        }
+        
+        .editing .profile-edit-mode {
+            display: block;
+        }
+        
+        .profile-field-value {
+            font-weight: 500;
+            padding: 8px 0;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .profile-field-edit {
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -1577,20 +1617,36 @@
                 <div id="profilePage" class="page-content">
                     <div class="section-header">
                         <h2>Profil Saya</h2>
-                        <button class="btn btn-primary" id="editProfileBtn">
-                            <i class="fas fa-edit"></i> Kemaskini Profil
-                        </button>
+                        <div class="profile-actions">
+                            <button class="btn btn-primary" id="editProfileBtn">
+                                <i class="fas fa-edit"></i> Kemaskini Profil
+                            </button>
+                            <button class="btn btn-success" id="saveProfileBtn" style="display: none;">
+                                <i class="fas fa-save"></i> Simpan Perubahan
+                            </button>
+                            <button class="btn" id="cancelEditBtn" style="display: none;">
+                                <i class="fas fa-times"></i> Batal
+                            </button>
+                        </div>
                     </div>
                     
-                    <div class="dashboard-card" style="background-color: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                    <div class="dashboard-card" style="background-color: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.05);" id="profileCard">
                         <div style="display: flex; align-items: center; gap: 30px; margin-bottom: 2rem;">
                             <div style="width: 100px; height: 100px; background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); 
                                 border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: white; font-weight: bold;" id="profileAvatar">
                                 P
                             </div>
-                            <div>
-                                <h3 style="color: var(--primary); margin-bottom: 5px;" id="profileName">Nama Pengguna</h3>
-                                <p style="color: var(--gray); margin-bottom: 5px;" id="profileEmail">email@example.com</p>
+                            <div style="flex-grow: 1;">
+                                <div class="profile-view-mode">
+                                    <h3 style="color: var(--primary); margin-bottom: 5px;" id="profileName">Nama Pengguna</h3>
+                                    <p style="color: var(--gray); margin-bottom: 5px;" id="profileEmail">email@example.com</p>
+                                </div>
+                                <div class="profile-edit-mode">
+                                    <div class="profile-form-group">
+                                        <label for="editName" class="required">Nama Penuh</label>
+                                        <input type="text" id="editName" class="form-control" required>
+                                    </div>
+                                </div>
                                 <button class="btn" id="changePasswordBtn" style="margin-top: 10px; font-size: 0.9rem; padding: 5px 15px;">
                                     <i class="fas fa-key"></i> Tukar Kata Laluan
                                 </button>
@@ -1598,29 +1654,86 @@
                         </div>
                         
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                            <!-- No. Kad Pengenalan -->
                             <div>
                                 <label style="display: block; margin-bottom: 5px; color: var(--gray);">No. Kad Pengenalan</label>
-                                <div style="font-weight: 500;" id="profileIC">000000000000</div>
+                                <div class="profile-view-mode">
+                                    <div class="profile-field-value" id="profileIC">000000000000</div>
+                                </div>
+                                <div class="profile-edit-mode">
+                                    <div class="profile-field-edit">
+                                        <input type="text" id="editIC" class="form-control" readonly style="background-color: #f8f9fa;">
+                                        <small style="color: var(--gray);">No. Kad Pengenalan tidak boleh diubah</small>
+                                    </div>
+                                </div>
                             </div>
                             
+                            <!-- No. Telefon -->
                             <div>
                                 <label style="display: block; margin-bottom: 5px; color: var(--gray);">No. Telefon</label>
-                                <div style="font-weight: 500;" id="profilePhone">-</div>
+                                <div class="profile-view-mode">
+                                    <div class="profile-field-value" id="profilePhone">-</div>
+                                </div>
+                                <div class="profile-edit-mode">
+                                    <div class="profile-field-edit">
+                                        <input type="tel" id="editPhone" class="form-control">
+                                    </div>
+                                </div>
                             </div>
                             
+                            <!-- Email -->
                             <div>
-                                <label style="display: block; margin-bottom: 5px; color: var(--gray);">Alamat</label>
-                                <div style="font-weight: 500;" id="profileAddress">-</div>
+                                <label style="display: block; margin-bottom: 5px; color: var(--gray);">Alamat Email</label>
+                                <div class="profile-view-mode">
+                                    <div class="profile-field-value" id="profileEmailDisplay">email@example.com</div>
+                                </div>
+                                <div class="profile-edit-mode">
+                                    <div class="profile-field-edit">
+                                        <input type="email" id="editEmail" class="form-control" required>
+                                    </div>
+                                </div>
                             </div>
                             
+                            <!-- Alamat -->
+                            <div style="grid-column: span 2;">
+                                <label style="display: block; margin-bottom: 5px; color: var(--gray);">Alamat</label>
+                                <div class="profile-view-mode">
+                                    <div class="profile-field-value" id="profileAddress">-</div>
+                                </div>
+                                <div class="profile-edit-mode">
+                                    <div class="profile-field-edit">
+                                        <textarea id="editAddress" class="form-control" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Ahli Sejak -->
                             <div>
                                 <label style="display: block; margin-bottom: 5px; color: var(--gray);">Ahli Sejak</label>
-                                <div style="font-weight: 500;" id="profileSince">-</div>
+                                <div class="profile-field-value" id="profileSince">-</div>
                             </div>
                             
+                            <!-- Jumlah Permohonan -->
                             <div>
                                 <label style="display: block; margin-bottom: 5px; color: var(--gray);">Jumlah Permohonan</label>
-                                <div style="font-weight: 500;" id="profileTotalApps">0</div>
+                                <div class="profile-field-value" id="profileTotalApps">0</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Maklumat Tambahan -->
+                        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--light-gray);">
+                            <div class="profile-view-mode">
+                                <h4 style="color: var(--primary); margin-bottom: 1rem;">Maklumat Tambahan</h4>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                                    <div>
+                                        <label style="display: block; margin-bottom: 5px; color: var(--gray);">Status Akaun</label>
+                                        <div class="profile-field-value" id="profileStatus">Aktif</div>
+                                    </div>
+                                    <div>
+                                        <label style="display: block; margin-bottom: 5px; color: var(--gray);">Peranan</label>
+                                        <div class="profile-field-value" id="profileRole">Pengguna</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -2166,6 +2279,7 @@
         let assets = [];
         let vacancies = VACANCY_DATA;
         let passwordResetTokens = {};
+        let isEditingProfile = false;
         
         // Initialize System
         function initializeSystem() {
@@ -2269,7 +2383,8 @@
                 ic: user.ic,
                 address: user.address,
                 role: user.role,
-                createdAt: user.createdAt
+                createdAt: user.createdAt,
+                status: user.status
             };
             
             // Save to storage
@@ -2465,6 +2580,107 @@
         }
         
         // ============================================
+        // PROFILE EDIT FUNCTIONS
+        // ============================================
+        
+        function startProfileEdit() {
+            isEditingProfile = true;
+            
+            // Add editing class to profile card
+            document.getElementById('profileCard').classList.add('editing');
+            
+            // Show edit buttons, hide edit button
+            document.getElementById('editProfileBtn').style.display = 'none';
+            document.getElementById('saveProfileBtn').style.display = 'inline-flex';
+            document.getElementById('cancelEditBtn').style.display = 'inline-flex';
+            
+            // Load current user data into edit fields
+            const user = users.find(u => u.id === currentUser.id);
+            if (user) {
+                document.getElementById('editName').value = user.name;
+                document.getElementById('editIC').value = user.ic;
+                document.getElementById('editPhone').value = user.phone || '';
+                document.getElementById('editEmail').value = user.email;
+                document.getElementById('editAddress').value = user.address || '';
+            }
+        }
+        
+        function cancelProfileEdit() {
+            isEditingProfile = false;
+            
+            // Remove editing class
+            document.getElementById('profileCard').classList.remove('editing');
+            
+            // Show edit button, hide edit buttons
+            document.getElementById('editProfileBtn').style.display = 'inline-flex';
+            document.getElementById('saveProfileBtn').style.display = 'none';
+            document.getElementById('cancelEditBtn').style.display = 'none';
+            
+            // Clear validation messages
+            clearValidationMessages();
+        }
+        
+        function saveProfileChanges() {
+            // Clear previous errors
+            clearValidationMessages();
+            
+            const name = document.getElementById('editName').value.trim();
+            const phone = document.getElementById('editPhone').value.trim();
+            const email = document.getElementById('editEmail').value.trim();
+            const address = document.getElementById('editAddress').value.trim();
+            
+            // Validation
+            if (!name) {
+                alert('Sila isi nama penuh');
+                return;
+            }
+            
+            if (!validateEmail(email)) {
+                alert('Format email tidak sah');
+                return;
+            }
+            
+            // Check if email is already taken by another user
+            const existingUser = users.find(u => u.email === email && u.id !== currentUser.id);
+            if (existingUser) {
+                alert('Email ini sudah digunakan oleh pengguna lain');
+                return;
+            }
+            
+            // Find and update user
+            const userIndex = users.findIndex(u => u.id === currentUser.id);
+            if (userIndex !== -1) {
+                users[userIndex].name = name;
+                users[userIndex].phone = phone;
+                users[userIndex].email = email;
+                users[userIndex].address = address;
+                
+                // Update current user data
+                currentUser.name = name;
+                currentUser.phone = phone;
+                currentUser.email = email;
+                currentUser.address = address;
+                
+                // Save to storage
+                localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users));
+                sessionStorage.setItem(STORAGE_KEYS.CURRENT_USER, JSON.stringify(currentUser));
+                localStorage.setItem(STORAGE_KEYS.CURRENT_USER, JSON.stringify(currentUser));
+                
+                // Update UI
+                updateUserInterface();
+                loadUserDashboard();
+                
+                // Exit edit mode
+                cancelProfileEdit();
+                
+                // Show success message
+                alert('Profil anda telah berjaya dikemaskini!');
+            } else {
+                alert('Ralat: Pengguna tidak ditemui');
+            }
+        }
+        
+        // ============================================
         // DASHBOARD AND NAVIGATION FUNCTIONS
         // ============================================
         
@@ -2499,23 +2715,34 @@
             updateAssetAvailability();
             
             // Update profile
-            const user = users.find(u => u.id === currentUser.id);
-            if (user) {
-                document.getElementById('profileName').textContent = user.name;
-                document.getElementById('profileEmail').textContent = user.email;
-                document.getElementById('profileIC').textContent = user.ic;
-                document.getElementById('profilePhone').textContent = user.phone || '-';
-                document.getElementById('profileAddress').textContent = user.address || '-';
-                document.getElementById('profileSince').textContent = formatDate(user.createdAt);
-                document.getElementById('profileTotalApps').textContent = userApps.length;
-                document.getElementById('profileAvatar').textContent = getInitials(user.name);
-            }
+            loadProfileData();
             
             // Load quick access assets with real-time availability
             loadQuickAccessAssets();
             
             // Load user applications
             loadUserApplications();
+        }
+        
+        function loadProfileData() {
+            const user = users.find(u => u.id === currentUser.id);
+            if (user) {
+                // Update view mode
+                document.getElementById('profileName').textContent = user.name;
+                document.getElementById('profileEmail').textContent = user.email;
+                document.getElementById('profileEmailDisplay').textContent = user.email;
+                document.getElementById('profileIC').textContent = user.ic;
+                document.getElementById('profilePhone').textContent = user.phone || 'Tiada';
+                document.getElementById('profileAddress').textContent = user.address || 'Tiada';
+                document.getElementById('profileSince').textContent = formatDate(user.createdAt);
+                
+                const userApps = applications.filter(app => app.applicantId === currentUser.id);
+                document.getElementById('profileTotalApps').textContent = userApps.length;
+                
+                document.getElementById('profileAvatar').textContent = getInitials(user.name);
+                document.getElementById('profileStatus').textContent = user.status === 'active' ? 'Aktif' : 'Tidak Aktif';
+                document.getElementById('profileRole').textContent = user.role === 'admin' ? 'Pentadbir' : 'Pengguna';
+            }
         }
         
         function updateAssetAvailability() {
@@ -3308,7 +3535,12 @@
                     loadUserApplications();
                 }
             } else if (pageId === 'profilePage') {
-                // Profile is already loaded in loadUserDashboard
+                // Load profile data
+                loadProfileData();
+                // Reset edit mode if active
+                if (isEditingProfile) {
+                    cancelProfileEdit();
+                }
             } else if (pageId === 'usersPage') {
                 loadUsersList();
             }
@@ -3455,6 +3687,11 @@
             document.getElementById('toggleNewPasswordProfile').addEventListener('click', togglePasswordVisibility.bind(null, 'newPasswordProfile', 'toggleNewPasswordProfile'));
             document.getElementById('toggleConfirmNewPasswordProfile').addEventListener('click', togglePasswordVisibility.bind(null, 'confirmNewPasswordProfile', 'toggleConfirmNewPasswordProfile'));
             
+            // Profile edit buttons
+            document.getElementById('editProfileBtn').addEventListener('click', startProfileEdit);
+            document.getElementById('saveProfileBtn').addEventListener('click', saveProfileChanges);
+            document.getElementById('cancelEditBtn').addEventListener('click', cancelProfileEdit);
+            
             // Change password button
             document.getElementById('changePasswordBtn').addEventListener('click', () => {
                 document.getElementById('changePasswordModal').style.display = 'flex';
@@ -3510,11 +3747,6 @@
             // Add user button (admin)
             document.getElementById('addUserBtn')?.addEventListener('click', function() {
                 alert('Fungsi tambah pengguna akan datang tidak lama lagi.');
-            });
-            
-            // Edit profile button
-            document.getElementById('editProfileBtn')?.addEventListener('click', function() {
-                alert('Fungsi kemaskini profil akan datang tidak lama lagi.');
             });
             
             // Asset type change listener
