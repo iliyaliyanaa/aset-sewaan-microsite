@@ -20,7 +20,6 @@
             --light-gray: #e9ecef;
             --admin-primary: #2c3e50;
             --admin-secondary: #34495e;
-            --reavailable: #20c997;
         }
         
         * {
@@ -439,11 +438,6 @@
             color: white;
         }
         
-        .btn-reavailable {
-            background-color: var(--reavailable);
-            color: white;
-        }
-        
         .btn-outline {
             background-color: transparent;
             color: white;
@@ -520,20 +514,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-        
-        /* Notifications */
-        .notification-container {
-            margin-bottom: 20px;
-        }
-        
-        .available-location-notification {
-            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
-            border-left: 5px solid #28a745;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
         .user-type-badge {
@@ -620,12 +600,6 @@
         .status-unavailable {
             background-color: rgba(220, 53, 69, 0.15);
             color: var(--danger);
-        }
-        
-        .status-reavailable {
-            background-color: rgba(32, 201, 151, 0.15);
-            color: var(--reavailable);
-            border: 1px dashed var(--reavailable);
         }
         
         .asset-image {
@@ -741,12 +715,6 @@
             color: var(--danger);
         }
         
-        .badge-reavailable {
-            background-color: rgba(32, 201, 151, 0.15);
-            color: var(--reavailable);
-            border: 1px dashed var(--reavailable);
-        }
-        
         /* Modal */
         .modal {
             display: none;
@@ -766,7 +734,7 @@
             background-color: white;
             border-radius: 12px;
             width: 100%;
-            max-width: 600px;
+            max-width: 500px;
             max-height: 90vh;
             overflow-y: auto;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -1090,10 +1058,6 @@
             color: var(--danger);
         }
         
-        .vacancy-info.reavailable {
-            color: var(--reavailable);
-        }
-        
         /* Form field dengan data automatik */
         .auto-filled-field {
             background-color: #f8f9fa;
@@ -1162,31 +1126,6 @@
         .profile-field-edit {
             width: 100%;
         }
-        
-        /* Reavailable badge */
-        .reavailable-badge {
-            display: inline-block;
-            background-color: rgba(32, 201, 151, 0.15);
-            color: var(--reavailable);
-            padding: 3px 10px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-left: 10px;
-            border: 1px dashed var(--reavailable);
-        }
-        
-        /* Location option with special marker */
-        .reavailable-option {
-            color: var(--reavailable) !important;
-            font-weight: bold !important;
-            position: relative;
-        }
-        
-        .reavailable-option:after {
-            content: " 🔄 Tersedia Semula";
-            font-size: 0.8rem;
-        }
     </style>
 </head>
 <body>
@@ -1230,16 +1169,6 @@
                         <div class="auth-feature-text">
                             <h4>Autocount Real-time</h4>
                             <p>Status kekosongan dikemas kini automatik</p>
-                        </div>
-                    </div>
-                    
-                    <div class="auth-feature">
-                        <div class="auth-feature-icon">
-                            <i class="fas fa-redo-alt"></i>
-                        </div>
-                        <div class="auth-feature-text">
-                            <h4>Lokasi Tersedia Semula</h4>
-                            <p>Lokasi ditolak akan wujud semula untuk permohonan baru</p>
                         </div>
                     </div>
                 </div>
@@ -1522,9 +1451,6 @@
         <!-- Main Content -->
         <main class="app-main">
             <div class="container">
-                <!-- Notifications for available locations -->
-                <div id="notificationContainer" class="notification-container"></div>
-                
                 <!-- Dashboard Page -->
                 <div id="dashboardPage" class="page-content active">
                     <div class="welcome-banner">
@@ -1626,11 +1552,11 @@
                             </div>
                             
                             <div class="stat-card">
-                                <div class="stat-icon" style="background-color: rgba(32, 201, 151, 0.1); color: var(--reavailable);">
-                                    <i class="fas fa-redo-alt"></i>
+                                <div class="stat-icon" style="background-color: rgba(220, 53, 69, 0.1); color: var(--danger);">
+                                    <i class="fas fa-home"></i>
                                 </div>
-                                <div class="stat-value" id="reavailableLocations">0</div>
-                                <div class="stat-label">Lokasi Tersedia Semula</div>
+                                <div class="stat-value" id="availableAssets">0</div>
+                                <div class="stat-label">Aset Tersedia</div>
                             </div>
                         </div>
                         
@@ -2065,7 +1991,7 @@
                     
                     <div class="auth-form-group">
                         <label for="confirmNewPasswordProfile" class="required">Sahkan Kata Laluan Baru</label>
-                            <div class="auth-input-with-icon">
+                        <div class="auth-input-with-icon">
                             <i class="fas fa-lock auth-input-icon"></i>
                             <input type="password" id="confirmNewPasswordProfile" class="auth-input" placeholder="Taip semula kata laluan baru" required>
                             <button type="button" class="auth-password-toggle" id="toggleConfirmNewPasswordProfile">
@@ -2115,8 +2041,7 @@
             APPLICATIONS: 'user_applications',
             ASSETS: 'asset_data',
             VACANCIES: 'asset_vacancies',
-            PASSWORD_RESET_TOKENS: 'password_reset_tokens',
-            REAVAILABLE_LOG: 'reavailable_locations_log'
+            PASSWORD_RESET_TOKENS: 'password_reset_tokens'
         };
         
         // Data Kekosongan Lokasi (Real-time AutoCount)
@@ -2354,7 +2279,7 @@
         let assets = [];
         let vacancies = VACANCY_DATA;
         let passwordResetTokens = {};
-        let reavailableLocations = [];
+        let isEditingProfile = false;
         
         // Initialize System
         function initializeSystem() {
@@ -2387,10 +2312,6 @@
             const storedTokens = localStorage.getItem(STORAGE_KEYS.PASSWORD_RESET_TOKENS);
             passwordResetTokens = storedTokens ? JSON.parse(storedTokens) : {};
             
-            // Initialize reavailable locations log
-            const storedReavailable = localStorage.getItem(STORAGE_KEYS.REAVAILABLE_LOG);
-            reavailableLocations = storedReavailable ? JSON.parse(storedReavailable) : [];
-            
             // Check login status
             checkLoginStatus();
         }
@@ -2422,7 +2343,6 @@
             document.getElementById('appContainer').style.display = 'block';
             updateUserInterface();
             loadDashboard();
-            showAvailableLocationsNotification();
         }
         
         function handleLogin(e) {
@@ -2618,6 +2538,148 @@
             document.getElementById('resetSuccessMessage').classList.add('active');
         }
         
+        function handleChangePassword(e) {
+            e.preventDefault();
+            
+            clearValidationMessages();
+            
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPasswordProfile').value;
+            const confirmPassword = document.getElementById('confirmNewPasswordProfile').value;
+            
+            // Find current user
+            const user = users.find(u => u.id === currentUser.id);
+            
+            if (!user) {
+                showValidationMessage('currentPasswordError', 'Ralat: Pengguna tidak ditemui', 'error');
+                return;
+            }
+            
+            if (user.password !== currentPassword) {
+                showValidationMessage('currentPasswordError', 'Kata laluan semasa tidak betul', 'error');
+                return;
+            }
+            
+            if (newPassword.length < 8) {
+                showValidationMessage('newPasswordProfile', 'Kata laluan mesti sekurang-kurangnya 8 aksara', 'error');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                showValidationMessage('changePasswordMatchError', 'Kata laluan tidak sepadan', 'error');
+                return;
+            }
+            
+            // Update password
+            user.password = newPassword;
+            localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users));
+            
+            // Close modal and show success message
+            closeModal('changePasswordModal');
+            alert('Kata laluan telah berjaya ditukar.');
+        }
+        
+        // ============================================
+        // PROFILE EDIT FUNCTIONS
+        // ============================================
+        
+        function startProfileEdit() {
+            isEditingProfile = true;
+            
+            // Add editing class to profile card
+            document.getElementById('profileCard').classList.add('editing');
+            
+            // Show edit buttons, hide edit button
+            document.getElementById('editProfileBtn').style.display = 'none';
+            document.getElementById('saveProfileBtn').style.display = 'inline-flex';
+            document.getElementById('cancelEditBtn').style.display = 'inline-flex';
+            
+            // Load current user data into edit fields
+            const user = users.find(u => u.id === currentUser.id);
+            if (user) {
+                document.getElementById('editName').value = user.name;
+                document.getElementById('editIC').value = user.ic;
+                document.getElementById('editPhone').value = user.phone || '';
+                document.getElementById('editEmail').value = user.email;
+                document.getElementById('editAddress').value = user.address || '';
+            }
+        }
+        
+        function cancelProfileEdit() {
+            isEditingProfile = false;
+            
+            // Remove editing class
+            document.getElementById('profileCard').classList.remove('editing');
+            
+            // Show edit button, hide edit buttons
+            document.getElementById('editProfileBtn').style.display = 'inline-flex';
+            document.getElementById('saveProfileBtn').style.display = 'none';
+            document.getElementById('cancelEditBtn').style.display = 'none';
+            
+            // Clear validation messages
+            clearValidationMessages();
+        }
+        
+        function saveProfileChanges() {
+            // Clear previous errors
+            clearValidationMessages();
+            
+            const name = document.getElementById('editName').value.trim();
+            const phone = document.getElementById('editPhone').value.trim();
+            const email = document.getElementById('editEmail').value.trim();
+            const address = document.getElementById('editAddress').value.trim();
+            
+            // Validation
+            if (!name) {
+                alert('Sila isi nama penuh');
+                return;
+            }
+            
+            if (!validateEmail(email)) {
+                alert('Format email tidak sah');
+                return;
+            }
+            
+            // Check if email is already taken by another user
+            const existingUser = users.find(u => u.email === email && u.id !== currentUser.id);
+            if (existingUser) {
+                alert('Email ini sudah digunakan oleh pengguna lain');
+                return;
+            }
+            
+            // Find and update user
+            const userIndex = users.findIndex(u => u.id === currentUser.id);
+            if (userIndex !== -1) {
+                users[userIndex].name = name;
+                users[userIndex].phone = phone;
+                users[userIndex].email = email;
+                users[userIndex].address = address;
+                
+                // Update current user data
+                currentUser.name = name;
+                currentUser.phone = phone;
+                currentUser.email = email;
+                currentUser.address = address;
+                
+                // Save to storage
+                localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users));
+                sessionStorage.setItem(STORAGE_KEYS.CURRENT_USER, JSON.stringify(currentUser));
+                localStorage.setItem(STORAGE_KEYS.CURRENT_USER, JSON.stringify(currentUser));
+                
+                // Update UI
+                updateUserInterface();
+                loadUserDashboard();
+                
+                // Exit edit mode
+                cancelProfileEdit();
+                
+                // Show success message
+                alert('Profil anda telah berjaya dikemaskini!');
+            } else {
+                alert('Ralat: Pengguna tidak ditemui');
+            }
+        }
+        
         // ============================================
         // DASHBOARD AND NAVIGATION FUNCTIONS
         // ============================================
@@ -2660,9 +2722,6 @@
             
             // Load user applications
             loadUserApplications();
-            
-            // Show notification for reavailable locations
-            showAvailableLocationsNotification();
         }
         
         function loadProfileData() {
@@ -2705,23 +2764,12 @@
             document.getElementById('totalApplications').textContent = applications.length;
             document.getElementById('pendingApplications').textContent = applications.filter(app => app.status === 'pending').length;
             
-            // Calculate reavailable locations (locations that were rejected and now have vacancies)
-            let reavailableCount = 0;
-            applications.forEach(app => {
-                if (app.status === 'rejected') {
-                    const location = vacancies[app.assetType]?.find(loc => loc.id === app.locationId);
-                    if (location && location.vacancies > 0) {
-                        reavailableCount++;
-                    }
-                }
-            });
-            document.getElementById('reavailableLocations').textContent = reavailableCount;
-            
             // Calculate total available assets from vacancies
             const totalAvailable = Object.keys(vacancies).reduce((total, assetType) => {
                 const assetVacancies = vacancies[assetType] || [];
                 return total + assetVacancies.reduce((sum, loc) => sum + loc.vacancies, 0);
             }, 0);
+            document.getElementById('availableAssets').textContent = totalAvailable;
             
             // Load applications for admin
             loadAdminApplications();
@@ -2738,16 +2786,9 @@
                 const totalVacancies = vacancies[asset.type]?.reduce((sum, loc) => sum + loc.vacancies, 0) || 0;
                 const availableLocations = vacancies[asset.type]?.filter(loc => loc.vacancies > 0).length || 0;
                 
-                // Check for reavailable locations for current user
-                const userReavailableLocations = getReavailableLocationsForUser(currentUser.id, asset.type);
-                const hasReavailable = userReavailableLocations.length > 0;
-                
                 // Determine status
                 let statusClass, statusText;
-                if (hasReavailable) {
-                    statusClass = 'status-reavailable';
-                    statusText = `${userReavailableLocations.length} Tersedia Semula`;
-                } else if (totalVacancies > 3) {
+                if (totalVacancies > 3) {
                     statusClass = 'status-available';
                     statusText = `${totalVacancies} Tersedia`;
                 } else if (totalVacancies > 0) {
@@ -2771,7 +2812,6 @@
                         <h3 class="asset-title">${asset.name}</h3>
                         <div class="asset-location">
                             <i class="fas fa-map-marker-alt"></i> ${availableLocations} Lokasi Tersedia
-                            ${hasReavailable ? `<span class="reavailable-badge">${userReavailableLocations.length} tersedia semula untuk anda</span>` : ''}
                         </div>
                         <div class="asset-details">
                             <p>${asset.description}</p>
@@ -2790,8 +2830,8 @@
                         </div>
                         <div class="asset-actions">
                             ${totalVacancies > 0 ? `
-                            <button class="btn ${hasReavailable ? 'btn-reavailable' : 'btn-primary'} btn-block apply-now-btn" data-asset-type="${asset.type}">
-                                <i class="fas fa-pen"></i> ${hasReavailable ? 'Mohon Semula (Ada Lokasi Tersedia Semula)' : 'Mohon Sekarang'}
+                            <button class="btn btn-primary btn-block apply-now-btn" data-asset-type="${asset.type}">
+                                <i class="fas fa-pen"></i> Mohon Sekarang
                             </button>
                             ` : `
                             <button class="btn btn-block" disabled style="background-color: #e9ecef; color: #6c757d; cursor: not-allowed;">
@@ -2827,16 +2867,9 @@
                 const totalVacancies = vacancies[asset.type]?.reduce((sum, loc) => sum + loc.vacancies, 0) || 0;
                 const availableLocations = vacancies[asset.type]?.filter(loc => loc.vacancies > 0).length || 0;
                 
-                // Check for reavailable locations for current user
-                const userReavailableLocations = getReavailableLocationsForUser(currentUser.id, asset.type);
-                const hasReavailable = userReavailableLocations.length > 0;
-                
                 // Determine status
                 let statusClass, statusText;
-                if (hasReavailable) {
-                    statusClass = 'status-reavailable';
-                    statusText = `${userReavailableLocations.length} Tersedia Semula`;
-                } else if (totalVacancies > 3) {
+                if (totalVacancies > 3) {
                     statusClass = 'status-available';
                     statusText = `${totalVacancies} Tersedia`;
                 } else if (totalVacancies > 0) {
@@ -2860,7 +2893,6 @@
                         <h3 class="asset-title">${asset.name}</h3>
                         <div class="asset-location">
                             <i class="fas fa-map-marker-alt"></i> ${availableLocations} Lokasi Tersedia
-                            ${hasReavailable ? `<span class="reavailable-badge">${userReavailableLocations.length} tersedia semula untuk anda</span>` : ''}
                         </div>
                         <div class="asset-details">
                             <p>${asset.description}</p>
@@ -2879,8 +2911,8 @@
                         </div>
                         <div class="asset-actions">
                             ${totalVacancies > 0 ? `
-                            <button class="btn ${hasReavailable ? 'btn-reavailable' : 'btn-primary'} btn-block apply-now-btn" data-asset-type="${asset.type}">
-                                <i class="fas fa-pen"></i> ${hasReavailable ? 'Mohon Semula (Ada Lokasi Tersedia Semula)' : 'Mohon Sekarang'}
+                            <button class="btn btn-primary btn-block apply-now-btn" data-asset-type="${asset.type}">
+                                <i class="fas fa-pen"></i> Mohon Sekarang
                             </button>
                             ` : `
                             <button class="btn btn-block" disabled style="background-color: #e9ecef; color: #6c757d; cursor: not-allowed;">
@@ -2937,35 +2969,14 @@
                         badgeText = 'Dalam Proses';
                 }
                 
-                // Check if location is now available again
-                const location = vacancies[app.assetType]?.find(loc => loc.id === app.locationId);
-                const isReavailable = app.status === 'rejected' && location && location.vacancies > 0;
-                
                 const item = document.createElement('div');
                 item.className = 'status-item';
                 item.innerHTML = `
                     <div class="status-info">
-                        <h4>${app.assetName} 
-                            ${app.status === 'rejected' && app.rejectionReason ? 
-                                '<span style="font-size: 0.8rem; color: var(--danger); margin-left: 10px;"><i class="fas fa-info-circle"></i> Ada alasan</span>' : 
-                                ''}
-                        </h4>
+                        <h4>${app.assetName}</h4>
                         <p>No. Rujukan: ${app.reference} | Lokasi: ${app.location} | Tarikh: ${formatDate(app.applyDate)}</p>
-                        ${app.status === 'rejected' && app.rejectionReason ? `
-                        <div style="background-color: rgba(220, 53, 69, 0.1); padding: 10px; border-radius: 5px; margin-top: 5px; font-size: 0.9rem;">
-                            <strong><i class="fas fa-times-circle"></i> Alasan Penolakan:</strong> ${app.rejectionReason}
-                        </div>
-                        ` : ''}
-                        ${isReavailable ? `
-                        <div style="background-color: rgba(32, 201, 151, 0.1); padding: 10px; border-radius: 5px; margin-top: 5px; font-size: 0.9rem; border: 1px dashed var(--reavailable);">
-                            <strong><i class="fas fa-redo-alt"></i> Lokasi Tersedia Semula!</strong> Lokasi ini kini mempunyai kekosongan. Anda boleh memohon semula.
-                        </div>
-                        ` : ''}
                     </div>
-                    <div class="status-badge ${isReavailable ? 'badge-reavailable' : badgeClass}">
-                        ${badgeText}
-                        ${isReavailable ? '<br><small style="font-size: 0.7rem;">(Lokasi tersedia semula)</small>' : ''}
-                    </div>
+                    <div class="status-badge ${badgeClass}">${badgeText}</div>
                 `;
                 statusList.appendChild(item);
             });
@@ -3001,14 +3012,7 @@
                         statusBadge = '<span style="padding: 3px 10px; border-radius: 15px; background-color: rgba(40, 167, 69, 0.15); color: var(--success);">Diluluskan</span>';
                         break;
                     case 'rejected':
-                        // Check if location is now available again
-                        const location = vacancies[app.assetType]?.find(loc => loc.id === app.locationId);
-                        const isReavailable = location && location.vacancies > 0;
-                        if (isReavailable) {
-                            statusBadge = '<span style="padding: 3px 10px; border-radius: 15px; background-color: rgba(32, 201, 151, 0.15); color: var(--reavailable); border: 1px dashed var(--reavailable);">Ditolak 🔄</span>';
-                        } else {
-                            statusBadge = '<span style="padding: 3px 10px; border-radius: 15px; background-color: rgba(220, 53, 69, 0.15); color: var(--danger);">Ditolak</span>';
-                        }
+                        statusBadge = '<span style="padding: 3px 10px; border-radius: 15px; background-color: rgba(220, 53, 69, 0.15); color: var(--danger);">Ditolak</span>';
                         break;
                 }
                 
@@ -3057,77 +3061,50 @@
             });
         }
         
-        // ============================================
-        // REAVAILABLE LOCATION FUNCTIONS
-        // ============================================
-        
-        function getReavailableLocationsForUser(userId, assetType) {
-            const userApplications = applications.filter(app => 
-                app.applicantId == userId && 
-                app.assetType === assetType && 
-                app.status === 'rejected'
-            );
+        function loadUsersList() {
+            const usersList = document.getElementById('usersList');
+            const normalUsers = users.filter(u => u.role === 'user');
             
-            const reavailableLocations = [];
-            
-            userApplications.forEach(app => {
-                const location = vacancies[assetType]?.find(loc => loc.id === app.locationId);
-                if (location && location.vacancies > 0) {
-                    reavailableLocations.push({
-                        locationId: location.id,
-                        locationName: location.name,
-                        vacancies: location.vacancies,
-                        applicationId: app.id,
-                        reference: app.reference
-                    });
-                }
-            });
-            
-            return reavailableLocations;
-        }
-        
-        function showAvailableLocationsNotification() {
-            if (currentUser && currentUser.role === 'user') {
-                const notificationContainer = document.getElementById('notificationContainer');
-                notificationContainer.innerHTML = '';
-                
-                // Cari semua lokasi yang pernah ditolak tetapi kini tersedia
-                let allReavailableLocations = [];
-                
-                Object.keys(vacancies).forEach(assetType => {
-                    const reavailableLocs = getReavailableLocationsForUser(currentUser.id, assetType);
-                    allReavailableLocations = [...allReavailableLocations, ...reavailableLocs];
-                });
-                
-                // Tunjukkan notifikasi jika ada lokasi tersedia semula
-                if (allReavailableLocations.length > 0) {
-                    const notification = document.createElement('div');
-                    notification.className = 'available-location-notification';
-                    
-                    notification.innerHTML = `
-                        <h4 style="color: #155724; margin-bottom: 10px;">
-                            <i class="fas fa-exclamation-circle"></i> Lokasi Tersedia Semula!
-                        </h4>
-                        <p style="color: #155724; margin-bottom: 10px;">
-                            ${allReavailableLocations.length} lokasi yang pernah anda mohon kini tersedia semula:
-                        </p>
-                        <ul style="margin-left: 20px; color: #155724;">
-                            ${allReavailableLocations.map(loc => 
-                                `<li><strong>${loc.locationName}</strong> (${loc.vacancies} kosong) - Rujukan: ${loc.reference}</li>`
-                            ).join('')}
-                        </ul>
-                        <p style="color: #155724; margin-top: 10px;">
-                            <i class="fas fa-lightbulb"></i> Anda boleh memohon semula pada lokasi ini melalui borang permohonan.
-                        </p>
-                    `;
-                    
-                    notificationContainer.appendChild(notification);
-                }
+            if (normalUsers.length === 0) {
+                usersList.innerHTML = `
+                    <div class="table-row" style="grid-template-columns: 1fr; text-align: center; padding: 2rem; color: var(--gray);">
+                        <div>
+                            <i class="fas fa-users" style="font-size: 2rem; margin-bottom: 1rem; color: var(--gray);"></i>
+                            <h4>Tiada Pengguna</h4>
+                            <p>Belum ada pengguna berdaftar.</p>
+                        </div>
+                    </div>
+                `;
+                return;
             }
+            
+            usersList.innerHTML = '';
+            normalUsers.forEach((user, index) => {
+                const row = document.createElement('div');
+                row.className = 'table-row';
+                row.innerHTML = `
+                    <div>${index + 1}</div>
+                    <div>${user.name}</div>
+                    <div>${user.email}</div>
+                    <div><span style="color: ${user.status === 'active' ? 'var(--success)' : 'var(--danger)'}; font-weight: bold;">
+                        ${user.status === 'active' ? 'Aktif' : 'Tidak Aktif'}
+                    </span></div>
+                    <div class="action-buttons">
+                        <button class="action-btn" style="background-color: var(--primary); color: white;" data-user-id="${user.id}" data-action="view-user">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn" style="background-color: ${user.status === 'active' ? 'var(--danger)' : 'var(--success)'}; color: white;" 
+                                data-user-id="${user.id}" data-action="toggle-status">
+                            <i class="fas fa-${user.status === 'active' ? 'ban' : 'check'}"></i>
+                        </button>
+                    </div>
+                `;
+                usersList.appendChild(row);
+            });
         }
         
         // ============================================
-        // APPLICATION FUNCTIONS WITH REAVAILABLE FEATURE
+        // APPLICATION FUNCTIONS WITH AUTOCOUNT
         // ============================================
         
         function openApplicationModal(assetType = null) {
@@ -3234,61 +3211,27 @@
             defaultOption.selected = true;
             locationSelect.appendChild(defaultOption);
             
-            // Get user's previous applications to mark rejected locations
-            const userApplications = applications.filter(app => 
-                app.applicantId == currentUser.id && 
-                app.assetType === assetType && 
-                app.status === 'rejected'
-            );
-            
-            // Add available locations with special markers for previously rejected ones
+            // Add available locations
             availableLocations.forEach(location => {
                 const option = document.createElement('option');
                 option.value = location.id;
-                
-                // Check if this location was previously rejected for this user
-                const wasRejected = userApplications.some(app => app.locationId === location.id);
-                
-                if (wasRejected) {
-                    option.className = 'reavailable-option';
-                    option.textContent = `${location.name} (${location.vacancies} kosong)`;
-                } else {
-                    option.textContent = `${location.name} (${location.vacancies} kosong)`;
-                }
-                
+                option.textContent = `${location.name} (${location.vacancies} kosong)`;
                 locationSelect.appendChild(option);
             });
             
             // Show vacancy info
             const totalVacancies = availableLocations.reduce((sum, loc) => sum + loc.vacancies, 0);
-            const reavailableCount = availableLocations.filter(loc => 
-                userApplications.some(app => app.locationId === loc.id)
-            ).length;
-            
-            let infoText = `📊 ${totalVacancies} unit kosong di ${availableLocations.length} lokasi berbeza`;
-            if (reavailableCount > 0) {
-                infoText += `<br><span style="color: var(--reavailable);">🔄 ${reavailableCount} lokasi tersedia semula untuk anda</span>`;
-                vacancyInfo.className = 'vacancy-info reavailable';
-            } else {
-                vacancyInfo.className = totalVacancies > 5 ? 'vacancy-info' : 
-                                       totalVacancies > 0 ? 'vacancy-info warning' : 'vacancy-info danger';
-            }
-            
-            vacancyInfo.innerHTML = infoText;
+            vacancyInfo.textContent = `📊 ${totalVacancies} unit kosong di ${availableLocations.length} lokasi berbeza`;
+            vacancyInfo.className = totalVacancies > 5 ? 'vacancy-info' : 
+                                   totalVacancies > 0 ? 'vacancy-info warning' : 'vacancy-info danger';
             vacancyInfo.style.display = 'block';
             
             // Add change event listener
             locationSelect.addEventListener('change', function() {
                 const selectedLocation = availableLocations.find(loc => loc.id === this.value);
                 if (selectedLocation) {
-                    const wasRejected = userApplications.some(app => app.locationId === selectedLocation.id);
-                    let locationInfo = `📍 ${selectedLocation.name}: ${selectedLocation.vacancies} unit kosong`;
-                    
-                    if (wasRejected) {
-                        locationInfo += `<br><span style="color: var(--reavailable); font-weight: bold;">🔄 Lokasi ini tersedia semula untuk anda!</span>`;
-                    }
-                    
-                    vacancyInfo.innerHTML = locationInfo;
+                    // Update vacancy info for selected location
+                    vacancyInfo.textContent = `📍 ${selectedLocation.name}: ${selectedLocation.vacancies} unit kosong`;
                 }
             });
         }
@@ -3314,14 +3257,6 @@
                 return;
             }
             
-            // Check if this is a reapplication for a previously rejected location
-            const previousApplication = applications.find(app => 
-                app.applicantId === currentUser.id && 
-                app.assetType === assetType && 
-                app.locationId === locationId && 
-                app.status === 'rejected'
-            );
-            
             // Create application
             const application = {
                 id: Date.now(),
@@ -3339,9 +3274,7 @@
                 purpose: document.getElementById('purpose').value,
                 additionalInfo: document.getElementById('additionalInfo').value,
                 status: 'pending',
-                statusText: 'Menunggu Kelulusan Admin',
-                isReapplication: !!previousApplication,
-                previousReference: previousApplication ? previousApplication.reference : null
+                statusText: 'Menunggu Kelulusan Admin'
             };
             
             // Save application
@@ -3359,19 +3292,6 @@
                 localStorage.setItem(STORAGE_KEYS.ASSETS, JSON.stringify(assets));
             }
             
-            // Log reavailable location usage
-            if (previousApplication) {
-                reavailableLocations.push({
-                    userId: currentUser.id,
-                    locationId: locationId,
-                    previousAppId: previousApplication.id,
-                    newAppId: application.id,
-                    date: new Date().toISOString(),
-                    type: 'reapplication'
-                });
-                localStorage.setItem(STORAGE_KEYS.REAVAILABLE_LOG, JSON.stringify(reavailableLocations));
-            }
-            
             // Show success modal
             showSuccessModal(application);
             
@@ -3385,9 +3305,6 @@
             if (document.getElementById('assetsPage').classList.contains('active')) {
                 loadAllAssets();
             }
-            
-            // Update notifications
-            showAvailableLocationsNotification();
         }
         
         function viewApplicationDetails(appId) {
@@ -3397,10 +3314,6 @@
             const modal = document.getElementById('applicationDetailsModal');
             const content = document.getElementById('applicationDetailsContent');
             const footer = document.getElementById('applicationDetailsFooter');
-            
-            // Check if location is now available
-            const location = vacancies[app.assetType]?.find(loc => loc.id === app.locationId);
-            const isReavailable = app.status === 'rejected' && location && location.vacancies > 0;
             
             content.innerHTML = `
                 <div style="background-color: var(--light); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
@@ -3427,24 +3340,6 @@
                             ${app.status === 'pending' ? 'Menunggu Kelulusan' : app.status === 'approved' ? 'Diluluskan' : 'Ditolak'}
                         </span>
                     </div>
-                    ${app.isReapplication ? `
-                    <div class="detail-item">
-                        <span class="detail-label">Jenis Permohonan:</span>
-                        <span class="detail-value" style="color: var(--reavailable); font-weight: bold;">Mohon Semula (Rujukan sebelumnya: ${app.previousReference})</span>
-                    </div>
-                    ` : ''}
-                    ${app.status === 'rejected' && app.rejectionReason ? `
-                    <div class="detail-item">
-                        <span class="detail-label">Alasan Penolakan:</span>
-                        <span class="detail-value">${app.rejectionReason}</span>
-                    </div>
-                    ` : ''}
-                    ${isReavailable ? `
-                    <div class="detail-item">
-                        <span class="detail-label">Status Lokasi:</span>
-                        <span class="detail-value" style="color: var(--reavailable); font-weight: bold;">🔄 Lokasi kini tersedia semula (${location.vacancies} kekosongan)</span>
-                    </div>
-                    ` : ''}
                     ${app.processedDate ? `
                     <div class="detail-item">
                         <span class="detail-label">Tarikh Diproses:</span>
@@ -3490,16 +3385,6 @@
                 <div style="background-color: var(--light); padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;">
                     <h4 style="color: var(--primary); margin-bottom: 1rem;">Maklumat Tambahan</h4>
                     <p>${app.additionalInfo}</p>
-                </div>
-                ` : ''}
-                
-                ${app.status === 'pending' ? `
-                <div style="margin-top: 1.5rem; padding: 1rem; background-color: #fff3cd; border-left: 4px solid #ffc107; border-radius: 4px;">
-                    <h4 style="color: #856404; margin-bottom: 0.5rem;"><i class="fas fa-exclamation-triangle"></i> Tindakan Pentadbir</h4>
-                    <div class="form-group">
-                        <label for="rejectionReasonInput">Alasan Penolakan (jika perlu):</label>
-                        <textarea id="rejectionReasonInput" class="form-control" rows="3" placeholder="Nyatakan alasan jika permohonan ditolak..."></textarea>
-                    </div>
                 </div>
                 ` : ''}
             `;
@@ -3552,14 +3437,6 @@
             app.processedBy = currentUser.name;
             app.processedDate = new Date().toISOString().split('T')[0];
             
-            // Tambah alasan penolakan jika ada
-            if (status === 'rejected') {
-                const rejectionReason = document.getElementById('rejectionReasonInput')?.value;
-                if (rejectionReason) {
-                    app.rejectionReason = rejectionReason;
-                }
-            }
-            
             // Save to localStorage
             localStorage.setItem(STORAGE_KEYS.APPLICATIONS, JSON.stringify(applications));
             
@@ -3580,27 +3457,13 @@
                 // Simpan perubahan
                 localStorage.setItem(STORAGE_KEYS.VACANCIES, JSON.stringify(vacancies));
                 localStorage.setItem(STORAGE_KEYS.ASSETS, JSON.stringify(assets));
-                
-                // Log sebagai lokasi tersedia semula
-                reavailableLocations.push({
-                    userId: app.applicantId,
-                    locationId: app.locationId,
-                    applicationId: app.id,
-                    date: new Date().toISOString(),
-                    type: 'rejected_to_available'
-                });
-                localStorage.setItem(STORAGE_KEYS.REAVAILABLE_LOG, JSON.stringify(reavailableLocations));
             }
             
             // Update dashboard
             loadDashboard();
             
-            // Show confirmation with reason if rejected
-            if (status === 'rejected' && app.rejectionReason) {
-                alert(`Permohonan ${app.reference} telah ditolak.\nAlasan: ${app.rejectionReason}\n\nLokasi ini kini tersedia semula untuk pemohon.`);
-            } else {
-                alert(`Permohonan ${app.reference} telah ${status === 'approved' ? 'diluluskan' : 'ditolak'}`);
-            }
+            // Show confirmation
+            alert(`Permohonan ${app.reference} telah ${status === 'approved' ? 'diluluskan' : 'ditolak'}`);
             
             // If admin is processing, reload the admin applications list
             if (currentUser.role === 'admin') {
@@ -3610,11 +3473,6 @@
             // Update all displays
             if (document.getElementById('assetsPage').classList.contains('active')) {
                 loadAllAssets();
-            }
-            
-            // Update notifications for user if they are viewing
-            if (currentUser.role === 'user') {
-                showAvailableLocationsNotification();
             }
         }
         
@@ -3677,7 +3535,12 @@
                     loadUserApplications();
                 }
             } else if (pageId === 'profilePage') {
+                // Load profile data
                 loadProfileData();
+                // Reset edit mode if active
+                if (isEditingProfile) {
+                    cancelProfileEdit();
+                }
             } else if (pageId === 'usersPage') {
                 loadUsersList();
             }
@@ -3813,14 +3676,36 @@
             document.getElementById('registerForm').addEventListener('submit', handleRegister);
             document.getElementById('forgotPasswordForm').addEventListener('submit', handleForgotPassword);
             document.getElementById('resetPasswordForm').addEventListener('submit', handleResetPassword);
+            document.getElementById('changePasswordForm').addEventListener('submit', handleChangePassword);
             document.getElementById('rentalApplicationForm').addEventListener('submit', submitApplication);
             
             // Password toggles
             document.getElementById('toggleLoginPassword').addEventListener('click', togglePasswordVisibility.bind(null, 'loginPassword', 'toggleLoginPassword'));
             document.getElementById('toggleNewPassword').addEventListener('click', togglePasswordVisibility.bind(null, 'newPassword', 'toggleNewPassword'));
             document.getElementById('toggleConfirmNewPassword').addEventListener('click', togglePasswordVisibility.bind(null, 'confirmNewPassword', 'toggleConfirmNewPassword'));
+            document.getElementById('toggleCurrentPassword').addEventListener('click', togglePasswordVisibility.bind(null, 'currentPassword', 'toggleCurrentPassword'));
+            document.getElementById('toggleNewPasswordProfile').addEventListener('click', togglePasswordVisibility.bind(null, 'newPasswordProfile', 'toggleNewPasswordProfile'));
+            document.getElementById('toggleConfirmNewPasswordProfile').addEventListener('click', togglePasswordVisibility.bind(null, 'confirmNewPasswordProfile', 'toggleConfirmNewPasswordProfile'));
+            
+            // Profile edit buttons
+            document.getElementById('editProfileBtn').addEventListener('click', startProfileEdit);
+            document.getElementById('saveProfileBtn').addEventListener('click', saveProfileChanges);
+            document.getElementById('cancelEditBtn').addEventListener('click', cancelProfileEdit);
+            
+            // Change password button
+            document.getElementById('changePasswordBtn').addEventListener('click', () => {
+                document.getElementById('changePasswordModal').style.display = 'flex';
+            });
             
             // Modal close buttons
+            document.getElementById('closeChangePasswordModal').addEventListener('click', () => closeModal('changePasswordModal'));
+            document.getElementById('cancelChangePassword').addEventListener('click', () => closeModal('changePasswordModal'));
+            
+            // Application buttons
+            document.getElementById('newApplicationBtn').addEventListener('click', () => openApplicationModal());
+            document.getElementById('applyNewBtn').addEventListener('click', () => openApplicationModal());
+            
+            // Modal controls
             document.getElementById('closeModal').addEventListener('click', () => closeModal('applicationModal'));
             document.getElementById('cancelApplication').addEventListener('click', () => closeModal('applicationModal'));
             document.getElementById('closeSuccessModal').addEventListener('click', () => closeModal('successModal'));
