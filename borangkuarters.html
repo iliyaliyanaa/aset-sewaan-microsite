@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borang Permohonan Kuarters</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a5f7a;
+            --secondary: #57c5b6;
+            --accent: #159895;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --kuarters-a: #9b59b6;
+            --kuarters-b: #3498db;
+            --kuarters-c: #2ecc71;
+            --kuarters-d: #e74c3c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+        }
+        
+        .form-section {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-gray);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title i {
+            font-size: 1.2rem;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-group label.required:after {
+            content: ' *';
+            color: var(--danger);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26, 95, 122, 0.1);
+        }
+        
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 5px;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        
+        .radio-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+        }
+        
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border-radius: 6px;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(26, 95, 122, 0.3);
+        }
+        
+        .btn-secondary {
+            background-color: var(--light-gray);
+            color: var(--dark);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #dee2e6;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--light-gray);
+        }
+        
+        /* Kuarters Preview in Maklumat Kuarters Section */
+        .kuarters-preview-container {
+            margin-top: 25px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: var(--light);
+        }
+        
+        .preview-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .preview-header h3 {
+            font-size: 1.2rem;
+            margin: 0;
+        }
+        
+        .preview-refresh {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .preview-refresh:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .kuarters-preview-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+        
+        @media (max-width: 992px) {
+            .kuarters-preview-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .kuarters-image-container {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+        }
+        
+        .kuarters-image {
+            width: 100%;
+            max-width: 350px;
+            height: 200px;
+            background-color: var(--light-gray);
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .kuarters-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .image-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--gray);
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .image-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            opacity: 0.5;
+        }
+        
+        .kuarters-details {
+            padding: 20px;
+            background-color: white;
+        }
+        
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .detail-label {
+            color: var(--gray);
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+        
+        .detail-value {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+        
+        .kuarters-class-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+            margin-right: 5px;
+        }
+        
+        .class-a {
+            background-color: var(--kuarters-a);
+        }
+        
+        .class-b {
+            background-color: var(--kuarters-b);
+        }
+        
+        .class-c {
+            background-color: var(--kuarters-c);
+        }
+        
+        .class-d {
+            background-color: var(--kuarters-d);
+        }
+        
+        .availability-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .available {
+            background-color: rgba(40, 167, 69, 0.15);
+            color: var(--success);
+        }
+        
+        .occupied {
+            background-color: rgba(220, 53, 69, 0.15);
+            color: var(--danger);
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        
+        .available .status-dot {
+            background-color: var(--success);
+        }
+        
+        .occupied .status-dot {
+            background-color: var(--danger);
+        }
+        
+        /* Alert Messages */
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .alert-info {
+            background-color: rgba(26, 95, 122, 0.1);
+            color: var(--primary);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .alert-success {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+            border-left: 4px solid var(--success);
+        }
+        
+        /* Loading Spinner */
+        .spinner {
+            display: none;
+            width: 30px;
+            height: 30px;
+            border: 3px solid var(--light-gray);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Auto-suggestion */
+        .suggestion-box {
+            position: absolute;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            z-index: 100;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .suggestion-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .suggestion-item:hover {
+            background-color: var(--light-gray);
+        }
+        
+        /* Info Box */
+        .info-box {
+            background-color: rgba(26, 95, 122, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .info-box h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+        
+        .info-box ul {
+            padding-left: 20px;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .info-box li {
+            margin-bottom: 5px;
+        }
+        
+        /* Status Indicator */
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: rgba(26, 95, 122, 0.05);
+            border-radius: 8px;
+        }
+        
+        .status-dot-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--success);
+        }
+        
+        .status-dot-indicator.pending {
+            background-color: var(--warning);
+        }
+        
+        /* Responsive */
+        @media (max-width: 576px) {
+            body {
+                padding: 10px;
+            }
+            
+            .form-section {
+                padding: 20px;
+            }
+            
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1><i class="fas fa-home"></i> Borang Permohonan Kuarters</h1>
+            <p>Sistem Sewaan Kuarters Kerajaan - Permohonan Rasmi</p>
+        </div>
+        
+        <!-- Status Indicator -->
+        <div class="status-indicator">
+            <div class="status-dot-indicator"></div>
+            <span>Sila lengkapkan semua maklumat yang diperlukan</span>
+        </div>
+        
+        <!-- Borang Permohonan -->
+        <div class="form-container">
+            <!-- Info Pemohon -->
+            <div class="form-section">
+                <h2 class="section-title"><i class="fas fa-user-tie"></i> MAKLUMAT PEMOHON</h2>
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Maklumat pemohon akan diisi secara automatik dari data profil anda</span>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="required">Nama Penuh Pemohon</label>
+                        <input type="text" class="form-control" id="namaPemohon" required readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="required">No. Kad Pengenalan / No. Pekerja</label>
+                        <input type="text" class="form-control" id="noKP" required readonly>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="required">Jawatan / Gred</label>
+                        <select class="form-control" id="gredJawatan" required>
+                            <option value="">Sila pilih gred</option>
+                            <option value="JUSA">JUSA</option>
+                            <option value="N54">N54 (Pengarah)</option>
+                            <option value="N48">N48 (Timbalan Pengarah)</option>
+                            <option value="N44">N44 (Ketua Penolong Pengarah)</option>
+                            <option value="N41">N41 (Penolong Pengarah)</option>
+                            <option value="F41">F41 (Jurutera)</option>
+                            <option value="F38">F38 (Penolong Jurutera)</option>
+                            <option value="S41">S41 (Pegawai Perubatan)</option>
+                            <option value="S38">S38 (Penolong Pegawai Perubatan)</option>
+                            <option value="M41">M41 (Pegawai Tadbir)</option>
+                            <option value="M38">M38 (Penolong Pegawai Tadbir)</option>
+                            <option value="W41">W41 (Pegawai Teknologi Maklumat)</option>
+                            <option value="W38">W38 (Penolong Pegawai Teknologi Maklumat)</option>
+                            <option value="A29">A29 (Pembantu Tadbir)</option>
+                            <option value="A19">A19 (Pembantu Am Pejabat)</option>
+                            <option value="R14">R14 (Pemandu)</option>
+                        </select>
+                        <small class="text-muted">Pilihan gred akan menentukan kelas kuarters yang layak</small>
+                    </div>
+                    <div class="form-group">
+                        <label class="required">Kementerian / Jabatan</label>
+                        <input type="text" class="form-control" id="jabatan" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="required">Alamat Kem / Jabatan</label>
+                    <textarea class="form-control" id="alamatJabatan" rows="3" required></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="required">Jarak Kuarters ke Tempat Kerja (km)</label>
+                        <input type="number" class="form-control" id="jarakKerja" min="0" step="0.1" required>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Maklumat Keluarga -->
+            <div class="form-section">
+                <h2 class="section-title"><i class="fas fa-users"></i> MAKLUMAT KELUARGA</h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="required">Status Perkahwinan</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="statusKahwin" name="statusPerkahwinan" value="Berkahwin" required>
+                                <label for="statusKahwin">Berkahwin</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="statusTidakKahwin" name="statusPerkahwinan" value="Tidak Berkahwin">
+                                <label for="statusTidakKahwin">Tidak Berkahwin</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="statusBujang" name="statusPerkahwinan" value="Bujang">
+                                <label for="statusBujang">Bujang</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="required">Jumlah Tanggungan</label>
+                        <select class="form-control" id="jumlahTanggungan" required>
+                            <option value="">Sila pilih</option>
+                            <option value="0">Tiada</option>
+                            <option value="1">1 orang</option>
+                            <option value="2">2 orang</option>
+                            <option value="3">3 orang</option>
+                            <option value="4">4 orang</option>
+                            <option value="5">5 orang atau lebih</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Maklumat Kuarters dengan PREVIEW -->
+            <div class="form-section">
+                <h2 class="section-title"><i class="fas fa-home"></i> MAKLUMAT KUARTERS</h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="required">Kelas Kuarters</label>
+                        <input type="text" class="form-control" id="kelasKuarters" readonly>
+                        <small class="text-muted">Ditentukan secara automatik berdasarkan gred jawatan</small>
+                    </div>
+                    <div class="form-group">
+                        <label class="required">Unit Kuarters</label>
+                        <select class="form-control" id="unitKuarters" required disabled>
+                            <option value="">Sila pilih gred dahulu</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="required">Tarikh Masuk Rumah Diharapkan</label>
+                        <input type="date" class="form-control" id="tarikhMasuk" required>
+                    </div>
+                </div>
+                
+                <!-- PREVIEW KUARTERS -->
+                <div class="kuarters-preview-container">
+                    <div class="preview-header">
+                        <h3><i class="fas fa-eye"></i> PREVIEW KUARTERS YANG LAYAK</h3>
+                        <button class="preview-refresh" id="refreshPreview" title="Refresh preview">
+                            <i class="fas fa-redo-alt"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="kuarters-preview-content">
+                        <div class="kuarters-image-container">
+                            <div class="kuarters-image" id="kuartersImage">
+                                <div class="image-placeholder">
+                                    <i class="fas fa-home"></i>
+                                    <p>Pilih gred jawatan untuk melihat gambar kuarters</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="kuarters-details">
+                            <div class="detail-grid">
+                                <div class="detail-item">
+                                    <span class="detail-label">Kelas Kuarters:</span>
+                                    <span class="detail-value">
+                                        <span class="kuarters-class-badge" id="previewKelas">-</span>
+                                    </span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Gred Layak:</span>
+                                    <span class="detail-value" id="previewGred">-</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Luas Keluasan:</span>
+                                    <span class="detail-value" id="previewLuas">-</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Bilangan Bilik:</span>
+                                    <span class="detail-value" id="previewBilik">-</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Kemudahan:</span>
+                                    <span class="detail-value" id="previewKemudahan">-</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Sewa Bulanan:</span>
+                                    <span class="detail-value" id="previewSewa">-</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Status Unit:</span>
+                                    <span class="detail-value">
+                                        <span class="availability-status" id="previewStatus">
+                                            <span class="status-dot"></span>
+                                            <span id="statusText">-</span>
+                                        </span>
+                                    </span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Lokasi:</span>
+                                    <span class="detail-value" id="previewLokasi">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <h4><i class="fas fa-info-circle"></i> Maklumat Penting</h4>
+                    <ul>
+                        <li>Kelas kuarters ditentukan berdasarkan gred jawatan</li>
+                        <li>Hanya unit yang berstatus "Tersedia" boleh dipilih</li>
+                        <li>Pemohon dikehendaki mengosongkan kuarters dalam tempoh 30 hari selepas penamatan perkhidmatan</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Justifikasi -->
+            <div class="form-section">
+                <h2 class="section-title"><i class="fas fa-file-alt"></i> JUSTIFIKASI PERMOHONAN</h2>
+                
+                <div class="form-group">
+                    <label class="required">Sebab dan Justifikasi Permohonan</label>
+                    <textarea class="form-control" id="justifikasi" rows="4" required placeholder="Sila nyatakan sebab-sebab permohonan kuarters ini..."></textarea>
+                    <small class="text-muted">Sila berikan justifikasi yang lengkap untuk pertimbangan pihak berkuasa</small>
+                </div>
+            </div>
+            
+            <!-- Tarikh Mohon -->
+            <div class="form-section">
+                <h2 class="section-title"><i class="fas fa-calendar-alt"></i> TARIKH PERMOHONAN</h2>
+                
+                <div class="form-group">
+                    <label>Tarikh Permohonan</label>
+                    <input type="text" class="form-control" id="tarikhMohon" readonly>
+                </div>
+                
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i>
+                    <span>No. Rujukan Permohonan: <strong id="noRujukan">KUARTERS-2024-0001</strong></span>
+                </div>
+            </div>
+            
+            <!-- Actions -->
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" id="btnKembali">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                </button>
+                <button type="button" class="btn btn-secondary" id="btnSimpan">
+                    <i class="fas fa-save"></i> Simpan Sementara
+                </button>
+                <button type="submit" class="btn btn-primary" id="btnHantar">
+                    <i class="fas fa-paper-plane"></i> Hantar Permohonan
+                </button>
+            </div>
+            
+            <div class="spinner" id="loadingSpinner"></div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+        <div style="background: white; padding: 40px; border-radius: 10px; text-align: center; max-width: 500px; width: 90%;">
+            <div style="font-size: 4rem; color: var(--success); margin-bottom: 20px;">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3 style="color: var(--primary); margin-bottom: 15px;">Permohonan Berjaya Dihantar!</h3>
+            <p style="margin-bottom: 20px;">No. Rujukan: <strong id="modalRefNumber">KUARTERS-2024-0001</strong></p>
+            <p style="color: var(--gray); margin-bottom: 30px;">Permohonan anda telah berjaya dihantar dan akan diproses oleh pihak berkuasa.</p>
+            <button class="btn btn-primary" id="btnTutupModal">
+                <i class="fas fa-check"></i> OK
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Data kuarters berdasarkan kelas dengan lokasi
+        const KUARTERS_DATA = {
+            'A': {
+                name: 'Kelas A',
+                color: 'class-a',
+                gred: ['JUSA', 'N54'],
+                luas: '1800-2200 kaki persegi',
+                bilik: '4-5 bilik',
+                kemudahan: '3 bilik air, dapur moden, parking 2 kereta, aircond',
+                sewa: 'RM 450-550',
+                lokasi: 'Kawasan VIP, berhampiran pejabat utama',
+                image: 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+                units: [
+                    { id: 'KA001', name: 'Kuarters A1 - Blok A', status: 'available' },
+                    { id: 'KA002', name: 'Kuarters A2 - Blok A', status: 'available' },
+                    { id: 'KA003', name: 'Kuarters A3 - Blok B', status: 'occupied' },
+                    { id: 'KA004', name: 'Kuarters A4 - Blok B', status: 'available' }
+                ]
+            },
+            'B': {
+                name: 'Kelas B',
+                color: 'class-b',
+                gred: ['N48', 'N44', 'F41', 'S41'],
+                luas: '1500-1800 kaki persegi',
+                bilik: '3-4 bilik',
+                kemudahan: '2 bilik air, dapur, parking 2 kereta, kipas siling',
+                sewa: 'RM 350-450',
+                lokasi: 'Kawasan tengah, berhampiran kemudahan awam',
+                image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+                units: [
+                    { id: 'KB001', name: 'Kuarters B1 - Blok C', status: 'available' },
+                    { id: 'KB002', name: 'Kuarters B2 - Blok C', status: 'occupied' },
+                    { id: 'KB003', name: 'Kuarters B3 - Blok D', status: 'available' },
+                    { id: 'KB004', name: 'Kuarters B4 - Blok D', status: 'occupied' },
+                    { id: 'KB005', name: 'Kuarters B5 - Blok E', status: 'available' }
+                ]
+            },
+            'C': {
+                name: 'Kelas C',
+                color: 'class-c',
+                gred: ['N41', 'F38', 'S38', 'M41', 'W41'],
+                luas: '1200-1500 kaki persegi',
+                bilik: '3 bilik',
+                kemudahan: '2 bilik air, dapur, parking 1 kereta',
+                sewa: 'RM 250-350',
+                lokasi: 'Kawasan luar, 5 minit ke pejabat',
+                image: 'https://images.unsplash.com/photo-1558036117-15e82a2c9a9a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+                units: [
+                    { id: 'KC001', name: 'Kuarters C1 - Blok F', status: 'available' },
+                    { id: 'KC002', name: 'Kuarters C2 - Blok F', status: 'available' },
+                    { id: 'KC003', name: 'Kuarters C3 - Blok G', status: 'occupied' },
+                    { id: 'KC004', name: 'Kuarters C4 - Blok G', status: 'available' },
+                    { id: 'KC005', name: 'Kuarters C5 - Blok H', status: 'available' },
+                    { id: 'KC006', name: 'Kuarters C6 - Blok H', status: 'occupied' }
+                ]
+            },
+            'D': {
+                name: 'Kelas D',
+                color: 'class-d',
+                gred: ['M38', 'W38', 'A29', 'A19', 'R14'],
+                luas: '800-1200 kaki persegi',
+                bilik: '2 bilik',
+                kemudahan: '1 bilik air, dapur kecil, parking 1 kereta',
+                sewa: 'RM 150-250',
+                lokasi: 'Kawasan asrama, berhampiran pintu masuk',
+                image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+                units: [
+                    { id: 'KD001', name: 'Kuarters D1 - Blok I', status: 'available' },
+                    { id: 'KD002', name: 'Kuarters D2 - Blok I', status: 'occupied' },
+                    { id: 'KD003', name: 'Kuarters D3 - Blok J', status: 'available' },
+                    { id: 'KD004', name: 'Kuarters D4 - Blok J', status: 'available' },
+                    { id: 'KD005', name: 'Kuarters D5 - Blok K', status: 'occupied' },
+                    { id: 'KD006', name: 'Kuarters D6 - Blok K', status: 'available' },
+                    { id: 'KD007', name: 'Kuarters D7 - Blok L', status: 'available' }
+                ]
+            }
+        };
+
+        // Pemetaan gred ke kelas kuarters
+        const GRED_TO_CLASS = {
+            'JUSA': 'A',
+            'N54': 'A',
+            'N48': 'B',
+            'N44': 'B',
+            'F41': 'B',
+            'S41': 'B',
+            'N41': 'C',
+            'F38': 'C',
+            'S38': 'C',
+            'M41': 'C',
+            'W41': 'C',
+            'M38': 'D',
+            'W38': 'D',
+            'A29': 'D',
+            'A19': 'D',
+            'R14': 'D'
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeForm();
+            setupEventListeners();
+        });
+
+        function initializeForm() {
+            // Load user data from sessionStorage
+            try {
+                const userData = JSON.parse(sessionStorage.getItem('currentUserForBorang')) || 
+                                JSON.parse(sessionStorage.getItem('current_asset_user')) ||
+                                JSON.parse(localStorage.getItem('current_asset_user'));
+                
+                if (userData) {
+                    document.getElementById('namaPemohon').value = userData.name || '';
+                    document.getElementById('noKP').value = userData.ic || '';
+                    
+                    // Auto-generate reference number
+                    const refNumber = `KUARTERS-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 1000)).padStart(4, '0')}`;
+                    document.getElementById('noRujukan').textContent = refNumber;
+                }
+            } catch (e) {
+                console.error('Error loading user data:', e);
+            }
+            
+            // Set today's date as application date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('tarikhMohon').value = formatDate(today);
+            
+            // Set minimum date for tarikh masuk (tomorrow)
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            document.getElementById('tarikhMasuk').min = tomorrow.toISOString().split('T')[0];
+            
+            // Initialize preview status
+            updatePreviewStatus();
+        }
+
+        function setupEventListeners() {
+            // Gred selection change
+            document.getElementById('gredJawatan').addEventListener('change', function() {
+                updateKuartersClass();
+                updateUnitOptions();
+                updateKuartersPreview();
+            });
+            
+            // Unit selection change
+            document.getElementById('unitKuarters').addEventListener('change', function() {
+                updateKuartersPreview();
+            });
+            
+            // Refresh preview button
+            document.getElementById('refreshPreview').addEventListener('click', function() {
+                updateKuartersPreview(true);
+            });
+            
+            // Form submission
+            document.getElementById('btnHantar').addEventListener('click', submitForm);
+            
+            // Save button
+            document.getElementById('btnSimpan').addEventListener('click', saveDraft);
+            
+            // Back button
+            document.getElementById('btnKembali').addEventListener('click', function() {
+                window.history.back();
+            });
+            
+            // Close modal
+            document.getElementById('btnTutupModal').addEventListener('click', function() {
+                document.getElementById('successModal').style.display = 'none';
+                window.close(); // Close the tab
+            });
+            
+            // Real-time validation
+            document.getElementById('jarakKerja').addEventListener('input', function() {
+                if (this.value < 0) this.value = 0;
+            });
+            
+            // Tarikh masuk validation
+            document.getElementById('tarikhMasuk').addEventListener('change', function() {
+                validateTarikhMasuk();
+            });
+        }
+
+        function updateKuartersClass() {
+            const gred = document.getElementById('gredJawatan').value;
+            const kelasKuarters = document.getElementById('kelasKuarters');
+            const unitSelect = document.getElementById('unitKuarters');
+            
+            if (gred && GRED_TO_CLASS[gred]) {
+                const kelas = GRED_TO_CLASS[gred];
+                const kelasData = KUARTERS_DATA[kelas];
+                
+                kelasKuarters.value = kelasData.name;
+                unitSelect.disabled = false;
+                
+                // Update preview header
+                document.querySelector('.preview-header h3').innerHTML = `<i class="fas fa-eye"></i> PREVIEW KUARTERS ${kelasData.name}`;
+            } else {
+                kelasKuarters.value = '';
+                unitSelect.disabled = true;
+                unitSelect.innerHTML = '<option value="">Sila pilih gred dahulu</option>';
+                
+                // Reset preview header
+                document.querySelector('.preview-header h3').innerHTML = `<i class="fas fa-eye"></i> PREVIEW KUARTERS YANG LAYAK`;
+            }
+        }
+
+        function updateUnitOptions() {
+            const gred = document.getElementById('gredJawatan').value;
+            const unitSelect = document.getElementById('unitKuarters');
+            
+            if (!gred || !GRED_TO_CLASS[gred]) return;
+            
+            const kelas = GRED_TO_CLASS[gred];
+            const kelasData = KUARTERS_DATA[kelas];
+            
+            unitSelect.innerHTML = '<option value="">Sila pilih unit</option>';
+            
+            kelasData.units.forEach(unit => {
+                const option = document.createElement('option');
+                option.value = unit.id;
+                option.textContent = `${unit.name} (${unit.status === 'available' ? 'Tersedia' : 'Telah Ditempati'})`;
+                option.disabled = unit.status !== 'available';
+                if (unit.status === 'available') {
+                    option.dataset.status = 'available';
+                }
+                unitSelect.appendChild(option);
+            });
+        }
+
+        function updateKuartersPreview(forceRefresh = false) {
+            const gred = document.getElementById('gredJawatan').value;
+            const unitId = document.getElementById('unitKuarters').value;
+            
+            if (!gred || !GRED_TO_CLASS[gred]) {
+                resetPreview();
+                return;
+            }
+            
+            const kelas = GRED_TO_CLASS[gred];
+            const kelasData = KUARTERS_DATA[kelas];
+            
+            // Update image
+            const imageContainer = document.getElementById('kuartersImage');
+            imageContainer.innerHTML = `
+                <img src="${kelasData.image}${forceRefresh ? '&' : '?'}refresh=${Date.now()}" alt="${kelasData.name}" onerror="this.src=''">
+            `;
+            
+            // Update class badge
+            const previewKelas = document.getElementById('previewKelas');
+            previewKelas.textContent = kelasData.name;
+            previewKelas.className = `kuarters-class-badge ${kelasData.color}`;
+            
+            // Update details
+            document.getElementById('previewGred').textContent = kelasData.gred.join(', ');
+            document.getElementById('previewLuas').textContent = kelasData.luas;
+            document.getElementById('previewBilik').textContent = kelasData.bilik;
+            document.getElementById('previewKemudahan').textContent = kelasData.kemudahan;
+            document.getElementById('previewSewa').textContent = kelasData.sewa;
+            document.getElementById('previewLokasi').textContent = kelasData.lokasi;
+            
+            // Update status based on selected unit
+            updatePreviewStatus(unitId, kelasData);
+        }
+
+        function updatePreviewStatus(unitId = null, kelasData = null) {
+            const statusElement = document.getElementById('previewStatus');
+            const statusText = document.getElementById('statusText');
+            
+            if (!unitId || !kelasData) {
+                statusElement.className = 'availability-status';
+                statusText.textContent = 'Sila pilih unit';
+                return;
+            }
+            
+            const selectedUnit = kelasData.units.find(unit => unit.id === unitId);
+            
+            if (selectedUnit) {
+                if (selectedUnit.status === 'available') {
+                    statusElement.className = 'availability-status available';
+                    statusText.textContent = 'Tersedia';
+                } else {
+                    statusElement.className = 'availability-status occupied';
+                    statusText.textContent = 'Telah Ditempati';
+                }
+            } else {
+                statusElement.className = 'availability-status';
+                statusText.textContent = 'Tidak Dijumpai';
+            }
+        }
+
+        function resetPreview() {
+            const imageContainer = document.getElementById('kuartersImage');
+            imageContainer.innerHTML = `
+                <div class="image-placeholder">
+                    <i class="fas fa-home"></i>
+                    <p>Pilih gred jawatan untuk melihat gambar kuarters</p>
+                </div>
+            `;
+            
+            document.getElementById('previewKelas').textContent = '-';
+            document.getElementById('previewKelas').className = 'kuarters-class-badge';
+            document.getElementById('previewGred').textContent = '-';
+            document.getElementById('previewLuas').textContent = '-';
+            document.getElementById('previewBilik').textContent = '-';
+            document.getElementById('previewKemudahan').textContent = '-';
+            document.getElementById('previewSewa').textContent = '-';
+            document.getElementById('previewLokasi').textContent = '-';
+            
+            const statusElement = document.getElementById('previewStatus');
+            statusElement.className = 'availability-status';
+            document.getElementById('statusText').textContent = '-';
+        }
+
+        function validateTarikhMasuk() {
+            const tarikhMasuk = document.getElementById('tarikhMasuk').value;
+            const today = new Date();
+            const selectedDate = new Date(tarikhMasuk);
+            
+            if (selectedDate < today) {
+                alert('Tarikh masuk tidak boleh kurang dari hari ini');
+                document.getElementById('tarikhMasuk').value = '';
+                return false;
+            }
+            
+            // Check if date is within 3 months
+            const threeMonthsLater = new Date();
+            threeMonthsLater.setMonth(threeMonthsLater.getMonth() + 3);
+            
+            if (selectedDate > threeMonthsLater) {
+                if (!confirm('Tarikh yang dipilih adalah lebih dari 3 bulan dari sekarang. Adakah anda pasti?')) {
+                    document.getElementById('tarikhMasuk').value = '';
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+
+        function validateForm() {
+            const requiredFields = [
+                'namaPemohon', 'noKP', 'gredJawatan', 'jabatan',
+                'alamatJabatan', 'tarikhMasuk', 'jarakKerja', 'justifikasi'
+            ];
+            
+            for (const fieldId of requiredFields) {
+                const field = document.getElementById(fieldId);
+                if (!field.value.trim()) {
+                    alert(`Sila isi ${field.labels[0].textContent}`);
+                    field.focus();
+                    return false;
+                }
+            }
+            
+            // Check radio buttons
+            const maritalStatus = document.querySelector('input[name="statusPerkahwinan"]:checked');
+            if (!maritalStatus) {
+                alert('Sila pilih status perkahwinan');
+                return false;
+            }
+            
+            // Check jumlah tanggungan
+            if (!document.getElementById('jumlahTanggungan').value) {
+                alert('Sila pilih jumlah tanggungan');
+                return false;
+            }
+            
+            // Check unit kuarters
+            const unitKuarters = document.getElementById('unitKuarters');
+            if (!unitKuarters.value) {
+                alert('Sila pilih unit kuarters');
+                return false;
+            }
+            
+            // Check if selected unit is available
+            const selectedOption = unitKuarters.options[unitKuarters.selectedIndex];
+            if (selectedOption.disabled) {
+                alert('Unit yang dipilih tidak tersedia. Sila pilih unit lain.');
+                return false;
+            }
+            
+            // Validate tarikh masuk
+            if (!validateTarikhMasuk()) {
+                return false;
+            }
+            
+            return true;
+        }
+
+        function submitForm() {
+            if (!validateForm()) return;
+            
+            // Show loading
+            const spinner = document.getElementById('loadingSpinner');
+            const submitBtn = document.getElementById('btnHantar');
+            spinner.style.display = 'block';
+            submitBtn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Create application object
+                const application = {
+                    reference: document.getElementById('noRujukan').textContent,
+                    nama: document.getElementById('namaPemohon').value,
+                    noKP: document.getElementById('noKP').value,
+                    gred: document.getElementById('gredJawatan').value,
+                    jabatan: document.getElementById('jabatan').value,
+                    alamatJabatan: document.getElementById('alamatJabatan').value,
+                    statusPerkahwinan: document.querySelector('input[name="statusPerkahwinan"]:checked').value,
+                    jumlahTanggungan: document.getElementById('jumlahTanggungan').value,
+                    kelasKuarters: document.getElementById('kelasKuarters').value,
+                    unitKuarters: document.getElementById('unitKuarters').value,
+                    tarikhMasuk: document.getElementById('tarikhMasuk').value,
+                    jarakKerja: document.getElementById('jarakKerja').value + ' km',
+                    justifikasi: document.getElementById('justifikasi').value,
+                    tarikhMohon: document.getElementById('tarikhMohon').value,
+                    status: 'pending'
+                };
+                
+                // Save to localStorage
+                saveApplication(application);
+                
+                // Update modal reference
+                document.getElementById('modalRefNumber').textContent = application.reference;
+                
+                // Hide loading
+                spinner.style.display = 'none';
+                submitBtn.disabled = false;
+                
+                // Show success modal
+                document.getElementById('successModal').style.display = 'flex';
+                
+            }, 2000);
+        }
+
+        function saveApplication(application) {
+            // Get existing applications
+            const existingApps = JSON.parse(localStorage.getItem('user_applications') || '[]');
+            
+            // Add new application
+            existingApps.push({
+                ...application,
+                id: Date.now(),
+                applicantId: JSON.parse(sessionStorage.getItem('current_asset_user') || '{}').id,
+                previewImage: document.getElementById('kuartersImage').querySelector('img')?.src || ''
+            });
+            
+            // Save back to localStorage
+            localStorage.setItem('user_applications', JSON.stringify(existingApps));
+            
+            // Also save to sessionStorage for main app to access
+            sessionStorage.setItem('latest_application', JSON.stringify(application));
+        }
+
+        function saveDraft() {
+            // Similar to submit but with draft status
+            const application = {
+                reference: document.getElementById('noRujukan').textContent,
+                nama: document.getElementById('namaPemohon').value,
+                noKP: document.getElementById('noKP').value,
+                gred: document.getElementById('gredJawatan').value,
+                tarikhMohon: document.getElementById('tarikhMohon').value,
+                status: 'draft'
+            };
+            
+            // Save draft
+            const drafts = JSON.parse(localStorage.getItem('draft_applications') || '[]');
+            drafts.push(application);
+            localStorage.setItem('draft_applications', JSON.stringify(drafts));
+            
+            alert('Permohonan telah disimpan sebagai draf.');
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('ms-MY', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+    </script>
+</body>
+</html>
