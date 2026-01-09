@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Borang Permohonan Kuarters</title>
+    <title>Sistem Aset Sewaan - Portal Utama</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -18,10 +18,8 @@
             --danger: #dc3545;
             --gray: #6c757d;
             --light-gray: #e9ecef;
-            --kuarters-a: #9b59b6;
-            --kuarters-b: #3498db;
-            --kuarters-c: #2ecc71;
-            --kuarters-d: #e74c3c;
+            --admin-primary: #2c3e50;
+            --admin-secondary: #34495e;
         }
         
         * {
@@ -34,496 +32,715 @@
         body {
             background-color: #f5f7fa;
             color: var(--dark);
-            padding: 20px;
-            min-height: 100vh;
         }
         
         .container {
-            max-width: 1200px;
+            width: 100%;
+            max-width: 1400px;
             margin: 0 auto;
+            padding: 0 20px;
         }
         
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 25px;
+        /* ===== AUTHENTICATION PAGES ===== */
+        .auth-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            padding: 20px;
+        }
+        
+        .auth-container {
+            display: flex;
+            width: 100%;
+            max-width: 1000px;
+            background-color: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            min-height: 600px;
+        }
+        
+        .auth-left {
+            flex: 1;
             background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
             color: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             position: relative;
             overflow: hidden;
         }
         
-        .header h1 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-        
-        .header p {
-            opacity: 0.9;
-        }
-        
-        .form-section {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-            margin-bottom: 30px;
-        }
-        
-        .section-title {
-            color: var(--primary);
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--light-gray);
+        .auth-right {
+            flex: 1;
+            padding: 50px 40px;
             display: flex;
-            align-items: center;
-            gap: 10px;
+            flex-direction: column;
+            justify-content: center;
         }
         
-        .section-title i {
-            font-size: 1.2rem;
-        }
-        
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        @media (max-width: 768px) {
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--dark);
-        }
-        
-        .form-group label.required:after {
-            content: ' *';
-            color: var(--danger);
-        }
-        
-        .form-control {
+        .auth-form-container {
             width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 1rem;
-            transition: all 0.3s;
+            max-width: 400px;
+            margin: 0 auto;
         }
         
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(26, 95, 122, 0.1);
-        }
-        
-        select.form-control {
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 15px center;
-            background-size: 16px;
-            padding-right: 40px;
-        }
-        
-        .radio-group {
+        .auth-tabs {
             display: flex;
-            gap: 20px;
-            margin-top: 5px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--light-gray);
         }
         
-        .radio-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-        }
-        
-        .radio-option input[type="radio"] {
-            width: 18px;
-            height: 18px;
-        }
-        
-        textarea.form-control {
-            min-height: 100px;
-            resize: vertical;
-        }
-        
-        .btn {
-            padding: 12px 25px;
-            border-radius: 6px;
+        .auth-tab {
+            flex: 1;
+            padding: 15px;
+            background: none;
             border: none;
-            font-weight: 500;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gray);
             cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 1rem;
+            position: relative;
+            transition: color 0.3s;
         }
         
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-            color: white;
+        .auth-tab.active {
+            color: var(--primary);
         }
         
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(26, 95, 122, 0.3);
+        .auth-tab.active:after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary);
+            border-radius: 3px 3px 0 0;
         }
         
-        .btn-secondary {
-            background-color: var(--light-gray);
-            color: var(--dark);
+        .auth-form {
+            display: none;
         }
         
-        .btn-secondary:hover {
-            background-color: #dee2e6;
+        .auth-form.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
         }
         
-        .form-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 15px;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid var(--light-gray);
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        /* Kuarters Preview in Maklumat Kuarters Section */
-        .kuarters-preview-container {
-            margin-top: 25px;
-            border: 1px solid var(--light-gray);
+        .auth-input-with-icon {
+            position: relative;
+        }
+        
+        .auth-input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+        
+        .auth-input {
+            width: 100%;
+            padding: 14px 15px 14px 45px;
+            border: 1px solid #ddd;
             border-radius: 8px;
-            overflow: hidden;
-            background-color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s;
         }
         
-        .preview-header {
+        /* ===== MAIN APPLICATION ===== */
+        .app-container {
+            display: none;
+        }
+        
+        /* Header */
+        .app-header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
             color: white;
-            padding: 15px 20px;
+            padding: 1rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         
-        .preview-header h3 {
-            font-size: 1.2rem;
-            margin: 0;
-        }
-        
-        .preview-refresh {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
+        .app-logo {
             display: flex;
             align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        
-        .preview-refresh:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-        
-        .kuarters-preview-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0;
-        }
-        
-        @media (max-width: 992px) {
-            .kuarters-preview-content {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .kuarters-image-container {
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: white;
-        }
-        
-        .kuarters-image {
-            width: 100%;
-            max-width: 350px;
-            height: 200px;
-            background-color: var(--light-gray);
-            border-radius: 8px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .kuarters-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .image-placeholder {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            color: var(--gray);
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .image-placeholder i {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            opacity: 0.5;
-        }
-        
-        .kuarters-details {
-            padding: 20px;
-            background-color: white;
-        }
-        
-        .detail-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
             gap: 15px;
         }
         
-        .detail-item {
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: white;
+            color: var(--primary);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Navigation */
+        .app-nav {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 5px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            padding: 15px 20px;
+            display: inline-block;
+            transition: all 0.3s;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            background-color: rgba(26, 95, 122, 0.1);
+            color: var(--primary);
+        }
+        
+        /* Asset Grid */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .section-header h2 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            position: relative;
+            padding-left: 15px;
+        }
+        
+        .section-header h2:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            height: 80%;
+            width: 5px;
+            background-color: var(--secondary);
+            border-radius: 3px;
+        }
+        
+        .assets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 3rem;
+        }
+        
+        .asset-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--light-gray);
+            height: 100%;
             display: flex;
             flex-direction: column;
         }
         
-        .detail-label {
-            color: var(--gray);
-            font-size: 0.85rem;
-            margin-bottom: 5px;
+        .asset-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
         
-        .detail-value {
-            font-weight: 500;
-            font-size: 0.95rem;
-        }
-        
-        .kuarters-class-badge {
-            display: inline-block;
+        .asset-status {
+            position: absolute;
+            top: 15px;
+            right: 15px;
             padding: 5px 12px;
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 600;
-            color: white;
-            margin-right: 5px;
         }
         
-        .class-a {
-            background-color: var(--kuarters-a);
-        }
-        
-        .class-b {
-            background-color: var(--kuarters-b);
-        }
-        
-        .class-c {
-            background-color: var(--kuarters-c);
-        }
-        
-        .class-d {
-            background-color: var(--kuarters-d);
-        }
-        
-        .availability-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        
-        .available {
+        .status-available {
             background-color: rgba(40, 167, 69, 0.15);
             color: var(--success);
         }
         
-        .occupied {
+        .status-limited {
+            background-color: rgba(255, 193, 7, 0.15);
+            color: #b88b00;
+        }
+        
+        .status-unavailable {
             background-color: rgba(220, 53, 69, 0.15);
             color: var(--danger);
         }
         
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-        
-        .available .status-dot {
-            background-color: var(--success);
-        }
-        
-        .occupied .status-dot {
-            background-color: var(--danger);
-        }
-        
-        /* Alert Messages */
-        .alert {
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 20px;
+        .asset-image {
+            height: 180px;
+            background-color: var(--light-gray);
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            color: var(--gray);
+            position: relative;
         }
         
-        .alert-info {
-            background-color: rgba(26, 95, 122, 0.1);
-            color: var(--primary);
-            border-left: 4px solid var(--primary);
+        .asset-image i {
+            font-size: 4rem;
+            opacity: 0.5;
         }
         
-        .alert-success {
-            background-color: rgba(40, 167, 69, 0.1);
-            color: var(--success);
-            border-left: 4px solid var(--success);
+        .asset-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
         
-        /* Loading Spinner */
-        .spinner {
-            display: none;
-            width: 30px;
-            height: 30px;
-            border: 3px solid var(--light-gray);
-            border-top: 3px solid var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Auto-suggestion */
-        .suggestion-box {
-            position: absolute;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            z-index: 100;
-            max-height: 200px;
-            overflow-y: auto;
-            display: none;
-        }
-        
-        .suggestion-item {
-            padding: 10px 15px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        
-        .suggestion-item:hover {
-            background-color: var(--light-gray);
-        }
-        
-        /* Info Box */
-        .info-box {
-            background-color: rgba(26, 95, 122, 0.05);
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 20px;
-            border-left: 4px solid var(--primary);
-        }
-        
-        .info-box h4 {
-            color: var(--primary);
+        .asset-title {
+            font-size: 1.3rem;
             margin-bottom: 10px;
-            font-size: 1rem;
+            color: var(--primary);
         }
         
-        .info-box ul {
-            padding-left: 20px;
+        .asset-details {
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
             font-size: 0.9rem;
+        }
+        
+        .detail-label {
             color: var(--gray);
         }
         
-        .info-box li {
-            margin-bottom: 5px;
+        .detail-value {
+            font-weight: 500;
         }
         
-        /* Status Indicator */
-        .status-indicator {
+        .asset-actions {
+            margin-top: auto;
+        }
+        
+        .btn-block {
+            width: 100%;
+            justify-content: center;
+        }
+        
+        /* Modal untuk Borang Permohonan */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            padding: 1.5rem 2rem;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h3 {
+            font-size: 1.4rem;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            padding: 15px;
-            background-color: rgba(26, 95, 122, 0.05);
-            border-radius: 8px;
+            justify-content: center;
+            transition: background-color 0.3s;
         }
         
-        .status-dot-indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: var(--success);
+        .close-modal:hover {
+            background-color: rgba(255, 255, 255, 0.2);
         }
         
-        .status-dot-indicator.pending {
-            background-color: var(--warning);
+        .modal-body {
+            padding: 2rem;
+        }
+        
+        /* Success Modal */
+        .success-modal {
+            text-align: center;
+            padding: 3rem;
+        }
+        
+        .success-icon {
+            font-size: 4rem;
+            color: var(--success);
+            margin-bottom: 1rem;
+        }
+        
+        /* Page Content */
+        .page-content {
+            display: none;
+        }
+        
+        .page-content.active {
+            display: block;
         }
         
         /* Responsive */
-        @media (max-width: 576px) {
-            body {
-                padding: 10px;
-            }
-            
-            .form-section {
-                padding: 20px;
-            }
-            
-            .header {
-                padding: 20px 15px;
-            }
-            
-            .header h1 {
-                font-size: 1.5rem;
-            }
-            
-            .detail-grid {
+        @media (max-width: 768px) {
+            .assets-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .auth-container {
+                flex-direction: column;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- Authentication Pages -->
+    <div class="auth-page" id="authPage">
+        <div class="auth-container">
+            <div class="auth-left">
+                <div class="auth-logo">
+                    <i class="fas fa-building"></i>
+                    <div class="auth-logo-text">
+                        <h1>Sistem Aset Sewaan</h1>
+                        <p>Portal Permohonan & Pengurusan</p>
+                    </div>
+                </div>
+                
+                <div class="auth-features">
+                    <div class="auth-feature">
+                        <div class="auth-feature-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="auth-feature-text">
+                            <h4>181 Unit Kuarters</h4>
+                            <p>49 unit masih tersedia untuk disewa</p>
+                        </div>
+                    </div>
+                    
+                    <div class="auth-feature">
+                        <div class="auth-feature-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="auth-feature-text">
+                            <h4>Permohonan Online</h4>
+                            <p>Hantar permohonan kepada admin</p>
+                        </div>
+                    </div>
+                    
+                    <div class="auth-feature">
+                        <div class="auth-feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="auth-feature-text">
+                            <h4>Autocount Real-time</h4>
+                            <p>Status kekosongan dikemas kini automatik</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="auth-right">
+                <div class="auth-form-container">
+                    <div class="auth-tabs">
+                        <button class="auth-tab active" id="loginTab">Log Masuk</button>
+                        <button class="auth-tab" id="registerTab">Daftar Akaun</button>
+                    </div>
+                    
+                    <!-- Login Form -->
+                    <form class="auth-form active" id="loginForm">
+                        <div class="auth-title">
+                            <h2>Log Masuk</h2>
+                            <p>Sila masukkan maklumat akaun anda</p>
+                        </div>
+                        
+                        <div class="auth-form-group">
+                            <label for="loginEmail" class="required">Email atau No. KP</label>
+                            <div class="auth-input-with-icon">
+                                <i class="fas fa-user auth-input-icon"></i>
+                                <input type="text" id="loginEmail" class="auth-input" placeholder="cth: user@email.com atau 800101011234" required>
+                            </div>
+                        </div>
+                        
+                        <div class="auth-form-group">
+                            <label for="loginPassword" class="required">Kata Laluan</label>
+                            <div class="auth-input-with-icon">
+                                <i class="fas fa-lock auth-input-icon"></i>
+                                <input type="password" id="loginPassword" class="auth-input" placeholder="Masukkan kata laluan" required>
+                            </div>
+                        </div>
+                        
+                        <div class="auth-form-options">
+                            <div class="auth-remember">
+                                <input type="checkbox" id="rememberMe">
+                                <label for="rememberMe">Ingat saya</label>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="auth-btn auth-btn-primary">
+                            <i class="fas fa-sign-in-alt"></i> Log Masuk
+                        </button>
+                        
+                        <div class="auth-footer">
+                            Tiada akaun? <a href="#" id="goToRegister">Daftar di sini</a>
+                        </div>
+                    </form>
+                    
+                    <!-- Register Form -->
+                    <form class="auth-form" id="registerForm">
+                        <div class="auth-title">
+                            <h2>Daftar Akaun Baru</h2>
+                            <p>Sila isi maklumat di bawah</p>
+                        </div>
+                        
+                        <div class="auth-form-group">
+                            <label for="registerName" class="required">Nama Penuh</label>
+                            <div class="auth-input-with-icon">
+                                <i class="fas fa-user auth-input-icon"></i>
+                                <input type="text" id="registerName" class="auth-input" placeholder="Masukkan nama penuh" required>
+                            </div>
+                        </div>
+                        
+                        <div class="auth-form-group">
+                            <label for="registerIC" class="required">No. Kad Pengenalan</label>
+                            <div class="auth-input-with-icon">
+                                <i class="fas fa-id-card auth-input-icon"></i>
+                                <input type="text" id="registerIC" class="auth-input" placeholder="cth: 800101011234" required>
+                            </div>
+                        </div>
+                        
+                        <div class="auth-form-group">
+                            <label for="registerEmail" class="required">Alamat Email</label>
+                            <div class="auth-input-with-icon">
+                                <i class="fas fa-envelope auth-input-icon"></i>
+                                <input type="email" id="registerEmail" class="auth-input" placeholder="cth: user@email.com" required>
+                            </div>
+                        </div>
+                        
+                        <div class="auth-form-group">
+                            <label for="registerPhone" class="required">No. Telefon</label>
+                            <div class="auth-input-with-icon">
+                                <i class="fas fa-phone auth-input-icon"></i>
+                                <input type="tel" id="registerPhone" class="auth-input" placeholder="cth: 0123456789" required>
+                            </div>
+                        </div>
+                        
+                        <div class="auth-form-group">
+                            <label for="registerPassword" class="required">Kata Laluan</label>
+                            <div class="auth-input-with-icon">
+                                <i class="fas fa-lock auth-input-icon"></i>
+                                <input type="password" id="registerPassword" class="auth-input" placeholder="Minimum 8 aksara" required>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="auth-btn auth-btn-primary">
+                            <i class="fas fa-user-plus"></i> Daftar Akaun
+                        </button>
+                        
+                        <div class="auth-footer">
+                            Sudah ada akaun? <a href="#" id="goToLogin">Log masuk di sini</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Application -->
+    <div class="app-container" id="appContainer">
         <!-- Header -->
-        <div class="header">
-            <h1><i class="fas fa-home"></i> Borang Permohonan Kuarters</h1>
-            <p>Sistem Sewaan Kuarters Kerajaan - Permohonan Rasmi</p>
+        <header class="app-header">
+            <div class="container header-content">
+                <div class="app-logo">
+                    <i class="fas fa-building"></i>
+                    <div class="app-logo-text">
+                        <h1>Portal Aset Sewaan</h1>
+                        <p>Selamat datang, <span id="headerUserName">Pengguna</span></p>
+                    </div>
+                </div>
+                
+                <div class="user-section">
+                    <div class="user-profile">
+                        <div class="user-avatar">
+                            <span id="userAvatar">U</span>
+                        </div>
+                        <div>
+                            <div class="user-name" id="userName">Pengguna</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i> Log Keluar
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Navigation -->
+        <nav class="app-nav">
+            <div class="container nav-container">
+                <ul class="nav-links">
+                    <li><a href="#" class="active" data-page="dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="#" data-page="assets"><i class="fas fa-building"></i> Aset Tersedia</a></li>
+                    <li><a href="#" data-page="applications"><i class="fas fa-file-alt"></i> Permohonan Saya</a></li>
+                </ul>
+                
+                <div class="quick-actions">
+                    <button class="btn btn-primary" id="newApplicationBtn">
+                        <i class="fas fa-plus"></i> Mohon Baru
+                    </button>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="app-main">
+            <div class="container">
+                <!-- Dashboard Page -->
+                <div id="dashboardPage" class="page-content active">
+                    <div class="welcome-banner">
+                        <div class="welcome-content">
+                            <h2 id="welcomeTitle">Selamat Datang!</h2>
+                            <p id="welcomeMessage">Portal sewaan aset kerajaan</p>
+                        </div>
+                        <div style="font-size: 4rem; color: var(--secondary); opacity: 0.7;">
+                            <i class="fas fa-hand-wave"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="section-header">
+                        <h2>Akses Pantas</h2>
+                    </div>
+                    
+                    <div class="assets-grid" id="quickAccessAssets">
+                        <!-- Assets will be loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Assets Page -->
+                <div id="assetsPage" class="page-content">
+                    <div class="section-header">
+                        <h2>Semua Aset Tersedia</h2>
+                    </div>
+                    
+                    <div class="assets-grid" id="assetsGrid">
+                        <!-- All assets will be loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Applications Page -->
+                <div id="applicationsPage" class="page-content">
+                    <div class="section-header">
+                        <h2>Permohonan Saya</h2>
+                    </div>
+                    
+                    <div id="applicationsList">
+                        <!-- Applications will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer style="background-color: var(--dark); color: white; padding: 2rem 0; margin-top: 3rem;">
+            <div class="container">
+                <div style="text-align: center;">
+                    <p>&copy; 2023 Sistem Aset Sewaan. Hak Cipta Terpelihara.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- =========================================== -->
+    <!-- BORANG PERMOHONAN UNTUK SETIAP JENIS ASET  -->
+    <!-- =========================================== -->
+    
+    <!-- Modal Borang Kuarters (POPUP SAHAJA - tiada redirect) -->
+    <div class="modal" id="borangKuartersModal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3><i class="fas fa-home"></i> Borang Permohonan Kuarters Kakitangan</h3>
+                <button class="close-modal" data-modal="borangKuartersModal">&times;</button>
+           <p>Sistem Sewaan Kuarters Kerajaan - Permohonan Rasmi</p>
         </div>
         
         <!-- Status Indicator -->
@@ -1273,6 +1490,1009 @@
                 day: 'numeric'
             });
         }
+    </script>
+    
+    <!-- Modal Borang Pejabat -->
+    <div class="modal" id="borangPejabatModal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h3><i class="fas fa-building"></i> Borang Permohonan Sewaan Pejabat</h3>
+                <button class="close-modal" data-modal="borangPejabatModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formPejabat">
+                    <div class="form-section">
+                        <h5><i class="fas fa-briefcase"></i> MAKLUMAT ORGANISASI</h5>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="required">Nama Organisasi/Syarikat</label>
+                                <input type="text" class="form-control" name="nama_organisasi" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="required">No. Pendaftaran (SSM/ROC)</label>
+                                <input type="text" class="form-control" name="no_pendaftaran" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="required">Jenis Perniagaan</label>
+                                <input type="text" class="form-control" name="jenis_perniagaan" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Bidang Operasi</label>
+                                <input type="text" class="form-control" name="bidang_operasi" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h5><i class="fas fa-map-marker-alt"></i> MAKLUMAT PEJABAT</h5>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="required">Lokasi Pilihan</label>
+                                <select class="form-control" name="lokasi_pejabat" required>
+                                    <option value="">Pilih Lokasi</option>
+                                    <option value="O001">Pejabat PNK Port Dickson, Negeri Sembilan</option>
+                                    <option value="O002">Pejabat PNK Batu Pahat, Johor</option>
+                                    <option value="O003">Pejabat PNK Muar, Johor</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Luas Ruang (kaki persegi)</label>
+                                <input type="number" class="form-control" name="luas_ruang" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-footer">
+                        <div class="form-actions">
+                            <button type="button" class="btn" data-modal="borangPejabatModal">Batal</button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Hantar Permohonan
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Borang Tanah -->
+    <div class="modal" id="borangTanahModal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h3><i class="fas fa-map-marked-alt"></i> Borang Permohonan Sewaan Tanah</h3>
+                <button class="close-modal" data-modal="borangTanahModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formTanah">
+                    <div class="form-section">
+                        <h5><i class="fas fa-user-tie"></i> MAKLUMAT PEMOHON</h5>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="required">Nama Pemohon/Syarikat</label>
+                                <input type="text" class="form-control" name="nama_pemohon_tanah" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="required">No. Kad Pengenalan/Pendaftaran</label>
+                                <input type="text" class="form-control" name="no_pendaftaran_tanah" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h5><i class="fas fa-map"></i> MAKLUMAT TANAH</h5>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="required">Lokasi Tanah</label>
+                                <select class="form-control" name="lokasi_tanah" required>
+                                    <option value="">Pilih Lokasi</option>
+                                    <option value="L001">Tanah Kedah</option>
+                                    <option value="L002">Tanah Penang</option>
+                                    <option value="L003">Tanah Perak</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Luas Tanah (ekar)</label>
+                                <input type="number" class="form-control" name="luas_tanah" step="0.01" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-footer">
+                        <div class="form-actions">
+                            <button type="button" class="btn" data-modal="borangTanahModal">Batal</button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Hantar Permohonan
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Borang Rumah Rehat -->
+    <div class="modal" id="borangRumahRehatModal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h3><i class="fas fa-bed"></i> Borang Permohonan Sewaan Rumah Rehat</h3>
+                <button class="close-modal" data-modal="borangRumahRehatModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formRumahRehat">
+                    <div class="form-section">
+                        <h5><i class="fas fa-calendar-alt"></i> MAKLUMAT TEMPOH SEWAAN</h5>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="required">Tarikh Mula</label>
+                                <input type="date" class="form-control" name="tarikh_mula_rehat" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Tarikh Tamat</label>
+                                <input type="date" class="form-control" name="tarikh_tamat_rehat" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-footer">
+                        <div class="form-actions">
+                            <button type="button" class="btn" data-modal="borangRumahRehatModal">Batal</button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Hantar Permohonan
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Success Modal untuk semua borang -->
+    <div class="modal" id="successModal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header" style="background: linear-gradient(to right, var(--success), #20c997);">
+                <h3><i class="fas fa-check-circle"></i> Permohonan Berjaya!</h3>
+                <button class="close-modal" data-modal="successModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; padding: 30px;">
+                    <div style="font-size: 4rem; color: var(--success); margin-bottom: 20px;">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3 style="color: var(--primary); margin-bottom: 15px;">Permohonan Telah Dihantar</h3>
+                    <p style="margin-bottom: 20px; font-size: 1.1rem;">
+                        No. Rujukan: <strong id="successRefNumber">APP-2023-001</strong>
+                    </p>
+                    <button class="btn btn-primary" data-modal="successModal">
+                        <i class="fas fa-check"></i> OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Additional Styles for Forms */
+        .form-section {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .form-section h5 {
+            color: var(--primary);
+            margin-bottom: 1.2rem;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #f0f0f0;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 1.2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-group label.required:after {
+            content: ' *';
+            color: var(--danger);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26, 95, 122, 0.1);
+        }
+        
+        .form-footer {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+        
+        .checkbox {
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .checkbox input[type="checkbox"] {
+            margin-top: 5px;
+            margin-right: 8px;
+        }
+        
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 5px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            margin: 0;
+        }
+        
+        .checkbox-item label {
+            margin: 0;
+            font-weight: normal;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <script>
+        // ============================================
+        // DATA STORAGE AND INITIALIZATION
+        // ============================================
+        
+        const STORAGE_KEYS = {
+            USERS: 'asset_rental_users',
+            CURRENT_USER: 'current_asset_user',
+            APPLICATIONS: 'user_applications'
+        };
+        
+        const DEMO_USERS = [
+            {
+                id: 1,
+                name: "Ali bin Ahmad",
+                ic: "850505011234",
+                email: "ali@email.com",
+                phone: "0123456789",
+                password: "password123",
+                address: "No 123, Jalan Bunga, 43000 Kajang, Selangor",
+                createdAt: "2023-10-01",
+                role: "user"
+            }
+        ];
+        
+        // Asset Data dengan borang khusus
+        const ASSETS_DATA = [
+            {
+                id: 1,
+                type: "kuarters",
+                name: "Kuarters Kakitangan",
+                icon: "fas fa-home",
+                color: "#9b59b6",
+                description: "Kuarters untuk kakitangan kerajaan dengan kemudahan lengkap.",
+                monthlyRent: "RM 450",
+                totalUnits: 181,
+                availableUnits: 49,
+                modal: "borangKuartersModal"
+            },
+            {
+                id: 2,
+                type: "pejabat",
+                name: "Sewa Pejabat",
+                icon: "fas fa-building",
+                color: "#3498db",
+                description: "Pejabat di lokasi strategik dengan kemudahan lengkap.",
+                monthlyRent: "RM 2,500",
+                totalUnits: 24,
+                availableUnits: 3,
+                modal: "borangPejabatModal"
+            },
+            {
+                id: 3,
+                type: "tanah",
+                name: "Tanah Lot",
+                icon: "fas fa-map-marked-alt",
+                color: "#2ecc71",
+                description: "Tanah lot untuk tujuan perindustrian atau komersial.",
+                monthlyRent: "RM 3,200",
+                totalUnits: 8,
+                availableUnits: 3,
+                modal: "borangTanahModal"
+            },
+            {
+                id: 4,
+                type: "rumah_rehat",
+                name: "Rumah Rehat",
+                icon: "fas fa-bed",
+                color: "#e74c3c",
+                description: "Rumah rehat untuk aktiviti riadah kakitangan.",
+                monthlyRent: "RM 1,200",
+                totalUnits: 4,
+                availableUnits: 2,
+                modal: "borangRumahRehatModal"
+            }
+        ];
+        
+        // Mapping gred ke kelas dan unit kuarters
+        const GRED_MAPPING = {
+            // Gred => {kelas: "Kelas", unit: "Unit Type"}
+            "N1": {kelas: "A", unit: "Type A (4 Bilik)"},
+            "N2": {kelas: "A", unit: "Type A (4 Bilik)"},
+            "N3": {kelas: "B", unit: "Type B (3 Bilik)"},
+            "N4": {kelas: "B", unit: "Type B (3 Bilik)"},
+            "N5": {kelas: "C", unit: "Type C (2 Bilik)"},
+            "N6": {kelas: "C", unit: "Type C (2 Bilik)"},
+            "N7": {kelas: "D", unit: "Type D (1 Bilik)"},
+            "N8": {kelas: "D", unit: "Type D (1 Bilik)"},
+            "N9": {kelas: "D", unit: "Type D (1 Bilik)"},
+            "N10": {kelas: "D", unit: "Type D (1 Bilik)"},
+            "N11": {kelas: "D", unit: "Type D (1 Bilik)"},
+            "N12": {kelas: "D", unit: "Type D (1 Bilik)"},
+            "N13": {kelas: "D", unit: "Type D (1 Bilik)"},
+            "N14": {kelas: "D", unit: "Type D (1 Bilik)"},
+            "N15": {kelas: "D", unit: "Type D (1 Bilik)"},
+            "N16": {kelas: "D", unit: "Type D (1 Bilik)"},
+            "N17": {kelas: "D", unit: "Type D (1 Bilik)"},
+            "N18": {kelas: "D", unit: "Type D (1 Bilik)"},
+            "N19": {kelas: "D", unit: "Type D (1 Bilik)"},
+            "N20": {kelas: "D", unit: "Type D (1 Bilik)"},
+            "JUSA": {kelas: "A", unit: "Type A (4 Bilik)"},
+            "JUSA B": {kelas: "A", unit: "Type A (4 Bilik)"},
+            "PEGAWAI TINGGI": {kelas: "A", unit: "Type A (4 Bilik)"},
+            "PEGAWAI KANAN": {kelas: "B", unit: "Type B (3 Bilik)"},
+            "PEGAWAI RENDAH": {kelas: "C", unit: "Type C (2 Bilik)"},
+            "PEMBANTU": {kelas: "D", unit: "Type D (1 Bilik)"}
+        };
+        
+        let currentUser = null;
+        let users = [];
+        let applications = [];
+        
+        // Initialize System
+        function initializeSystem() {
+            console.log("Initializing system...");
+            
+            // Initialize users
+            const storedUsers = localStorage.getItem(STORAGE_KEYS.USERS);
+            if (!storedUsers) {
+                users = DEMO_USERS;
+                localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users));
+            } else {
+                users = JSON.parse(storedUsers);
+            }
+            
+            // Initialize applications
+            const storedApps = localStorage.getItem(STORAGE_KEYS.APPLICATIONS);
+            applications = storedApps ? JSON.parse(storedApps) : [];
+            
+            // Check login status
+            const storedUser = sessionStorage.getItem(STORAGE_KEYS.CURRENT_USER) || 
+                              localStorage.getItem(STORAGE_KEYS.CURRENT_USER);
+            
+            if (storedUser) {
+                try {
+                    currentUser = JSON.parse(storedUser);
+                    showApplication();
+                    console.log("User logged in:", currentUser.name);
+                } catch (e) {
+                    showAuthentication();
+                }
+            } else {
+                showAuthentication();
+            }
+            
+            setupEventListeners();
+        }
+        
+        // ============================================
+        // AUTHENTICATION FUNCTIONS
+        // ============================================
+        
+        function showAuthentication() {
+            document.getElementById('authPage').style.display = 'flex';
+            document.getElementById('appContainer').style.display = 'none';
+            switchAuthTab('login');
+        }
+        
+        function showApplication() {
+            document.getElementById('authPage').style.display = 'none';
+            document.getElementById('appContainer').style.display = 'block';
+            updateUserInterface();
+            loadDashboard();
+        }
+        
+        function handleLogin(e) {
+            e.preventDefault();
+            
+            const identifier = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+            
+            const user = users.find(u => 
+                u.email === identifier || u.ic === identifier
+            );
+            
+            if (!user) {
+                alert('Akaun tidak ditemui');
+                return;
+            }
+            
+            if (user.password !== password) {
+                alert('Kata laluan tidak betul');
+                return;
+            }
+            
+            currentUser = {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                phone: user.phone,
+                ic: user.ic,
+                address: user.address,
+                role: user.role,
+                createdAt: user.createdAt
+            };
+            
+            sessionStorage.setItem(STORAGE_KEYS.CURRENT_USER, JSON.stringify(currentUser));
+            if (rememberMe) {
+                localStorage.setItem(STORAGE_KEYS.CURRENT_USER, JSON.stringify(currentUser));
+            }
+            
+            showApplication();
+        }
+        
+        function handleRegister(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('registerName').value.trim();
+            const ic = document.getElementById('registerIC').value;
+            const email = document.getElementById('registerEmail').value.trim();
+            const phone = document.getElementById('registerPhone').value;
+            const password = document.getElementById('registerPassword').value;
+            
+            // Check if user already exists
+            if (users.find(u => u.email === email)) {
+                alert('Email sudah didaftarkan');
+                return;
+            }
+            
+            const userData = {
+                id: Date.now(),
+                name: name,
+                ic: ic,
+                email: email,
+                phone: phone,
+                password: password,
+                address: '',
+                createdAt: new Date().toISOString().split('T')[0],
+                role: 'user'
+            };
+            
+            users.push(userData);
+            localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users));
+            
+            alert('Pendaftaran berjaya! Sila log masuk.');
+            switchAuthTab('login');
+        }
+        
+        // ============================================
+        // APPLICATION FUNCTIONS
+        // ============================================
+        
+        function updateUserInterface() {
+            if (!currentUser) return;
+            
+            document.getElementById('headerUserName').textContent = currentUser.name;
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('userAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
+            document.getElementById('welcomeTitle').textContent = `Selamat Datang, ${currentUser.name.split(' ')[0]}!`;
+        }
+        
+        function loadDashboard() {
+            loadQuickAccessAssets();
+            loadApplicationsList();
+        }
+        
+        function loadQuickAccessAssets() {
+            const assetsGrid = document.getElementById('quickAccessAssets');
+            if (!assetsGrid) return;
+            
+            assetsGrid.innerHTML = '';
+            
+            ASSETS_DATA.slice(0, 4).forEach(asset => {
+                const card = createAssetCard(asset);
+                assetsGrid.appendChild(card);
+            });
+        }
+        
+        function loadAllAssets() {
+            const assetsGrid = document.getElementById('assetsGrid');
+            if (!assetsGrid) return;
+            
+            assetsGrid.innerHTML = '';
+            
+            ASSETS_DATA.forEach(asset => {
+                const card = createAssetCard(asset);
+                assetsGrid.appendChild(card);
+            });
+        }
+        
+        function createAssetCard(asset) {
+            let statusClass, statusText;
+            if (asset.availableUnits > 3) {
+                statusClass = 'status-available';
+                statusText = `${asset.availableUnits} Tersedia`;
+            } else if (asset.availableUnits > 0) {
+                statusClass = 'status-limited';
+                statusText = `${asset.availableUnits} Terhad`;
+            } else {
+                statusClass = 'status-unavailable';
+                statusText = 'Tidak Tersedia';
+            }
+            
+            const card = document.createElement('div');
+            card.className = 'asset-card';
+            card.innerHTML = `
+                <div class="asset-image" style="background-color: ${asset.color}20; color: ${asset.color};">
+                    <i class="${asset.icon}"></i>
+                    <div class="asset-status ${statusClass}">
+                        ${statusText}
+                    </div>
+                </div>
+                <div class="asset-content">
+                    <h3 class="asset-title">${asset.name}</h3>
+                    <div class="asset-details">
+                        <p>${asset.description}</p>
+                        <div class="detail-item">
+                            <span class="detail-label">Sewa Bulanan:</span>
+                            <span class="detail-value">${asset.monthlyRent}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Unit Tersedia:</span>
+                            <span class="detail-value">${asset.availableUnits} / ${asset.totalUnits}</span>
+                        </div>
+                    </div>
+                    <div class="asset-actions">
+                        ${asset.availableUnits > 0 ? `
+                        <button class="btn btn-primary btn-block apply-btn" 
+                                data-asset-type="${asset.type}"
+                                data-asset-name="${asset.name}"
+                                data-modal="${asset.modal}">
+                            <i class="fas fa-pen"></i> Mohon Sekarang
+                        </button>
+                        ` : `
+                        <button class="btn btn-block" disabled style="background-color: #e9ecef; color: #6c757d; cursor: not-allowed;">
+                            <i class="fas fa-times-circle"></i> Tiada Kekosongan
+                        </button>
+                        `}
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+        
+        // ============================================
+        // FORM HANDLING FUNCTIONS
+        // ============================================
+        
+        function openBorangModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+            prefillForm(modalId);
+        }
+        
+        function prefillForm(modalId) {
+            if (!currentUser) return;
+            
+            const today = new Date();
+            const nextWeek = new Date(today);
+            nextWeek.setDate(today.getDate() + 7);
+            const todayStr = today.toISOString().split('T')[0];
+            const nextWeekStr = nextWeek.toISOString().split('T')[0];
+            const oneYearAgo = new Date(today);
+            oneYearAgo.setFullYear(today.getFullYear() - 1);
+            const oneYearAgoStr = oneYearAgo.toISOString().split('T')[0];
+            
+            switch(modalId) {
+                case 'borangKuartersModal':
+                    // Prefill borang kuarters dengan data pengguna
+                    document.querySelector('#formKuarters input[name="nama_pemohon_kuarters"]').value = currentUser.name;
+                    document.querySelector('#formKuarters input[name="no_kp_kuarters"]').value = currentUser.ic;
+                    document.querySelector('#formKuarters input[name="tarikh_masuk_kuarters"]').value = nextWeekStr;
+                    document.querySelector('#formKuarters input[name="tarikh_lantikan_kuarters"]').value = oneYearAgoStr;
+                    document.querySelector('#formKuarters input[name="jarak_kerja_kuarters"]').value = "10";
+                    
+                    // Set default values untuk borang kuarters
+                    document.querySelector('#formKuarters input[name="jawatan_kuarters"]').value = "Pegawai Kerajaan";
+                    document.querySelector('#formKuarters input[name="gred_jawatan_kuarters"]').value = "N17";
+                    document.querySelector('#formKuarters input[name="jabatan_kuarters"]').value = "Jabatan Perkhidmatan Awam";
+                    
+                    // Auto-set kelas dan unit berdasarkan gred
+                    updateKelasUnitBasedOnGred();
+                    
+                    // Set default untuk dropdown
+                    document.querySelector('#formKuarters select[name="status_perkahwinan_kuarters"]').value = "Berkahwin";
+                    document.querySelector('#formKuarters select[name="jenis_bangunan_kuarters"]').value = "Rumah Teres";
+                    document.querySelector('#formKuarters select[name="bilangan_bilik_kuarters"]').value = "3";
+                    document.querySelector('#formKuarters select[name="status_kuarters"]').value = "Baik";
+                    
+                    // Set default untuk checkbox kemudahan
+                    document.querySelector('#formKuarters input[name="kemudahan_air"]').checked = true;
+                    document.querySelector('#formKuarters input[name="kemudahan_elektrik"]').checked = true;
+                    document.querySelector('#formKuarters input[name="kemudahan_parking"]').checked = true;
+                    break;
+                    
+                case 'borangPejabatModal':
+                    document.querySelector('#formPejabat input[name="nama_organisasi"]').value = currentUser.name + " Enterprise";
+                    break;
+                    
+                case 'borangTanahModal':
+                    document.querySelector('#formTanah input[name="nama_pemohon_tanah"]').value = currentUser.name;
+                    document.querySelector('#formTanah input[name="no_pendaftaran_tanah"]').value = currentUser.ic;
+                    break;
+                    
+                case 'borangRumahRehatModal':
+                    document.querySelector('#formRumahRehat input[name="tarikh_mula_rehat"]').value = todayStr;
+                    document.querySelector('#formRumahRehat input[name="tarikh_tamat_rehat"]').value = nextWeekStr;
+                    break;
+            }
+        }
+        
+        function updateKelasUnitBasedOnGred() {
+            const gredInput = document.getElementById('gredJawatanKuarters');
+            const kelasInput = document.getElementById('kelasKuarters');
+            const unitInput = document.getElementById('unitKuarters');
+            
+            if (gredInput && kelasInput && unitInput) {
+                const gred = gredInput.value.trim().toUpperCase();
+                const mapping = GRED_MAPPING[gred];
+                
+                if (mapping) {
+                    kelasInput.value = `Kelas ${mapping.kelas}`;
+                    unitInput.value = mapping.unit;
+                } else {
+                    // Default values jika gred tidak ditemui
+                    kelasInput.value = "Kelas D";
+                    unitInput.value = "Type D (1 Bilik)";
+                }
+            }
+        }
+        
+        function handleFormSubmission(formId, assetType) {
+            const form = document.getElementById(formId);
+            const formData = new FormData(form);
+            
+            // Collect form data
+            const applicationData = {};
+            formData.forEach((value, key) => {
+                applicationData[key] = value;
+            });
+            
+            // Create application
+            const application = {
+                id: Date.now(),
+                reference: `APP-${new Date().getFullYear()}-${String(applications.length + 1).padStart(3, '0')}`,
+                assetType: assetType,
+                assetName: getAssetName(assetType),
+                applyDate: new Date().toISOString().split('T')[0],
+                applicantId: currentUser.id,
+                applicantName: currentUser.name,
+                applicationData: applicationData,
+                status: 'pending'
+            };
+            
+            // Save application
+            applications.push(application);
+            localStorage.setItem(STORAGE_KEYS.APPLICATIONS, JSON.stringify(applications));
+            
+            // Show success message
+            document.getElementById('successRefNumber').textContent = application.reference;
+            
+            // Close current modal and show success
+            closeModal(formId.replace('form', 'borang'));
+            openModal('successModal');
+            
+            // Reset form
+            form.reset();
+            
+            // Update applications list
+            loadApplicationsList();
+        }
+        
+        function getAssetName(assetType) {
+            const asset = ASSETS_DATA.find(a => a.type === assetType);
+            return asset ? asset.name : assetType;
+        }
+        
+        // ============================================
+        // APPLICATIONS LIST
+        // ============================================
+        
+        function loadApplicationsList() {
+            const applicationsList = document.getElementById('applicationsList');
+            if (!applicationsList) return;
+            
+            const userApps = applications.filter(app => app.applicantId === currentUser.id);
+            
+            if (userApps.length === 0) {
+                applicationsList.innerHTML = `
+                    <div style="text-align: center; padding: 3rem; color: var(--gray);">
+                        <i class="fas fa-file-alt" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <h3>Tiada Permohonan</h3>
+                        <p>Anda belum membuat sebarang permohonan.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            applicationsList.innerHTML = '';
+            
+            userApps.forEach(app => {
+                const item = document.createElement('div');
+                item.className = 'status-item';
+                item.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 15px; border-radius: 8px; background-color: var(--light); border-left: 5px solid var(--primary); margin-bottom: 10px;';
+                item.innerHTML = `
+                    <div class="status-info">
+                        <h4 style="margin-bottom: 5px;">${app.assetName}</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray);">
+                            No. Rujukan: ${app.reference} | Tarikh: ${formatDate(app.applyDate)}
+                        </p>
+                    </div>
+                    <div class="status-badge" style="padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; background-color: rgba(255, 193, 7, 0.15); color: #b88b00;">
+                        Menunggu
+                    </div>
+                `;
+                applicationsList.appendChild(item);
+            });
+        }
+        
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('ms-MY', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+        
+        // ============================================
+        // MODAL FUNCTIONS
+        // ============================================
+        
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // ============================================
+        // PAGE NAVIGATION
+        // ============================================
+        
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            const selectedPage = document.getElementById(pageId);
+            if (selectedPage) {
+                selectedPage.classList.add('active');
+            }
+            
+            // Update navigation
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.page === pageId.replace('Page', '')) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Load page content
+            if (pageId === 'dashboardPage') {
+                loadQuickAccessAssets();
+            } else if (pageId === 'assetsPage') {
+                loadAllAssets();
+            } else if (pageId === 'applicationsPage') {
+                loadApplicationsList();
+            }
+        }
+        
+        function switchAuthTab(tabName) {
+            document.getElementById('loginForm').classList.remove('active');
+            document.getElementById('registerForm').classList.remove('active');
+            
+            document.getElementById('loginTab').classList.remove('active');
+            document.getElementById('registerTab').classList.remove('active');
+            
+            switch(tabName) {
+                case 'login':
+                    document.getElementById('loginTab').classList.add('active');
+                    document.getElementById('loginForm').classList.add('active');
+                    break;
+                case 'register':
+                    document.getElementById('registerTab').classList.add('active');
+                    document.getElementById('registerForm').classList.add('active');
+                    break;
+            }
+        }
+        
+        // ============================================
+        // EVENT LISTENERS SETUP
+        // ============================================
+        
+        function setupEventListeners() {
+            // Authentication
+            document.getElementById('loginTab').addEventListener('click', () => switchAuthTab('login'));
+            document.getElementById('registerTab').addEventListener('click', () => switchAuthTab('register'));
+            document.getElementById('goToRegister').addEventListener('click', (e) => {
+                e.preventDefault();
+                switchAuthTab('register');
+            });
+            document.getElementById('goToLogin').addEventListener('click', (e) => {
+                e.preventDefault();
+                switchAuthTab('login');
+            });
+            
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            document.getElementById('registerForm').addEventListener('submit', handleRegister);
+            
+            // Navigation
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.nav-links a')) {
+                    e.preventDefault();
+                    const link = e.target.closest('a');
+                    const page = link.dataset.page;
+                    if (page) {
+                        showPage(page + 'Page');
+                    }
+                }
+            });
+            
+            // Logout
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                if (confirm('Adakah anda pasti ingin log keluar?')) {
+                    sessionStorage.removeItem(STORAGE_KEYS.CURRENT_USER);
+                    localStorage.removeItem(STORAGE_KEYS.CURRENT_USER);
+                    currentUser = null;
+                    showAuthentication();
+                }
+            });
+            
+            // New application button
+            document.getElementById('newApplicationBtn').addEventListener('click', function() {
+                showPage('assetsPage');
+            });
+            
+            // Apply buttons on asset cards
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.apply-btn')) {
+                    e.preventDefault();
+                    const btn = e.target.closest('.apply-btn');
+                    const modalId = btn.dataset.modal;
+                    
+                    if (modalId) {
+                        openBorangModal(modalId);
+                    }
+                }
+            });
+            
+            // Auto-update kelas dan unit kuarters berdasarkan gred
+            const gredInput = document.getElementById('gredJawatanKuarters');
+            if (gredInput) {
+                gredInput.addEventListener('input', updateKelasUnitBasedOnGred);
+                gredInput.addEventListener('change', updateKelasUnitBasedOnGred);
+            }
+            
+            // Close modal buttons
+            document.querySelectorAll('.close-modal').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const modalId = this.dataset.modal;
+                    if (modalId) {
+                        closeModal(modalId);
+                    }
+                });
+            });
+            
+            // Cancel buttons
+            document.querySelectorAll('button[data-modal]').forEach(btn => {
+                if (btn.textContent.includes('Batal')) {
+                    btn.addEventListener('click', function() {
+                        const modalId = this.dataset.modal;
+                        if (modalId) {
+                            closeModal(modalId);
+                        }
+                    });
+                }
+            });
+            
+            // Form submissions
+            document.getElementById('formKuarters').addEventListener('submit', function(e) {
+                e.preventDefault();
+                handleFormSubmission('formKuarters', 'kuarters');
+            });
+            
+            document.getElementById('formPejabat').addEventListener('submit', function(e) {
+                e.preventDefault();
+                handleFormSubmission('formPejabat', 'pejabat');
+            });
+            
+            document.getElementById('formTanah').addEventListener('submit', function(e) {
+                e.preventDefault();
+                handleFormSubmission('formTanah', 'tanah');
+            });
+            
+            document.getElementById('formRumahRehat').addEventListener('submit', function(e) {
+                e.preventDefault();
+                handleFormSubmission('formRumahRehat', 'rumah_rehat');
+            });
+            
+            // Close modals when clicking outside
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            });
+        }
+        
+        // Initialize system
+        document.addEventListener('DOMContentLoaded', initializeSystem);
     </script>
 </body>
 </html>
