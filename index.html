@@ -18,10 +18,15 @@
             --danger: #dc3545;
             --gray: #6c757d;
             --light-gray: #e9ecef;
-            --kuarters-a: #9b59b6;
-            --kuarters-b: #3498db;
-            --kuarters-c: #2ecc71;
-            --kuarters-d: #e74c3c;
+            --kedai: #f39c12;
+            --pphp: #9b59b6;
+            --kompleks: #3498db;
+            --pasar: #e74c3c;
+            --akuakultur: #2ecc71;
+            --slipway: #1abc9c;
+            --ccdc: #34495e;
+            --bilik-sejuk: #95a5a6;
+            --jeti: #2980b9;
         }
         
         * {
@@ -743,22 +748,16 @@
             display: block;
         }
         
-        /* Additional styles for kuarters preview */
-        .class-a {
-            background-color: var(--kuarters-a);
-        }
-        
-        .class-b {
-            background-color: var(--kuarters-b);
-        }
-        
-        .class-c {
-            background-color: var(--kuarters-c);
-        }
-        
-        .class-d {
-            background-color: var(--kuarters-d);
-        }
+        /* Additional styles for asset-specific colors */
+        .color-kedai { background-color: var(--kedai); }
+        .color-pphp { background-color: var(--pphp); }
+        .color-kompleks { background-color: var(--kompleks); }
+        .color-pasar { background-color: var(--pasar); }
+        .color-akuakultur { background-color: var(--akuakultur); }
+        .color-slipway { background-color: var(--slipway); }
+        .color-ccdc { background-color: var(--ccdc); }
+        .color-bilik-sejuk { background-color: var(--bilik-sejuk); }
+        .color-jeti { background-color: var(--jeti); }
         
         .availability-status {
             display: inline-flex;
@@ -979,8 +978,8 @@
                             <i class="fas fa-home"></i>
                         </div>
                         <div class="auth-feature-text">
-                            <h4>181 Unit Kuarters</h4>
-                            <p>49 unit masih tersedia untuk disewa</p>
+                            <h4>13 Jenis Aset</h4>
+                            <p>Kuarters, pejabat, tanah dan pelbagai lagi</p>
                         </div>
                     </div>
                     
@@ -1227,250 +1226,58 @@
                 <button class="close-modal" data-modal="borangKuartersModal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="status-indicator" style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding: 15px; background-color: rgba(26, 95, 122, 0.05); border-radius: 8px;">
-                    <div class="status-dot-indicator" style="width: 12px; height: 12px; border-radius: 50%; background-color: var(--success);"></div>
-                    <span>Sila lengkapkan semua maklumat yang diperlukan</span>
-                </div>
-                
-                <!-- Info Pemohon -->
                 <div class="form-section">
                     <h3 class="section-title"><i class="fas fa-user-tie"></i> MAKLUMAT PEMOHON</h3>
-                    
-                    <div class="alert alert-info">
-                        <i class="fas fa-info-circle"></i>
-                        <span>Maklumat pemohon akan diisi secara automatik dari data profil anda</span>
-                    </div>
-                    
                     <div class="form-row">
                         <div class="form-group">
                             <label class="required">Nama Penuh Pemohon</label>
-                            <input type="text" class="form-control" id="namaPemohon" required readonly>
+                            <input type="text" class="form-control" id="namaPemohonKuarters" required>
                         </div>
                         <div class="form-group">
-                            <label class="required">No. Kad Pengenalan / No. Pekerja</label>
-                            <input type="text" class="form-control" id="noKP" required readonly>
+                            <label class="required">No. Kad Pengenalan</label>
+                            <input type="text" class="form-control" id="noKPKuarters" required>
                         </div>
                     </div>
-                    
                     <div class="form-row">
                         <div class="form-group">
                             <label class="required">Jawatan / Gred</label>
-                            <select class="form-control" id="gredJawatan" required>
-                                <option value="">Sila pilih gred</option>
-                                <option value="JUSA">JUSA</option>
-                                <option value="N54">N54 (Pengarah)</option>
-                                <option value="N48">N48 (Timbalan Pengarah)</option>
-                                <option value="N44">N44 (Ketua Penolong Pengarah)</option>
-                                <option value="N41">N41 (Penolong Pengarah)</option>
-                                <option value="F41">F41 (Jurutera)</option>
-                                <option value="F38">F38 (Penolong Jurutera)</option>
-                                <option value="S41">S41 (Pegawai Perubatan)</option>
-                                <option value="S38">S38 (Penolong Pegawai Perubatan)</option>
-                                <option value="M41">M41 (Pegawai Tadbir)</option>
-                                <option value="M38">M38 (Penolong Pegawai Tadbir)</option>
-                                <option value="W41">W41 (Pegawai Teknologi Maklumat)</option>
-                                <option value="W38">W38 (Penolong Pegawai Teknologi Maklumat)</option>
-                                <option value="A29">A29 (Pembantu Tadbir)</option>
-                                <option value="A19">A19 (Pembantu Am Pejabat)</option>
-                                <option value="R14">R14 (Pemandu)</option>
-                            </select>
-                            <small>Pilihan gred akan menentukan kelas kuarters yang layak</small>
+                            <input type="text" class="form-control" id="gredKuarters" required>
                         </div>
                         <div class="form-group">
                             <label class="required">Kementerian / Jabatan</label>
-                            <input type="text" class="form-control" id="jabatan" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="required">Alamat Kem / Jabatan</label>
-                        <textarea class="form-control" id="alamatJabatan" rows="3" required></textarea>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="required">Jarak Kuarters ke Tempat Kerja (km)</label>
-                            <input type="number" class="form-control" id="jarakKerja" min="0" step="0.1" required>
+                            <input type="text" class="form-control" id="jabatanKuarters" required>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Maklumat Keluarga -->
-                <div class="form-section">
-                    <h3 class="section-title"><i class="fas fa-users"></i> MAKLUMAT KELUARGA</h3>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="required">Status Perkahwinan</label>
-                            <div class="radio-group">
-                                <div class="radio-option">
-                                    <input type="radio" id="statusKahwin" name="statusPerkahwinan" value="Berkahwin" required>
-                                    <label for="statusKahwin">Berkahwin</label>
-                                </div>
-                                <div class="radio-option">
-                                    <input type="radio" id="statusTidakKahwin" name="statusPerkahwinan" value="Tidak Berkahwin">
-                                    <label for="statusTidakKahwin">Tidak Berkahwin</label>
-                                </div>
-                                <div class="radio-option">
-                                    <input type="radio" id="statusBujang" name="statusPerkahwinan" value="Bujang">
-                                    <label for="statusBujang">Bujang</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="required">Jumlah Tanggungan</label>
-                            <select class="form-control" id="jumlahTanggungan" required>
-                                <option value="">Sila pilih</option>
-                                <option value="0">Tiada</option>
-                                <option value="1">1 orang</option>
-                                <option value="2">2 orang</option>
-                                <option value="3">3 orang</option>
-                                <option value="4">4 orang</option>
-                                <option value="5">5 orang atau lebih</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Maklumat Kuarters -->
                 <div class="form-section">
                     <h3 class="section-title"><i class="fas fa-home"></i> MAKLUMAT KUARTERS</h3>
-                    
                     <div class="form-row">
                         <div class="form-group">
                             <label class="required">Kelas Kuarters</label>
-                            <input type="text" class="form-control" id="kelasKuarters" readonly>
-                            <small>Ditentukan secara automatik berdasarkan gred jawatan</small>
-                        </div>
-                        <div class="form-group">
-                            <label class="required">Unit Kuarters</label>
-                            <select class="form-control" id="unitKuarters" required disabled>
-                                <option value="">Sila pilih gred dahulu</option>
+                            <select class="form-control" id="kelasKuarters" required>
+                                <option value="">Sila pilih</option>
+                                <option value="A">Kelas A</option>
+                                <option value="B">Kelas B</option>
+                                <option value="C">Kelas C</option>
+                                <option value="D">Kelas D</option>
                             </select>
                         </div>
-                    </div>
-                    
-                    <div class="form-row">
                         <div class="form-group">
-                            <label class="required">Tarikh Masuk Rumah Diharapkan</label>
-                            <input type="date" class="form-control" id="tarikhMasuk" required>
-                            <small>Tarikh anda bercadang untuk memasuki kuarters</small>
+                            <label class="required">Lokasi Pilihan</label>
+                            <input type="text" class="form-control" id="lokasiKuarters" required>
                         </div>
-                    </div>
-                    
-                    <!-- PREVIEW KUARTERS -->
-                    <div class="kuarters-preview-container" style="margin-top: 25px; border: 1px solid var(--light-gray); border-radius: 8px; overflow: hidden; background-color: var(--light);">
-                        <div class="preview-header" style="background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;">
-                            <h4 style="font-size: 1.2rem; margin: 0;"><i class="fas fa-eye"></i> PREVIEW KUARTERS YANG LAYAK</h4>
-                            <button class="preview-refresh" id="refreshPreview" title="Refresh preview" style="background: rgba(255, 255, 255, 0.2); border: none; color: white; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                                <i class="fas fa-redo-alt"></i>
-                            </button>
-                        </div>
-                        
-                        <div class="kuarters-preview-content" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0;">
-                            <div class="kuarters-image-container" style="padding: 20px; display: flex; align-items: center; justify-content: center; background-color: white;">
-                                <div class="kuarters-image" id="kuartersImage" style="width: 100%; max-width: 350px; height: 200px; background-color: var(--light-gray); border-radius: 8px; overflow: hidden; position: relative;">
-                                    <div class="image-placeholder" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--gray); text-align: center; padding: 20px;">
-                                        <i class="fas fa-home" style="font-size: 3rem; margin-bottom: 10px; opacity: 0.5;"></i>
-                                        <p>Pilih gred jawatan untuk melihat gambar kuarters</p>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="kuarters-details" style="padding: 20px; background-color: white;">
-                                <div class="detail-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
-                                    <div class="detail-item" style="display: flex; flex-direction: column;">
-                                        <span class="detail-label" style="color: var(--gray); font-size: 0.85rem; margin-bottom: 5px;">Kelas Kuarters:</span>
-                                        <span class="detail-value">
-                                            <span class="kuarters-class-badge" id="previewKelas" style="display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; color: white; margin-right: 5px;">-</span>
-                                        </span>
-                                    </div>
-                                    <div class="detail-item" style="display: flex; flex-direction: column;">
-                                        <span class="detail-label" style="color: var(--gray); font-size: 0.85rem; margin-bottom: 5px;">Gred Layak:</span>
-                                        <span class="detail-value" id="previewGred" style="font-weight: 500; font-size: 0.95rem;">-</span>
-                                    </div>
-                                    <div class="detail-item" style="display: flex; flex-direction: column;">
-                                        <span class="detail-label" style="color: var(--gray); font-size: 0.85rem; margin-bottom: 5px;">Luas Keluasan:</span>
-                                        <span class="detail-value" id="previewLuas" style="font-weight: 500; font-size: 0.95rem;">-</span>
-                                    </div>
-                                    <div class="detail-item" style="display: flex; flex-direction: column;">
-                                        <span class="detail-label" style="color: var(--gray); font-size: 0.85rem; margin-bottom: 5px;">Bilangan Bilik:</span>
-                                        <span class="detail-value" id="previewBilik" style="font-weight: 500; font-size: 0.95rem;">-</span>
-                                    </div>
-                                    <div class="detail-item" style="display: flex; flex-direction: column;">
-                                        <span class="detail-label" style="color: var(--gray); font-size: 0.85rem; margin-bottom: 5px;">Kemudahan:</span>
-                                        <span class="detail-value" id="previewKemudahan" style="font-weight: 500; font-size: 0.95rem;">-</span>
-                                    </div>
-                                    <div class="detail-item" style="display: flex; flex-direction: column;">
-                                        <span class="detail-label" style="color: var(--gray); font-size: 0.85rem; margin-bottom: 5px;">Sewa Bulanan:</span>
-                                        <span class="detail-value" id="previewSewa" style="font-weight: 500; font-size: 0.95rem;">-</span>
-                                    </div>
-                                    <div class="detail-item" style="display: flex; flex-direction: column;">
-                                        <span class="detail-label" style="color: var(--gray); font-size: 0.85rem; margin-bottom: 5px;">Status Unit:</span>
-                                        <span class="detail-value">
-                                            <span class="availability-status" id="previewStatus" style="display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">
-                                                <span class="status-dot" style="width: 8px; height: 8px; border-radius: 50%; display: inline-block;"></span>
-                                                <span id="statusText">-</span>
-                                            </span>
-                                        </span>
-                                    </div>
-                                    <div class="detail-item" style="display: flex; flex-direction: column;">
-                                        <span class="detail-label" style="color: var(--gray); font-size: 0.85rem; margin-bottom: 5px;">Lokasi:</span>
-                                        <span class="detail-value" id="previewLokasi" style="font-weight: 500; font-size: 0.95rem;">-</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="info-box" style="background-color: rgba(26, 95, 122, 0.05); border-radius: 8px; padding: 15px; margin-top: 20px; border-left: 4px solid var(--primary);">
-                        <h4 style="color: var(--primary); margin-bottom: 10px; font-size: 1rem;"><i class="fas fa-info-circle"></i> Maklumat Penting</h4>
-                        <ul style="padding-left: 20px; font-size: 0.9rem; color: var(--gray);">
-                            <li>Kelas kuarters ditentukan berdasarkan gred jawatan</li>
-                            <li>Hanya unit yang berstatus "Tersedia" boleh dipilih</li>
-                            <li>Pemohon dikehendaki mengosongkan kuarters dalam tempoh 30 hari selepas penamatan perkhidmatan</li>
-                            <li>Tarikh masuk rumah perlu sekurang-kurangnya 1 hari dari tarikh permohonan</li>
-                        </ul>
                     </div>
                 </div>
                 
-                <!-- Justifikasi -->
-                <div class="form-section">
-                    <h3 class="section-title"><i class="fas fa-file-alt"></i> JUSTIFIKASI PERMOHONAN</h3>
-                    
-                    <div class="form-group">
-                        <label class="required">Sebab dan Justifikasi Permohonan</label>
-                        <textarea class="form-control" id="justifikasi" rows="4" required placeholder="Sila nyatakan sebab-sebab permohonan kuarters ini..."></textarea>
-                        <small>Sila berikan justifikasi yang lengkap untuk pertimbangan pihak berkuasa</small>
-                    </div>
-                </div>
-                
-                <!-- Tarikh Mohon -->
-                <div class="form-section">
-                    <h3 class="section-title"><i class="fas fa-calendar-alt"></i> TARIKH PERMOHONAN</h3>
-                    
-                    <div class="form-group">
-                        <label>Tarikh Permohonan</label>
-                        <input type="text" class="form-control" id="tarikhMohon" readonly>
-                    </div>
-                    
-                    <div class="alert alert-success">
-                        <i class="fas fa-check-circle"></i>
-                        <span>No. Rujukan Permohonan: <strong id="noRujukan">KUARTERS-2024-0001</strong></span>
-                    </div>
-                </div>
-                
-                <!-- Actions -->
                 <div class="form-actions">
-                    <button type="button" class="btn" id="btnBatalKuarters">
+                    <button type="button" class="btn" data-modal="borangKuartersModal">
                         <i class="fas fa-times"></i> Batal
                     </button>
                     <button type="button" class="btn btn-primary" id="btnHantarKuarters">
                         <i class="fas fa-paper-plane"></i> Hantar Permohonan
                     </button>
                 </div>
-                
-                <div class="spinner" id="loadingSpinner"></div>
             </div>
         </div>
     </div>
@@ -1483,59 +1290,57 @@
                 <button class="close-modal" data-modal="borangPejabatModal">&times;</button>
             </div>
             <div class="modal-body">
-                <div id="formPejabat">
-                    <div class="form-section">
-                        <h3 class="section-title"><i class="fas fa-briefcase"></i> MAKLUMAT ORGANISASI</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="required">Nama Organisasi/Syarikat</label>
-                                <input type="text" class="form-control" id="namaOrganisasi" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="required">No. Pendaftaran (SSM/ROC)</label>
-                                <input type="text" class="form-control" id="noPendaftaran" required>
-                            </div>
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-briefcase"></i> MAKLUMAT ORGANISASI</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Nama Organisasi/Syarikat</label>
+                            <input type="text" class="form-control" id="namaOrganisasi" required>
                         </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="required">Jenis Perniagaan</label>
-                                <input type="text" class="form-control" id="jenisPerniagaan" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="required">Bidang Operasi</label>
-                                <input type="text" class="form-control" id="bidangOperasi" required>
-                            </div>
+                        <div class="form-group">
+                            <label class="required">No. Pendaftaran (SSM/ROC)</label>
+                            <input type="text" class="form-control" id="noPendaftaran" required>
                         </div>
                     </div>
                     
-                    <div class="form-section">
-                        <h3 class="section-title"><i class="fas fa-map-marker-alt"></i> MAKLUMAT PEJABAT</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="required">Lokasi Pilihan</label>
-                                <select class="form-control" id="lokasiPejabat" required>
-                                    <option value="">Pilih Lokasi</option>
-                                    <option value="O001">Pejabat PNK Port Dickson, Negeri Sembilan</option>
-                                    <option value="O002">Pejabat PNK Batu Pahat, Johor</option>
-                                    <option value="O003">Pejabat PNK Muar, Johor</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="required">Luas Ruang (kaki persegi)</label>
-                                <input type="number" class="form-control" id="luasRuang" required>
-                            </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Jenis Perniagaan</label>
+                            <input type="text" class="form-control" id="jenisPerniagaan" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Bidang Operasi</label>
+                            <input type="text" class="form-control" id="bidangOperasi" required>
                         </div>
                     </div>
-                    
-                    <div class="form-actions">
-                        <button type="button" class="btn" id="btnBatalPejabat">
-                            <i class="fas fa-times"></i> Batal
-                        </button>
-                        <button type="button" class="btn btn-primary" id="btnHantarPejabat">
-                            <i class="fas fa-paper-plane"></i> Hantar Permohonan
-                        </button>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-map-marker-alt"></i> MAKLUMAT PEJABAT</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Lokasi Pilihan</label>
+                            <select class="form-control" id="lokasiPejabat" required>
+                                <option value="">Pilih Lokasi</option>
+                                <option value="O001">Pejabat PNK Port Dickson, Negeri Sembilan</option>
+                                <option value="O002">Pejabat PNK Batu Pahat, Johor</option>
+                                <option value="O003">Pejabat PNK Muar, Johor</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Luas Ruang (kaki persegi)</label>
+                            <input type="number" class="form-control" id="luasRuang" required>
+                        </div>
                     </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn" data-modal="borangPejabatModal">
+                        <i class="fas fa-times"></i> Batal
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnHantarPejabat">
+                        <i class="fas fa-paper-plane"></i> Hantar Permohonan
+                    </button>
                 </div>
             </div>
         </div>
@@ -1549,48 +1354,50 @@
                 <button class="close-modal" data-modal="borangTanahModal">&times;</button>
             </div>
             <div class="modal-body">
-                <div id="formTanah">
-                    <div class="form-section">
-                        <h3 class="section-title"><i class="fas fa-user-tie"></i> MAKLUMAT PEMOHON</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="required">Nama Pemohon/Syarikat</label>
-                                <input type="text" class="form-control" id="namaPemohonTanah" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="required">No. Kad Pengenalan/Pendaftaran</label>
-                                <input type="text" class="form-control" id="noPendaftaranTanah" required>
-                            </div>
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-user-tie"></i> MAKLUMAT PEMOHON</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Nama Pemohon/Syarikat</label>
+                            <input type="text" class="form-control" id="namaPemohonTanah" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">No. Kad Pengenalan/Pendaftaran</label>
+                            <input type="text" class="form-control" id="noPendaftaranTanah" required>
                         </div>
                     </div>
-                    
-                    <div class="form-section">
-                        <h3 class="section-title"><i class="fas fa-map"></i> MAKLUMAT TANAH</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="required">Lokasi Tanah</label>
-                                <select class="form-control" id="lokasiTanah" required>
-                                    <option value="">Pilih Lokasi</option>
-                                    <option value="L001">Tanah Kedah</option>
-                                    <option value="L002">Tanah Penang</option>
-                                    <option value="L003">Tanah Perak</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="required">Luas Tanah (ekar)</label>
-                                <input type="number" class="form-control" id="luasTanah" step="0.01" required>
-                            </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-map"></i> MAKLUMAT TANAH</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Lokasi Tanah</label>
+                            <select class="form-control" id="lokasiTanah" required>
+                                <option value="">Pilih Lokasi</option>
+                                <option value="L001">Tanah Kedah</option>
+                                <option value="L002">Tanah Penang</option>
+                                <option value="L003">Tanah Perak</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Luas Tanah (ekar)</label>
+                            <input type="number" class="form-control" id="luasTanah" step="0.01" required>
                         </div>
                     </div>
-                    
-                    <div class="form-actions">
-                        <button type="button" class="btn" id="btnBatalTanah">
-                            <i class="fas fa-times"></i> Batal
-                        </button>
-                        <button type="button" class="btn btn-primary" id="btnHantarTanah">
-                            <i class="fas fa-paper-plane"></i> Hantar Permohonan
-                        </button>
+                    <div class="form-group">
+                        <label class="required">Tujuan Penggunaan</label>
+                        <textarea class="form-control" id="tujuanTanah" rows="3" required></textarea>
                     </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn" data-modal="borangTanahModal">
+                        <i class="fas fa-times"></i> Batal
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnHantarTanah">
+                        <i class="fas fa-paper-plane"></i> Hantar Permohonan
+                    </button>
                 </div>
             </div>
         </div>
@@ -1604,29 +1411,644 @@
                 <button class="close-modal" data-modal="borangRumahRehatModal">&times;</button>
             </div>
             <div class="modal-body">
-                <div id="formRumahRehat">
-                    <div class="form-section">
-                        <h3 class="section-title"><i class="fas fa-calendar-alt"></i> MAKLUMAT TEMPOH SEWAAN</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="required">Tarikh Mula</label>
-                                <input type="date" class="form-control" id="tarikhMulaRehat" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="required">Tarikh Tamat</label>
-                                <input type="date" class="form-control" id="tarikhTamatRehat" required>
-                            </div>
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-calendar-alt"></i> MAKLUMAT TEMPOH SEWAAN</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Tarikh Mula</label>
+                            <input type="date" class="form-control" id="tarikhMulaRehat" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Tarikh Tamat</label>
+                            <input type="date" class="form-control" id="tarikhTamatRehat" required>
                         </div>
                     </div>
-                    
-                    <div class="form-actions">
-                        <button type="button" class="btn" id="btnBatalRumahRehat">
-                            <i class="fas fa-times"></i> Batal
-                        </button>
-                        <button type="button" class="btn btn-primary" id="btnHantarRumahRehat">
-                            <i class="fas fa-paper-plane"></i> Hantar Permohonan
-                        </button>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Jumlah Peserta</label>
+                            <input type="number" class="form-control" id="jumlahPeserta" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Tujuan Penggunaan</label>
+                            <input type="text" class="form-control" id="tujuanRumahRehat" required>
+                        </div>
                     </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn" data-modal="borangRumahRehatModal">
+                        <i class="fas fa-times"></i> Batal
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnHantarRumahRehat">
+                        <i class="fas fa-paper-plane"></i> Hantar Permohonan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Borang Lot Kedai -->
+    <div class="modal" id="borangKedaiModal">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, var(--kedai) 0%, #f1c40f 100%);">
+                <h3><i class="fas fa-store"></i> Borang Permohonan Sewaan Lot Kedai</h3>
+                <button class="close-modal" data-modal="borangKedaiModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-user-tie"></i> MAKLUMAT PEMOHON</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Nama Pemohon/Syarikat</label>
+                            <input type="text" class="form-control" id="namaPemohonKedai" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">No. Pendaftaran Perniagaan</label>
+                            <input type="text" class="form-control" id="noPendaftaranKedai" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-store"></i> MAKLUMAT PERNIAGAAN</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Jenis Perniagaan</label>
+                            <select class="form-control" id="jenisPerniagaanKedai" required>
+                                <option value="">Pilih Jenis</option>
+                                <option value="RUNCIT">Runcit</option>
+                                <option value="MAKANAN">Makanan & Minuman</option>
+                                <option value="FESYEN">Fesyen</option>
+                                <option value="ELEKTRONIK">Elektronik</option>
+                                <option value="PERKHIDMATAN">Perkhidmatan</option>
+                                <option value="LAIN">Lain-lain</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Tempoh Sewaan (tahun)</label>
+                            <select class="form-control" id="tempohSewaKedai" required>
+                                <option value="">Pilih Tempoh</option>
+                                <option value="1">1 Tahun</option>
+                                <option value="2">2 Tahun</option>
+                                <option value="3">3 Tahun</option>
+                                <option value="5">5 Tahun</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Lokasi Kedai</label>
+                            <select class="form-control" id="lokasiKedai" required>
+                                <option value="">Pilih Lokasi</option>
+                                <option value="K001">Kedai Batu Pahat, Johor</option>
+                                <option value="K002">Kedai Muar, Johor</option>
+                                <option value="K003">Kedai Port Dickson, Negeri Sembilan</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Luas Kedai (kaki persegi)</label>
+                            <input type="number" class="form-control" id="luasKedai" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn" data-modal="borangKedaiModal">
+                        <i class="fas fa-times"></i> Batal
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnHantarKedai" style="background-color: var(--kedai);">
+                        <i class="fas fa-paper-plane"></i> Hantar Permohonan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Borang PPHP -->
+    <div class="modal" id="borangPphpModal">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, var(--pphp) 0%, #8e44ad 100%);">
+                <h3><i class="fas fa-fish"></i> Borang Permohonan Sewaan PPHP</h3>
+                <button class="close-modal" data-modal="borangPphpModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-user-tie"></i> MAKLUMAT PEMOHON</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Nama Pemohon/Syarikat</label>
+                            <input type="text" class="form-control" id="namaPemohonPphp" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">No. Pendaftaran Nelayan/Pemborong</label>
+                            <input type="text" class="form-control" id="noPendaftaranPphp" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-fish"></i> MAKLUMAT PPHP</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Jenis Aktiviti</label>
+                            <select class="form-control" id="jenisAktivitiPphp" required>
+                                <option value="">Pilih Aktiviti</option>
+                                <option value="PEMBORONG">Pemborong Ikan</option>
+                                <option value="PENJUAL">Penjual Ikan</option>
+                                <option value="PEMPROSES">Pemproses Ikan</option>
+                                <option value="PERKHIDMATAN">Perkhidmatan Nelayan</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Lokasi PPHP</label>
+                            <select class="form-control" id="lokasiPphp" required>
+                                <option value="">Pilih Lokasi</option>
+                                <option value="P001">PPHP Batu Pahat</option>
+                                <option value="P002">PPHP Muar</option>
+                                <option value="P003">PPHP Port Dickson</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="required">Kapasiti Storan (kg/hari)</label>
+                        <input type="number" class="form-control" id="kapasitiPphp" required>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn" data-modal="borangPphpModal">
+                        <i class="fas fa-times"></i> Batal
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnHantarPphp" style="background-color: var(--pphp);">
+                        <i class="fas fa-paper-plane"></i> Hantar Permohonan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Borang Kompleks -->
+    <div class="modal" id="borangKompleksModal">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, var(--kompleks) 0%, #2980b9 100%);">
+                <h3><i class="fas fa-city"></i> Borang Permohonan Sewaan Kompleks</h3>
+                <button class="close-modal" data-modal="borangKompleksModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-building"></i> MAKLUMAT KOMPLEKS</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Nama Kompleks</label>
+                            <select class="form-control" id="namaKompleks" required>
+                                <option value="">Pilih Kompleks</option>
+                                <option value="KOMP001">Kompleks Perikanan Batu Pahat</option>
+                                <option value="KOMP002">Kompleks Perikanan Muar</option>
+                                <option value="KOMP003">Kompleks Perikanan Port Dickson</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Jenis Ruang</label>
+                            <select class="form-control" id="jenisRuangKompleks" required>
+                                <option value="">Pilih Jenis Ruang</option>
+                                <option value="PEJABAT">Pejabat</option>
+                                <option value="HALL">Dewan/Hall</option>
+                                <option value="BILIK">Bilik Mesyuarat</option>
+                                <option value="GERAI">Gerai</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Luas Ruang (kaki persegi)</label>
+                            <input type="number" class="form-control" id="luasKompleks" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Tempoh Sewaan (bulan)</label>
+                            <input type="number" class="form-control" id="tempohKompleks" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn" data-modal="borangKompleksModal">
+                        <i class="fas fa-times"></i> Batal
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnHantarKompleks" style="background-color: var(--kompleks);">
+                        <i class="fas fa-paper-plane"></i> Hantar Permohonan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Borang Pasar Nelayan -->
+    <div class="modal" id="borangPasarModal">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, var(--pasar) 0%, #c0392b 100%);">
+                <h3><i class="fas fa-shopping-basket"></i> Borang Permohonan Sewaan Pasar Nelayan</h3>
+                <button class="close-modal" data-modal="borangPasarModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-user-tie"></i> MAKLUMAT PEMOHON</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Nama Pemohon</label>
+                            <input type="text" class="form-control" id="namaPemohonPasar" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">No. Pendaftaran Nelayan/Penjual</label>
+                            <input type="text" class="form-control" id="noPendaftaranPasar" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-shopping-basket"></i> MAKLUMAT GERAI</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Lokasi Pasar</label>
+                            <select class="form-control" id="lokasiPasar" required>
+                                <option value="">Pilih Pasar</option>
+                                <option value="PSR001">Pasar Nelayan Batu Pahat</option>
+                                <option value="PSR002">Pasar Nelayan Muar</option>
+                                <option value="PSR003">Pasar Nelayan Port Dickson</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Jenis Gerai</label>
+                            <select class="form-control" id="jenisGerai" required>
+                                <option value="">Pilih Jenis Gerai</option>
+                                <option value="IKAN_SEGAR">Ikan Segar</option>
+                                <option value="IKAN_KERING">Ikan Kering</option>
+                                <option value="MAKANAN">Makanan</option>
+                                <option value="SAYUR">Sayur-sayuran</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="required">Tempoh Operasi (bulan)</label>
+                        <input type="number" class="form-control" id="tempohPasar" required>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn" data-modal="borangPasarModal">
+                        <i class="fas fa-times"></i> Batal
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnHantarPasar" style="background-color: var(--pasar);">
+                        <i class="fas fa-paper-plane"></i> Hantar Permohonan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Borang Akuakultur -->
+    <div class="modal" id="borangAkuakulturModal">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, var(--akuakultur) 0%, #27ae60 100%);">
+                <h3><i class="fas fa-water"></i> Borang Permohonan Sewaan Akuakultur</h3>
+                <button class="close-modal" data-modal="borangAkuakulturModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-user-tie"></i> MAKLUMAT PEMOHON</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Nama Pemohon/Syarikat</label>
+                            <input type="text" class="form-control" id="namaPemohonAkuakultur" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">No. Pendaftaran Akuakultur</label>
+                            <input type="text" class="form-control" id="noPendaftaranAkuakultur" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-water"></i> MAKLUMAT KOLAM</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Lokasi Kolam</label>
+                            <select class="form-control" id="lokasiAkuakultur" required>
+                                <option value="">Pilih Lokasi</option>
+                                <option value="AK001">Kolam Akuakultur Batu Pahat</option>
+                                <option value="AK002">Kolam Akuakultur Muar</option>
+                                <option value="AK003">Kolam Akuakultur Port Dickson</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Jenis Ikan</label>
+                            <select class="form-control" id="jenisIkan" required>
+                                <option value="">Pilih Jenis Ikan</option>
+                                <option value="TILAPIA">Tilapia</option>
+                                <option value="PATIN">Patin</option>
+                                <option value="KELI">Keli</option>
+                                <option value="LAUT">Ikan Laut</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Luas Kolam (ekar)</label>
+                            <input type="number" class="form-control" id="luasAkuakultur" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Tempoh Sewaan (tahun)</label>
+                            <select class="form-control" id="tempohAkuakultur" required>
+                                <option value="">Pilih Tempoh</option>
+                                <option value="1">1 Tahun</option>
+                                <option value="3">3 Tahun</option>
+                                <option value="5">5 Tahun</option>
+                                <option value="10">10 Tahun</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn" data-modal="borangAkuakulturModal">
+                        <i class="fas fa-times"></i> Batal
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnHantarAkuakultur" style="background-color: var(--akuakultur);">
+                        <i class="fas fa-paper-plane"></i> Hantar Permohonan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Borang Slipway -->
+    <div class="modal" id="borangSlipwayModal">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, var(--slipway) 0%, #16a085 100%);">
+                <h3><i class="fas fa-ship"></i> Borang Permohonan Sewaan Slipway</h3>
+                <button class="close-modal" data-modal="borangSlipwayModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-user-tie"></i> MAKLUMAT PEMOHON</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Nama Pemohon/Syarikat</label>
+                            <input type="text" class="form-control" id="namaPemohonSlipway" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">No. Pendaftaran Syarikat</label>
+                            <input type="text" class="form-control" id="noPendaftaranSlipway" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-ship"></i> MAKLUMAT SLIPWAY</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Lokasi Slipway</label>
+                            <select class="form-control" id="lokasiSlipway" required>
+                                <option value="">Pilih Lokasi</option>
+                                <option value="SW001">Slipway Batu Pahat</option>
+                                <option value="SW002">Slipway Muar</option>
+                                <option value="SW003">Slipway Port Dickson</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Jenis Perkhidmatan</label>
+                            <select class="form-control" id="jenisPerkhidmatanSlipway" required>
+                                <option value="">Pilih Perkhidmatan</option>
+                                <option value="REPARASI">Reparasi Kapal</option>
+                                <option value="PEMBINAAN">Pembinaan Kapal</option>
+                                <option value="PENYELENGGARAAN">Penyelenggaraan</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="required">Tempoh Sewaan (bulan)</label>
+                        <input type="number" class="form-control" id="tempohSlipway" required>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn" data-modal="borangSlipwayModal">
+                        <i class="fas fa-times"></i> Batal
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnHantarSlipway" style="background-color: var(--slipway);">
+                        <i class="fas fa-paper-plane"></i> Hantar Permohonan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Borang CCDC -->
+    <div class="modal" id="borangCcdcModal">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, var(--ccdc) 0%, #2c3e50 100%);">
+                <h3><i class="fas fa-industry"></i> Borang Permohonan Sewaan CCDC</h3>
+                <button class="close-modal" data-modal="borangCcdcModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-user-tie"></i> MAKLUMAT PEMOHON</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Nama Syarikat</label>
+                            <input type="text" class="form-control" id="namaSyarikatCcdc" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">No. Pendaftaran Syarikat</label>
+                            <input type="text" class="form-control" id="noPendaftaranCcdc" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-industry"></i> MAKLUMAT CCDC</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Lokasi CCDC</label>
+                            <select class="form-control" id="lokasiCcdc" required>
+                                <option value="">Pilih Lokasi</option>
+                                <option value="CDC001">CCDC Batu Pahat</option>
+                                <option value="CDC002">CCDC Muar</option>
+                                <option value="CDC003">CCDC Port Dickson</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Jenis Industri</label>
+                            <select class="form-control" id="jenisIndustriCcdc" required>
+                                <option value="">Pilih Industri</option>
+                                <option value="MAKANAN">Pemprosesan Makanan</option>
+                                <option value="IKAN">Pemprosesan Ikan</option>
+                                <option value="LOGAM">Logam</option>
+                                <option value="KAYU">Kayu</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Luas Ruang (kaki persegi)</label>
+                            <input type="number" class="form-control" id="luasCcdc" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Tempoh Sewaan (tahun)</label>
+                            <select class="form-control" id="tempohCcdc" required>
+                                <option value="">Pilih Tempoh</option>
+                                <option value="1">1 Tahun</option>
+                                <option value="3">3 Tahun</option>
+                                <option value="5">5 Tahun</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn" data-modal="borangCcdcModal">
+                        <i class="fas fa-times"></i> Batal
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnHantarCcdc" style="background-color: var(--ccdc);">
+                        <i class="fas fa-paper-plane"></i> Hantar Permohonan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Borang Bilik Sejuk -->
+    <div class="modal" id="borangBilikSejukModal">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, var(--bilik-sejuk) 0%, #7f8c8d 100%);">
+                <h3><i class="fas fa-snowflake"></i> Borang Permohonan Sewaan Bilik Sejuk</h3>
+                <button class="close-modal" data-modal="borangBilikSejukModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-user-tie"></i> MAKLUMAT PEMOHON</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Nama Pemohon/Syarikat</label>
+                            <input type="text" class="form-control" id="namaPemohonBilikSejuk" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">No. Pendaftaran</label>
+                            <input type="text" class="form-control" id="noPendaftaranBilikSejuk" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-snowflake"></i> MAKLUMAT BILIK SEJUK</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Lokasi Bilik Sejuk</label>
+                            <select class="form-control" id="lokasiBilikSejuk" required>
+                                <option value="">Pilih Lokasi</option>
+                                <option value="BS001">Bilik Sejuk Batu Pahat</option>
+                                <option value="BS002">Bilik Sejuk Muar</option>
+                                <option value="BS003">Bilik Sejuk Port Dickson</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Kapasiti Storan (ton)</label>
+                            <input type="number" class="form-control" id="kapasitiBilikSejuk" step="0.1" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Jenis Barangan</label>
+                            <select class="form-control" id="jenisBaranganBilikSejuk" required>
+                                <option value="">Pilih Jenis Barangan</option>
+                                <option value="IKAN">Ikan</option>
+                                <option value="DAGING">Daging</option>
+                                <option value="SAYUR">Sayur-sayuran</option>
+                                <option value="BUAH">Buah-buahan</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Tempoh Sewaan (bulan)</label>
+                            <input type="number" class="form-control" id="tempohBilikSejuk" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn" data-modal="borangBilikSejukModal">
+                        <i class="fas fa-times"></i> Batal
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnHantarBilikSejuk" style="background-color: var(--bilik-sejuk);">
+                        <i class="fas fa-paper-plane"></i> Hantar Permohonan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Borang Jeti -->
+    <div class="modal" id="borangJetiModal">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, var(--jeti) 0%, #1a5276 100%);">
+                <h3><i class="fas fa-anchor"></i> Borang Permohonan Sewaan Jeti</h3>
+                <button class="close-modal" data-modal="borangJetiModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-user-tie"></i> MAKLUMAT PEMOHON</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Nama Pemohon/Syarikat</label>
+                            <input type="text" class="form-control" id="namaPemohonJeti" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">No. Pendaftaran Syarikat/Nelayan</label>
+                            <input type="text" class="form-control" id="noPendaftaranJeti" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-anchor"></i> MAKLUMAT JETI</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Lokasi Jeti</label>
+                            <select class="form-control" id="lokasiJeti" required>
+                                <option value="">Pilih Lokasi</option>
+                                <option value="JT001">Jeti Batu Pahat</option>
+                                <option value="JT002">Jeti Muar</option>
+                                <option value="JT003">Jeti Port Dickson</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Jenis Kapal/Bot</label>
+                            <select class="form-control" id="jenisKapalJeti" required>
+                                <option value="">Pilih Jenis Kapal</option>
+                                <option value="NELAYAN">Bot Nelayan</option>
+                                <option value="PESIAR">Bot Pesiaran</option>
+                                <option value="KARGO">Bot Kargo Kecil</option>
+                                <option value="PERKHIDMATAN">Bot Perkhidmatan</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Panjang Kapal (meter)</label>
+                            <input type="number" class="form-control" id="panjangKapal" step="0.1" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Tempoh Berth (bulan)</label>
+                            <input type="number" class="form-control" id="tempohJeti" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn" data-modal="borangJetiModal">
+                        <i class="fas fa-times"></i> Batal
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnHantarJeti" style="background-color: var(--jeti);">
+                        <i class="fas fa-paper-plane"></i> Hantar Permohonan
+                    </button>
                 </div>
             </div>
         </div>
@@ -1647,6 +2069,9 @@
                     <h3 style="color: var(--primary); margin-bottom: 15px;">Permohonan Telah Dihantar</h3>
                     <p style="margin-bottom: 20px; font-size: 1.1rem;">
                         No. Rujukan: <strong id="successRefNumber">APP-2023-001</strong>
+                    </p>
+                    <p style="color: var(--gray); margin-bottom: 20px;">
+                        <i class="fas fa-info-circle"></i> Permohonan anda sedang diproses. Sila semak status dalam halaman Permohonan Saya.
                     </p>
                     <button class="btn btn-primary" id="btnOkSuccess">
                         <i class="fas fa-check"></i> OK
@@ -1736,199 +2161,110 @@
                 type: "kedai",
                 name: "Lot Kedai",
                 icon: "fas fa-store",
-                color: "#f39c12",
-                description: "Lot kedai di kawasan komersial dengan foot traffic tinggi. Sesuai untuk perniagaan runcit dan servis.",
+                color: "var(--kedai)",
+                description: "Lot kedai di kawasan komersial dengan foot traffic tinggi.",
                 monthlyRent: "RM 1,800",
                 totalUnits: 2,
-                availableUnits: 2
+                availableUnits: 2,
+                modal: "borangKedaiModal"
             },
-        {
+            {
                 id: 6,
-                type: "Jeti",
+                type: "jeti",
                 name: "Jeti",
-                icon: "fa-sharp-duotone fa-regular fa-ship",
-                color: "#f39c12",
-                description: "Jeti",
-                monthlyRent: "RM 1,800",
+                icon: "fas fa-ship",
+                color: "var(--jeti)",
+                description: "Jeti untuk kapal nelayan dan perkhidmatan marin.",
+                monthlyRent: "RM 2,200",
                 totalUnits: 598,
-                availableUnits: 93
+                availableUnits: 93,
+                modal: "borangJetiModal"
             },
             {
                 id: 7,
                 type: "pphp",
                 name: "PPHP",
-                icon: "fas fa-store",
-                color: "#f39c12",
-                description: "PPHP.",
-                monthlyRent: "RM 1,800",
+                icon: "fas fa-fish",
+                color: "var(--pphp)",
+                description: "Pusat Pendaratan dan Pemasaran Hasil Perikanan.",
+                monthlyRent: "RM 1,500",
                 totalUnits: 30,
-                availableUnits: 12
+                availableUnits: 12,
+                modal: "borangPphpModal"
             },
             {
                 id: 8,
                 type: "kompleks",
                 name: "Kompleks",
-                icon: "fas fa-store",
-                color: "#f39c12",
-                description: "Kompleks",
-                monthlyRent: "RM 1,800",
+                icon: "fas fa-city",
+                color: "var(--kompleks)",
+                description: "Kompleks perniagaan dan perkhidmatan bersepadu.",
+                monthlyRent: "RM 3,500",
                 totalUnits: 51,
-                availableUnits: 1
+                availableUnits: 1,
+                modal: "borangKompleksModal"
             },
             {
                 id: 9,
                 type: "pasar",
-                name: "Pasar Nelanyan",
-                icon: "fas fa-store",
-                color: "#f39c12",
-                description: "Pasar Nelayan",
-                monthlyRent: "RM 1,800",
+                name: "Pasar Nelayan",
+                icon: "fas fa-shopping-basket",
+                color: "var(--pasar)",
+                description: "Pasar khas untuk penjualan hasil laut dan ikan segar.",
+                monthlyRent: "RM 800",
                 totalUnits: 122,
-                availableUnits: 45
+                availableUnits: 45,
+                modal: "borangPasarModal"
             },
             {
                 id: 10,
                 type: "akuakultur",
                 name: "Akuakultur",
-                icon: "fas fa-store",
-                color: "#f39c12",
-                description: "Akuakultur",
-                monthlyRent: "RM 1,800",
+                icon: "fas fa-water",
+                color: "var(--akuakultur)",
+                description: "Kawasan akuakultur untuk penternakan ikan dan udang.",
+                monthlyRent: "RM 1,200",
                 totalUnits: 7,
-                availableUnits: 6
+                availableUnits: 6,
+                modal: "borangAkuakulturModal"
             },
             {
                 id: 11,
                 type: "slipway",
                 name: "Slipway",
-                icon: "fas fa-store",
-                color: "#f39c12",
-                description: "Slipway",
-                monthlyRent: "RM 1,800",
+                icon: "fas fa-ship",
+                color: "var(--slipway)",
+                description: "Kemudahan untuk membaiki dan membina kapal kecil.",
+                monthlyRent: "RM 4,500",
                 totalUnits: 9,
-                availableUnits: 2
+                availableUnits: 2,
+                modal: "borangSlipwayModal"
             },
             {
                 id: 12,
                 type: "ccdc",
                 name: "CCDC",
-                icon: "fas fa-store",
-                color: "#f39c12",
-                description: "CCDC",
-                monthlyRent: "RM 1,800",
+                icon: "fas fa-industry",
+                color: "var(--ccdc)",
+                description: "Common Collection & Distribution Centre untuk industri.",
+                monthlyRent: "RM 5,000",
                 totalUnits: 77,
-                availableUnits: 9
+                availableUnits: 9,
+                modal: "borangCcdcModal"
             },
             {
                 id: 13,
-                type: "bilik",
+                type: "bilik_sejuk",
                 name: "Bilik Sejuk",
-                icon: "fas fa-store",
-                color: "#f39c12",
-                description: "Bilik Sejuk",
-                monthlyRent: "RM 1,800",
+                icon: "fas fa-snowflake",
+                color: "var(--bilik-sejuk)",
+                description: "Bilik penyimpanan sejuk untuk produk pertanian dan ikan.",
+                monthlyRent: "RM 2,800",
                 totalUnits: 182,
-                availableUnits: 52
+                availableUnits: 52,
+                modal: "borangBilikSejukModal"
             }
         ];
-        
-        // Data kuarters berdasarkan kelas dengan lokasi
-        const KUARTERS_DATA = {
-            'A': {
-                name: 'Kelas A',
-                color: 'class-a',
-                gred: ['JUSA', 'N54'],
-                luas: '1800-2200 kaki persegi',
-                bilik: '4-5 bilik',
-                kemudahan: '3 bilik air, dapur moden, parking 2 kereta, aircond',
-                sewa: 'RM 450-550',
-                lokasi: 'Kawasan VIP, berhampiran pejabat utama',
-                image: 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
-                units: [
-                    { id: 'KA001', name: 'Kuarters A1 - Blok A', status: 'available' },
-                    { id: 'KA002', name: 'Kuarters A2 - Blok A', status: 'available' },
-                    { id: 'KA003', name: 'Kuarters A3 - Blok B', status: 'occupied' },
-                    { id: 'KA004', name: 'Kuarters A4 - Blok B', status: 'available' }
-                ]
-            },
-            'B': {
-                name: 'Kelas B',
-                color: 'class-b',
-                gred: ['N48', 'N44', 'F41', 'S41'],
-                luas: '1500-1800 kaki persegi',
-                bilik: '3-4 bilik',
-                kemudahan: '2 bilik air, dapur, parking 2 kereta, kipas siling',
-                sewa: 'RM 350-450',
-                lokasi: 'Kawasan tengah, berhampiran kemudahan awam',
-                image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
-                units: [
-                    { id: 'KB001', name: 'Kuarters B1 - Blok C', status: 'available' },
-                    { id: 'KB002', name: 'Kuarters B2 - Blok C', status: 'occupied' },
-                    { id: 'KB003', name: 'Kuarters B3 - Blok D', status: 'available' },
-                    { id: 'KB004', name: 'Kuarters B4 - Blok D', status: 'occupied' },
-                    { id: 'KB005', name: 'Kuarters B5 - Blok E', status: 'available' }
-                ]
-            },
-            'C': {
-                name: 'Kelas C',
-                color: 'class-c',
-                gred: ['N41', 'F38', 'S38', 'M41', 'W41'],
-                luas: '1200-1500 kaki persegi',
-                bilik: '3 bilik',
-                kemudahan: '2 bilik air, dapur, parking 1 kereta',
-                sewa: 'RM 250-350',
-                lokasi: 'Kawasan luar, 5 minit ke pejabat',
-                image: 'https://images.unsplash.com/photo-1558036117-15e82a2c9a9a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
-                units: [
-                    { id: 'KC001', name: 'Kuarters C1 - Blok F', status: 'available' },
-                    { id: 'KC002', name: 'Kuarters C2 - Blok F', status: 'available' },
-                    { id: 'KC003', name: 'Kuarters C3 - Blok G', status: 'occupied' },
-                    { id: 'KC004', name: 'Kuarters C4 - Blok G', status: 'available' },
-                    { id: 'KC005', name: 'Kuarters C5 - Blok H', status: 'available' },
-                    { id: 'KC006', name: 'Kuarters C6 - Blok H', status: 'occupied' }
-                ]
-            },
-            'D': {
-                name: 'Kelas D',
-                color: 'class-d',
-                gred: ['M38', 'W38', 'A29', 'A19', 'R14'],
-                luas: '800-1200 kaki persegi',
-                bilik: '2 bilik',
-                kemudahan: '1 bilik air, dapur kecil, parking 1 kereta',
-                sewa: 'RM 150-250',
-                lokasi: 'Kawasan asrama, berhampiran pintu masuk',
-                image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
-                units: [
-                    { id: 'KD001', name: 'Kuarters D1 - Blok I', status: 'available' },
-                    { id: 'KD002', name: 'Kuarters D2 - Blok I', status: 'occupied' },
-                    { id: 'KD003', name: 'Kuarters D3 - Blok J', status: 'available' },
-                    { id: 'KD004', name: 'Kuarters D4 - Blok J', status: 'available' },
-                    { id: 'KD005', name: 'Kuarters D5 - Blok K', status: 'occupied' },
-                    { id: 'KD006', name: 'Kuarters D6 - Blok K', status: 'available' },
-                    { id: 'KD007', name: 'Kuarters D7 - Blok L', status: 'available' }
-                ]
-            }
-        };
-
-        // Pemetaan gred ke kelas kuarters
-        const GRED_TO_CLASS = {
-            'JUSA': 'A',
-            'N54': 'A',
-            'N48': 'B',
-            'N44': 'B',
-            'F41': 'B',
-            'S41': 'B',
-            'N41': 'C',
-            'F38': 'C',
-            'S38': 'C',
-            'M41': 'C',
-            'W41': 'C',
-            'M38': 'D',
-            'W38': 'D',
-            'A29': 'D',
-            'A19': 'D',
-            'R14': 'D'
-        };
         
         let currentUser = null;
         let users = [];
@@ -2158,509 +2494,273 @@
         }
         
         // ============================================
-        // BORANG KUARTERS FUNCTIONS
+        // FORM VALIDATION & SUBMISSION FUNCTIONS
         // ============================================
         
-        function initializeKuartersForm() {
-            try {
-                if (currentUser) {
-                    document.getElementById('namaPemohon').value = currentUser.name || '';
-                    document.getElementById('noKP').value = currentUser.ic || '';
-                    
-                    // Auto-generate reference number
-                    const refNumber = `KUARTERS-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 1000)).padStart(4, '0')}`;
-                    document.getElementById('noRujukan').textContent = refNumber;
-                }
-            } catch (e) {
-                console.error('Error loading user data:', e);
-            }
+        function validateForm(formId) {
+            const form = document.getElementById(formId);
+            if (!form) return true;
             
-            // Set today's date as application date
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('tarikhMohon').value = formatDate(today);
-            
-            // Set minimum date for tarikh masuk (tomorrow)
-            const tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            const tomorrowStr = tomorrow.toISOString().split('T')[0];
-            document.getElementById('tarikhMasuk').min = tomorrowStr;
-            document.getElementById('tarikhMasuk').value = tomorrowStr; // Set default to tomorrow
-            
-            // Initialize preview status
-            updatePreviewStatus();
-        }
-        
-        function updateKuartersClass() {
-            const gred = document.getElementById('gredJawatan').value;
-            const kelasKuarters = document.getElementById('kelasKuarters');
-            const unitSelect = document.getElementById('unitKuarters');
-            
-            if (gred && GRED_TO_CLASS[gred]) {
-                const kelas = GRED_TO_CLASS[gred];
-                const kelasData = KUARTERS_DATA[kelas];
-                
-                kelasKuarters.value = kelasData.name;
-                unitSelect.disabled = false;
-            } else {
-                kelasKuarters.value = '';
-                unitSelect.disabled = true;
-                unitSelect.innerHTML = '<option value="">Sila pilih gred dahulu</option>';
-            }
-        }
-        
-        function updateUnitOptions() {
-            const gred = document.getElementById('gredJawatan').value;
-            const unitSelect = document.getElementById('unitKuarters');
-            
-            if (!gred || !GRED_TO_CLASS[gred]) return;
-            
-            const kelas = GRED_TO_CLASS[gred];
-            const kelasData = KUARTERS_DATA[kelas];
-            
-            unitSelect.innerHTML = '<option value="">Sila pilih unit</option>';
-            
-            kelasData.units.forEach(unit => {
-                const option = document.createElement('option');
-                option.value = unit.id;
-                option.textContent = `${unit.name} (${unit.status === 'available' ? 'Tersedia' : 'Telah Ditempati'})`;
-                option.disabled = unit.status !== 'available';
-                unitSelect.appendChild(option);
-            });
-        }
-        
-        function updateKuartersPreview(forceRefresh = false) {
-            const gred = document.getElementById('gredJawatan').value;
-            const unitId = document.getElementById('unitKuarters').value;
-            
-            if (!gred || !GRED_TO_CLASS[gred]) {
-                resetPreview();
-                return;
-            }
-            
-            const kelas = GRED_TO_CLASS[gred];
-            const kelasData = KUARTERS_DATA[kelas];
-            
-            // Update image
-            const imageContainer = document.getElementById('kuartersImage');
-            if (imageContainer) {
-                imageContainer.innerHTML = `
-                    <img src="${kelasData.image}${forceRefresh ? '&' : '?'}refresh=${Date.now()}" alt="${kelasData.name}" onerror="this.src=''" style="width:100%; height:100%; object-fit:cover;">
-                `;
-            }
-            
-            // Update class badge
-            const previewKelas = document.getElementById('previewKelas');
-            if (previewKelas) {
-                previewKelas.textContent = kelasData.name;
-                previewKelas.className = `kuarters-class-badge ${kelasData.color}`;
-                previewKelas.style.backgroundColor = getColorForClass(kelas);
-            }
-            
-            // Update details
-            document.getElementById('previewGred').textContent = kelasData.gred.join(', ');
-            document.getElementById('previewLuas').textContent = kelasData.luas;
-            document.getElementById('previewBilik').textContent = kelasData.bilik;
-            document.getElementById('previewKemudahan').textContent = kelasData.kemudahan;
-            document.getElementById('previewSewa').textContent = kelasData.sewa;
-            document.getElementById('previewLokasi').textContent = kelasData.lokasi;
-            
-            // Update status based on selected unit
-            updatePreviewStatus(unitId, kelasData);
-        }
-        
-        function getColorForClass(className) {
-            switch(className) {
-                case 'A': return '#9b59b6';
-                case 'B': return '#3498db';
-                case 'C': return '#2ecc71';
-                case 'D': return '#e74c3c';
-                default: return '#6c757d';
-            }
-        }
-        
-        function updatePreviewStatus(unitId = null, kelasData = null) {
-            const statusElement = document.getElementById('previewStatus');
-            const statusText = document.getElementById('statusText');
-            
-            if (!unitId || !kelasData) {
-                if (statusElement) {
-                    statusElement.className = 'availability-status';
-                    const statusDot = statusElement.querySelector('.status-dot');
-                    if (statusDot) statusDot.style.backgroundColor = '#6c757d';
-                }
-                if (statusText) statusText.textContent = 'Sila pilih unit';
-                return;
-            }
-            
-            const selectedUnit = kelasData.units.find(unit => unit.id === unitId);
-            
-            if (selectedUnit) {
-                if (selectedUnit.status === 'available') {
-                    statusElement.className = 'availability-status available';
-                    statusElement.querySelector('.status-dot').style.backgroundColor = 'var(--success)';
-                    statusText.textContent = 'Tersedia';
-                } else {
-                    statusElement.className = 'availability-status occupied';
-                    statusElement.querySelector('.status-dot').style.backgroundColor = 'var(--danger)';
-                    statusText.textContent = 'Telah Ditempati';
-                }
-            } else {
-                statusElement.className = 'availability-status';
-                statusElement.querySelector('.status-dot').style.backgroundColor = '#6c757d';
-                statusText.textContent = 'Tidak Dijumpai';
-            }
-        }
-        
-        function resetPreview() {
-            const imageContainer = document.getElementById('kuartersImage');
-            if (imageContainer) {
-                imageContainer.innerHTML = `
-                    <div class="image-placeholder" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--gray); text-align: center; padding: 20px;">
-                        <i class="fas fa-home" style="font-size: 3rem; margin-bottom: 10px; opacity: 0.5;"></i>
-                        <p>Pilih gred jawatan untuk melihat gambar kuarters</p>
-                    </div>
-                `;
-            }
-            
-            const previewKelas = document.getElementById('previewKelas');
-            if (previewKelas) {
-                previewKelas.textContent = '-';
-                previewKelas.className = 'kuarters-class-badge';
-                previewKelas.style.backgroundColor = '#6c757d';
-            }
-            
-            document.getElementById('previewGred').textContent = '-';
-            document.getElementById('previewLuas').textContent = '-';
-            document.getElementById('previewBilik').textContent = '-';
-            document.getElementById('previewKemudahan').textContent = '-';
-            document.getElementById('previewSewa').textContent = '-';
-            document.getElementById('previewLokasi').textContent = '-';
-            
-            const statusElement = document.getElementById('previewStatus');
-            if (statusElement) {
-                statusElement.className = 'availability-status';
-                const statusDot = statusElement.querySelector('.status-dot');
-                if (statusDot) statusDot.style.backgroundColor = '#6c757d';
-                document.getElementById('statusText').textContent = '-';
-            }
-        }
-        
-        function validateKuartersForm() {
-            const requiredFields = [
-                'namaPemohon', 'noKP', 'gredJawatan', 'jabatan',
-                'alamatJabatan', 'tarikhMasuk', 'jarakKerja', 'justifikasi'
-            ];
-            
-            for (const fieldId of requiredFields) {
-                const field = document.getElementById(fieldId);
+            const requiredFields = form.querySelectorAll('[required]');
+            for (const field of requiredFields) {
                 if (!field.value.trim()) {
                     alert(`Sila isi ${field.previousElementSibling.textContent}`);
                     field.focus();
                     return false;
                 }
             }
-            
-            // Check radio buttons
-            const maritalStatus = document.querySelector('input[name="statusPerkahwinan"]:checked');
-            if (!maritalStatus) {
-                alert('Sila pilih status perkahwinan');
-                return false;
-            }
-            
-            // Check jumlah tanggungan
-            if (!document.getElementById('jumlahTanggungan').value) {
-                alert('Sila pilih jumlah tanggungan');
-                return false;
-            }
-            
-            // Check unit kuarters
-            const unitKuarters = document.getElementById('unitKuarters');
-            if (!unitKuarters.value) {
-                alert('Sila pilih unit kuarters');
-                return false;
-            }
-            
-            // Check if selected unit is available
-            const selectedOption = unitKuarters.options[unitKuarters.selectedIndex];
-            if (selectedOption.disabled) {
-                alert('Unit yang dipilih tidak tersedia. Sila pilih unit lain.');
-                return false;
-            }
-            
-            // Validate tarikh masuk
-            const tarikhMasuk = document.getElementById('tarikhMasuk').value;
-            const today = new Date();
-            const selectedDate = new Date(tarikhMasuk);
-            
-            if (selectedDate < today) {
-                alert('Tarikh masuk tidak boleh kurang dari hari ini');
-                document.getElementById('tarikhMasuk').value = '';
-                return false;
-            }
-            
-            // Check if date is within 6 months
-            const sixMonthsLater = new Date();
-            sixMonthsLater.setMonth(sixMonthsLater.getMonth() + 6);
-            
-            if (selectedDate > sixMonthsLater) {
-                if (!confirm('Tarikh yang dipilih adalah lebih dari 6 bulan dari sekarang. Adakah anda pasti?')) {
-                    document.getElementById('tarikhMasuk').value = '';
-                    return false;
-                }
-            }
-            
-            // Validate jarak kerja
-            const jarakKerja = parseFloat(document.getElementById('jarakKerja').value);
-            if (jarakKerja < 0) {
-                alert('Jarak kerja tidak boleh kurang dari 0 km');
-                document.getElementById('jarakKerja').value = '';
-                return false;
-            }
-            
             return true;
         }
         
-        function submitKuartersForm() {
-            if (!validateKuartersForm()) return;
+        function submitApplication(assetType, formData) {
+            const reference = `${assetType.toUpperCase()}-${new Date().getFullYear()}-${String(applications.length + 1).padStart(4, '0')}`;
             
-            // Show loading
-            const spinner = document.getElementById('loadingSpinner');
-            const submitBtn = document.getElementById('btnHantarKuarters');
-            spinner.style.display = 'block';
-            submitBtn.disabled = true;
-            
-            // Simulate API call
-            setTimeout(() => {
-                // Create application object
-                const application = {
-                    id: Date.now(),
-                    reference: document.getElementById('noRujukan').textContent,
-                    assetType: 'kuarters',
-                    assetName: 'Kuarters Kakitangan',
-                    applyDate: new Date().toISOString().split('T')[0],
-                    applicantId: currentUser.id,
-                    applicantName: currentUser.name,
-                    nama: document.getElementById('namaPemohon').value,
-                    noKP: document.getElementById('noKP').value,
-                    gred: document.getElementById('gredJawatan').value,
-                    jabatan: document.getElementById('jabatan').value,
-                    alamatJabatan: document.getElementById('alamatJabatan').value,
-                    statusPerkahwinan: document.querySelector('input[name="statusPerkahwinan"]:checked').value,
-                    jumlahTanggungan: document.getElementById('jumlahTanggungan').value,
-                    kelasKuarters: document.getElementById('kelasKuarters').value,
-                    unitKuarters: document.getElementById('unitKuarters').value,
-                    tarikhMasuk: document.getElementById('tarikhMasuk').value,
-                    jarakKerja: document.getElementById('jarakKerja').value + ' km',
-                    justifikasi: document.getElementById('justifikasi').value,
-                    tarikhMohon: document.getElementById('tarikhMohon').value,
-                    status: 'pending'
-                };
-                
-                // Save application
-                applications.push(application);
-                localStorage.setItem(STORAGE_KEYS.APPLICATIONS, JSON.stringify(applications));
-                
-                // Update success modal
-                document.getElementById('successRefNumber').textContent = application.reference;
-                
-                // Hide loading
-                spinner.style.display = 'none';
-                submitBtn.disabled = false;
-                
-                // Close kuarters modal and show success
-                closeModal('borangKuartersModal');
-                openModal('successModal');
-                
-                // Update applications list
-                loadApplicationsList();
-                
-            }, 1500);
-        }
-        
-        // ============================================
-        // BORANG PEJABAT FUNCTIONS
-        // ============================================
-        
-        function validatePejabatForm() {
-            const requiredFields = [
-                'namaOrganisasi', 'noPendaftaran', 'jenisPerniagaan',
-                'bidangOperasi', 'lokasiPejabat', 'luasRuang'
-            ];
-            
-            for (const fieldId of requiredFields) {
-                const field = document.getElementById(fieldId);
-                if (!field.value.trim()) {
-                    alert(`Sila isi ${field.previousElementSibling.textContent}`);
-                    field.focus();
-                    return false;
-                }
-            }
-            
-            return true;
-        }
-        
-        function submitPejabatForm() {
-            if (!validatePejabatForm()) return;
-            
-            // Create application object
             const application = {
                 id: Date.now(),
-                reference: `PEJABAT-${new Date().getFullYear()}-${String(applications.length + 1).padStart(3, '0')}`,
-                assetType: 'pejabat',
-                assetName: 'Sewa Pejabat',
+                reference: reference,
+                assetType: assetType,
+                assetName: formData.assetName || assetType,
                 applyDate: new Date().toISOString().split('T')[0],
                 applicantId: currentUser.id,
                 applicantName: currentUser.name,
+                ...formData,
+                status: 'pending'
+            };
+            
+            applications.push(application);
+            localStorage.setItem(STORAGE_KEYS.APPLICATIONS, JSON.stringify(applications));
+            
+            // Update success modal
+            document.getElementById('successRefNumber').textContent = application.reference;
+            
+            return application;
+        }
+        
+        // Function untuk setiap jenis borang
+        function handleKuartersSubmit() {
+            if (!validateForm('borangKuartersModal')) return;
+            
+            const formData = {
+                nama: document.getElementById('namaPemohonKuarters').value,
+                noKP: document.getElementById('noKPKuarters').value,
+                gred: document.getElementById('gredKuarters').value,
+                jabatan: document.getElementById('jabatanKuarters').value,
+                kelasKuarters: document.getElementById('kelasKuarters').value,
+                lokasi: document.getElementById('lokasiKuarters').value
+            };
+            
+            const application = submitApplication('kuarters', formData);
+            closeModal('borangKuartersModal');
+            showSuccessModal(application.reference);
+            loadApplicationsList();
+        }
+        
+        function handlePejabatSubmit() {
+            if (!validateForm('borangPejabatModal')) return;
+            
+            const formData = {
                 namaOrganisasi: document.getElementById('namaOrganisasi').value,
                 noPendaftaran: document.getElementById('noPendaftaran').value,
                 jenisPerniagaan: document.getElementById('jenisPerniagaan').value,
                 bidangOperasi: document.getElementById('bidangOperasi').value,
                 lokasiPejabat: document.getElementById('lokasiPejabat').value,
-                luasRuang: document.getElementById('luasRuang').value,
-                status: 'pending'
+                luasRuang: document.getElementById('luasRuang').value
             };
             
-            // Save application
-            applications.push(application);
-            localStorage.setItem(STORAGE_KEYS.APPLICATIONS, JSON.stringify(applications));
-            
-            // Update success modal
-            document.getElementById('successRefNumber').textContent = application.reference;
-            
-            // Close pejabat modal and show success
+            const application = submitApplication('pejabat', formData);
             closeModal('borangPejabatModal');
-            openModal('successModal');
-            
-            // Update applications list
+            showSuccessModal(application.reference);
             loadApplicationsList();
         }
         
-        // ============================================
-        // BORANG TANAH FUNCTIONS
-        // ============================================
-        
-        function validateTanahForm() {
-            const requiredFields = [
-                'namaPemohonTanah', 'noPendaftaranTanah', 'lokasiTanah', 'luasTanah'
-            ];
+        function handleTanahSubmit() {
+            if (!validateForm('borangTanahModal')) return;
             
-            for (const fieldId of requiredFields) {
-                const field = document.getElementById(fieldId);
-                if (!field.value.trim()) {
-                    alert(`Sila isi ${field.previousElementSibling.textContent}`);
-                    field.focus();
-                    return false;
-                }
-            }
-            
-            return true;
-        }
-        
-        function submitTanahForm() {
-            if (!validateTanahForm()) return;
-            
-            // Create application object
-            const application = {
-                id: Date.now(),
-                reference: `TANAH-${new Date().getFullYear()}-${String(applications.length + 1).padStart(3, '0')}`,
-                assetType: 'tanah',
-                assetName: 'Tanah Lot',
-                applyDate: new Date().toISOString().split('T')[0],
-                applicantId: currentUser.id,
-                applicantName: currentUser.name,
+            const formData = {
                 namaPemohon: document.getElementById('namaPemohonTanah').value,
                 noPendaftaran: document.getElementById('noPendaftaranTanah').value,
                 lokasiTanah: document.getElementById('lokasiTanah').value,
                 luasTanah: document.getElementById('luasTanah').value,
-                status: 'pending'
+                tujuan: document.getElementById('tujuanTanah').value
             };
             
-            // Save application
-            applications.push(application);
-            localStorage.setItem(STORAGE_KEYS.APPLICATIONS, JSON.stringify(applications));
-            
-            // Update success modal
-            document.getElementById('successRefNumber').textContent = application.reference;
-            
-            // Close tanah modal and show success
+            const application = submitApplication('tanah', formData);
             closeModal('borangTanahModal');
-            openModal('successModal');
-            
-            // Update applications list
+            showSuccessModal(application.reference);
             loadApplicationsList();
         }
         
-        // ============================================
-        // BORANG RUMAH REHAT FUNCTIONS
-        // ============================================
-        
-        function validateRumahRehatForm() {
-            const requiredFields = ['tarikhMulaRehat', 'tarikhTamatRehat'];
+        function handleRumahRehatSubmit() {
+            if (!validateForm('borangRumahRehatModal')) return;
             
-            for (const fieldId of requiredFields) {
-                const field = document.getElementById(fieldId);
-                if (!field.value.trim()) {
-                    alert(`Sila isi ${field.previousElementSibling.textContent}`);
-                    field.focus();
-                    return false;
-                }
-            }
-            
-            // Validate dates
-            const tarikhMula = new Date(document.getElementById('tarikhMulaRehat').value);
-            const tarikhTamat = new Date(document.getElementById('tarikhTamatRehat').value);
-            
-            if (tarikhMula >= tarikhTamat) {
-                alert('Tarikh tamat mesti selepas tarikh mula');
-                return false;
-            }
-            
-            return true;
-        }
-        
-        function submitRumahRehatForm() {
-            if (!validateRumahRehatForm()) return;
-            
-            // Create application object
-            const application = {
-                id: Date.now(),
-                reference: `RUMAHREHAT-${new Date().getFullYear()}-${String(applications.length + 1).padStart(3, '0')}`,
-                assetType: 'rumah_rehat',
-                assetName: 'Rumah Rehat',
-                applyDate: new Date().toISOString().split('T')[0],
-                applicantId: currentUser.id,
-                applicantName: currentUser.name,
+            const formData = {
                 tarikhMula: document.getElementById('tarikhMulaRehat').value,
                 tarikhTamat: document.getElementById('tarikhTamatRehat').value,
-                status: 'pending'
+                jumlahPeserta: document.getElementById('jumlahPeserta').value,
+                tujuan: document.getElementById('tujuanRumahRehat').value
             };
             
-            // Save application
-            applications.push(application);
-            localStorage.setItem(STORAGE_KEYS.APPLICATIONS, JSON.stringify(applications));
-            
-            // Update success modal
-            document.getElementById('successRefNumber').textContent = application.reference;
-            
-            // Close rumah rehat modal and show success
+            const application = submitApplication('rumah_rehat', formData);
             closeModal('borangRumahRehatModal');
-            openModal('successModal');
-            
-            // Update applications list
+            showSuccessModal(application.reference);
             loadApplicationsList();
         }
         
-        // ============================================
-        // FORM HANDLING FUNCTIONS
-        // ============================================
-        
-        function openBorangModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
-            document.body.style.overflow = 'hidden';
+        function handleKedaiSubmit() {
+            if (!validateForm('borangKedaiModal')) return;
             
-            if (modalId === 'borangKuartersModal') {
-                initializeKuartersForm();
-            }
+            const formData = {
+                namaPemohon: document.getElementById('namaPemohonKedai').value,
+                noPendaftaran: document.getElementById('noPendaftaranKedai').value,
+                jenisPerniagaan: document.getElementById('jenisPerniagaanKedai').value,
+                tempohSewa: document.getElementById('tempohSewaKedai').value,
+                lokasi: document.getElementById('lokasiKedai').value,
+                luas: document.getElementById('luasKedai').value
+            };
+            
+            const application = submitApplication('kedai', formData);
+            closeModal('borangKedaiModal');
+            showSuccessModal(application.reference);
+            loadApplicationsList();
+        }
+        
+        function handlePphpSubmit() {
+            if (!validateForm('borangPphpModal')) return;
+            
+            const formData = {
+                namaPemohon: document.getElementById('namaPemohonPphp').value,
+                noPendaftaran: document.getElementById('noPendaftaranPphp').value,
+                jenisAktiviti: document.getElementById('jenisAktivitiPphp').value,
+                lokasi: document.getElementById('lokasiPphp').value,
+                kapasiti: document.getElementById('kapasitiPphp').value
+            };
+            
+            const application = submitApplication('pphp', formData);
+            closeModal('borangPphpModal');
+            showSuccessModal(application.reference);
+            loadApplicationsList();
+        }
+        
+        function handleKompleksSubmit() {
+            if (!validateForm('borangKompleksModal')) return;
+            
+            const formData = {
+                namaKompleks: document.getElementById('namaKompleks').value,
+                jenisRuang: document.getElementById('jenisRuangKompleks').value,
+                luas: document.getElementById('luasKompleks').value,
+                tempoh: document.getElementById('tempohKompleks').value
+            };
+            
+            const application = submitApplication('kompleks', formData);
+            closeModal('borangKompleksModal');
+            showSuccessModal(application.reference);
+            loadApplicationsList();
+        }
+        
+        function handlePasarSubmit() {
+            if (!validateForm('borangPasarModal')) return;
+            
+            const formData = {
+                namaPemohon: document.getElementById('namaPemohonPasar').value,
+                noPendaftaran: document.getElementById('noPendaftaranPasar').value,
+                lokasi: document.getElementById('lokasiPasar').value,
+                jenisGerai: document.getElementById('jenisGerai').value,
+                tempoh: document.getElementById('tempohPasar').value
+            };
+            
+            const application = submitApplication('pasar', formData);
+            closeModal('borangPasarModal');
+            showSuccessModal(application.reference);
+            loadApplicationsList();
+        }
+        
+        function handleAkuakulturSubmit() {
+            if (!validateForm('borangAkuakulturModal')) return;
+            
+            const formData = {
+                namaPemohon: document.getElementById('namaPemohonAkuakultur').value,
+                noPendaftaran: document.getElementById('noPendaftaranAkuakultur').value,
+                lokasi: document.getElementById('lokasiAkuakultur').value,
+                jenisIkan: document.getElementById('jenisIkan').value,
+                luas: document.getElementById('luasAkuakultur').value,
+                tempoh: document.getElementById('tempohAkuakultur').value
+            };
+            
+            const application = submitApplication('akuakultur', formData);
+            closeModal('borangAkuakulturModal');
+            showSuccessModal(application.reference);
+            loadApplicationsList();
+        }
+        
+        function handleSlipwaySubmit() {
+            if (!validateForm('borangSlipwayModal')) return;
+            
+            const formData = {
+                namaPemohon: document.getElementById('namaPemohonSlipway').value,
+                noPendaftaran: document.getElementById('noPendaftaranSlipway').value,
+                lokasi: document.getElementById('lokasiSlipway').value,
+                jenisPerkhidmatan: document.getElementById('jenisPerkhidmatanSlipway').value,
+                tempoh: document.getElementById('tempohSlipway').value
+            };
+            
+            const application = submitApplication('slipway', formData);
+            closeModal('borangSlipwayModal');
+            showSuccessModal(application.reference);
+            loadApplicationsList();
+        }
+        
+        function handleCcdcSubmit() {
+            if (!validateForm('borangCcdcModal')) return;
+            
+            const formData = {
+                namaSyarikat: document.getElementById('namaSyarikatCcdc').value,
+                noPendaftaran: document.getElementById('noPendaftaranCcdc').value,
+                lokasi: document.getElementById('lokasiCcdc').value,
+                jenisIndustri: document.getElementById('jenisIndustriCcdc').value,
+                luas: document.getElementById('luasCcdc').value,
+                tempoh: document.getElementById('tempohCcdc').value
+            };
+            
+            const application = submitApplication('ccdc', formData);
+            closeModal('borangCcdcModal');
+            showSuccessModal(application.reference);
+            loadApplicationsList();
+        }
+        
+        function handleBilikSejukSubmit() {
+            if (!validateForm('borangBilikSejukModal')) return;
+            
+            const formData = {
+                namaPemohon: document.getElementById('namaPemohonBilikSejuk').value,
+                noPendaftaran: document.getElementById('noPendaftaranBilikSejuk').value,
+                lokasi: document.getElementById('lokasiBilikSejuk').value,
+                kapasiti: document.getElementById('kapasitiBilikSejuk').value,
+                jenisBarangan: document.getElementById('jenisBaranganBilikSejuk').value,
+                tempoh: document.getElementById('tempohBilikSejuk').value
+            };
+            
+            const application = submitApplication('bilik_sejuk', formData);
+            closeModal('borangBilikSejukModal');
+            showSuccessModal(application.reference);
+            loadApplicationsList();
+        }
+        
+        function handleJetiSubmit() {
+            if (!validateForm('borangJetiModal')) return;
+            
+            const formData = {
+                namaPemohon: document.getElementById('namaPemohonJeti').value,
+                noPendaftaran: document.getElementById('noPendaftaranJeti').value,
+                lokasi: document.getElementById('lokasiJeti').value,
+                jenisKapal: document.getElementById('jenisKapalJeti').value,
+                panjangKapal: document.getElementById('panjangKapal').value,
+                tempoh: document.getElementById('tempohJeti').value
+            };
+            
+            const application = submitApplication('jeti', formData);
+            closeModal('borangJetiModal');
+            showSuccessModal(application.reference);
+            loadApplicationsList();
         }
         
         // ============================================
@@ -2729,13 +2829,42 @@
         // ============================================
         
         function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
-            document.body.style.overflow = 'hidden';
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                
+                // Pre-fill user data if available
+                if (currentUser) {
+                    const nameFields = modal.querySelectorAll('[id*="namaPemohon"]');
+                    const icFields = modal.querySelectorAll('[id*="noKP"], [id*="noPendaftaran"]');
+                    
+                    nameFields.forEach(field => {
+                        if (!field.value) field.value = currentUser.name;
+                    });
+                    
+                    icFields.forEach(field => {
+                        if (!field.value) field.value = currentUser.ic;
+                    });
+                }
+            }
         }
         
         function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-            document.body.style.overflow = 'auto';
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                
+                // Reset form
+                const form = modal.querySelector('form');
+                if (form) form.reset();
+            }
+        }
+        
+        function showSuccessModal(refNumber) {
+            document.getElementById('successRefNumber').textContent = refNumber;
+            openModal('successModal');
         }
         
         // ============================================
@@ -2846,104 +2975,35 @@
                     const modalId = btn.dataset.modal;
                     
                     if (modalId) {
-                        openBorangModal(modalId);
+                        openModal(modalId);
                     }
                 }
             });
             
-            // KUARTERS FORM EVENT LISTENERS
-            // Gred selection change
-            const gredJawatanSelect = document.getElementById('gredJawatan');
-            if (gredJawatanSelect) {
-                gredJawatanSelect.addEventListener('change', function() {
-                    updateKuartersClass();
-                    updateUnitOptions();
-                    updateKuartersPreview();
-                });
-            }
+            // Form submit buttons
+            document.getElementById('btnHantarKuarters')?.addEventListener('click', handleKuartersSubmit);
+            document.getElementById('btnHantarPejabat')?.addEventListener('click', handlePejabatSubmit);
+            document.getElementById('btnHantarTanah')?.addEventListener('click', handleTanahSubmit);
+            document.getElementById('btnHantarRumahRehat')?.addEventListener('click', handleRumahRehatSubmit);
+            document.getElementById('btnHantarKedai')?.addEventListener('click', handleKedaiSubmit);
+            document.getElementById('btnHantarPphp')?.addEventListener('click', handlePphpSubmit);
+            document.getElementById('btnHantarKompleks')?.addEventListener('click', handleKompleksSubmit);
+            document.getElementById('btnHantarPasar')?.addEventListener('click', handlePasarSubmit);
+            document.getElementById('btnHantarAkuakultur')?.addEventListener('click', handleAkuakulturSubmit);
+            document.getElementById('btnHantarSlipway')?.addEventListener('click', handleSlipwaySubmit);
+            document.getElementById('btnHantarCcdc')?.addEventListener('click', handleCcdcSubmit);
+            document.getElementById('btnHantarBilikSejuk')?.addEventListener('click', handleBilikSejukSubmit);
+            document.getElementById('btnHantarJeti')?.addEventListener('click', handleJetiSubmit);
             
-            // Unit selection change
-            const unitKuartersSelect = document.getElementById('unitKuarters');
-            if (unitKuartersSelect) {
-                unitKuartersSelect.addEventListener('change', function() {
-                    updateKuartersPreview();
-                });
-            }
-            
-            // Refresh preview button
-            const refreshPreviewBtn = document.getElementById('refreshPreview');
-            if (refreshPreviewBtn) {
-                refreshPreviewBtn.addEventListener('click', function() {
-                    updateKuartersPreview(true);
-                });
-            }
-            
-            // Tarikh masuk validation
-            const tarikhMasukInput = document.getElementById('tarikhMasuk');
-            if (tarikhMasukInput) {
-                tarikhMasukInput.addEventListener('change', function() {
-                    const selectedDate = new Date(this.value);
-                    const today = new Date();
-                    
-                    if (selectedDate < today) {
-                        alert('Tarikh masuk tidak boleh kurang dari hari ini');
-                        this.value = '';
-                    }
-                });
-            }
-            
-            // Submit kuarters form
-            const btnHantarKuarters = document.getElementById('btnHantarKuarters');
-            if (btnHantarKuarters) {
-                btnHantarKuarters.addEventListener('click', submitKuartersForm);
-            }
-            
-            // Batal kuarters form
-            const btnBatalKuarters = document.getElementById('btnBatalKuarters');
-            if (btnBatalKuarters) {
-                btnBatalKuarters.addEventListener('click', function() {
-                    closeModal('borangKuartersModal');
-                });
-            }
-            
-            // PEJABAT FORM EVENT LISTENERS
-            const btnHantarPejabat = document.getElementById('btnHantarPejabat');
-            if (btnHantarPejabat) {
-                btnHantarPejabat.addEventListener('click', submitPejabatForm);
-            }
-            
-            const btnBatalPejabat = document.getElementById('btnBatalPejabat');
-            if (btnBatalPejabat) {
-                btnBatalPejabat.addEventListener('click', function() {
-                    closeModal('borangPejabatModal');
-                });
-            }
-            
-            // TANAH FORM EVENT LISTENERS
-            const btnHantarTanah = document.getElementById('btnHantarTanah');
-            if (btnHantarTanah) {
-                btnHantarTanah.addEventListener('click', submitTanahForm);
-            }
-            
-            const btnBatalTanah = document.getElementById('btnBatalTanah');
-            if (btnBatalTanah) {
-                btnBatalTanah.addEventListener('click', function() {
-                    closeModal('borangTanahModal');
-                });
-            }
-            
-            // RUMAH REHAT FORM EVENT LISTENERS
-            const btnHantarRumahRehat = document.getElementById('btnHantarRumahRehat');
-            if (btnHantarRumahRehat) {
-                btnHantarRumahRehat.addEventListener('click', submitRumahRehatForm);
-            }
-            
-            const btnBatalRumahRehat = document.getElementById('btnBatalRumahRehat');
-            if (btnBatalRumahRehat) {
-                btnBatalRumahRehat.addEventListener('click', function() {
-                    closeModal('borangRumahRehatModal');
-                });
-            }
+            // Cancel buttons
+            document.querySelectorAll('button[data-modal]').forEach(btn => {
+                if (btn.textContent.includes('Batal')) {
+                    btn.addEventListener('click', function() {
+                        const modalId = this.getAttribute('data-modal');
+                        closeModal(modalId);
+                    });
+                }
+            });
             
             // Close modal buttons
             document.querySelectorAll('.close-modal').forEach(btn => {
