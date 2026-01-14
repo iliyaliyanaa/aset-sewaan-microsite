@@ -22,6 +22,10 @@
             --kuarters-b: #3498db;
             --kuarters-c: #2ecc71;
             --kuarters-d: #e74c3c;
+            --tanah: #2ecc71;
+            --pejabat: #3498db;
+            --rumah-rehat: #e74c3c;
+            --lain: #f39c12;
         }
         
         * {
@@ -688,7 +692,6 @@
         
         .modal-header {
             padding: 1.5rem 2rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
             color: white;
             display: flex;
             justify-content: space-between;
@@ -697,6 +700,22 @@
         
         .modal-header h3 {
             font-size: 1.4rem;
+        }
+        
+        .modal-header.tanah {
+            background: linear-gradient(135deg, var(--tanah) 0%, #27ae60 100%);
+        }
+        
+        .modal-header.pejabat {
+            background: linear-gradient(135deg, var(--pejabat) 0%, #2980b9 100%);
+        }
+        
+        .modal-header.rumah-rehat {
+            background: linear-gradient(135deg, var(--rumah-rehat) 0%, #c0392b 100%);
+        }
+        
+        .modal-header.kuarters {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
         }
         
         .close-modal {
@@ -875,6 +894,12 @@
             border-left: 4px solid var(--success);
         }
         
+        .alert-warning {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #b88b00;
+            border-left: 4px solid #ffc107;
+        }
+        
         .radio-group {
             display: flex;
             gap: 20px;
@@ -891,6 +916,20 @@
         .radio-option input[type="radio"] {
             width: 18px;
             height: 18px;
+        }
+        
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 5px;
+        }
+        
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
         }
         
         .form-actions {
@@ -917,6 +956,54 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+        
+        /* Table styles for pejabat modal */
+        .table-responsive {
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+        
+        .table th, .table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .table th {
+            background-color: rgba(26, 95, 122, 0.05);
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .table tr:hover {
+            background-color: rgba(26, 95, 122, 0.02);
+        }
+        
+        /* Preview image styles */
+        .asset-preview {
+            width: 100%;
+            max-width: 400px;
+            height: 250px;
+            background-color: var(--light-gray);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .asset-preview i {
+            font-size: 4rem;
+            color: var(--gray);
+            opacity: 0.5;
         }
         
         /* Responsive */
@@ -1216,13 +1303,12 @@
     </div>
     
     <!-- =========================================== -->
-    <!-- BORANG PERMOHONAN KUARTERS LENGKAP  -->
+    <!-- BORANG PERMOHONAN KUARTERS -->
     <!-- =========================================== -->
     
-    <!-- Modal Borang Kuarters -->
     <div class="modal" id="borangKuartersModal">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header kuarters">
                 <h3><i class="fas fa-home"></i> Borang Permohonan Kuarters</h3>
                 <button class="close-modal" data-modal="borangKuartersModal">&times;</button>
             </div>
@@ -1232,7 +1318,6 @@
                     <span>Sila lengkapkan semua maklumat yang diperlukan</span>
                 </div>
                 
-                <!-- Info Pemohon -->
                 <div class="form-section">
                     <h3 class="section-title"><i class="fas fa-user-tie"></i> MAKLUMAT PEMOHON</h3>
                     
@@ -1295,7 +1380,6 @@
                     </div>
                 </div>
                 
-                <!-- Maklumat Keluarga -->
                 <div class="form-section">
                     <h3 class="section-title"><i class="fas fa-users"></i> MAKLUMAT KELUARGA</h3>
                     
@@ -1332,7 +1416,6 @@
                     </div>
                 </div>
                 
-                <!-- Maklumat Kuarters -->
                 <div class="form-section">
                     <h3 class="section-title"><i class="fas fa-home"></i> MAKLUMAT KUARTERS</h3>
                     
@@ -1357,84 +1440,8 @@
                             <small>Tarikh anda bercadang untuk memasuki kuarters</small>
                         </div>
                     </div>
-                    
-                    <!-- PREVIEW KUARTERS -->
-                    <div class="kuarters-preview-container" style="margin-top: 25px; border: 1px solid var(--light-gray); border-radius: 8px; overflow: hidden; background-color: var(--light);">
-                        <div class="preview-header" style="background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;">
-                            <h4 style="font-size: 1.2rem; margin: 0;"><i class="fas fa-eye"></i> PREVIEW KUARTERS YANG LAYAK</h4>
-                            <button class="preview-refresh" id="refreshPreview" title="Refresh preview" style="background: rgba(255, 255, 255, 0.2); border: none; color: white; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                                <i class="fas fa-redo-alt"></i>
-                            </button>
-                        </div>
-                        
-                        <div class="kuarters-preview-content" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0;">
-                            <div class="kuarters-image-container" style="padding: 20px; display: flex; align-items: center; justify-content: center; background-color: white;">
-                                <div class="kuarters-image" id="kuartersImage" style="width: 100%; max-width: 350px; height: 200px; background-color: var(--light-gray); border-radius: 8px; overflow: hidden; position: relative;">
-                                    <div class="image-placeholder" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--gray); text-align: center; padding: 20px;">
-                                        <i class="fas fa-home" style="font-size: 3rem; margin-bottom: 10px; opacity: 0.5;"></i>
-                                        <p>Pilih gred jawatan untuk melihat gambar kuarters</p>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="kuarters-details" style="padding: 20px; background-color: white;">
-                                <div class="detail-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
-                                    <div class="detail-item" style="display: flex; flex-direction: column;">
-                                        <span class="detail-label" style="color: var(--gray); font-size: 0.85rem; margin-bottom: 5px;">Kelas Kuarters:</span>
-                                        <span class="detail-value">
-                                            <span class="kuarters-class-badge" id="previewKelas" style="display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; color: white; margin-right: 5px;">-</span>
-                                        </span>
-                                    </div>
-                                    <div class="detail-item" style="display: flex; flex-direction: column;">
-                                        <span class="detail-label" style="color: var(--gray); font-size: 0.85rem; margin-bottom: 5px;">Gred Layak:</span>
-                                        <span class="detail-value" id="previewGred" style="font-weight: 500; font-size: 0.95rem;">-</span>
-                                    </div>
-                                    <div class="detail-item" style="display: flex; flex-direction: column;">
-                                        <span class="detail-label" style="color: var(--gray); font-size: 0.85rem; margin-bottom: 5px;">Luas Keluasan:</span>
-                                        <span class="detail-value" id="previewLuas" style="font-weight: 500; font-size: 0.95rem;">-</span>
-                                    </div>
-                                    <div class="detail-item" style="display: flex; flex-direction: column;">
-                                        <span class="detail-label" style="color: var(--gray); font-size: 0.85rem; margin-bottom: 5px;">Bilangan Bilik:</span>
-                                        <span class="detail-value" id="previewBilik" style="font-weight: 500; font-size: 0.95rem;">-</span>
-                                    </div>
-                                    <div class="detail-item" style="display: flex; flex-direction: column;">
-                                        <span class="detail-label" style="color: var(--gray); font-size: 0.85rem; margin-bottom: 5px;">Kemudahan:</span>
-                                        <span class="detail-value" id="previewKemudahan" style="font-weight: 500; font-size: 0.95rem;">-</span>
-                                    </div>
-                                    <div class="detail-item" style="display: flex; flex-direction: column;">
-                                        <span class="detail-label" style="color: var(--gray); font-size: 0.85rem; margin-bottom: 5px;">Sewa Bulanan:</span>
-                                        <span class="detail-value" id="previewSewa" style="font-weight: 500; font-size: 0.95rem;">-</span>
-                                    </div>
-                                    <div class="detail-item" style="display: flex; flex-direction: column;">
-                                        <span class="detail-label" style="color: var(--gray); font-size: 0.85rem; margin-bottom: 5px;">Status Unit:</span>
-                                        <span class="detail-value">
-                                            <span class="availability-status" id="previewStatus" style="display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">
-                                                <span class="status-dot" style="width: 8px; height: 8px; border-radius: 50%; display: inline-block;"></span>
-                                                <span id="statusText">-</span>
-                                            </span>
-                                        </span>
-                                    </div>
-                                    <div class="detail-item" style="display: flex; flex-direction: column;">
-                                        <span class="detail-label" style="color: var(--gray); font-size: 0.85rem; margin-bottom: 5px;">Lokasi:</span>
-                                        <span class="detail-value" id="previewLokasi" style="font-weight: 500; font-size: 0.95rem;">-</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="info-box" style="background-color: rgba(26, 95, 122, 0.05); border-radius: 8px; padding: 15px; margin-top: 20px; border-left: 4px solid var(--primary);">
-                        <h4 style="color: var(--primary); margin-bottom: 10px; font-size: 1rem;"><i class="fas fa-info-circle"></i> Maklumat Penting</h4>
-                        <ul style="padding-left: 20px; font-size: 0.9rem; color: var(--gray);">
-                            <li>Kelas kuarters ditentukan berdasarkan gred jawatan</li>
-                            <li>Hanya unit yang berstatus "Tersedia" boleh dipilih</li>
-                            <li>Pemohon dikehendaki mengosongkan kuarters dalam tempoh 30 hari selepas penamatan perkhidmatan</li>
-                            <li>Tarikh masuk rumah perlu sekurang-kurangnya 1 hari dari tarikh permohonan</li>
-                        </ul>
-                    </div>
                 </div>
                 
-                <!-- Justifikasi -->
                 <div class="form-section">
                     <h3 class="section-title"><i class="fas fa-file-alt"></i> JUSTIFIKASI PERMOHONAN</h3>
                     
@@ -1445,7 +1452,6 @@
                     </div>
                 </div>
                 
-                <!-- Tarikh Mohon -->
                 <div class="form-section">
                     <h3 class="section-title"><i class="fas fa-calendar-alt"></i> TARIKH PERMOHONAN</h3>
                     
@@ -1456,11 +1462,10 @@
                     
                     <div class="alert alert-success">
                         <i class="fas fa-check-circle"></i>
-                        <span>No. Rujukan Permohonan: <strong id="noRujukan">KUARTERS-2024-0001</strong></span>
+                        <span>No. Rujukan Permohonan: <strong id="noRujukanKuarters">KUARTERS-2024-0001</strong></span>
                     </div>
                 </div>
                 
-                <!-- Actions -->
                 <div class="form-actions">
                     <button type="button" class="btn" id="btnBatalKuarters">
                         <i class="fas fa-times"></i> Batal
@@ -1470,7 +1475,614 @@
                     </button>
                 </div>
                 
-                <div class="spinner" id="loadingSpinner"></div>
+                <div class="spinner" id="loadingSpinnerKuarters"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- =========================================== -->
+    <!-- BORANG PERMOHONAN TANAH -->
+    <!-- =========================================== -->
+    
+    <div class="modal" id="borangTanahModal">
+        <div class="modal-content">
+            <div class="modal-header tanah">
+                <h3><i class="fas fa-map-marked-alt"></i> Borang Permohonan Tanah</h3>
+                <button class="close-modal" data-modal="borangTanahModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="status-indicator" style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding: 15px; background-color: rgba(46, 204, 113, 0.05); border-radius: 8px;">
+                    <div class="status-dot-indicator" style="width: 12px; height: 12px; border-radius: 50%; background-color: var(--success);"></div>
+                    <span>Borang permohonan untuk tanah lot kerajaan</span>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-user-tie"></i> MAKLUMAT PEMOHON</h3>
+                    
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Maklumat pemohon akan diisi secara automatik dari data profil anda</span>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Nama Penuh Pemohon</label>
+                            <input type="text" class="form-control" id="namaPemohonTanah" required readonly>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">No. Kad Pengenalan / No. Pekerja</label>
+                            <input type="text" class="form-control" id="noKPTanah" required readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Jenis Pemohon</label>
+                            <select class="form-control" id="jenisPemohonTanah" required>
+                                <option value="">Sila pilih</option>
+                                <option value="individu">Individu</option>
+                                <option value="syarikat">Syarikat</option>
+                                <option value="pertubuhan">Pertubuhan</option>
+                                <option value="agensi_kerajaan">Agensi Kerajaan</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Kementerian / Jabatan / Organisasi</label>
+                            <input type="text" class="form-control" id="organisasiTanah" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">No. Telefon</label>
+                            <input type="tel" class="form-control" id="telefonTanah" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Alamat Surat-menyurat</label>
+                            <input type="text" class="form-control" id="alamatTanah" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-map-marked-alt"></i> MAKLUMAT TANAH</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Jenis Kegunaan Tanah</label>
+                            <select class="form-control" id="jenisKegunaan" required>
+                                <option value="">Sila pilih</option>
+                                <option value="perindustrian">Perindustrian</option>
+                                <option value="komersial">Komersial</option>
+                                <option value="pertanian">Pertanian</option>
+                                <option value="rekreasi">Rekreasi</option>
+                                <option value="institusi">Institusi</option>
+                                <option value="lain">Lain-lain</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Jenis Permohonan</label>
+                            <select class="form-control" id="jenisPermohonanTanah" required>
+                                <option value="">Sila pilih</option>
+                                <option value="sewa">Sewa</option>
+                                <option value="pajakan">Pajakan (Lease)</option>
+                                <option value="pembelian">Pembelian</option>
+                                <option value="tukar_ganti">Tukar Ganti</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Luas Tanah (hektar)</label>
+                            <input type="number" class="form-control" id="luasTanah" min="0.1" step="0.1" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Tempoh Permohonan (tahun)</label>
+                            <select class="form-control" id="tempohTanah" required>
+                                <option value="">Sila pilih</option>
+                                <option value="1">1 tahun</option>
+                                <option value="3">3 tahun</option>
+                                <option value="5">5 tahun</option>
+                                <option value="10">10 tahun</option>
+                                <option value="30">30 tahun</option>
+                                <option value="99">99 tahun</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Lokasi Tanah</label>
+                        <textarea class="form-control" id="lokasiTanah" rows="3" required placeholder="Nyatakan alamat lengkap tanah termasuk mukim, daerah dan negeri"></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Geran / Hakmilik No.</label>
+                            <input type="text" class="form-control" id="geranTanah" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Mukim</label>
+                            <input type="text" class="form-control" id="mukimTanah" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-file-contract"></i> MAKLUMAT PERANCANGAN</h3>
+                    
+                    <div class="form-group">
+                        <label class="required">Rancangan Pembangunan / Kegunaan Tanah</label>
+                        <textarea class="form-control" id="rancanganTanah" rows="4" required placeholder="Terangkan secara terperinci rancangan pembangunan atau kegunaan tanah yang dirancang"></textarea>
+                        <small>Nyatakan jenis bangunan, keluasan lantai, anggaran kos pembangunan, jadual pelaksanaan, dll.</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Kesan Ekonomi / Faedah kepada Masyarakat</label>
+                        <textarea class="form-control" id="kesanTanah" rows="3" required placeholder="Terangkan kesan ekonomi atau faedah kepada masyarakat setempat"></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-calendar-alt"></i> TARIKH PERMOHONAN</h3>
+                    
+                    <div class="form-group">
+                        <label>Tarikh Permohonan</label>
+                        <input type="text" class="form-control" id="tarikhMohonTanah" readonly>
+                    </div>
+                    
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i>
+                        <span>No. Rujukan Permohonan: <strong id="noRujukanTanah">TANAH-2024-0001</strong></span>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn" id="btnBatalTanah">
+                        <i class="fas fa-times"></i> Batal
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnHantarTanah">
+                        <i class="fas fa-paper-plane"></i> Hantar Permohonan
+                    </button>
+                </div>
+                
+                <div class="spinner" id="loadingSpinnerTanah"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- =========================================== -->
+    <!-- BORANG PERMOHONAN PEJABAT -->
+    <!-- =========================================== -->
+    
+    <div class="modal" id="borangPejabatModal">
+        <div class="modal-content">
+            <div class="modal-header pejabat">
+                <h3><i class="fas fa-building"></i> Borang Permohonan Pejabat</h3>
+                <button class="close-modal" data-modal="borangPejabatModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="status-indicator" style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding: 15px; background-color: rgba(52, 152, 219, 0.05); border-radius: 8px;">
+                    <div class="status-dot-indicator" style="width: 12px; height: 12px; border-radius: 50%; background-color: var(--success);"></div>
+                    <span>Borang permohonan untuk ruang pejabat kerajaan</span>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-user-tie"></i> MAKLUMAT ORGANISASI</h3>
+                    
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Borang ini untuk permohonan ruang pejabat bagi organisasi/agensi</span>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Nama Organisasi / Agensi</label>
+                            <input type="text" class="form-control" id="namaOrganisasi" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">No. Pendaftaran Organisasi</label>
+                            <input type="text" class="form-control" id="noPendaftaran" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Jenis Organisasi</label>
+                            <select class="form-control" id="jenisOrganisasi" required>
+                                <option value="">Sila pilih</option>
+                                <option value="jabatan_kerajaan">Jabatan Kerajaan</option>
+                                <option value="agensi_kerajaan">Agensi Kerajaan</option>
+                                <option value="badan_berkanun">Badan Berkanun</option>
+                                <option value="syarikat_swasta">Syarikat Swasta</option>
+                                <option value="ngo">Pertubuhan Bukan Kerajaan (NGO)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Kementerian Induk (jika berkenaan)</label>
+                            <input type="text" class="form-control" id="kementerianInduk">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-user-tie"></i> MAKLUMAT PEGAWAI BERKUASA</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Nama Pegawai Berkuasa</label>
+                            <input type="text" class="form-control" id="namaPegawai" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Jawatan</label>
+                            <input type="text" class="form-control" id="jawatanPegawai" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">No. Telefon</label>
+                            <input type="tel" class="form-control" id="telefonPegawai" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Email</label>
+                            <input type="email" class="form-control" id="emailPegawai" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-building"></i> KEKOSONGAN PEJABAT DIPERLUKAN</h3>
+                    
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Jenis Ruang</th>
+                                    <th>Kuantiti</th>
+                                    <th>Keluasan (kaki persegi)</th>
+                                    <th>Keperluan Khas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Bilik Pengarah</td>
+                                    <td><input type="number" class="form-control" min="0" value="0"></td>
+                                    <td><input type="number" class="form-control" min="0" value="0"></td>
+                                    <td><input type="text" class="form-control" placeholder="cth: bilik mesyuarat dalaman"></td>
+                                </tr>
+                                <tr>
+                                    <td>Bilik Pegawai</td>
+                                    <td><input type="number" class="form-control" min="0" value="0"></td>
+                                    <td><input type="number" class="form-control" min="0" value="0"></td>
+                                    <td><input type="text" class="form-control" placeholder="cth: stor fail"></td>
+                                </tr>
+                                <tr>
+                                    <td>Ruang Terbuka (Open Space)</td>
+                                    <td><input type="number" class="form-control" min="0" value="0"></td>
+                                    <td><input type="number" class="form-control" min="0" value="0"></td>
+                                    <td><input type="text" class="form-control" placeholder="cth: partition tetap"></td>
+                                </tr>
+                                <tr>
+                                    <td>Bilik Mesyuarat</td>
+                                    <td><input type="number" class="form-control" min="0" value="0"></td>
+                                    <td><input type="number" class="form-control" min="0" value="0"></td>
+                                    <td><input type="text" class="form-control" placeholder="cth: kapasiti 20 orang"></td>
+                                </tr>
+                                <tr>
+                                    <td>Ruang Sokongan</td>
+                                    <td><input type="number" class="form-control" min="0" value="0"></td>
+                                    <td><input type="number" class="form-control" min="0" value="0"></td>
+                                    <td><input type="text" class="form-control" placeholder="cth: pantry, stor"></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>JUMLAH KESELURUHAN</th>
+                                    <th><span id="totalKuantiti">0</span></th>
+                                    <th><span id="totalKeluasan">0</span> kaki²</th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Jumlah Kakitangan</label>
+                            <input type="number" class="form-control" id="jumlahKakitangan" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Tempoh Sewa (tahun)</label>
+                            <select class="form-control" id="tempohSewaPejabat" required>
+                                <option value="">Sila pilih</option>
+                                <option value="1">1 tahun</option>
+                                <option value="2">2 tahun</option>
+                                <option value="3">3 tahun</option>
+                                <option value="5">5 tahun</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Lokasi Pilihan Pejabat</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="lokasi1" name="lokasiPejabat" value="pusat_bandar">
+                                <label for="lokasi1">Pusat Bandar</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="lokasi2" name="lokasiPejabat" value="pinggir_bandar">
+                                <label for="lokasi2">Pinggir Bandar</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="lokasi3" name="lokasiPejabat" value="kawasan_industri">
+                                <label for="lokasi3">Kawasan Industri</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="lokasi4" name="lokasiPejabat" value="lain">
+                                <label for="lokasi4">Lain-lain (nyatakan)</label>
+                            </div>
+                        </div>
+                        <textarea class="form-control" id="lokasiLain" rows="2" placeholder="Nyatakan lokasi lain yang dikehendaki" style="margin-top: 10px;"></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-wrench"></i> KEMUDAHAN DAN KEPERLUAN KHAS</h3>
+                    
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>Nyatakan keperluan khas yang diperlukan untuk operasi pejabat</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Keperluan Infrastruktur</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="infra1" name="infrastruktur" value="internet">
+                                <label for="infra1">Sambungan Internet Berkelajuan Tinggi</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="infra2" name="infrastruktur" value="telefon">
+                                <label for="infra2">Talian Telefon Multiple</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="infra3" name="infrastruktur" value="server">
+                                <label for="infra3">Bilik Server / IT</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="infra4" name="infrastruktur" value="cctv">
+                                <label for="infra4">Sistem Keselamatan CCTV</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="infra5" name="infrastruktur" value="parkir">
+                                <label for="infra5">Tempat Letak Kereta Khas</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="infra6" name="infrastruktur" value="akses">
+                                <label for="infra6">Kemudahan OKU (Akses Mesra)</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Keperluan Lain</label>
+                        <textarea class="form-control" id="keperluanLainPejabat" rows="3" placeholder="Nyatakan keperluan lain yang tidak tersenarai di atas"></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-calendar-alt"></i> TARIKH PERMOHONAN</h3>
+                    
+                    <div class="form-group">
+                        <label>Tarikh Permohonan</label>
+                        <input type="text" class="form-control" id="tarikhMohonPejabat" readonly>
+                    </div>
+                    
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i>
+                        <span>No. Rujukan Permohonan: <strong id="noRujukanPejabat">PEJABAT-2024-0001</strong></span>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn" id="btnBatalPejabat">
+                        <i class="fas fa-times"></i> Batal
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnHantarPejabat">
+                        <i class="fas fa-paper-plane"></i> Hantar Permohonan
+                    </button>
+                </div>
+                
+                <div class="spinner" id="loadingSpinnerPejabat"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- =========================================== -->
+    <!-- BORANG PERMOHONAN RUMAH REHAT -->
+    <!-- =========================================== -->
+    
+    <div class="modal" id="borangRumahRehatModal">
+        <div class="modal-content">
+            <div class="modal-header rumah-rehat">
+                <h3><i class="fas fa-bed"></i> Borang Permohonan Rumah Rehat</h3>
+                <button class="close-modal" data-modal="borangRumahRehatModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="status-indicator" style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding: 15px; background-color: rgba(231, 76, 60, 0.05); border-radius: 8px;">
+                    <div class="status-dot-indicator" style="width: 12px; height: 12px; border-radius: 50%; background-color: var(--success);"></div>
+                    <span>Borang permohonan untuk penggunaan rumah rehat kerajaan</span>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-user-tie"></i> MAKLUMAT PEMOHON</h3>
+                    
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Maklumat pemohon akan diisi secara automatik dari data profil anda</span>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Nama Penuh Pemohon</label>
+                            <input type="text" class="form-control" id="namaPemohonRehat" required readonly>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">No. Kad Pengenalan / No. Pekerja</label>
+                            <input type="text" class="form-control" id="noKPRehat" required readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Kementerian / Jabatan</label>
+                            <input type="text" class="form-control" id="jabatanRehat" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Jawatan</label>
+                            <input type="text" class="form-control" id="jawatanRehat" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">No. Telefon</label>
+                            <input type="tel" class="form-control" id="telefonRehat" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Email</label>
+                            <input type="email" class="form-control" id="emailRehat" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-bed"></i> MAKLUMAT PENGGUNAAN</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Jenis Aktiviti / Program</label>
+                            <select class="form-control" id="jenisAktiviti" required>
+                                <option value="">Sila pilih</option>
+                                <option value="kursus">Kursus / Latihan</option>
+                                <option value="mesyuarat">Mesyuarat / Bengkel</option>
+                                <option value="perjumpaan">Perjumpaan Keluarga</option>
+                                <option value="percutian">Percutian / Rehat</option>
+                                <option value="lain">Lain-lain</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Tajuk Program / Aktiviti</label>
+                            <input type="text" class="form-control" id="tajukAktiviti" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Tarikh Masuk</label>
+                            <input type="date" class="form-control" id="tarikhMasukRehat" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Tarikh Keluar</label>
+                            <input type="date" class="form-control" id="tarikhKeluarRehat" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Bilangan Peserta</label>
+                            <input type="number" class="form-control" id="bilanganPeserta" min="1" max="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Bilangan Bilik Diperlukan</label>
+                            <select class="form-control" id="bilanganBilik" required>
+                                <option value="">Sila pilih</option>
+                                <option value="1">1 bilik</option>
+                                <option value="2">2 bilik</option>
+                                <option value="3">3 bilik</option>
+                                <option value="4">4 bilik</option>
+                                <option value="5">5 bilik atau lebih</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Keperluan Khas</label>
+                        <textarea class="form-control" id="keperluanKhasRehat" rows="3" placeholder="Nyatakan keperluan khas seperti peralatan AV, dewan mesyuarat, dapur, dll."></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-users"></i> MAKLUMAT PESERTA</h3>
+                    
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>Maklumat ringkas mengenai peserta program</span>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required">Kumpulan Sasaran</label>
+                            <select class="form-control" id="kumpulanSasaran" required>
+                                <option value="">Sila pilih</option>
+                                <option value="kakitangan">Kakitangan Kerajaan</option>
+                                <option value="awam">Awam</option>
+                                <option value="pelajar">Pelajar</option>
+                                <option value="warga_emas">Warga Emas</option>
+                                <option value="campuran">Campuran</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Bilangan Lelaki</label>
+                            <input type="number" class="form-control" id="bilanganLelaki" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="required">Bilangan Perempuan</label>
+                            <input type="number" class="form-control" id="bilanganPerempuan" min="0" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-clipboard-list"></i> BUTIRAN TAMBAHAN</h3>
+                    
+                    <div class="form-group">
+                        <label class="required">Objektif Program / Aktiviti</label>
+                        <textarea class="form-control" id="objektifProgram" rows="3" required placeholder="Nyatakan objektif program atau aktiviti yang akan dijalankan"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Catatan Tambahan</label>
+                        <textarea class="form-control" id="catatanTambahan" rows="2" placeholder="Nyatakan sebarang maklumat tambahan yang perlu diketahui"></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-calendar-alt"></i> TARIKH PERMOHONAN</h3>
+                    
+                    <div class="form-group">
+                        <label>Tarikh Permohonan</label>
+                        <input type="text" class="form-control" id="tarikhMohonRehat" readonly>
+                    </div>
+                    
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i>
+                        <span>No. Rujukan Permohonan: <strong id="noRujukanRehat">REHAT-2024-0001</strong></span>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn" id="btnBatalRehat">
+                        <i class="fas fa-times"></i> Batal
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnHantarRehat">
+                        <i class="fas fa-paper-plane"></i> Hantar Permohonan
+                    </button>
+                </div>
+                
+                <div class="spinner" id="loadingSpinnerRehat"></div>
             </div>
         </div>
     </div>
@@ -1547,7 +2159,8 @@
                 description: "Pejabat di lokasi strategik dengan kemudahan lengkap.",
                 monthlyRent: "RM 2,500",
                 totalUnits: 42,
-                availableUnits: 1
+                availableUnits: 1,
+                modal: "borangPejabatModal"
             },
             {
                 id: 3,
@@ -1558,7 +2171,8 @@
                 description: "Tanah lot untuk tujuan perindustrian atau komersial.",
                 monthlyRent: "RM 3,200",
                 totalUnits: 725,
-                availableUnits: 32
+                availableUnits: 32,
+                modal: "borangTanahModal"
             },
             {
                 id: 4,
@@ -1569,11 +2183,12 @@
                 description: "Rumah rehat untuk aktiviti riadah kakitangan.",
                 monthlyRent: "RM 1,200",
                 totalUnits: 3,
-                availableUnits: 0
+                availableUnits: 0,
+                modal: "borangRumahRehatModal"
             }
         ];
         
-        // Data kuarters berdasarkan kelas dengan lokasi
+        // Data kuarters berdasarkan kelas
         const KUARTERS_DATA = {
             'A': {
                 name: 'Kelas A',
@@ -1907,10 +2522,23 @@
                 if (currentUser) {
                     document.getElementById('namaPemohon').value = currentUser.name || '';
                     document.getElementById('noKP').value = currentUser.ic || '';
+                    document.getElementById('namaPemohonTanah').value = currentUser.name || '';
+                    document.getElementById('noKPTanah').value = currentUser.ic || '';
+                    document.getElementById('namaPemohonRehat').value = currentUser.name || '';
+                    document.getElementById('noKPRehat').value = currentUser.ic || '';
                     
                     // Auto-generate reference number
-                    const refNumber = `KUARTERS-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 1000)).padStart(4, '0')}`;
-                    document.getElementById('noRujukan').textContent = refNumber;
+                    const refNumberKuarters = `KUARTERS-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 1000)).padStart(4, '0')}`;
+                    document.getElementById('noRujukanKuarters').textContent = refNumberKuarters;
+                    
+                    const refNumberTanah = `TANAH-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 1000)).padStart(4, '0')}`;
+                    document.getElementById('noRujukanTanah').textContent = refNumberTanah;
+                    
+                    const refNumberPejabat = `PEJABAT-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 1000)).padStart(4, '0')}`;
+                    document.getElementById('noRujukanPejabat').textContent = refNumberPejabat;
+                    
+                    const refNumberRehat = `REHAT-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 1000)).padStart(4, '0')}`;
+                    document.getElementById('noRujukanRehat').textContent = refNumberRehat;
                 }
             } catch (e) {
                 console.error('Error loading user data:', e);
@@ -1919,16 +2547,26 @@
             // Set today's date as application date
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('tarikhMohon').value = formatDate(today);
+            document.getElementById('tarikhMohonTanah').value = formatDate(today);
+            document.getElementById('tarikhMohonPejabat').value = formatDate(today);
+            document.getElementById('tarikhMohonRehat').value = formatDate(today);
             
             // Set minimum date for tarikh masuk (tomorrow)
             const tomorrow = new Date();
             tomorrow.setDate(tomorrow.getDate() + 1);
             const tomorrowStr = tomorrow.toISOString().split('T')[0];
             document.getElementById('tarikhMasuk').min = tomorrowStr;
-            document.getElementById('tarikhMasuk').value = tomorrowStr; // Set default to tomorrow
+            document.getElementById('tarikhMasuk').value = tomorrowStr;
+            
+            // Set default dates for rumah rehat
+            document.getElementById('tarikhMasukRehat').min = tomorrowStr;
+            document.getElementById('tarikhMasukRehat').value = tomorrowStr;
+            const keluarDate = new Date(tomorrow);
+            keluarDate.setDate(keluarDate.getDate() + 2);
+            document.getElementById('tarikhKeluarRehat').value = keluarDate.toISOString().split('T')[0];
             
             // Initialize preview status
-            updatePreviewStatus();
+            updateKuartersClass();
         }
         
         function updateKuartersClass() {
@@ -1942,147 +2580,20 @@
                 
                 kelasKuarters.value = kelasData.name;
                 unitSelect.disabled = false;
+                
+                // Populate unit options
+                unitSelect.innerHTML = '<option value="">Sila pilih unit</option>';
+                kelasData.units.forEach(unit => {
+                    const option = document.createElement('option');
+                    option.value = unit.id;
+                    option.textContent = `${unit.name} (${unit.status === 'available' ? 'Tersedia' : 'Telah Ditempati'})`;
+                    option.disabled = unit.status !== 'available';
+                    unitSelect.appendChild(option);
+                });
             } else {
                 kelasKuarters.value = '';
                 unitSelect.disabled = true;
                 unitSelect.innerHTML = '<option value="">Sila pilih gred dahulu</option>';
-            }
-        }
-        
-        function updateUnitOptions() {
-            const gred = document.getElementById('gredJawatan').value;
-            const unitSelect = document.getElementById('unitKuarters');
-            
-            if (!gred || !GRED_TO_CLASS[gred]) return;
-            
-            const kelas = GRED_TO_CLASS[gred];
-            const kelasData = KUARTERS_DATA[kelas];
-            
-            unitSelect.innerHTML = '<option value="">Sila pilih unit</option>';
-            
-            kelasData.units.forEach(unit => {
-                const option = document.createElement('option');
-                option.value = unit.id;
-                option.textContent = `${unit.name} (${unit.status === 'available' ? 'Tersedia' : 'Telah Ditempati'})`;
-                option.disabled = unit.status !== 'available';
-                unitSelect.appendChild(option);
-            });
-        }
-        
-        function updateKuartersPreview(forceRefresh = false) {
-            const gred = document.getElementById('gredJawatan').value;
-            const unitId = document.getElementById('unitKuarters').value;
-            
-            if (!gred || !GRED_TO_CLASS[gred]) {
-                resetPreview();
-                return;
-            }
-            
-            const kelas = GRED_TO_CLASS[gred];
-            const kelasData = KUARTERS_DATA[kelas];
-            
-            // Update image
-            const imageContainer = document.getElementById('kuartersImage');
-            if (imageContainer) {
-                imageContainer.innerHTML = `
-                    <img src="${kelasData.image}${forceRefresh ? '&' : '?'}refresh=${Date.now()}" alt="${kelasData.name}" onerror="this.src=''" style="width:100%; height:100%; object-fit:cover;">
-                `;
-            }
-            
-            // Update class badge
-            const previewKelas = document.getElementById('previewKelas');
-            if (previewKelas) {
-                previewKelas.textContent = kelasData.name;
-                previewKelas.className = `kuarters-class-badge ${kelasData.color}`;
-                previewKelas.style.backgroundColor = getColorForClass(kelas);
-            }
-            
-            // Update details
-            document.getElementById('previewGred').textContent = kelasData.gred.join(', ');
-            document.getElementById('previewLuas').textContent = kelasData.luas;
-            document.getElementById('previewBilik').textContent = kelasData.bilik;
-            document.getElementById('previewKemudahan').textContent = kelasData.kemudahan;
-            document.getElementById('previewSewa').textContent = kelasData.sewa;
-            document.getElementById('previewLokasi').textContent = kelasData.lokasi;
-            
-            // Update status based on selected unit
-            updatePreviewStatus(unitId, kelasData);
-        }
-        
-        function getColorForClass(className) {
-            switch(className) {
-                case 'A': return '#9b59b6';
-                case 'B': return '#3498db';
-                case 'C': return '#2ecc71';
-                case 'D': return '#e74c3c';
-                default: return '#6c757d';
-            }
-        }
-        
-        function updatePreviewStatus(unitId = null, kelasData = null) {
-            const statusElement = document.getElementById('previewStatus');
-            const statusText = document.getElementById('statusText');
-            
-            if (!unitId || !kelasData) {
-                if (statusElement) {
-                    statusElement.className = 'availability-status';
-                    const statusDot = statusElement.querySelector('.status-dot');
-                    if (statusDot) statusDot.style.backgroundColor = '#6c757d';
-                }
-                if (statusText) statusText.textContent = 'Sila pilih unit';
-                return;
-            }
-            
-            const selectedUnit = kelasData.units.find(unit => unit.id === unitId);
-            
-            if (selectedUnit) {
-                if (selectedUnit.status === 'available') {
-                    statusElement.className = 'availability-status available';
-                    statusElement.querySelector('.status-dot').style.backgroundColor = 'var(--success)';
-                    statusText.textContent = 'Tersedia';
-                } else {
-                    statusElement.className = 'availability-status occupied';
-                    statusElement.querySelector('.status-dot').style.backgroundColor = 'var(--danger)';
-                    statusText.textContent = 'Telah Ditempati';
-                }
-            } else {
-                statusElement.className = 'availability-status';
-                statusElement.querySelector('.status-dot').style.backgroundColor = '#6c757d';
-                statusText.textContent = 'Tidak Dijumpai';
-            }
-        }
-        
-        function resetPreview() {
-            const imageContainer = document.getElementById('kuartersImage');
-            if (imageContainer) {
-                imageContainer.innerHTML = `
-                    <div class="image-placeholder" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--gray); text-align: center; padding: 20px;">
-                        <i class="fas fa-home" style="font-size: 3rem; margin-bottom: 10px; opacity: 0.5;"></i>
-                        <p>Pilih gred jawatan untuk melihat gambar kuarters</p>
-                    </div>
-                `;
-            }
-            
-            const previewKelas = document.getElementById('previewKelas');
-            if (previewKelas) {
-                previewKelas.textContent = '-';
-                previewKelas.className = 'kuarters-class-badge';
-                previewKelas.style.backgroundColor = '#6c757d';
-            }
-            
-            document.getElementById('previewGred').textContent = '-';
-            document.getElementById('previewLuas').textContent = '-';
-            document.getElementById('previewBilik').textContent = '-';
-            document.getElementById('previewKemudahan').textContent = '-';
-            document.getElementById('previewSewa').textContent = '-';
-            document.getElementById('previewLokasi').textContent = '-';
-            
-            const statusElement = document.getElementById('previewStatus');
-            if (statusElement) {
-                statusElement.className = 'availability-status';
-                const statusDot = statusElement.querySelector('.status-dot');
-                if (statusDot) statusDot.style.backgroundColor = '#6c757d';
-                document.getElementById('statusText').textContent = '-';
             }
         }
         
@@ -2139,17 +2650,6 @@
                 return false;
             }
             
-            // Check if date is within 6 months
-            const sixMonthsLater = new Date();
-            sixMonthsLater.setMonth(sixMonthsLater.getMonth() + 6);
-            
-            if (selectedDate > sixMonthsLater) {
-                if (!confirm('Tarikh yang dipilih adalah lebih dari 6 bulan dari sekarang. Adakah anda pasti?')) {
-                    document.getElementById('tarikhMasuk').value = '';
-                    return false;
-                }
-            }
-            
             // Validate jarak kerja
             const jarakKerja = parseFloat(document.getElementById('jarakKerja').value);
             if (jarakKerja < 0) {
@@ -2165,7 +2665,7 @@
             if (!validateKuartersForm()) return;
             
             // Show loading
-            const spinner = document.getElementById('loadingSpinner');
+            const spinner = document.getElementById('loadingSpinnerKuarters');
             const submitBtn = document.getElementById('btnHantarKuarters');
             spinner.style.display = 'block';
             submitBtn.disabled = true;
@@ -2175,7 +2675,7 @@
                 // Create application object
                 const application = {
                     id: Date.now(),
-                    reference: document.getElementById('noRujukan').textContent,
+                    reference: document.getElementById('noRujukanKuarters').textContent,
                     assetType: 'kuarters',
                     assetName: 'Kuarters Kakitangan',
                     applyDate: new Date().toISOString().split('T')[0],
@@ -2210,6 +2710,345 @@
                 
                 // Close kuarters modal and show success
                 closeModal('borangKuartersModal');
+                openModal('successModal');
+                
+                // Update applications list
+                loadApplicationsList();
+                
+            }, 1500);
+        }
+        
+        // ============================================
+        // BORANG TANAH FUNCTIONS
+        // ============================================
+        
+        function validateTanahForm() {
+            const requiredFields = [
+                'namaPemohonTanah', 'noKPTanah', 'jenisPemohonTanah', 'organisasiTanah',
+                'telefonTanah', 'alamatTanah', 'jenisKegunaan', 'jenisPermohonanTanah',
+                'luasTanah', 'tempohTanah', 'lokasiTanah', 'geranTanah', 'mukimTanah',
+                'rancanganTanah', 'kesanTanah'
+            ];
+            
+            for (const fieldId of requiredFields) {
+                const field = document.getElementById(fieldId);
+                if (!field.value.trim()) {
+                    alert(`Sila isi ${field.previousElementSibling.textContent}`);
+                    field.focus();
+                    return false;
+                }
+            }
+            
+            // Validate luas tanah
+            const luasTanah = parseFloat(document.getElementById('luasTanah').value);
+            if (luasTanah <= 0) {
+                alert('Luas tanah mestilah lebih dari 0 hektar');
+                document.getElementById('luasTanah').focus();
+                return false;
+            }
+            
+            return true;
+        }
+        
+        function submitTanahForm() {
+            if (!validateTanahForm()) return;
+            
+            // Show loading
+            const spinner = document.getElementById('loadingSpinnerTanah');
+            const submitBtn = document.getElementById('btnHantarTanah');
+            spinner.style.display = 'block';
+            submitBtn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Create application object
+                const application = {
+                    id: Date.now(),
+                    reference: document.getElementById('noRujukanTanah').textContent,
+                    assetType: 'tanah',
+                    assetName: 'Tanah Lot',
+                    applyDate: new Date().toISOString().split('T')[0],
+                    applicantId: currentUser.id,
+                    applicantName: currentUser.name,
+                    jenisPemohon: document.getElementById('jenisPemohonTanah').value,
+                    organisasi: document.getElementById('organisasiTanah').value,
+                    telefon: document.getElementById('telefonTanah').value,
+                    alamat: document.getElementById('alamatTanah').value,
+                    jenisKegunaan: document.getElementById('jenisKegunaan').value,
+                    jenisPermohonan: document.getElementById('jenisPermohonanTanah').value,
+                    luasTanah: document.getElementById('luasTanah').value + ' hektar',
+                    tempoh: document.getElementById('tempohTanah').value + ' tahun',
+                    lokasi: document.getElementById('lokasiTanah').value,
+                    geranNo: document.getElementById('geranTanah').value,
+                    mukim: document.getElementById('mukimTanah').value,
+                    rancangan: document.getElementById('rancanganTanah').value,
+                    kesan: document.getElementById('kesanTanah').value,
+                    tarikhMohon: document.getElementById('tarikhMohonTanah').value,
+                    status: 'pending'
+                };
+                
+                // Save application
+                applications.push(application);
+                localStorage.setItem(STORAGE_KEYS.APPLICATIONS, JSON.stringify(applications));
+                
+                // Update success modal
+                document.getElementById('successRefNumber').textContent = application.reference;
+                
+                // Hide loading
+                spinner.style.display = 'none';
+                submitBtn.disabled = false;
+                
+                // Close modal and show success
+                closeModal('borangTanahModal');
+                openModal('successModal');
+                
+                // Update applications list
+                loadApplicationsList();
+                
+            }, 1500);
+        }
+        
+        // ============================================
+        // BORANG PEJABAT FUNCTIONS
+        // ============================================
+        
+        function calculatePejabatTotals() {
+            let totalKuantiti = 0;
+            let totalKeluasan = 0;
+            
+            // Get all quantity and area inputs from the table
+            const tableRows = document.querySelectorAll('#borangPejabatModal tbody tr');
+            tableRows.forEach(row => {
+                const qtyInput = row.querySelector('td:nth-child(2) input');
+                const areaInput = row.querySelector('td:nth-child(3) input');
+                
+                if (qtyInput && areaInput) {
+                    totalKuantiti += parseInt(qtyInput.value) || 0;
+                    totalKeluasan += (parseInt(qtyInput.value) || 0) * (parseInt(areaInput.value) || 0);
+                }
+            });
+            
+            document.getElementById('totalKuantiti').textContent = totalKuantiti;
+            document.getElementById('totalKeluasan').textContent = totalKeluasan;
+        }
+        
+        function validatePejabatForm() {
+            const requiredFields = [
+                'namaOrganisasi', 'noPendaftaran', 'jenisOrganisasi',
+                'namaPegawai', 'jawatanPegawai', 'telefonPegawai', 'emailPegawai',
+                'jumlahKakitangan', 'tempohSewaPejabat'
+            ];
+            
+            for (const fieldId of requiredFields) {
+                const field = document.getElementById(fieldId);
+                if (!field.value.trim()) {
+                    alert(`Sila isi ${field.previousElementSibling.textContent}`);
+                    field.focus();
+                    return false;
+                }
+            }
+            
+            // Check if at least one location is selected
+            const lokasiSelected = document.querySelectorAll('input[name="lokasiPejabat"]:checked').length > 0;
+            if (!lokasiSelected) {
+                alert('Sila pilih sekurang-kurangnya satu lokasi pilihan');
+                return false;
+            }
+            
+            // Validate jumlah kakitangan
+            const jumlahKakitangan = parseInt(document.getElementById('jumlahKakitangan').value);
+            if (jumlahKakitangan < 1) {
+                alert('Jumlah kakitangan mestilah sekurang-kurangnya 1 orang');
+                document.getElementById('jumlahKakitangan').focus();
+                return false;
+            }
+            
+            return true;
+        }
+        
+        function submitPejabatForm() {
+            if (!validatePejabatForm()) return;
+            
+            // Show loading
+            const spinner = document.getElementById('loadingSpinnerPejabat');
+            const submitBtn = document.getElementById('btnHantarPejabat');
+            spinner.style.display = 'block';
+            submitBtn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Gather location selections
+                const lokasiCheckboxes = document.querySelectorAll('input[name="lokasiPejabat"]:checked');
+                const lokasiSelections = Array.from(lokasiCheckboxes).map(cb => cb.value);
+                if (document.getElementById('lokasiLain').value) {
+                    lokasiSelections.push('lain: ' + document.getElementById('lokasiLain').value);
+                }
+                
+                // Gather infrastructure selections
+                const infraCheckboxes = document.querySelectorAll('input[name="infrastruktur"]:checked');
+                const infraSelections = Array.from(infraCheckboxes).map(cb => cb.value);
+                
+                // Create application object
+                const application = {
+                    id: Date.now(),
+                    reference: document.getElementById('noRujukanPejabat').textContent,
+                    assetType: 'pejabat',
+                    assetName: 'Pejabat',
+                    applyDate: new Date().toISOString().split('T')[0],
+                    applicantId: currentUser.id,
+                    applicantName: currentUser.name,
+                    organisasi: document.getElementById('namaOrganisasi').value,
+                    noPendaftaran: document.getElementById('noPendaftaran').value,
+                    jenisOrganisasi: document.getElementById('jenisOrganisasi').value,
+                    kementerianInduk: document.getElementById('kementerianInduk').value,
+                    namaPegawai: document.getElementById('namaPegawai').value,
+                    jawatanPegawai: document.getElementById('jawatanPegawai').value,
+                    telefonPegawai: document.getElementById('telefonPegawai').value,
+                    emailPegawai: document.getElementById('emailPegawai').value,
+                    jumlahKakitangan: document.getElementById('jumlahKakitangan').value + ' orang',
+                    tempohSewa: document.getElementById('tempohSewaPejabat').value + ' tahun',
+                    lokasiPilihan: lokasiSelections,
+                    keperluanInfrastruktur: infraSelections,
+                    keperluanLain: document.getElementById('keperluanLainPejabat').value,
+                    totalKuantiti: document.getElementById('totalKuantiti').textContent,
+                    totalKeluasan: document.getElementById('totalKeluasan').textContent + ' kaki²',
+                    tarikhMohon: document.getElementById('tarikhMohonPejabat').value,
+                    status: 'pending'
+                };
+                
+                // Save application
+                applications.push(application);
+                localStorage.setItem(STORAGE_KEYS.APPLICATIONS, JSON.stringify(applications));
+                
+                // Update success modal
+                document.getElementById('successRefNumber').textContent = application.reference;
+                
+                // Hide loading
+                spinner.style.display = 'none';
+                submitBtn.disabled = false;
+                
+                // Close modal and show success
+                closeModal('borangPejabatModal');
+                openModal('successModal');
+                
+                // Update applications list
+                loadApplicationsList();
+                
+            }, 1500);
+        }
+        
+        // ============================================
+        // BORANG RUMAH REHAT FUNCTIONS
+        // ============================================
+        
+        function validateRumahRehatForm() {
+            const requiredFields = [
+                'namaPemohonRehat', 'noKPRehat', 'jabatanRehat', 'jawatanRehat',
+                'telefonRehat', 'emailRehat', 'jenisAktiviti', 'tajukAktiviti',
+                'tarikhMasukRehat', 'tarikhKeluarRehat', 'bilanganPeserta', 
+                'bilanganBilik', 'kumpulanSasaran', 'bilanganLelaki', 
+                'bilanganPerempuan', 'objektifProgram'
+            ];
+            
+            for (const fieldId of requiredFields) {
+                const field = document.getElementById(fieldId);
+                if (!field.value.trim()) {
+                    alert(`Sila isi ${field.previousElementSibling.textContent}`);
+                    field.focus();
+                    return false;
+                }
+            }
+            
+            // Validate dates
+            const tarikhMasuk = new Date(document.getElementById('tarikhMasukRehat').value);
+            const tarikhKeluar = new Date(document.getElementById('tarikhKeluarRehat').value);
+            const today = new Date();
+            
+            if (tarikhMasuk < today) {
+                alert('Tarikh masuk tidak boleh kurang dari hari ini');
+                document.getElementById('tarikhMasukRehat').focus();
+                return false;
+            }
+            
+            if (tarikhKeluar <= tarikhMasuk) {
+                alert('Tarikh keluar mestilah selepas tarikh masuk');
+                document.getElementById('tarikhKeluarRehat').focus();
+                return false;
+            }
+            
+            // Validate number of participants
+            const bilanganPeserta = parseInt(document.getElementById('bilanganPeserta').value);
+            const lelaki = parseInt(document.getElementById('bilanganLelaki').value);
+            const perempuan = parseInt(document.getElementById('bilanganPerempuan').value);
+            
+            if (bilanganPeserta < 1 || bilanganPeserta > 100) {
+                alert('Bilangan peserta mestilah antara 1 hingga 100 orang');
+                document.getElementById('bilanganPeserta').focus();
+                return false;
+            }
+            
+            if (lelaki + perempuan !== bilanganPeserta) {
+                alert('Jumlah lelaki dan perempuan mestilah sama dengan bilangan peserta');
+                document.getElementById('bilanganLelaki').focus();
+                return false;
+            }
+            
+            return true;
+        }
+        
+        function submitRumahRehatForm() {
+            if (!validateRumahRehatForm()) return;
+            
+            // Show loading
+            const spinner = document.getElementById('loadingSpinnerRehat');
+            const submitBtn = document.getElementById('btnHantarRehat');
+            spinner.style.display = 'block';
+            submitBtn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Create application object
+                const application = {
+                    id: Date.now(),
+                    reference: document.getElementById('noRujukanRehat').textContent,
+                    assetType: 'rumah_rehat',
+                    assetName: 'Rumah Rehat',
+                    applyDate: new Date().toISOString().split('T')[0],
+                    applicantId: currentUser.id,
+                    applicantName: currentUser.name,
+                    jabatan: document.getElementById('jabatanRehat').value,
+                    jawatan: document.getElementById('jawatanRehat').value,
+                    telefon: document.getElementById('telefonRehat').value,
+                    email: document.getElementById('emailRehat').value,
+                    jenisAktiviti: document.getElementById('jenisAktiviti').value,
+                    tajukAktiviti: document.getElementById('tajukAktiviti').value,
+                    tarikhMasuk: document.getElementById('tarikhMasukRehat').value,
+                    tarikhKeluar: document.getElementById('tarikhKeluarRehat').value,
+                    bilanganPeserta: document.getElementById('bilanganPeserta').value + ' orang',
+                    bilanganBilik: document.getElementById('bilanganBilik').value + ' bilik',
+                    keperluanKhas: document.getElementById('keperluanKhasRehat').value,
+                    kumpulanSasaran: document.getElementById('kumpulanSasaran').value,
+                    lelaki: document.getElementById('bilanganLelaki').value + ' orang',
+                    perempuan: document.getElementById('bilanganPerempuan').value + ' orang',
+                    objektifProgram: document.getElementById('objektifProgram').value,
+                    catatanTambahan: document.getElementById('catatanTambahan').value,
+                    tarikhMohon: document.getElementById('tarikhMohonRehat').value,
+                    status: 'pending'
+                };
+                
+                // Save application
+                applications.push(application);
+                localStorage.setItem(STORAGE_KEYS.APPLICATIONS, JSON.stringify(applications));
+                
+                // Update success modal
+                document.getElementById('successRefNumber').textContent = application.reference;
+                
+                // Hide loading
+                spinner.style.display = 'none';
+                submitBtn.disabled = false;
+                
+                // Close modal and show success
+                closeModal('borangRumahRehatModal');
                 openModal('successModal');
                 
                 // Update applications list
@@ -2287,8 +3126,15 @@
             document.getElementById(modalId).style.display = 'flex';
             document.body.style.overflow = 'hidden';
             
-            if (modalId === 'borangKuartersModal') {
+            if (modalId === 'borangKuartersModal' || 
+                modalId === 'borangTanahModal' ||
+                modalId === 'borangPejabatModal' ||
+                modalId === 'borangRumahRehatModal') {
                 initializeKuartersForm();
+                
+                if (modalId === 'borangPejabatModal') {
+                    calculatePejabatTotals();
+                }
             }
         }
         
@@ -2416,38 +3262,6 @@
             if (gredJawatanSelect) {
                 gredJawatanSelect.addEventListener('change', function() {
                     updateKuartersClass();
-                    updateUnitOptions();
-                    updateKuartersPreview();
-                });
-            }
-            
-            // Unit selection change
-            const unitKuartersSelect = document.getElementById('unitKuarters');
-            if (unitKuartersSelect) {
-                unitKuartersSelect.addEventListener('change', function() {
-                    updateKuartersPreview();
-                });
-            }
-            
-            // Refresh preview button
-            const refreshPreviewBtn = document.getElementById('refreshPreview');
-            if (refreshPreviewBtn) {
-                refreshPreviewBtn.addEventListener('click', function() {
-                    updateKuartersPreview(true);
-                });
-            }
-            
-            // Tarikh masuk validation
-            const tarikhMasukInput = document.getElementById('tarikhMasuk');
-            if (tarikhMasukInput) {
-                tarikhMasukInput.addEventListener('change', function() {
-                    const selectedDate = new Date(this.value);
-                    const today = new Date();
-                    
-                    if (selectedDate < today) {
-                        alert('Tarikh masuk tidak boleh kurang dari hari ini');
-                        this.value = '';
-                    }
                 });
             }
             
@@ -2462,6 +3276,55 @@
             if (btnBatalKuarters) {
                 btnBatalKuarters.addEventListener('click', function() {
                     closeModal('borangKuartersModal');
+                });
+            }
+            
+            // TANAH FORM EVENT LISTENERS
+            const btnHantarTanah = document.getElementById('btnHantarTanah');
+            if (btnHantarTanah) {
+                btnHantarTanah.addEventListener('click', submitTanahForm);
+            }
+            
+            const btnBatalTanah = document.getElementById('btnBatalTanah');
+            if (btnBatalTanah) {
+                btnBatalTanah.addEventListener('click', function() {
+                    closeModal('borangTanahModal');
+                });
+            }
+            
+            // PEJABAT FORM EVENT LISTENERS
+            // Calculate totals when table inputs change
+            const pejabatModal = document.getElementById('borangPejabatModal');
+            if (pejabatModal) {
+                pejabatModal.addEventListener('input', function(e) {
+                    if (e.target.type === 'number' && e.target.closest('tbody')) {
+                        calculatePejabatTotals();
+                    }
+                });
+            }
+            
+            const btnHantarPejabat = document.getElementById('btnHantarPejabat');
+            if (btnHantarPejabat) {
+                btnHantarPejabat.addEventListener('click', submitPejabatForm);
+            }
+            
+            const btnBatalPejabat = document.getElementById('btnBatalPejabat');
+            if (btnBatalPejabat) {
+                btnBatalPejabat.addEventListener('click', function() {
+                    closeModal('borangPejabatModal');
+                });
+            }
+            
+            // RUMAH REHAT FORM EVENT LISTENERS
+            const btnHantarRehat = document.getElementById('btnHantarRehat');
+            if (btnHantarRehat) {
+                btnHantarRehat.addEventListener('click', submitRumahRehatForm);
+            }
+            
+            const btnBatalRehat = document.getElementById('btnBatalRehat');
+            if (btnBatalRehat) {
+                btnBatalRehat.addEventListener('click', function() {
+                    closeModal('borangRumahRehatModal');
                 });
             }
             
